@@ -1,0 +1,3 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/magan/Downloads/zero/SprintZero/SprintZero/Content/Images/155739.png","C:/Users/magan/Downloads/zero/SprintZero/SprintZero/Content/bin/DesktopGL/Images/Sprite.xnb","TextureProcessor","Texture2DContent",151356,730065,0.2907373
+"C:/Users/magan/Downloads/zero/SprintZero/SprintZero/Content/Images/atlas-definition.xml.xml","C:\Users\magan\Downloads\zero\SprintZero\SprintZero\Content\bin\DesktopGL\Images/atlas-definition.xml","CopyItem","File",1099,1099,0.0037858

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas>
+	<Texture>images/sprite</Texture>
+	<Regions>
+		<Region name="Nonmove" x="435" y="1" width="25" height="31"/>
+		<Region name="Move-1" x="40" y="1" width="25" height="31"/>
+		<Region name="Move-2" x="70" y="1" width ="25" height ="31"/>
+		<Region name = "Move-3" x="8" y="1" width="25" height ="31"/>
+		<Region name ="swimMoveNonAnimated" x="140" y="146" width="25" height="31"/>
+		<Region name ="jumpNonMoveAnimated-1" x="370" y="226" width="25" height="31"/>
+		<Region name ="jumpNonMoveAnimated-2" x="405" y="226" width="25" height="31"/>
+		<Region name ="jumpNonMoveAnimated-3" x="435" y="226" width="25" height="31"/>
+	</Regions>
+	<Animations>
+	<Animation name="walking-animation" delay="200">
+		<Frame region="Move-1"/>
+		<Frame region="Move-3"/>
+		<Frame region="Move-2"/>
+		</Animation>
+	<Animation name ="JumpAnimated" delay ="200">
+		<Frame region = "jumpNonMoveAnimated-1"/>
+		<Frame region = "jumpNonMoveAnimated-2"/>
+		<Frame region = "jumpNonMoveAnimated-3"/>
+		</Animation>
+	</Animations>
+</TextureAtlas>
