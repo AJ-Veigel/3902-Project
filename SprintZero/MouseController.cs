@@ -6,7 +6,7 @@ using SprintZero.Controllers;
 
 public class MouseController : IController
 {
-   
+    
     private Game1 game;
     private MouseState previous;
     public MouseController(Game1 game)
@@ -33,7 +33,7 @@ public class MouseController : IController
             else 
                 game.SetSprite(3);
         }
-  
+      
         previous = current;
     }
 }

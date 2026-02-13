@@ -15,7 +15,7 @@ public class KeyController : IController
         this.game = game;
         previousState = Keyboard.GetState();
     }
-
+  
     public void Update(GameTime gameTime)
     {
     KeyboardState current = Keyboard.GetState();
@@ -36,7 +36,7 @@ public class KeyController : IController
     if   ((current.IsKeyDown(Keys.D4) && previousState.IsKeyUp(Keys.D4))||(current.IsKeyDown(Keys.NumPad4) && previousState.IsKeyUp(Keys.NumPad4))){
             game.SetSprite(3);
         }
-      
+       
         previousState = current;
     }
 }

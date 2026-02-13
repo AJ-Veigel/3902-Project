@@ -11,10 +11,10 @@ public class animatedButNonMoving : ISprite
 
     public animatedButNonMoving(AnimatedSprite animated)
     {
-        //Setting the sprite to the one that was passed in
+        
         sprite = animated;
         sprite.Scale = new Vector2(4f);
-        //Getting the location which should be the middle
+        
         location = new Vector2(530,325);
     }
     public void Update(GameTime gameTime)
@@ -23,7 +23,6 @@ public class animatedButNonMoving : ISprite
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        //drawing the sprite in the location 
         sprite.Draw(spriteBatch,location);
     }
 }
