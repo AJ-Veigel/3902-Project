@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\magan\\Downloads\\zero\\SprintZero\\MonoGameLibrary\\MonoGameLibrary.csproj": {}
+    "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {}
   },
   "projects": {
-    "C:\\Users\\magan\\Downloads\\zero\\SprintZero\\MonoGameLibrary\\MonoGameLibrary.csproj": {
+    "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\magan\\Downloads\\zero\\SprintZero\\MonoGameLibrary\\MonoGameLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
         "projectName": "MonoGameLibrary",
-        "projectPath": "C:\\Users\\magan\\Downloads\\zero\\SprintZero\\MonoGameLibrary\\MonoGameLibrary.csproj",
+        "projectPath": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
         "packagesPath": "C:\\Users\\magan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\magan\\Downloads\\zero\\SprintZero\\MonoGameLibrary\\obj\\",
+        "outputPath": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\magan\\AppData\\Roaming\\NuGet\\NuGet.Config"

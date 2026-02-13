@@ -6,7 +6,7 @@ using SpriteZero.Sprites;
 
 public class notMoving : ISprite
 {
-    //this is for all the initiations 
+
     private TextureRegion sprite;
     public Vector2 location {get;set;}
     public notMoving(TextureRegion region)
@@ -14,9 +14,9 @@ public class notMoving : ISprite
         sprite = region;
         location = new Vector2(530,325);
     }
-  
+
     public void Update(GameTime gameTime){}
-  
+
     public void Draw(SpriteBatch spriteBatch)
     {
         sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);

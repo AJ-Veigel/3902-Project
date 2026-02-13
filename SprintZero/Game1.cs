@@ -10,13 +10,13 @@ namespace SprintZero;
 
  public class Game1 : Core
 {   
-//Initialization 
+
 private TextureAtlas atlas;
 private TextureRegion nonMove;
 private TextureRegion moveNonAnimated;
 private AnimatedSprite walkingMove;
 private AnimatedSprite nonMoveAnimated;
-private SpriteFont font;
+
 
 private List<IController> controllers;
 private List<ISprite> sprites;
@@ -36,9 +36,8 @@ public Game1() : base("Sprint Zero",1280,720,false){}
     }
     protected override void LoadContent()
     {
-       //this is for the font
-       font = Content.Load<SpriteFont>("Font/File");
-        //Getting all the different sprites
+       
+    
         atlas = TextureAtlas.FromFile(Content, "images/atlas-definition.xml");
         walkingMove = atlas.CreateAnimatedSprite("walking-animation");
         nonMoveAnimated = atlas.CreateAnimatedSprite("JumpAnimated");
@@ -46,7 +45,7 @@ public Game1() : base("Sprint Zero",1280,720,false){}
         nonMoveAnimated.Scale = new Vector2(4.0f);
         nonMove = atlas.GetRegion("Nonmove");
         moveNonAnimated = atlas.GetRegion("swimMoveNonAnimated");
-        //Making a list of the sprites
+
          sprites = new List<ISprite>
          {
              new notMoving(nonMove),
@@ -54,7 +53,7 @@ public Game1() : base("Sprint Zero",1280,720,false){}
              new upAndDownS(moveNonAnimated),
              new LRAnimated(walkingMove)
          };
-    
+         
          currentSprite = sprites[0];
         base.LoadContent();
     }
@@ -73,15 +72,16 @@ public Game1() : base("Sprint Zero",1280,720,false){}
 
     protected override void Draw(GameTime gameTime)
     {
-     
+
         GraphicsDevice.Clear(Color.CornflowerBlue);
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
          currentSprite.Draw(SpriteBatch);
+
         SpriteBatch.End();
         base.Draw(gameTime);
     }
-
+ 
  public void SetSprite(int i)
     {
         if (i >= 0 && i < sprites.Count)
