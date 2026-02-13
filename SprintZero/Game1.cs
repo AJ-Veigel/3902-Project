@@ -78,19 +78,6 @@ public Game1() : base("Sprint Zero",1280,720,false){}
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
          currentSprite.Draw(SpriteBatch);
-
-        string credits = ("Credits");
-        Vector2 locationC = new Vector2(300,400);
-        Color theColor = Color.Black;
-        SpriteBatch.DrawString(font,credits,locationC,theColor);
-   
-        string programming = ("Programmed by Madison Gysan");
-        Vector2 locationP = new Vector2(300,430);
-        SpriteBatch.DrawString(font,programming,locationP,theColor);
-     
-        string spriteC = ("Sprites from: https://www.spriters-resource.com/pc_computer/omori/asset/155739/");
-        Vector2 locationSC = new Vector2(200,460);
-        SpriteBatch.DrawString(font,spriteC,locationSC,theColor);
         SpriteBatch.End();
         base.Draw(gameTime);
     }
