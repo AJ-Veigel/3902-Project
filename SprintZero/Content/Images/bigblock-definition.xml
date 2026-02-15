@@ -1,0 +1,9 @@
+﻿<TextureAtlas>
+    <Texture>Images/bigblock</Texture>
+
+    <Regions>
+        <Region name="tube" x="600" y="45" width="60" height="37"/>
+    </Regions>
+    <Animations>
+    </Animations>
+</TextureAtlas>

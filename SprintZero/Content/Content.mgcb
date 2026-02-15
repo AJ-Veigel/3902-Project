@@ -1,7 +1,7 @@
 
 #----------------------------- Global Properties ----------------------------#
 
-/outputDir:bin/$(Platform)
+/outputDir:bin/$(Configuration)/net9.0/Content
 /intermediateDir:obj/$(Platform)
 /platform:DesktopGL
 /config:
@@ -34,4 +34,46 @@
 
 #begin Images/atlas-definition.xml.xml
 /copy:Images/atlas-definition.xml.xml;Images/atlas-definition.xml
+
+#begin Images/bigblock-definition.xml
+/copy:Images/bigblock-definition.xml;Images/bigblock-definition.xml
+
+#begin Images/block-definition.xml
+/copy:Images/block-definition.xml
+
+#begin Images/items.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/items.png
+
+#begin Images/misc-3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/misc-3.png;Images/bigblock.png
+
+#begin Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png;Images/Blocks.png
 

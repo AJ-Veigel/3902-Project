@@ -6,17 +6,16 @@ using SpriteZero.Sprites;
 
 public class LRAnimated : ISprite
 {
- 
    private AnimatedSprite sprite;
   public Vector2 location {get;set;}
    private float speed = 4f;
 
-
+ 
    public  LRAnimated(AnimatedSprite animated)
     {
-      
+
         sprite = animated;
-    
+
         location = new Vector2(530,325);
     }
 
@@ -29,8 +28,7 @@ public class LRAnimated : ISprite
             location = new Vector2(-sprite.Width * 4,location.Y);
         }
     }
- 
-    public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
     {
         sprite.Draw(spriteBatch,location);
     }
