@@ -4,11 +4,17 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Font/File.spritefont</File>
-    <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/155739.png</File>
+    <File>c:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Font/File.spritefont</File>
+    <File>c:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/155739.png</File>
+    <File>c:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/items.png</File>
+    <File>c:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/misc-3.png</File>
+    <File>c:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
     <File>Images/Sprite.png</File>
+    <File xsi:nil="true" />
+    <File>Images/bigblock.png</File>
+    <File>Images/Blocks.png</File>
   </DestFiles>
 </SourceFileCollection>

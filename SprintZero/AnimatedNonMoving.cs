@@ -11,11 +11,11 @@ public class animatedButNonMoving : ISprite
 
     public animatedButNonMoving(AnimatedSprite animated)
     {
-        
+      
         sprite = animated;
-        sprite.Scale = new Vector2(4f);
-        
-        location = new Vector2(530,325);
+       sprite.Scale = new Vector2(4f);
+ 
+        location = new Vector2(0,0);
     }
     public void Update(GameTime gameTime)
     {
@@ -23,6 +23,7 @@ public class animatedButNonMoving : ISprite
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        sprite.Draw(spriteBatch,location);
+    
+        sprite.Draw(spriteBatch, location);
     }
 }

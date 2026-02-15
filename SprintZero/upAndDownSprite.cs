@@ -22,7 +22,7 @@ public class upAndDownS : ISprite
         if(location.Y > 500 || location.Y <100)
         speed*=-1;
     }
-
+    
     public void Draw(SpriteBatch spriteBatch)
     {
         sprite.Draw(spriteBatch,location, Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);

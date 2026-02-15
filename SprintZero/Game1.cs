@@ -11,17 +11,17 @@ namespace SprintZero;
  public class Game1 : Core
 {   
 
-private TextureAtlas atlas;
-private TextureRegion nonMove;
-private TextureRegion moveNonAnimated;
-private AnimatedSprite walkingMove;
-private AnimatedSprite nonMoveAnimated;
+private TextureAtlas blocksTexture,bigBlockTexture;
+private TextureRegion ground,tube,castle,flagStill;
+
+private AnimatedSprite questionBlock,questionBlockHit,flagMove,coin,flower,star,mushroom;
 
 
 private List<IController> controllers;
 private List<ISprite> sprites;
 private ISprite currentSprite;
 
+private int currentIndex;
 
 
 public Game1() : base("Sprint Zero",1280,720,false){}
@@ -29,32 +29,34 @@ public Game1() : base("Sprint Zero",1280,720,false){}
     {
         controllers = new List<IController>
         {
-            new KeyController(this),new MouseController(this)
+            new KeyController(this)
         };
 
         base.Initialize();
     }
     protected override void LoadContent()
     {
-       
-    
-        atlas = TextureAtlas.FromFile(Content, "images/atlas-definition.xml");
-        walkingMove = atlas.CreateAnimatedSprite("walking-animation");
-        nonMoveAnimated = atlas.CreateAnimatedSprite("JumpAnimated");
-        walkingMove.Scale = new Vector2(4.0f);
-        nonMoveAnimated.Scale = new Vector2(4.0f);
-        nonMove = atlas.GetRegion("Nonmove");
-        moveNonAnimated = atlas.GetRegion("swimMoveNonAnimated");
+     
+        blocksTexture = TextureAtlas.FromFile(Content, "images/block-definition.xml");
+        ground = blocksTexture.GetRegion("ground");
+        questionBlock = blocksTexture.CreateAnimatedSprite("question-Block");
+        questionBlockHit = blocksTexture.CreateAnimatedSprite("hit-Question");
+        bigBlockTexture = TextureAtlas.FromFile(Content,"images/bigblock-definition.xml");
+        tube = bigBlockTexture.GetRegion("tube");
+       // castle = bigBlockTexture.GetRegion("castle");
 
+
+      
          sprites = new List<ISprite>
          {
-             new notMoving(nonMove),
-             new animatedButNonMoving(nonMoveAnimated),
-             new upAndDownS(moveNonAnimated),
-             new LRAnimated(walkingMove)
+            new Ground(ground),
+            new QuestionBlock(questionBlock),
+            new questionMarkHit(questionBlockHit),
+            new TubeBlock(tube),
+            
          };
-         
-         currentSprite = sprites[0];
+        currentIndex =0;
+         currentSprite = sprites[currentIndex];
         base.LoadContent();
     }
     
@@ -72,20 +74,28 @@ public Game1() : base("Sprint Zero",1280,720,false){}
 
     protected override void Draw(GameTime gameTime)
     {
-
+ 
         GraphicsDevice.Clear(Color.CornflowerBlue);
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
-
          currentSprite.Draw(SpriteBatch);
-
         SpriteBatch.End();
         base.Draw(gameTime);
     }
- 
- public void SetSprite(int i)
+
+ public void NextSprite()
     {
-        if (i >= 0 && i < sprites.Count)
-        currentSprite = sprites[i];
+        currentIndex = (currentIndex +1 ) % sprites.Count;
+        currentSprite = sprites[currentIndex];
+    }
+public void previousSprite()
+    {
+        currentIndex--;
+        if (currentIndex < 0)
+        {
+            currentIndex = sprites.Count -1;
+        
+        }
+        currentSprite=sprites[currentIndex];
     }
 
 }
