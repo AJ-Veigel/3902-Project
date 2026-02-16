@@ -3,15 +3,15 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SpriteZero.Sprites;
 
-public class Ground : ISprite
+public class CastleBlock : ISprite
 {
  
     private TextureRegion sprite;
     public Vector2 location {get;set;}
-    public Ground(TextureRegion region)
+    public CastleBlock(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(530,300);
+        location = new Vector2(530,325);
     }
     public void Update(GameTime gameTime){}
 

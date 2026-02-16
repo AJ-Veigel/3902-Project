@@ -36,10 +36,16 @@
 /copy:Images/atlas-definition.xml.xml;Images/atlas-definition.xml
 
 #begin Images/bigblock-definition.xml
-/copy:Images/bigblock-definition.xml;Images/bigblock-definition.xml
+/copy:Images/bigblock-definition.xml
+
+#begin Images/BigBlocks2.xml
+/copy:Images/BigBlocks2.xml
 
 #begin Images/block-definition.xml
 /copy:Images/block-definition.xml
+
+#begin Images/items-definition.xml
+/copy:Images/items-definition.xml
 
 #begin Images/items.png
 /importer:TextureImporter
@@ -52,6 +58,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/items.png
+
+#begin Images/misc-2.gif
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/misc-2.gif;Images/bigblock2.gif
 
 #begin Images/misc-3.png
 /importer:TextureImporter
