@@ -6,8 +6,8 @@ using SpriteZero.Sprites;
 public class Coin : ISprite
 {
    private AnimatedSprite sprite;
-  public Vector2 location {get;set; }
-   private float riseSpeed = 1f;
+  public Vector2 location {get;set;}
+   private float riseSpeed = 2f;
    private int rise = 40;
    private float startY;
 

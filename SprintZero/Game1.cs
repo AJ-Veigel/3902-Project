@@ -44,9 +44,9 @@ public Game1() : base("SMB1",1920,1080,false){}
         castle = bigBlockTexture.GetRegion("castle"); 
         flagStill = bigBlockTexture.GetRegion("flag");  
 
-        // bigBlockTexturePt2 = TextureAtlas.FromFile(Content,"images/BigBlocks2.xml");
-        // mediumTube = bigBlockTexturePt2.GetRegion("mediumTube");
-        // flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
+      // bigBlockTexturePt2 = TextureAtlas.FromFile(Content,"images/BigBlocks2-definition.xml");
+        //mediumTube = bigBlockTexturePt2.GetRegion("mediumTube");
+        //flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
              
                  
          blocks = new List<ISprite>

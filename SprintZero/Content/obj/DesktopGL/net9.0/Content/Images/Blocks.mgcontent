@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>c:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png</SourceFile>
-  <SourceTime>2026-02-14T19:58:18.7434719-05:00</SourceTime>
-  <DestFile>c:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/Blocks.xnb</DestFile>
-  <DestTime>2026-02-15T19:32:23.9305923-05:00</DestTime>
+  <SourceFile>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png</SourceFile>
+  <SourceTime>2026-02-16T04:35:01.2815499-05:00</SourceTime>
+  <DestFile>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/Blocks.xnb</DestFile>
+  <DestTime>2026-02-16T04:38:35.0713409-05:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2025-10-20T10:25:32-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

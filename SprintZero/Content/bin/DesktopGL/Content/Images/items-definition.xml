@@ -2,10 +2,9 @@
     <Texture>Images/items</Texture>
 
     <Regions>
-        <Region name="flowerC1" x="1" y="50" width="20" height="30"/>
-        <Region name = "flowerC2" x="30" y="50" width="20" height="30"/>
-        <Region name = "flowerC3" x="60" y="50" width="20" height="30"/>
-        <Region name = "flowerC4" x="90" y="50" width="20" height="30"/>
+        <Region name = "flowerC1" x="30" y="50" width="20" height="30"/>
+        <Region name = "flowerC2" x="60" y="50" width="20" height="30"/>
+        <Region name = "flowerC3" x="90" y="50" width="20" height="30"/>
         <Region name ="coin1" x="120" y="96" width="20" height="12"/>
         <Region name ="coin2" x="150" y="96" width="20" height="12"/>
         <Region name ="coin3" x="171" y="96" width="20" height="12"/>
@@ -17,11 +16,11 @@
         <Region name = "mushroom" x="182" y="30" width="20" height="30"/>
     </Regions>
     <Animations>
-        <Animation name = "flower" delay="300">
+        <Animation name = "flower" delay="100">
             <Frame region="flowerC1"/>
             <Frame region="flowerC2"/>
-            <Frame region="flowerC3"/>
-            <Frame region="flowerC4"/>       
+            <Frame region="flowerC3"/>    
+            <Frame region="flowerC1"/>   
         </Animation>     
         <Animation name = "coin" delay="400">
             <Frame region="coin1"/>
