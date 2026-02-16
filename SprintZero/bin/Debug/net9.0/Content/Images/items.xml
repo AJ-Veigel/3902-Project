@@ -1,0 +1,16 @@
+﻿<TextureAtlas>
+    <Texture>Images/items</Texture>
+
+    <Regions>
+        <Region name="flower" x="600" y="45" width="60" height="37"/>
+        <Region name="coin1" x="400" y="510" width="149" height ="179"/>
+        <Region name="coin2" />
+        <Region name="coin3"/>
+        <Region name="coin4"/>
+        <Region name="star"/>
+        <Region name="mushroom"/>
+        <Region name="flag" x="255" y="46" width="28" height="170"/>
+    </Regions>
+    <Animations>
+    </Animations>
+</TextureAtlas>

@@ -81,3 +81,8 @@ C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\I
 c:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\items.xnb
 c:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\bigblock-definition.xml
 c:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\bigblock.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\items.xml
+c:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\items-definition.xml
+c:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\BigBlocks2.xml
+c:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\misc-2.xnb
+c:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\bigblock2.xnb

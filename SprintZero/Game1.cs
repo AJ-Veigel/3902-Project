@@ -11,20 +11,19 @@ namespace SprintZero;
  public class Game1 : Core
 {   
 
-private TextureAtlas blocksTexture,bigBlockTexture;
-private TextureRegion ground,tube,castle,flagStill;
+private TextureAtlas blocksTexture,bigBlockTexture,bigBlockTexturePt2,itemTexture;
+private TextureRegion ground,smallTube,castle,flagStill,mushroom,mediumTube;
 
-private AnimatedSprite questionBlock,questionBlockHit,flagMove,coin,flower,star,mushroom;
-
+private AnimatedSprite questionBlock,questionBlockHit,flower,coin,star,flagMove;
 
 private List<IController> controllers;
-private List<ISprite> sprites;
-private ISprite currentSprite;
+private List<ISprite> blocks, items;
 
-private int currentIndex;
+private ISprite currentBlock,currentItem;
 
+private int currentBlockCount, currentItemCount;
 
-public Game1() : base("Sprint Zero",1280,720,false){}
+public Game1() : base("SMB1",1920,1080,false){}
     protected override void Initialize()
     {
         controllers = new List<IController>
@@ -36,27 +35,49 @@ public Game1() : base("Sprint Zero",1280,720,false){}
     }
     protected override void LoadContent()
     {
-     
         blocksTexture = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         ground = blocksTexture.GetRegion("ground");
         questionBlock = blocksTexture.CreateAnimatedSprite("question-Block");
         questionBlockHit = blocksTexture.CreateAnimatedSprite("hit-Question");
         bigBlockTexture = TextureAtlas.FromFile(Content,"images/bigblock-definition.xml");
-        tube = bigBlockTexture.GetRegion("tube");
-       // castle = bigBlockTexture.GetRegion("castle");
+        smallTube = bigBlockTexture.GetRegion("tube");
+        castle = bigBlockTexture.GetRegion("castle"); 
+        flagStill = bigBlockTexture.GetRegion("flag");  
 
-
-      
-         sprites = new List<ISprite>
+        // bigBlockTexturePt2 = TextureAtlas.FromFile(Content,"images/BigBlocks2.xml");
+        // mediumTube = bigBlockTexturePt2.GetRegion("mediumTube");
+        // flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
+             
+                 
+         blocks = new List<ISprite>
          {
             new Ground(ground),
             new QuestionBlock(questionBlock),
             new questionMarkHit(questionBlockHit),
-            new TubeBlock(tube),
-            
+            new smallTube(smallTube),
+            new CastleBlock(castle), 
+            // new FlagStill(flagStill),
+            // new FlagMove(flagMove),
+            // new MediumTube(mediumTube)
          };
-        currentIndex =0;
-         currentSprite = sprites[currentIndex];
+
+    itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
+    flower = itemTexture.CreateAnimatedSprite("flower");
+    coin = itemTexture.CreateAnimatedSprite("coin");
+    star = itemTexture.CreateAnimatedSprite("star");
+    mushroom = itemTexture.GetRegion("mushroom");
+
+    items = new List<ISprite>
+    {
+        new Flower(flower),
+        new Coin(coin),
+        new Star(star),
+        new Mushroom(mushroom)
+    };
+       currentBlockCount=0;
+       currentItemCount=0;
+       currentBlock = blocks[currentBlockCount];
+       currentItem = items[currentItemCount];
         base.LoadContent();
     }
     
@@ -66,36 +87,49 @@ public Game1() : base("Sprint Zero",1280,720,false){}
         {
             controller.Update(gameTime);
         }
-         currentSprite.Update(gameTime);
-         
+         currentBlock.Update(gameTime);
+         currentItem.Update(gameTime);
         base.Update(gameTime);
     }
-
+    
 
     protected override void Draw(GameTime gameTime)
     {
  
         GraphicsDevice.Clear(Color.CornflowerBlue);
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
-         currentSprite.Draw(SpriteBatch);
+         currentBlock.Draw(SpriteBatch);
+         currentItem.Draw(SpriteBatch);
         SpriteBatch.End();
         base.Draw(gameTime);
     }
 
- public void NextSprite()
+public void NextBlock()
     {
-        currentIndex = (currentIndex +1 ) % sprites.Count;
-        currentSprite = sprites[currentIndex];
+        currentBlockCount = (currentBlockCount+1)  % blocks.Count;
+        currentBlock = blocks[currentBlockCount];
     }
-public void previousSprite()
+public void PreviousBlock()
     {
-        currentIndex--;
-        if (currentIndex < 0)
+        currentBlockCount--;
+        if (currentBlockCount < 0)
         {
-            currentIndex = sprites.Count -1;
-        
+            currentBlockCount = blocks.Count -1;
         }
-        currentSprite=sprites[currentIndex];
+        currentBlock = blocks[currentBlockCount];
     }
-
+public void NextItem()
+    {
+        currentItemCount = (currentItemCount+1)  % items.Count;
+        currentItem = items[currentItemCount];
+    }
+public void PreviousItem()
+    {
+        currentItemCount--;
+        if (currentItemCount < 0)
+        {
+            currentItemCount = items.Count -1;
+        }
+        currentItem = items[currentItemCount];
+    }
 }

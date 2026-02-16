@@ -22,11 +22,19 @@ public class KeyController : IController
         }
     if ((current.IsKeyDown(Keys.T) && previousState.IsKeyUp(Keys.T)))
         {
-            game.previousSprite();
+            game.PreviousBlock();
         }
     if ((current.IsKeyDown(Keys.Y) && previousState.IsKeyUp(Keys.Y)))
         {
-            game.NextSprite();
+            game.NextBlock();
+        }
+    if ((current.IsKeyDown(Keys.U) && previousState.IsKeyUp(Keys.U)))
+        {
+            game.PreviousItem();
+        }
+    if ((current.IsKeyDown(Keys.I) && previousState.IsKeyUp(Keys.I)))
+        {
+            game.NextItem();
         }
         previousState = current;
     }

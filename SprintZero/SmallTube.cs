@@ -3,12 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SpriteZero.Sprites;
 
-public class TubeBlock : ISprite
+public class smallTube : ISprite
 {
  
     private TextureRegion sprite;
     public Vector2 location {get;set;}
-    public TubeBlock(TextureRegion region)
+    public smallTube(TextureRegion region)
     {
         sprite = region;
         location = new Vector2(530,325);
