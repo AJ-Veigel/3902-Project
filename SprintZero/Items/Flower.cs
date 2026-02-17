@@ -9,8 +9,9 @@ private AnimatedSprite sprite;
 public Vector2 location{get;set;}
 
 private float startY;
-private int rise = 40;
-private float riseSpeed = 2f;
+
+private float riseSpeed = 3f;
+private float targetY= 10f;
 
 private bool rising = true;
    
@@ -22,30 +23,23 @@ public Flower(AnimatedSprite animated)
         startY = location.Y;
     }
   
-    public void Update(GameTime gameTime)
-   {
-      sprite.Update(gameTime);
-      if (rising)
+
+   public void Update(GameTime gameTime)
+{
+    sprite.Update(gameTime);
+
+    if (rising && location.Y > targetY)
+    {
+        location = new Vector2(location.X, location.Y - riseSpeed);
+
+        if (location.Y <= targetY)
         {
-            location = new Vector2(location.X,location.Y-riseSpeed);
-            if (startY -location.Y >= rise)
-            {
-                rising = false;
-            }
+            location = new Vector2(location.X, targetY);
+            rising = false;
         }
-        else
-        {
-            location = new Vector2(location.X,location.Y +riseSpeed);
-            if (location.Y >= startY)
-            {
-                location = new Vector2(location.X,startY);
-                rising = true;
-            }
-        }
-      }
-            
-          
-        
+    }
+}
+   
         public void Draw(SpriteBatch spriteBatch)
     {
         sprite.Draw(spriteBatch,location);
