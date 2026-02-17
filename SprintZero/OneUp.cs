@@ -13,6 +13,7 @@ public class OneUp : ISprite
     private float riseUp = 40f;
     private float startY;
     private bool rising = true;
+
     public OneUp(TextureRegion region)
     {
         sprite = region;
@@ -40,6 +41,11 @@ public class OneUp : ISprite
             location = new Vector2(location.X,500);
             verticalSpeed = 0f;
             location = new Vector2(location.X+horizontalSpeed,location.Y);
+        }
+        //Change 1000 to viewport length
+        if (location.X >= 1000 | location.X <= 0) 
+        {
+            horizontalSpeed *= -1;
         }
     }
 
