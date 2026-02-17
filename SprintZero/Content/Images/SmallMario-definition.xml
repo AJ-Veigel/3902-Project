@@ -1,0 +1,9 @@
+﻿<TextureAtlas>
+    <Texture>Images/bigblock</Texture>
+
+    <Regions>
+        <Region name="standingSmallMario" x="23" y="507" width="13" height="15"/>
+    </Regions>
+    <Animations>
+    </Animations>
+</TextureAtlas>
