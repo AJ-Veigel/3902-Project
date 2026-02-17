@@ -12,7 +12,7 @@ namespace SprintZero;
 {   
 
 private TextureAtlas blocksTexture,bigBlockTexture,bigBlockTexturePt2,itemTexture;
-private TextureRegion ground,smallTube,castle,flagStill,mushroom,mediumTube;
+private TextureRegion ground,smallTube,castle,flagStill,mushroom,mediumTube, oneup_mushroom;
 
 private AnimatedSprite questionBlock,questionBlockHit,flower,coin,star,flagMove;
 
@@ -66,13 +66,15 @@ public Game1() : base("SMB1",1920,1080,false){}
     coin = itemTexture.CreateAnimatedSprite("coin");
     star = itemTexture.CreateAnimatedSprite("star");
     mushroom = itemTexture.GetRegion("mushroom");
+    oneup_mushroom = itemTexture.GetRegion("one_up");
 
     items = new List<ISprite>
     {
         new Flower(flower),
         new Coin(coin),
         new Star(star),
-        new Mushroom(mushroom)
+        new Mushroom(mushroom),
+        new OneUp(oneup_mushroom)
     };
        currentBlockCount=0;
        currentItemCount=0;
@@ -99,7 +101,7 @@ public Game1() : base("SMB1",1920,1080,false){}
         GraphicsDevice.Clear(Color.CornflowerBlue);
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
          currentBlock.Draw(SpriteBatch);
-         currentItem.Draw(SpriteBatch);
+         currentItem.Draw(SpriteBatch); 
         SpriteBatch.End();
         base.Draw(gameTime);
     }
