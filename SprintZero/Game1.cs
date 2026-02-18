@@ -183,22 +183,27 @@ public void PreviousItem()
     }
     public void MarioJump()
     {
+        currentMario.Jumping = true;
         currentMario.Jump();
     }
     public void MarioRight()
     {
-        currentMario.MoveRight();
+        currentMario.Direction = true;
+        currentMario.Move();
     }
     public void MarioLeft()
     {
-        currentMario.MoveLeft();
+        currentMario.Direction = false;
+        currentMario.Move();
     }
     public void StopMarioRight()
     {
-        currentMario.StopRight();
+        currentMario.Direction = true;
+        currentMario.StopMove();
     }
     public void StopMarioLeft()
     {
-        currentMario.StopLeft();
+        currentMario.Direction = false;
+        currentMario.StopMove();
     }
 }
