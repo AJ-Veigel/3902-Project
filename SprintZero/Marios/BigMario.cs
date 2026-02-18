@@ -27,18 +27,20 @@ public class BigMario : IMario
     public void MoveRight()
     {
         currentASprite = moveRightSprite;
+        currentASprite.Scale = new Vector2(4f);
         position = new Vector2(position.X + 4f,position.Y);
         currentSprite = null;
     }
     public void MoveLeft()
     {
         currentASprite = moveLeftSprite;
+        currentASprite.Scale = new Vector2(4f);
         position = new Vector2(position.X - 4f,position.Y);
         currentSprite = null;
     }
     public void StopRight()
     {
-        currentSprite = standingLeftSprite;
+        currentSprite = standingRightSprite;
         currentASprite = null;
     }
     public void StopLeft()

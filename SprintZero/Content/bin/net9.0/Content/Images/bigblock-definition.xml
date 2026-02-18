@@ -1,0 +1,11 @@
+﻿<TextureAtlas>
+    <Texture>Images/bigblock</Texture>
+
+    <Regions>
+        <Region name="tube" x="600" y="45" width="60" height="37"/>
+        <Region name="castle" x="400" y="510" width="149" height ="179"/>
+        <Region name="flag" x="255" y="46" width="28" height="170"/>
+    </Regions>
+    <Animations>
+    </Animations>
+</TextureAtlas>

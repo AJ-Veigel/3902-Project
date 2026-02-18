@@ -96,18 +96,18 @@ public Game1() : base("SMB1",1920,1080,false){}
     flagpoleLeftSmallMario = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
     flagpoleRightSmallMario = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
     bigMarioTexture = TextureAtlas.FromFile(Content, "images/BigMario-definition.xml");
-    //standingLeftBigMario = smallMarioTexture.GetRegion("standingLeftBigMario");
-    //standingRightBigMario = smallMarioTexture.GetRegion("standingRightBigMario");
-    //jumpingLeftBigMario = smallMarioTexture.GetRegion("jumpingLeftBigMario");
-    //jumpingRightBigMario = smallMarioTexture.GetRegion("jumpingRightBigMario");
-    //crouchLeftBigMario = smallMarioTexture.GetRegion("crouchLeftBigMario");
-    //crouchRightBigMario = smallMarioTexture.GetRegion("crouchRightBigMario");
-    //rightBigMario = smallMarioTexture.CreateAnimatedSprite("bigRightMove");
-    //leftBigMario = smallMarioTexture.CreateAnimatedSprite("bigLeftMove");
-    //swimmingRightBigMario = smallMarioTexture.CreateAnimatedSprite("bigRightSwim");
-    //swimmingLeftBigMario = smallMarioTexture.CreateAnimatedSprite("bigLeftSwim");
-    //flagpoleLeftBigMario = smallMarioTexture.CreateAnimatedSprite("bigLeftFlag");
-    //flagpoleRightBigMario = smallMarioTexture.CreateAnimatedSprite("bigRightFlag");
+    standingLeftBigMario = bigMarioTexture.GetRegion("standingLeftBigMario");
+    standingRightBigMario = bigMarioTexture.GetRegion("standingRightBigMario");
+    jumpingLeftBigMario = bigMarioTexture.GetRegion("jumpingLeftBigMario");
+    jumpingRightBigMario = bigMarioTexture.GetRegion("jumpingRightBigMario");
+    crouchLeftBigMario = bigMarioTexture.GetRegion("crouchLeftBigMario");
+    crouchRightBigMario = bigMarioTexture.GetRegion("crouchRightBigMario");
+    rightBigMario = bigMarioTexture.CreateAnimatedSprite("bigRightMove");
+    leftBigMario = bigMarioTexture.CreateAnimatedSprite("bigLeftMove");
+    swimmingRightBigMario = bigMarioTexture.CreateAnimatedSprite("bigRightSwim");
+    swimmingLeftBigMario = bigMarioTexture.CreateAnimatedSprite("bigLeftSwim");
+    flagpoleLeftBigMario = bigMarioTexture.CreateAnimatedSprite("bigLeftFlag");
+    flagpoleRightBigMario = bigMarioTexture.CreateAnimatedSprite("bigRightFlag");
 
     marios = new List<IMario>
     {
