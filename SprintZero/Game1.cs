@@ -18,7 +18,7 @@ private TextureRegion standingRightSmallMario, standingLeftSmallMario, jumpingRi
 private TextureRegion standingRightBigMario, standingLeftBigMario, jumpingRightBigMario, jumpingLeftBigMario, crouchLeftBigMario, crouchRightBigMario;
 
 
-private AnimatedSprite questionBlock,questionBlockHit,flower,coin,star,flagMove;
+private AnimatedSprite questionBlock,questionBlockHit,flower,coin,star,flagMove,aboveGroundBreak;
 private AnimatedSprite rightSmallMario, leftSmallMario, swimmingRightSmallMario, swimmingLeftSmallMario, flagpoleRightSmallMario, flagpoleLeftSmallMario;
 private AnimatedSprite rightBigMario, leftBigMario, swimmingRightBigMario, swimmingLeftBigMario, flagpoleRightBigMario, flagpoleLeftBigMario;
 
@@ -48,13 +48,16 @@ public Game1() : base("SMB1",1920,1080,false){}
         questionBlock = blocksTexture.CreateAnimatedSprite("question-Block");
         questionBlockHit = blocksTexture.CreateAnimatedSprite("hit-Question");
         bigBlockTexture = TextureAtlas.FromFile(Content,"images/bigblock-definition.xml");
+        aboveGroundBreak = blocksTexture.CreateAnimatedSprite("aboveGroundBreak");
         smallTube = bigBlockTexture.GetRegion("tube");
         castle = bigBlockTexture.GetRegion("castle"); 
         flagStill = bigBlockTexture.GetRegion("flag");  
         bigBlockTexturePt2 = TextureAtlas.FromFile(Content,"images/BigBlocks2-definition.xml");
         mediumTube = bigBlockTexturePt2.GetRegion("mediumTube");
         flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
-             
+       
+
+        
                  
          blocks = new List<ISprite>
          {
@@ -64,8 +67,10 @@ public Game1() : base("SMB1",1920,1080,false){}
             new smallTube(smallTube),
             new CastleBlock(castle), 
             new FlagStill(flagStill),
-          new FlagMove(flagMove),
+            new FlagMove(flagMove),
             new MediumTube(mediumTube),
+            new AboveGroundBreak(aboveGroundBreak)
+
          };
 
     itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");

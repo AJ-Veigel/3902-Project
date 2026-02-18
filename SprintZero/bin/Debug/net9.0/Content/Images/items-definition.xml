@@ -23,12 +23,11 @@
             <Frame region="flowerC3"/>    
             <Frame region="flowerC1"/>   
         </Animation>     
-        <Animation name = "coin" delay="400">
+        <Animation name = "coin" delay="70">
             <Frame region="coin1"/>
             <Frame region="coin2"/>
+            <Frame region="coin3"/>
             <Frame region="coin4"/>
-            <Frame region="coin2"/>
-            <Frame region="coin2"/>
             <Frame region="coin1"/>
             </Animation>
         <Animation name = "star" delay = "300">
