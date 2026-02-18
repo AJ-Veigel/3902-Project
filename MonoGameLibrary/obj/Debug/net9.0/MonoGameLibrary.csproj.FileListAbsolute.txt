@@ -50,3 +50,16 @@ C:\Users\magan\OneDrive\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\
 C:\Users\magan\OneDrive\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net9.0\refint\MonoGameLibrary.dll
 C:\Users\magan\OneDrive\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net9.0\MonoGameLibrary.pdb
 C:\Users\magan\OneDrive\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net9.0\ref\MonoGameLibrary.dll
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\bin\Debug\net9.0\MonoGameLibrary.deps.json
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\bin\Debug\net9.0\MonoGameLibrary.dll
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\bin\Debug\net9.0\MonoGameLibrary.pdb
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\obj\Debug\net9.0\MonoGameLibrary.csproj.AssemblyReference.cache
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\obj\Debug\net9.0\MonoGameLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\obj\Debug\net9.0\MonoGameLibrary.AssemblyInfoInputs.cache
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\obj\Debug\net9.0\MonoGameLibrary.AssemblyInfo.cs
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\obj\Debug\net9.0\MonoGameLibrary.csproj.CoreCompileInputs.cache
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\obj\Debug\net9.0\MonoGameLibrary.sourcelink.json
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\obj\Debug\net9.0\MonoGameLibrary.dll
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\obj\Debug\net9.0\refint\MonoGameLibrary.dll
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\obj\Debug\net9.0\MonoGameLibrary.pdb
+C:\Users\adamt\source\repos\3902-Project\MonoGameLibrary\obj\Debug\net9.0\ref\MonoGameLibrary.dll

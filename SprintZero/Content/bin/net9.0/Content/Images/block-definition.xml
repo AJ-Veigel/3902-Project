@@ -3,11 +3,13 @@
 
     <Regions>
         <Region name="ground" x="260" y="109" width="30" height="19"/>
-        <Region name= "questionBlockColor1" x="79" y="109" width="17" height="19"/>
-        <Region name= "questionBlockColor2" x="95" y="109" width="17" height="19"/>
-        <Region name= "questionBlockColor3" x="111" y="109" width="17" height="19"/>
-        <Region name= "questionBlock1" x="79" y="110" width="17" height="18"/>
-        <Region name= "questionBlock2" x="240" y="110" width="17" height="18"/>
+        <Region name= "questionBlockColor1" x="80" y="109" width="16" height="19"/>
+        <Region name= "questionBlockColor2" x="96" y="109" width="16" height="19"/>
+        <Region name= "questionBlockColor3" x="112" y="109" width="16" height="19"/>
+        <Region name= "questionBlock1" x="80" y="110" width="16" height="18"/>
+        <Region name= "questionBlock2" x="240" y="110" width="16" height="18"/>
+        <Region name= "aboveGround" x="260" y="190" width="30" height="18"/>
+        <Region name="aboveGroundHit" x="304" y="190" width="16" height="18"/>
     </Regions>
     <Animations>
         <Animation name="question-Block" delay="300">
@@ -17,9 +19,14 @@
         </Animation>
     <Animation name = "hit-Question" delay="300">
       <Frame region ="questionBlock1"/>
-      <Frame region ="questionBlock1"/>
       <Frame region ="questionBlock2"/>
       </Animation>
-   
+      <Animation name = "aboveGroundBreak" delay ="300">
+        <Frame region ="aboveGround"/>
+        <Frame region ="aboveGroundHit"/>
+        <Frame region ="aboveGroundHit"/>
+        <Frame region ="aboveGroundHit"/>
+        <Frame region ="aboveGroundHit"/>
+      </Animation>
     </Animations>
 </TextureAtlas>
