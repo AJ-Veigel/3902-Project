@@ -13,6 +13,8 @@ namespace SpriteZero.Marios
         Boolean Crouch {get;set;}
         void MoveRight();
         void MoveLeft();
+        void StopRight();
+        void StopLeft();
         void Jump();
         void Fireball();
 
