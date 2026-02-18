@@ -15,26 +15,58 @@ public class KeyController : IController
     } 
     public void Update(GameTime gameTime)
     {
-    KeyboardState current = Keyboard.GetState();
-    if ((current.IsKeyDown(Keys.Q)) && previousState.IsKeyUp(Keys.Q))
+        KeyboardState current = Keyboard.GetState();
+        if ((current.IsKeyDown(Keys.Q)) && previousState.IsKeyUp(Keys.Q))
         {
             game.Exit();
         }
-    if ((current.IsKeyDown(Keys.T) && previousState.IsKeyUp(Keys.T)))
+        if ((current.IsKeyDown(Keys.T) && previousState.IsKeyUp(Keys.T)))
         {
             game.PreviousBlock();
         }
-    if ((current.IsKeyDown(Keys.Y) && previousState.IsKeyUp(Keys.Y)))
+        if ((current.IsKeyDown(Keys.Y) && previousState.IsKeyUp(Keys.Y)))
         {
             game.NextBlock();
         }
-    if ((current.IsKeyDown(Keys.U) && previousState.IsKeyUp(Keys.U)))
+        if ((current.IsKeyDown(Keys.U) && previousState.IsKeyUp(Keys.U)))
         {
             game.PreviousItem();
         }
-    if ((current.IsKeyDown(Keys.I) && previousState.IsKeyUp(Keys.I)))
+        if ((current.IsKeyDown(Keys.I) && previousState.IsKeyUp(Keys.I)))
         {
             game.NextItem();
+        }
+        if((current.IsKeyDown(Keys.D1) && previousState.IsKeyUp(Keys.D1)) || (current.IsKeyDown(Keys.NumPad1) && previousState.IsKeyUp(Keys.NumPad1)))
+        {
+            int smallMario = 0;
+            game.SetMario(smallMario);
+        }
+        if((current.IsKeyDown(Keys.D2) && previousState.IsKeyUp(Keys.D2)) || (current.IsKeyDown(Keys.NumPad2) && previousState.IsKeyUp(Keys.NumPad2)))
+        {
+            int bigMario = 1;
+            game.SetMario(bigMario);
+        }
+        if((current.IsKeyDown(Keys.D3) && previousState.IsKeyUp(Keys.D3)) || (current.IsKeyDown(Keys.NumPad3) && previousState.IsKeyUp(Keys.NumPad3)))
+        {
+            int rightSmallMario = 2;
+            game.SetMario(rightSmallMario);
+        }
+        if((current.IsKeyDown(Keys.D4) && previousState.IsKeyUp(Keys.D4)) || (current.IsKeyDown(Keys.NumPad4) && previousState.IsKeyUp(Keys.NumPad4)))
+        {
+            int rightBigMario = 3;
+            game.SetMario(rightBigMario);
+        }
+        if((current.IsKeyDown(Keys.W) && previousState.IsKeyUp(Keys.W)))
+        {
+            game.MarioJump();
+        }
+        if(current.IsKeyDown(Keys.D))
+        {
+            game.MarioRight();
+        }
+        if(current.IsKeyUp(Keys.D) && previousState.IsKeyDown(Keys.D))
+        {
+            game.StopMarioRight();
         }
         previousState = current;
     }

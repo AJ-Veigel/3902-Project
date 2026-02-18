@@ -1,0 +1,18 @@
+﻿<TextureAtlas>
+    <Texture>Images/bigblock</Texture>
+
+    <Regions>
+        <Region name="standingBigMario" x="48" y="548" width="16" height="32"/>
+		<Region name="rightMario1" x="95" y="549" width="14" height="32"/>
+		<Region name="rightMario2" x="115" y="549" width="16" height="30"/>
+		<Region name="rightMario3" x="140" y="548" width="16" height="32"/>
+    </Regions>
+    <Animations>
+		<Animation name = "bigRightMove" delay="200">
+			<Frame region="rightMario2"/>
+			<Frame region="rightMario3"/>
+			<Frame region="rightMario2"/>
+			<Frame region="rightMario1"/>
+            </Animation>
+    </Animations>
+</TextureAtlas>

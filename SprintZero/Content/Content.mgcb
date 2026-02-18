@@ -38,8 +38,8 @@
 #begin Images/bigblock-definition.xml
 /copy:Images/bigblock-definition.xml
 
-#begin Images/BigBlocks2.xml
-/copy:Images/BigBlocks2.xml
+#begin Images/BigBlocks2-definition.xml
+/copy:Images/BigBlocks2-definition.xml
 
 #begin Images/block-definition.xml
 /copy:Images/block-definition.xml
@@ -59,7 +59,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/items.png
 
-#begin Images/misc-2.gif
+#begin Images/misc-2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -69,7 +69,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/misc-2.gif;Images/bigblock2.gif
+/build:Images/misc-2.png;Images/BigBlock2.png
 
 #begin Images/misc-3.png
 /importer:TextureImporter
