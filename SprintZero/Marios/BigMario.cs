@@ -20,7 +20,7 @@ public class BigMario : IMario
     private AnimatedSprite leftFlagpoleSprite;
     private AnimatedSprite rightFlagpoleSprite;
     private TextureRegion currentSprite;
-    private AnimatedSprite currentASprite;    
+    private AnimatedSprite currentASprite;      
     public Vector2 position {get;set;}
     public float jumpStartHeight {get; set;}
     public Boolean Jumping {get; set;}
