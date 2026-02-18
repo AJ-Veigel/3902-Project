@@ -8,13 +8,13 @@ namespace SpriteZero.Marios
     {
         
         Vector2 position {get;set;}
+        Boolean Direction {get;set;}
+        Boolean Jumping {get; set;}
         Boolean Sprint {get;set;}
         Boolean Swim {get;set;}
         Boolean Crouch {get;set;}
-        void MoveRight();
-        void MoveLeft();
-        void StopRight();
-        void StopLeft();
+        void Move();
+        void StopMove();
         void Jump();
         void Fireball();
 

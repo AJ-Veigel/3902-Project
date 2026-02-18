@@ -20,33 +20,45 @@ public class BigMario : IMario
     private AnimatedSprite leftFlagpoleSprite;
     private AnimatedSprite rightFlagpoleSprite;
     private TextureRegion currentSprite;
-    private AnimatedSprite currentASprite;    public Vector2 position {get;set;}
+    private AnimatedSprite currentASprite;    
+    public Vector2 position {get;set;}
+    public Boolean Jumping {get; set;}
+    // If direction is True, mario is facing right, if direction is false, mario is facing left
+    public Boolean Direction {get; set;}
     public Boolean Sprint {get;set;}
     public Boolean Crouch {get;set;}
     public Boolean Swim {get;set;}
-    public void MoveRight()
+    public void Move()
     {
-        currentASprite = moveRightSprite;
-        currentASprite.Scale = new Vector2(4f);
-        position = new Vector2(position.X + 4f,position.Y);
-        currentSprite = null;
+        if(Direction)
+        {
+            currentASprite = moveRightSprite;
+            currentASprite.Scale = new Vector2(4f);
+            position = new Vector2(position.X + 4f,position.Y);
+            currentSprite = null;
+        }
+        else if (!Direction)
+        {
+            currentASprite = moveLeftSprite;
+            currentASprite.Scale = new Vector2(4f);
+            position = new Vector2(position.X - 4f,position.Y);
+            currentSprite = null;
+        }
+        
     }
-    public void MoveLeft()
+    public void StopMove()
     {
-        currentASprite = moveLeftSprite;
-        currentASprite.Scale = new Vector2(4f);
-        position = new Vector2(position.X - 4f,position.Y);
-        currentSprite = null;
-    }
-    public void StopRight()
-    {
-        currentSprite = standingRightSprite;
-        currentASprite = null;
-    }
-    public void StopLeft()
-    {
-        currentSprite = standingLeftSprite;
-        currentASprite = null;
+        if(Direction)
+        {
+            currentSprite = standingRightSprite;
+            currentASprite = null;
+        }
+        else if(!Direction)
+        {
+            currentSprite = standingLeftSprite;
+            currentASprite = null;    
+        }
+        
     }
     public void Jump()
     {
