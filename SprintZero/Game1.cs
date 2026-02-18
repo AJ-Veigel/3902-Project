@@ -12,8 +12,8 @@ namespace SprintZero;
  public class Game1 : Core
 {   
 
-private TextureAtlas blocksTexture,bigBlockTexture,bigBlockTexturePt2,itemTexture, smallMarioTexture, bigMarioTexture;
-private TextureRegion ground,smallTube,castle,flagStill,mushroom,mediumTube, standingSmallMario, standingBigMario;
+private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture;
+private TextureRegion ground, smallTube, castle, flagStill, mushroom, mediumTube, oneup_mushroom, standingSmallMario, standingBigMario;
 
 private AnimatedSprite questionBlock,questionBlockHit,flower,coin,star,flagMove, rightSmallMario, rightBigMario;
 
@@ -68,13 +68,15 @@ public Game1() : base("SMB1",1920,1080,false){}
     coin = itemTexture.CreateAnimatedSprite("coin");
     star = itemTexture.CreateAnimatedSprite("star");
     mushroom = itemTexture.GetRegion("mushroom");
+    oneup_mushroom = itemTexture.GetRegion("one_up");
 
     items = new List<ISprite>
     {
         new Flower(flower),
         new Coin(coin),
         new Star(star),
-        new Mushroom(mushroom)
+        new Mushroom(mushroom),
+        new OneUp(oneup_mushroom)
     };
 
     smallMarioTexture = TextureAtlas.FromFile(Content,"images/SmallMario-definition.xml");
