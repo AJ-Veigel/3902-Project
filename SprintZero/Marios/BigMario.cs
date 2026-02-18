@@ -7,19 +7,44 @@ using SpriteZero.Marios;
 public class BigMario : IMario
 {
  
-    private TextureRegion sprite;
-    private AnimatedSprite aSprite;
-    public Vector2 position {get;set;}
+    private TextureRegion standingLeftSprite;
+    private TextureRegion standingRightSprite;
+    private TextureRegion jumpingLeftSprite;
+    private TextureRegion jumpingRightSprite;
+    private TextureRegion leftCrouchSprite;
+    private TextureRegion rightCrouchSprite;
+    private AnimatedSprite moveRightSprite;
+    private AnimatedSprite moveLeftSprite;
+    private AnimatedSprite swimRightSprite;
+    private AnimatedSprite swimLeftSprite;
+    private AnimatedSprite leftFlagpoleSprite;
+    private AnimatedSprite rightFlagpoleSprite;
+    private TextureRegion currentSprite;
+    private AnimatedSprite currentASprite;    public Vector2 position {get;set;}
     public Boolean Sprint {get;set;}
     public Boolean Crouch {get;set;}
     public Boolean Swim {get;set;}
     public void MoveRight()
     {
+        currentASprite = moveRightSprite;
         position = new Vector2(position.X + 4f,position.Y);
+        currentSprite = null;
     }
     public void MoveLeft()
     {
-        
+        currentASprite = moveLeftSprite;
+        position = new Vector2(position.X - 4f,position.Y);
+        currentSprite = null;
+    }
+    public void StopRight()
+    {
+        currentSprite = standingLeftSprite;
+        currentASprite = null;
+    }
+    public void StopLeft()
+    {
+        currentSprite = standingLeftSprite;
+        currentASprite = null;
     }
     public void Jump()
     {
@@ -31,29 +56,46 @@ public class BigMario : IMario
     }
     public BigMario(TextureRegion region)
     {
-        sprite = region;
+        currentSprite = region;
         position = new Vector2(300,600);
     }
     public BigMario(AnimatedSprite animated)
     {
-        aSprite = animated;
-        aSprite.Scale = new Vector2(4f);
+        currentASprite = animated;
+        currentASprite.Scale = new Vector2(4f);
         position = new Vector2(300, 664);
+    }
+    public BigMario(TextureRegion standingLeft, TextureRegion standingRight, TextureRegion jumpingLeft, TextureRegion jumpingRight, TextureRegion leftCrouch, TextureRegion rightCrouch, AnimatedSprite rightMove, AnimatedSprite leftMove, AnimatedSprite rightSwim, AnimatedSprite leftSwim, AnimatedSprite leftFlagpole, AnimatedSprite rightFlagpole)
+    {
+        currentSprite = standingLeft;
+        standingLeftSprite = standingLeft;
+        standingRightSprite = standingRight;
+        jumpingLeftSprite = jumpingLeft;
+        jumpingRightSprite = jumpingRight;
+        leftCrouchSprite = leftCrouch;
+        rightCrouchSprite = rightCrouch;
+        moveRightSprite = rightMove;
+        moveLeftSprite = leftMove;
+        swimRightSprite = rightSwim;
+        swimLeftSprite = leftSwim;
+        leftFlagpoleSprite = leftFlagpole;
+        rightFlagpoleSprite = rightFlagpole;
+        position = new Vector2(300, 600);
     }
     public void Update(GameTime gameTime)
     {
-        if(aSprite != null) aSprite.Update(gameTime);
+        if(currentASprite != null) currentASprite.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if(sprite != null)
+        if(currentSprite != null)
         {
-            sprite.Draw(spriteBatch,position,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
+            currentSprite.Draw(spriteBatch,position,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
         }
-        else if(aSprite != null)
+        else if(currentASprite != null)
         {
-            aSprite.Draw(spriteBatch, position);
+            currentASprite.Draw(spriteBatch, position);
         }
 
     }

@@ -1,18 +1,63 @@
 ﻿<TextureAtlas>
-    <Texture>Images/bigblock</Texture>
+    <Texture>Images/mario</Texture>
 
     <Regions>
-        <Region name="standingSmallMario" x="23" y="507" width="13" height="15"/>
-		<Region name="rightMario1" x="85" y="507" width="12" height="16"/>
-		<Region name="rightMario2" x="100" y="508" width="14" height="15"/>
-		<Region name="rightMario3" x="117" y="507" width="16" height="16"/>
+        <Region name="standingRightSmallMario" x="211" y="0" width="13" height="16"/>
+        <Region name="standingLeftSmallMario" x="181" y="0" width="13" height="16"/>		
+		<Region name="jumpingRightSmallMario" x="359" y="0" width="17" height="16"/>
+		<Region name="jumpingLeftSmallMario" x="29" y="0" width="17" height="16"/>
+		<Region name="deadMario" x="390" y="16" width="15" height="15"/>
+		<Region name="rightMario1" x="241" y="0" width="14" height="15"/>
+		<Region name="rightMario2" x="272" y="0" width="12" height="16"/>
+		<Region name="rightMario3" x="300" y="0" width="16" height="16"/>
+		<Region name="leftMario1" x="150" y="0" width="14" height="15"/>
+		<Region name="leftMario2" x="121" y="0" width="12" height="16"/>
+		<Region name="leftMario3" x="89" y="0" width="16" height="16"/>
+		<Region name="flagpoleLeftMario1" x="30" y="30" width="14" height="16"/>
+		<Region name="flagpoleLeftMario2" x="61" y="30" width="13" height="15"/>
+		<Region name="flagpoleRightMario1" x="361" y="30" width="14" height="16"/>
+		<Region name="flagpoleRightMario2" x="331" y="30" width="13" height="15"/>
+		<Region name="leftSwimMario1" x="180" y="30" width="15" height="15"/>
+		<Region name="leftSwimMario2" x="150" y="30" width="14" height="15"/>
+		<Region name="leftSwimMario3" x="120" y="30" width="14" height="15"/>
+		<Region name="leftSwimMario4" x="90" y="30" width="14" height="15"/>
+		<Region name="rightSwimMario1" x="210" y="30" width="15" height="15"/>
+		<Region name="rightSwimMario2" x="241" y="30" width="14" height="15"/>
+		<Region name="rightSwimMario3" x="271" y="30" width="14" height="15"/>
+		<Region name="rightSwimMario4" x="301" y="30" width="14" height="15"/>
     </Regions>
     <Animations>
 		<Animation name = "smallRightMove" delay="200">
+			<Frame region="rightMario1"/>
 			<Frame region="rightMario2"/>
 			<Frame region="rightMario3"/>
 			<Frame region="rightMario2"/>
-			<Frame region="rightMario1"/>
-            </Animation>
+        </Animation>
+		<Animation name = "smallLeftMove" delay="200">
+			<Frame region="leftMario1"/>
+			<Frame region="leftMario2"/>
+			<Frame region="leftMario3"/>
+			<Frame region="leftMario2"/>
+        </Animation>
+		<Animation name = "smallLeftFlag" delay="200">
+			<Frame region="flagpoleLeftMario1"/>
+			<Frame region="flagpoleLeftMario2"/>
+        </Animation>
+		<Animation name = "smallRightFlag" delay="200">
+			<Frame region="flagpoleRightMario1"/>
+			<Frame region="flagpoleRightMario2"/>
+        </Animation>
+		<Animation name = "smallLeftSwim" delay="200">
+			<Frame region="leftSwimMario1"/>
+			<Frame region="leftSwimMario2"/>
+			<Frame region="leftSwimMario3"/>
+			<Frame region="leftSwimMario4"/>
+        </Animation>
+		<Animation name = "smallRightSwim" delay="200">
+			<Frame region="rightSwimMario1"/>
+			<Frame region="rightSwimMario2"/>
+			<Frame region="rightSwimMario3"/>
+			<Frame region="rightSwimMario4"/>
+        </Animation>
     </Animations>
 </TextureAtlas>
