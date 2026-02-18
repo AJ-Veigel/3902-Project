@@ -1,0 +1,28 @@
+﻿<TextureAtlas>
+	<Texture>Images/goombaspritesheet</Texture>
+	<Regions>
+		<Region name ="goomba1" x="180" y="120" width="20" height="20"/>
+		<Region name ="goomba2" x="400" y="120" width="20" height="20"/>
+		<Region name ="goomba3" x="620" y="120" width="20" height="15"/>
+		<Region name ="goomba4" x="180" y="350" width="20" height="20"/>
+		<Region name ="goomba5" x="400" y="350" width="20" height="20"/>
+		<Region name ="goomba6" x="620" y="350" width="20" height="15"/>
+		<Region name ="goomba7" x="180" y="600" width="20" height="20"/>
+		<Region name ="goomba8" x="400" y="600" width="20" height="20"/>
+		<Region name ="goomba9" x="620" y="600" width="20" height="15"/>
+	</Regions>
+	<Animations>
+		<Animation name="goombaWalk1" delay="300">
+			<Frame region="goomba1"/>
+			<Frame region="goomba2"/>
+		</Animation>
+		<Animation name="goombaWalk2" delay="300">
+			<Frame region="goomba4"/>
+			<Frame region="goomba5"/>
+		</Animation>
+		<Animation name="goombaWalk3" delay="300">
+			<Frame region="goomba7"/>
+			<Frame region="goomba8"/>
+		</Animation>
+	</Animations>
+</TextureAtlas>

@@ -1,0 +1,40 @@
+﻿<TextureAtlas>
+	<Texture>Images/goombaspritesheet</Texture>
+	<Regions>
+		<Region name ="goombaRight1" x="180" y="120" width="20" height="20"/>
+		<Region name ="goombaLeft1" x="400" y="120" width="20" height="20"/>
+		<Region name ="goombaFlat1" x="620" y="120" width="20" height="15"/>
+		<Region name ="goombaRight2" x="180" y="350" width="20" height="20"/>
+		<Region name ="goombaLeft2" x="400" y="350" width="20" height="20"/>
+		<Region name ="goombaFlat2" x="620" y="350" width="20" height="15"/>
+		<Region name ="goombaRight3" x="180" y="600" width="20" height="20"/>
+		<Region name ="goombaLeft3" x="400" y="600" width="20" height="20"/>
+		<Region name ="goombaFlat3" x="620" y="600" width="20" height="15"/>
+	</Regions>
+	<Animations>
+		<Animation name="goombaWalk1" delay="300">
+			<Frame region="goombaRight1"/>
+			<Frame region="goombaLeft1"/>
+		</Animation>
+		<Animation name="goombaWalk2" delay="300">
+			<Frame region="goombaRight2"/>
+			<Frame region="goombaLeft2"/>
+		</Animation>
+		<Animation name="goombaWalk3" delay="300">
+			<Frame region="goombaRight3"/>
+			<Frame region="goombaLeft3"/>
+		</Animation>
+		<Animation name="goombaHit1" delay="300">
+			<Frame region="goombaRight1"/>
+			<Frame region="goombaFlat1"/>
+		</Animation>
+		<Animation name="goombaHit2" delay="300">
+			<Frame region="goombaRight2"/>
+			<Frame region="goombaFlat2"/>
+		</Animation>
+		<Animation name="goombaHit3" delay="300">
+			<Frame region="goombaRight3"/>
+			<Frame region="goombaFlat3"/>
+		</Animation>
+	</Animations>
+</TextureAtlas>

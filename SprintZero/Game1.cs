@@ -12,19 +12,22 @@ namespace SprintZero;
  public class Game1 : Core
 {   
 
-private TextureAtlas blocksTexture,bigBlockTexture,bigBlockTexturePt2,itemTexture, smallMarioTexture, bigMarioTexture;
+private TextureAtlas blocksTexture,bigBlockTexture,bigBlockTexturePt2,itemTexture, smallMarioTexture, bigMarioTexture, goombaTexture;
 private TextureRegion ground,smallTube,castle,flagStill,mushroom,mediumTube, oneup_mushroom;
 private TextureRegion standingRightSmallMario, standingLeftSmallMario, jumpingRightSmallMario, jumpingLeftSmallMario, deathSmallMario;
 private TextureRegion standingRightBigMario, standingLeftBigMario, jumpingRightBigMario, jumpingLeftBigMario, crouchLeftBigMario, crouchRightBigMario;
+private TextureRegion goombaRight1, goombaLeft1, goombaFlat1;
 
 
 private AnimatedSprite questionBlock,questionBlockHit,flower,coin,star,flagMove,aboveGroundBreak;
 private AnimatedSprite rightSmallMario, leftSmallMario, swimmingRightSmallMario, swimmingLeftSmallMario, flagpoleRightSmallMario, flagpoleLeftSmallMario;
 private AnimatedSprite rightBigMario, leftBigMario, swimmingRightBigMario, swimmingLeftBigMario, flagpoleRightBigMario, flagpoleLeftBigMario;
+private AnimatedSprite goombaWalk1, goombaHit1;
 
-private List<IController> controllers;
+    private List<IController> controllers;
 private List<ISprite> blocks, items;
 private List<IMario> marios;
+private List<ISprite> enemies;
 
 private ISprite currentBlock,currentItem;
 private IMario currentMario;
@@ -121,7 +124,19 @@ public Game1() : base("SMB1",1920,1080,false){}
         new BigMario(standingLeftBigMario, standingRightBigMario, jumpingLeftBigMario, jumpingRightBigMario, crouchLeftBigMario, crouchRightBigMario, rightBigMario, leftBigMario, swimmingRightBigMario, swimmingLeftBigMario, flagpoleLeftBigMario, flagpoleRightBigMario)
     };
 
-       currentBlockCount=0;
+    goombaTexture = TextureAtlas.FromFile(Content, "images/goomba-definition.xml");
+    goombaRight1 = goombaTexture.GetRegion("goombaRight1");
+    goombaLeft1 = goombaTexture.GetRegion("goombaLeft1");
+    goombaFlat1 = goombaTexture.GetRegion("goombaFlat1");
+    goombaWalk1 = goombaTexture.CreateAnimatedSprite("goombaWalk1");
+    goombaHit1 = goombaTexture.CreateAnimatedSprite("goombaHit1");
+
+        enemies = new List<ISprite>
+        {
+            //TODO: add goomba sprites
+        };
+
+        currentBlockCount =0;
        currentItemCount=0;
        currentBlock = blocks[currentBlockCount];
        currentItem = items[currentItemCount];
