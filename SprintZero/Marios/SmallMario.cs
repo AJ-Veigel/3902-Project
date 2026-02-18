@@ -22,46 +22,76 @@ public class SmallMario : IMario
     private TextureRegion currentSprite;
     private AnimatedSprite currentASprite;
     public Vector2 position {get;set;}
+    public float jumpStartHeight {get; set;}
     public Boolean Jumping {get; set;}
+    public Boolean Falling  {get; set;}
     public Boolean Direction {get; set;}
     public Boolean Sprint {get;set;}
     public Boolean Crouch {get;set;}
     public Boolean Swim {get;set;}
     public void Move()
     {
-        if(Direction)
+        if(Jumping)
         {
-            currentASprite = moveRightSprite;
-            currentASprite.Scale = new Vector2(4f);
-            position = new Vector2(position.X + 4f,position.Y);
-            currentSprite = null;
+            if(Direction)
+            {
+                position = new Vector2(position.X + 4f,position.Y);
+                currentSprite = jumpingRightSprite;
+                currentASprite = null;
+            }
+            else if (!Direction)
+            {
+                position = new Vector2(position.X - 4f,position.Y);
+                currentSprite = jumpingLeftSprite;
+                currentASprite = null;
+            }
         }
-        else if (!Direction)
+        else if(!Jumping)
         {
-            currentASprite = moveLeftSprite;
-            currentASprite.Scale = new Vector2(4f);
-            position = new Vector2(position.X - 4f,position.Y);
-            currentSprite = null;
+            if(Direction)
+            {
+                currentASprite = moveRightSprite;
+                currentASprite.Scale = new Vector2(4f);
+                position = new Vector2(position.X + 4f,position.Y);
+                currentSprite = null;
+            }
+            else if (!Direction)
+            {
+                currentASprite = moveLeftSprite;
+                currentASprite.Scale = new Vector2(4f);
+                position = new Vector2(position.X - 4f,position.Y);
+                currentSprite = null;
+            }
         }
         
     }
     public void StopMove()
     {
-        if(Direction)
+        if(!Jumping)
         {
-            currentSprite = standingRightSprite;
-            currentASprite = null;
+            if(Direction)
+            {
+                currentSprite = standingRightSprite;
+                currentASprite = null;
+            }
+            else if(!Direction)
+            {
+                currentSprite = standingLeftSprite;
+                currentASprite = null;    
+            }
         }
-        else if(!Direction)
-        {
-            currentSprite = standingLeftSprite;
-            currentASprite = null;    
-        }
-        
     }
     public void Jump()
     {
-        
+        Jumping = true;
+        if(Direction)
+        {
+            currentSprite = jumpingRightSprite;
+        }
+        else if(!Direction)
+        {
+            currentSprite = jumpingLeftSprite;
+        }
     }
     public void Fireball()
     {
@@ -92,11 +122,40 @@ public class SmallMario : IMario
         swimLeftSprite = leftSwim;
         leftFlagpoleSprite = leftFlagpole;
         rightFlagpoleSprite = rightFlagpole;
+        jumpStartHeight = 664;
         position = new Vector2(300, 664);
     }
     public void Update(GameTime gameTime)
     {
         if(currentASprite != null) currentASprite.Update(gameTime);
+        if(Jumping)
+        {
+            if(!Falling)
+            {
+                position = new Vector2(position.X, position.Y - 4f);
+                if(position.Y <= jumpStartHeight - 100)
+                {
+                    Falling = true;
+                }
+            }
+            else if(Falling)
+            {
+                position = new Vector2(position.X, position.Y + 4f);
+                if(position.Y >= jumpStartHeight - 16)
+                {
+                    Falling = false;
+                    Jumping = false;
+                    if(Direction)
+                    {
+                        currentSprite = standingRightSprite;
+                    }
+                    else if(Direction)
+                    {
+                        currentSprite = standingLeftSprite;
+                    }
+                }
+            }
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch)

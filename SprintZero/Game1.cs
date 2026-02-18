@@ -183,7 +183,6 @@ public void PreviousItem()
     }
     public void MarioJump()
     {
-        currentMario.Jumping = true;
         currentMario.Jump();
     }
     public void MarioRight()
