@@ -3,45 +3,51 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SpriteZero.Sprites;
 
-public class Flower : ISprite
+   public class Flower : ISprite
 {
-private AnimatedSprite sprite;
-public Vector2 location{get;set;}
+    private AnimatedSprite sprite;
 
-private float startY;
 
-private float riseSpeed = 3f;
-private float targetY= 10f;
+    private Vector2 _location;
+    public Vector2 location
+    {
+        get { return _location; }
+        set { _location = value; }
+    }
 
-private bool rising = true;
-   
-public Flower(AnimatedSprite animated)
+    private float startY;
+    private float riseSpeed = 2f;
+    private float riseHeight = 100f; 
+
+    private bool rising = true;
+
+    public Flower(AnimatedSprite animated)
     {
         sprite = animated;
         sprite.Scale = new Vector2(4f);
-        location = new Vector2(300,300);
-        startY = location.Y;
+        _location = new Vector2(300, 300);
+        startY = _location.Y;
     }
-  
 
-   public void Update(GameTime gameTime)
-{
-    sprite.Update(gameTime);
-
-    if (rising && location.Y > targetY)
+    public void Update(GameTime gameTime)
     {
-        location = new Vector2(location.X, location.Y - riseSpeed);
+        sprite.Update(gameTime);
 
-        if (location.Y <= targetY)
+        if (rising)
         {
-            location = new Vector2(location.X, targetY);
-            rising = false;
+          
+            _location.Y -= riseSpeed;
+
+            if (_location.Y <= startY - riseHeight)
+            {
+                _location.Y = startY - riseHeight;
+                rising = false; 
+            }
         }
     }
-}
-   
-        public void Draw(SpriteBatch spriteBatch)
+
+    public void Draw(SpriteBatch spriteBatch)
     {
-        sprite.Draw(spriteBatch,location);
+        sprite.Draw(spriteBatch, _location);
     }
 }
