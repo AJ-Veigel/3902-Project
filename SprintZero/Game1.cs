@@ -28,7 +28,7 @@ private List<ISprite> enemies;
 private ISprite currentBlock,currentItem;
 private IMario currentMario;
 
-private int currentBlockCount, currentItemCount;
+private int currentBlockCount, currentItemCount, currentMarioNum;
 
 public Game1() : base("SMB1",1920,1080,false){}
     protected override void Initialize()
@@ -110,10 +110,11 @@ public Game1() : base("SMB1",1920,1080,false){}
         };
 
         currentBlockCount =0;
-       currentItemCount=0;
-       currentBlock = blocks[currentBlockCount];
-       currentItem = items[currentItemCount];
-       currentMario = marios[0];
+        currentItemCount=0;
+        currentBlock = blocks[currentBlockCount];
+        currentItem = items[currentItemCount];
+        currentMario = marios[0];
+        currentMarioNum = 0;
         base.LoadContent();
     }
     
@@ -175,10 +176,12 @@ public void PreviousItem()
         if(marioNumber == 0)
         {
             currentMario = new SmallMario(smallMarioTexture);
+            currentMarioNum = marioNumber;
         }
         else if(marioNumber == 1)
         {
             currentMario = new BigMario(bigMarioTexture);
+            currentMarioNum = marioNumber;
         }
     }
     public void MarioJump()
@@ -207,11 +210,11 @@ public void PreviousItem()
     }
     public void Damage()
     {
-        if(currentMario.Equals(marios[0]))
+        if(currentMarioNum == 0)
         {
             currentMario.Damage();
         }
-        else if(currentMario.Equals(marios[1]))
+        else if(currentMarioNum == 1)
         {
             SetMario(0);
         }
