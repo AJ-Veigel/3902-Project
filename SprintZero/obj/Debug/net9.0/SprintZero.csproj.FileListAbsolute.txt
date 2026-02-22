@@ -248,3 +248,5 @@ C:\Users\adamt\source\repos\3902-Project\SprintZero\obj\Debug\net9.0\SprintZero.
 C:\Users\adamt\source\repos\3902-Project\SprintZero\obj\Debug\net9.0\ref\SprintZero.dll
 C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\goombaspritesheet.xnb
 C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\goomba-definition.xml
+C:\Users\ajvei\3902-Project\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\goomba-definition.xml
+C:\Users\ajvei\3902-Project\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\goombaspritesheet.xnb

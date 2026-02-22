@@ -14,14 +14,10 @@ namespace SprintZero;
 
 private TextureAtlas blocksTexture,bigBlockTexture,bigBlockTexturePt2,itemTexture, smallMarioTexture, bigMarioTexture, goombaTexture;
 private TextureRegion ground,smallTube,castle,flagStill,mushroom,mediumTube, oneup_mushroom;
-private TextureRegion standingRightSmallMario, standingLeftSmallMario, jumpingRightSmallMario, jumpingLeftSmallMario, deathSmallMario;
-private TextureRegion standingRightBigMario, standingLeftBigMario, jumpingRightBigMario, jumpingLeftBigMario, crouchLeftBigMario, crouchRightBigMario;
 private TextureRegion goombaRight1, goombaLeft1, goombaFlat1;
 
 
 private AnimatedSprite questionBlock,questionBlockHit,flower,coin,star,flagMove,aboveGroundBreak;
-private AnimatedSprite rightSmallMario, leftSmallMario, swimmingRightSmallMario, swimmingLeftSmallMario, flagpoleRightSmallMario, flagpoleLeftSmallMario;
-private AnimatedSprite rightBigMario, leftBigMario, swimmingRightBigMario, swimmingLeftBigMario, flagpoleRightBigMario, flagpoleLeftBigMario;
 private AnimatedSprite goombaWalk1, goombaHit1;
 
     private List<IController> controllers;
@@ -32,7 +28,7 @@ private List<ISprite> enemies;
 private ISprite currentBlock,currentItem;
 private IMario currentMario;
 
-private int currentBlockCount, currentItemCount;
+private int currentBlockCount, currentItemCount, currentMarioNum;
 
 public Game1() : base("SMB1",1920,1080,false){}
     protected override void Initialize()
@@ -93,35 +89,12 @@ public Game1() : base("SMB1",1920,1080,false){}
     };
 
     smallMarioTexture = TextureAtlas.FromFile(Content,"images/SmallMario-definition.xml");
-    standingLeftSmallMario = smallMarioTexture.GetRegion("standingLeftSmallMario");
-    standingRightSmallMario = smallMarioTexture.GetRegion("standingRightSmallMario");
-    jumpingLeftSmallMario = smallMarioTexture.GetRegion("jumpingLeftSmallMario");
-    jumpingRightSmallMario = smallMarioTexture.GetRegion("jumpingRightSmallMario");
-    deathSmallMario = smallMarioTexture.GetRegion("deadMario");
-    rightSmallMario = smallMarioTexture.CreateAnimatedSprite("smallRightMove");
-    leftSmallMario = smallMarioTexture.CreateAnimatedSprite("smallLeftMove");
-    swimmingRightSmallMario = smallMarioTexture.CreateAnimatedSprite("smallRightSwim");
-    swimmingLeftSmallMario = smallMarioTexture.CreateAnimatedSprite("smallLeftSwim");
-    flagpoleLeftSmallMario = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
-    flagpoleRightSmallMario = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
     bigMarioTexture = TextureAtlas.FromFile(Content, "images/BigMario-definition.xml");
-    standingLeftBigMario = bigMarioTexture.GetRegion("standingLeftBigMario");
-    standingRightBigMario = bigMarioTexture.GetRegion("standingRightBigMario");
-    jumpingLeftBigMario = bigMarioTexture.GetRegion("jumpingLeftBigMario");
-    jumpingRightBigMario = bigMarioTexture.GetRegion("jumpingRightBigMario");
-    crouchLeftBigMario = bigMarioTexture.GetRegion("crouchLeftBigMario");
-    crouchRightBigMario = bigMarioTexture.GetRegion("crouchRightBigMario");
-    rightBigMario = bigMarioTexture.CreateAnimatedSprite("bigRightMove");
-    leftBigMario = bigMarioTexture.CreateAnimatedSprite("bigLeftMove");
-    swimmingRightBigMario = bigMarioTexture.CreateAnimatedSprite("bigRightSwim");
-    swimmingLeftBigMario = bigMarioTexture.CreateAnimatedSprite("bigLeftSwim");
-    flagpoleLeftBigMario = bigMarioTexture.CreateAnimatedSprite("bigLeftFlag");
-    flagpoleRightBigMario = bigMarioTexture.CreateAnimatedSprite("bigRightFlag");
 
     marios = new List<IMario>
     {
-        new SmallMario(standingLeftSmallMario, standingRightSmallMario, jumpingLeftSmallMario, jumpingRightSmallMario, deathSmallMario, rightSmallMario, leftSmallMario, swimmingRightSmallMario, swimmingLeftSmallMario, flagpoleLeftSmallMario, flagpoleRightSmallMario),
-        new BigMario(standingLeftBigMario, standingRightBigMario, jumpingLeftBigMario, jumpingRightBigMario, crouchLeftBigMario, crouchRightBigMario, rightBigMario, leftBigMario, swimmingRightBigMario, swimmingLeftBigMario, flagpoleLeftBigMario, flagpoleRightBigMario)
+        new SmallMario(smallMarioTexture),
+        new BigMario(bigMarioTexture)
     };
 
     goombaTexture = TextureAtlas.FromFile(Content, "images/goomba-definition.xml");
@@ -137,10 +110,11 @@ public Game1() : base("SMB1",1920,1080,false){}
         };
 
         currentBlockCount =0;
-       currentItemCount=0;
-       currentBlock = blocks[currentBlockCount];
-       currentItem = items[currentItemCount];
-       currentMario = marios[0];
+        currentItemCount=0;
+        currentBlock = blocks[currentBlockCount];
+        currentItem = items[currentItemCount];
+        currentMario = marios[0];
+        currentMarioNum = 0;
         base.LoadContent();
     }
     
@@ -199,7 +173,16 @@ public void PreviousItem()
     }
     public void SetMario(int marioNumber)
     {
-        currentMario =  new marios[marioNumber];
+        if(marioNumber == 0)
+        {
+            currentMario = new SmallMario(smallMarioTexture);
+            currentMarioNum = marioNumber;
+        }
+        else if(marioNumber == 1)
+        {
+            currentMario = new BigMario(bigMarioTexture);
+            currentMarioNum = marioNumber;
+        }
     }
     public void MarioJump()
     {
@@ -227,9 +210,13 @@ public void PreviousItem()
     }
     public void Damage()
     {
-        if(currentMario.Equals(marios[0]))
+        if(currentMarioNum == 0)
         {
             currentMario.Damage();
+        }
+        else if(currentMarioNum == 1)
+        {
+            SetMario(0);
         }
     }
     public void Reset()
@@ -237,3 +224,4 @@ public void PreviousItem()
         Initialize();
     }
 }
+ 
