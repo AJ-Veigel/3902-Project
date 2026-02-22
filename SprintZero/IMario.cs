@@ -17,7 +17,7 @@ namespace SpriteZero.Marios
         void StopMove();
         void Jump();
         void Fireball();
-
+        void Damage();
         
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);

@@ -36,6 +36,14 @@ public class KeyController : IController
         {
             game.NextItem();
         }
+        if ((current.IsKeyDown(Keys.R) && previousState.IsKeyUp(Keys.R)))
+        {
+            game.Reset();
+        }
+        if ((current.IsKeyDown(Keys.E) && previousState.IsKeyUp(Keys.E)))
+        {
+            game.Damage();
+        }
         if((current.IsKeyDown(Keys.D1) && previousState.IsKeyUp(Keys.D1)) || (current.IsKeyDown(Keys.NumPad1) && previousState.IsKeyUp(Keys.NumPad1)))
         {
             int smallMario = 0;
@@ -65,10 +73,6 @@ public class KeyController : IController
         if((current.IsKeyUp(Keys.A) && previousState.IsKeyDown(Keys.A)) || (current.IsKeyUp(Keys.Left) && previousState.IsKeyDown(Keys.Left)))
         {
             game.StopMarioLeft();
-        }
-        if ((current.IsKeyDown(Keys.R) && previousState.IsKeyUp(Keys.R)))
-        {
-            game.Reset();
         }
         previousState = current;
     }
