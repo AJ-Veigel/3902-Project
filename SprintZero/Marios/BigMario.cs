@@ -93,6 +93,10 @@ public class BigMario : IMario
             currentSprite = jumpingLeftSprite;
         }
     }
+    public void Damage()
+    {
+        
+    }
     public void Fireball()
     {
         

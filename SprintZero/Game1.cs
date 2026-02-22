@@ -172,7 +172,7 @@ public void PreviousItem()
     }
     public void SetMario(int marioNumber)
     {
-        currentMario = marios[marioNumber];
+        currentMario =  new marios[marioNumber];
     }
     public void MarioJump()
     {
@@ -197,6 +197,13 @@ public void PreviousItem()
     {
         currentMario.Direction = false;
         currentMario.StopMove();
+    }
+    public void Damage()
+    {
+        if(currentMario.Equals(marios[0]))
+        {
+            currentMario.Damage();
+        }
     }
     public void Reset()
     {

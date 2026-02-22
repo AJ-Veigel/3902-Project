@@ -93,6 +93,11 @@ public class SmallMario : IMario
             currentSprite = jumpingLeftSprite;
         }
     }
+    public void Damage()
+    {
+        currentSprite = deadMario;
+        currentASprite = null;
+    }
     public void Fireball()
     {
         
