@@ -95,7 +95,7 @@ public class SmallMario : IMario
     }
     public void Damage()
     {
-        currentSprite = deadMario;
+        currentSprite = deathSprite;
         currentASprite = null;
     }
     public void Fireball()
@@ -143,7 +143,7 @@ public class SmallMario : IMario
                     {
                         currentSprite = standingRightSprite;
                     }
-                    else if(Direction)
+                    else if(!Direction)
                     {
                         currentSprite = standingLeftSprite;
                     }

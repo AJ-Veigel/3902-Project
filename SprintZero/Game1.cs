@@ -172,7 +172,14 @@ public void PreviousItem()
     }
     public void SetMario(int marioNumber)
     {
-        currentMario =  new marios[marioNumber];
+        if(marioNumber == 0)
+        {
+            currentMario = new SmallMario(smallMarioTexture);
+        }
+        else if(marioNumber == 1)
+        {
+            currentMario = new BigMario(bigMarioTexture);
+        }
     }
     public void MarioJump()
     {
@@ -203,6 +210,10 @@ public void PreviousItem()
         if(currentMario.Equals(marios[0]))
         {
             currentMario.Damage();
+        }
+        else if(currentMario.Equals(marios[1]))
+        {
+            SetMario(0);
         }
     }
     public void Reset()

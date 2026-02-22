@@ -161,7 +161,7 @@ public class BigMario : IMario
                     {
                         currentSprite = standingRightSprite;
                     }
-                    else if(Direction)
+                    else if(!Direction)
                     {
                         currentSprite = standingLeftSprite;
                     }
