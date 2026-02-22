@@ -97,17 +97,6 @@ public class BigMario : IMario
     {
         
     }
-    public BigMario(TextureRegion region)
-    {
-        currentSprite = region;
-        position = new Vector2(300,600);
-    }
-    public BigMario(AnimatedSprite animated)
-    {
-        currentASprite = animated;
-        currentASprite.Scale = new Vector2(4f);
-        position = new Vector2(300, 664);
-    }
     public BigMario(TextureRegion standingLeft, TextureRegion standingRight, TextureRegion jumpingLeft, TextureRegion jumpingRight, TextureRegion leftCrouch, TextureRegion rightCrouch, AnimatedSprite rightMove, AnimatedSprite leftMove, AnimatedSprite rightSwim, AnimatedSprite leftSwim, AnimatedSprite leftFlagpole, AnimatedSprite rightFlagpole)
     {
         currentSprite = standingLeft;
@@ -123,6 +112,24 @@ public class BigMario : IMario
         swimLeftSprite = leftSwim;
         leftFlagpoleSprite = leftFlagpole;
         rightFlagpoleSprite = rightFlagpole;
+        jumpStartHeight = 600f;
+        position = new Vector2(300, 600);
+    }
+    public BigMario(TextureAtlas bigMarioTexture)
+    {
+        standingLeftSprite = bigMarioTexture.GetRegion("standingLeftBigMario");
+        standingRightSprite = bigMarioTexture.GetRegion("standingRightBigMario");
+        jumpingLeftSprite = bigMarioTexture.GetRegion("jumpingLeftBigMario");
+        jumpingRightSprite = bigMarioTexture.GetRegion("jumpingRightBigMario");
+        leftCrouchSprite = bigMarioTexture.GetRegion("crouchLeftBigMario");
+        rightCrouchSprite = bigMarioTexture.GetRegion("crouchRightBigMario");
+        moveRightSprite = bigMarioTexture.CreateAnimatedSprite("bigRightMove");
+        moveLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftMove");
+        swimRightSprite = bigMarioTexture.CreateAnimatedSprite("bigRightSwim");
+        swimLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftSwim");
+        leftFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftFlag");
+        rightFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigRightFlag");
+        currentSprite = standingLeftSprite;
         jumpStartHeight = 600f;
         position = new Vector2(300, 600);
     }

@@ -97,31 +97,20 @@ public class SmallMario : IMario
     {
         
     }
-    public SmallMario(TextureRegion region)
+    public SmallMario(TextureAtlas smallMarioTexture)
     {
-        currentSprite = region;
-        position = new Vector2(300,664);
-    }
-    public SmallMario(AnimatedSprite animated)
-    {
-        currentASprite = animated;
-        currentASprite.Scale = new Vector2(4f);
-        position = new Vector2(300, 664);
-    }
-    public SmallMario(TextureRegion standingLeft, TextureRegion standingRight, TextureRegion jumpingLeft, TextureRegion jumpingRight, TextureRegion death, AnimatedSprite rightMove, AnimatedSprite leftMove, AnimatedSprite rightSwim, AnimatedSprite leftSwim, AnimatedSprite leftFlagpole, AnimatedSprite rightFlagpole)
-    {
-        currentSprite = standingLeft;
-        standingLeftSprite = standingLeft;
-        standingRightSprite = standingRight;
-        jumpingLeftSprite = jumpingLeft;
-        jumpingRightSprite = jumpingRight;
-        deathSprite = death;
-        moveRightSprite = rightMove;
-        moveLeftSprite = leftMove;
-        swimRightSprite = rightSwim;
-        swimLeftSprite = leftSwim;
-        leftFlagpoleSprite = leftFlagpole;
-        rightFlagpoleSprite = rightFlagpole;
+        standingLeftSprite = smallMarioTexture.GetRegion("standingLeftSmallMario");
+        standingRightSprite = smallMarioTexture.GetRegion("standingRightSmallMario");
+        jumpingLeftSprite = smallMarioTexture.GetRegion("jumpingLeftSmallMario");
+        jumpingRightSprite = smallMarioTexture.GetRegion("jumpingRightSmallMario");
+        deathSprite = smallMarioTexture.GetRegion("deadMario");
+        moveRightSprite = smallMarioTexture.CreateAnimatedSprite("smallRightMove");
+        moveLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftMove");
+        swimRightSprite = smallMarioTexture.CreateAnimatedSprite("smallRightSwim");
+        swimLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftSwim");
+        leftFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
+        rightFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
+        currentSprite = standingLeftSprite;
         jumpStartHeight = 664;
         position = new Vector2(300, 664);
     }
