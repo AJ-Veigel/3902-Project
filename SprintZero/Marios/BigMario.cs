@@ -137,6 +137,24 @@ public class BigMario : IMario
         jumpStartHeight = 600f;
         position = new Vector2(300, 600);
     }
+    public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
+    {
+        standingLeftSprite = bigMarioTexture.GetRegion("standingLeftBigMario");
+        standingRightSprite = bigMarioTexture.GetRegion("standingRightBigMario");
+        jumpingLeftSprite = bigMarioTexture.GetRegion("jumpingLeftBigMario");
+        jumpingRightSprite = bigMarioTexture.GetRegion("jumpingRightBigMario");
+        leftCrouchSprite = bigMarioTexture.GetRegion("crouchLeftBigMario");
+        rightCrouchSprite = bigMarioTexture.GetRegion("crouchRightBigMario");
+        moveRightSprite = bigMarioTexture.CreateAnimatedSprite("bigRightMove");
+        moveLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftMove");
+        swimRightSprite = bigMarioTexture.CreateAnimatedSprite("bigRightSwim");
+        swimLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftSwim");
+        leftFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftFlag");
+        rightFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigRightFlag");
+        currentSprite = standingLeftSprite;
+        jumpStartHeight = pos.Y + 64f;
+        position = pos;
+    }
     public void Update(GameTime gameTime)
     {
         if(currentASprite != null) currentASprite.Update(gameTime);

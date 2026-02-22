@@ -1,5 +1,4 @@
 using System;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
@@ -118,6 +117,23 @@ public class SmallMario : IMario
         currentSprite = standingLeftSprite;
         jumpStartHeight = 664;
         position = new Vector2(300, 664);
+    }
+    public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
+    {
+        standingLeftSprite = smallMarioTexture.GetRegion("standingLeftSmallMario");
+        standingRightSprite = smallMarioTexture.GetRegion("standingRightSmallMario");
+        jumpingLeftSprite = smallMarioTexture.GetRegion("jumpingLeftSmallMario");
+        jumpingRightSprite = smallMarioTexture.GetRegion("jumpingRightSmallMario");
+        deathSprite = smallMarioTexture.GetRegion("deadMario");
+        moveRightSprite = smallMarioTexture.CreateAnimatedSprite("smallRightMove");
+        moveLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftMove");
+        swimRightSprite = smallMarioTexture.CreateAnimatedSprite("smallRightSwim");
+        swimLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftSwim");
+        leftFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
+        rightFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
+        currentSprite = standingLeftSprite;
+        jumpStartHeight = pos.Y + 64f;
+        position = pos;
     }
     public void Update(GameTime gameTime)
     {

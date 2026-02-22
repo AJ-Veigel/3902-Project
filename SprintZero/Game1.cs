@@ -210,13 +210,17 @@ public void PreviousItem()
     }
     public void Damage()
     {
+        Vector2 previousMarioPos;
         if(currentMarioNum == 0)
         {
             currentMario.Damage();
         }
         else if(currentMarioNum == 1)
         {
+            previousMarioPos = currentMario.position;
             SetMario(0);
+            currentMario.position = new Vector2(previousMarioPos.X, previousMarioPos.Y + 64f);
+            
         }
     }
     public void Reset()
