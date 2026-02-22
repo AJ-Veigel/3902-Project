@@ -66,6 +66,10 @@ public class KeyController : IController
         {
             game.StopMarioLeft();
         }
+        if ((current.IsKeyDown(Keys.R) && previousState.IsKeyUp(Keys.R)))
+        {
+            game.Reset();
+        }
         previousState = current;
     }
 }

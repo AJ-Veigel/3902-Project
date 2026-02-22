@@ -225,4 +225,8 @@ public void PreviousItem()
         currentMario.Direction = false;
         currentMario.StopMove();
     }
+    public void Reset()
+    {
+        Initialize();
+    }
 }
