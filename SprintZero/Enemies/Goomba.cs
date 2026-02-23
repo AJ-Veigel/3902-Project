@@ -6,7 +6,8 @@ using SpriteZero.Enemies;
 public class Goomba : IEnemy
 {
     public Vector2 position { get; set; }
-    private float speed = 4f;
+    private float speed = 2f;
+    private float animationTimer = 0f;
 
     private TextureRegion goombaRight1Sprite;
     private TextureRegion goombaLeft1Sprite;
@@ -16,22 +17,9 @@ public class Goomba : IEnemy
     private TextureRegion currentSprite;
     private AnimatedSprite currentASprite;
 
-    public float startXPosition { get; set; }
 
     public bool Dead { get; set; }
 
-    public Goomba(TextureRegion region)
-    {
-        currentSprite = region;
-        position = new Vector2(400, 500);
-    }
-
-    public Goomba(AnimatedSprite animated)
-    {
-        currentASprite = animated;
-        currentASprite.Scale = new Vector2(4f);
-        position = new Vector2(400, 300);
-    }
     public Goomba(TextureRegion goombaRight1, TextureRegion goombaLeft1, TextureRegion goombaFlat1, AnimatedSprite goombaWalk1, AnimatedSprite goombaHit1)
     {
         currentSprite = goombaRight1;
@@ -42,26 +30,44 @@ public class Goomba : IEnemy
         goombaHit1Sprite = goombaHit1;
         currentASprite = goombaWalk1;
         Dead = false;
-        startXPosition = 400;
+        position = new Vector2(600, 660);
     }
 
     public Goomba(TextureAtlas goombaTexture)
     {
-    TextureRegion goombaRight1Sprite = goombaTexture.GetRegion("goombaRight1");
-    TextureRegion goombaLeft1Sprite = goombaTexture.GetRegion("goombaLeft1");
-    TextureRegion goombaFlat1Sprite = goombaTexture.GetRegion("goombaFlat1");
-    AnimatedSprite goombaWalk1Sprite = goombaTexture.CreateAnimatedSprite("goombaWalk1");
-    AnimatedSprite goombaHit1Sprite = goombaTexture.CreateAnimatedSprite("goombaHit1");
+     goombaRight1Sprite = goombaTexture.GetRegion("goombaRight1");
+     goombaLeft1Sprite = goombaTexture.GetRegion("goombaLeft1");
+     goombaFlat1Sprite = goombaTexture.GetRegion("goombaFlat1");
+     goombaWalk1Sprite = goombaTexture.CreateAnimatedSprite("goombaWalk1");
+     goombaHit1Sprite = goombaTexture.CreateAnimatedSprite("goombaHit1");
+     position = new Vector2(600, 660);
     }
     public void Update(GameTime gameTime)
     {
+        if(currentSprite == null)
+        {
+            currentSprite = goombaRight1Sprite;
+        }
+
+        animationTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         if (Dead == false)
         {
-            currentSprite = goombaRight1Sprite;
+            position = new Vector2(position.X + speed, position.Y);
+            if (animationTimer >= 0.5)
+            {
+                animationTimer = 0f;
+                if(currentSprite == goombaRight1Sprite)
+                {
+                    currentSprite = goombaLeft1Sprite;
+                }
+                else
+                {
+                    currentSprite = goombaRight1Sprite;
+                }
+            }
             currentASprite = goombaWalk1Sprite;
-            startXPosition += speed;
-            if (startXPosition > 600 || startXPosition < 200)
+            if (position.X > 700 || position.X < 500)
             {
                 speed = -speed;
             }
