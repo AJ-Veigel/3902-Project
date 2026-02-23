@@ -104,6 +104,8 @@ public Game1() : base("SMB1",1920,1080,false){}
     goombaWalk1 = goombaTexture.CreateAnimatedSprite("goombaWalk1");
     goombaHit1 = goombaTexture.CreateAnimatedSprite("goombaHit1");
 
+        Koopa.loadTextures(Content);
+
         enemies = new List<ISprite>
         {
             //TODO: add goomba sprites
