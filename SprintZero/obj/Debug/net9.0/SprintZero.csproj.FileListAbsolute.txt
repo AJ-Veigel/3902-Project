@@ -253,7 +253,6 @@ C:\Users\ajvei\3902-Project\3902-Project\SprintZero\bin\Debug\net9.0\Content\Ima
 =======
 <<<<<<< Updated upstream
 C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\goombasprites.xnb
-=======
 >>>>>>> goombaStuff1
 C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\atlas-definition.xml
 C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\bigblock-definition.xml
@@ -312,9 +311,6 @@ C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\obj\Debug\net9.0\S
 C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\obj\Debug\net9.0\ref\SprintZero.dll
 C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\koopa-definition.xml
 C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\koopaSprites.xnb
-<<<<<<< HEAD
-=======
 C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\koopa-definition.xml
 C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\koopaSprites.xnb
 >>>>>>> Stashed changes
->>>>>>> goombaStuff1

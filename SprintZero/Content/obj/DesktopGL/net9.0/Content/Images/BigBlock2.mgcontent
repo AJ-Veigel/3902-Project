@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<<<<<<< HEAD
-  <SourceFile>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/misc-2.png</SourceFile>
-  <SourceTime>2026-02-18T13:28:01.896317-05:00</SourceTime>
-  <DestFile>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/BigBlock2.xnb</DestFile>
-  <DestTime>2026-02-23T12:40:02.677853-05:00</DestTime>
-=======
   <SourceFile>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/misc-2.png</SourceFile>
   <SourceTime>2026-02-23T11:37:30.5249436-05:00</SourceTime>
   <DestFile>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/BigBlock2.xnb</DestFile>
-<<<<<<< Updated upstream
-  <DestTime>2026-02-23T11:38:48.7383146-05:00</DestTime>
-=======
-  <DestTime>2026-02-23T15:02:32.9382572-05:00</DestTime>
->>>>>>> Stashed changes
->>>>>>> goombaStuff1
+  <DestTime>2026-02-23T15:20:54.9391145-05:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2025-10-20T10:25:32-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

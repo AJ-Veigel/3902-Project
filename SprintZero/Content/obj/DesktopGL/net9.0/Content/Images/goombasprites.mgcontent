@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<<<<<<< HEAD:SprintZero/Content/obj/DesktopGL/net9.0/Content/Images/goombaspritesheet.mgcontent
-  <SourceFile>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/goombaspritesheet.png</SourceFile>
-  <SourceTime>2026-02-20T11:02:06.8409626-05:00</SourceTime>
-  <DestFile>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/goombaspritesheet.xnb</DestFile>
-  <DestTime>2026-02-23T12:40:02.6458651-05:00</DestTime>
-=======
-<<<<<<< Updated upstream:SprintZero/Content/obj/DesktopGL/net9.0/Content/Images/goombasprites.mgcontent
   <SourceFile>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/goombasprites.png</SourceFile>
-  <SourceTime>2026-02-23T13:50:11.9158906-05:00</SourceTime>
+  <SourceTime>2026-02-23T15:16:11.9006906-05:00</SourceTime>
   <DestFile>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/goombasprites.xnb</DestFile>
-  <DestTime>2026-02-23T14:01:24.956696-05:00</DestTime>
-=======
-  <SourceFile>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/koopaSprites.png</SourceFile>
-  <SourceTime>2026-02-23T15:00:56.9820007-05:00</SourceTime>
-  <DestFile>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/koopaSprites.xnb</DestFile>
-  <DestTime>2026-02-23T15:02:32.8249355-05:00</DestTime>
->>>>>>> Stashed changes:SprintZero/Content/obj/DesktopGL/net9.0/Content/Images/koopaSprites.mgcontent
->>>>>>> goombaStuff1:SprintZero/Content/obj/DesktopGL/net9.0/Content/Images/goombasprites.mgcontent
+  <DestTime>2026-02-23T15:20:54.8234813-05:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2025-10-20T10:25:32-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

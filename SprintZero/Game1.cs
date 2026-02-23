@@ -99,13 +99,11 @@ public Game1() : base("SMB1",1920,1080,false){}
 
     goombaTexture = TextureAtlas.FromFile(Content, "images/goomba-definition.xml");
 
-<<<<<<< HEAD
+
         Koopa.loadTextures(Content);
 
-        enemies = new List<ISprite>
-=======
         enemies = new List<IEnemy>
->>>>>>> goombaStuff1
+
         {
             new Goomba(goombaTexture)
         };
