@@ -36,7 +36,8 @@ public class Koopa : IEnemy
 
 	public static void loadTextures(ContentManager content)
 	{
-		TextureAtlas atlas = TextureAtlas.FromFile(content, "images/koopadefinition.xml");
+		return; // ????
+		TextureAtlas atlas = TextureAtlas.FromFile(content, "Images/koopa-definition.xml");
 		green[(int)KoopaStates.Walk1] = atlas.GetRegion("greenWalk1");
 		green[(int)KoopaStates.Walk2] = atlas.GetRegion("greenWalk2");
 		green[(int)KoopaStates.ShellStill] = atlas.GetRegion("greenShell1");
