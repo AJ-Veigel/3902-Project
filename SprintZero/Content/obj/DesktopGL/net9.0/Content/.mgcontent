@@ -8,6 +8,7 @@
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/155739.png</File>
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/goombaspritesheet.png</File>
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/items.png</File>
+    <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/koopaSprites.png</File>
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/mario.png</File>
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/misc-2.png</File>
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/misc-3.png</File>
@@ -16,6 +17,7 @@
   <DestFiles>
     <File xsi:nil="true" />
     <File>Images/Sprite.png</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

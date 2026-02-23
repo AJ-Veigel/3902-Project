@@ -305,3 +305,5 @@ C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\obj\Debug\net9.0\r
 C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\obj\Debug\net9.0\SprintZero.pdb
 C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\obj\Debug\net9.0\SprintZero.genruntimeconfig.cache
 C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\obj\Debug\net9.0\ref\SprintZero.dll
+C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\koopa-definition.xml
+C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\koopaSprites.xnb
