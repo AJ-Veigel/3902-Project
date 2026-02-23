@@ -3,7 +3,11 @@
   <SourceFile>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/155739.png</SourceFile>
   <SourceTime>2026-02-23T11:37:30.5087024-05:00</SourceTime>
   <DestFile>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/Sprite.xnb</DestFile>
+<<<<<<< Updated upstream
   <DestTime>2026-02-23T11:38:48.4672895-05:00</DestTime>
+=======
+  <DestTime>2026-02-23T15:02:32.6622801-05:00</DestTime>
+>>>>>>> Stashed changes
   <Importer>TextureImporter</Importer>
   <ImporterTime>2025-10-20T10:25:32-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

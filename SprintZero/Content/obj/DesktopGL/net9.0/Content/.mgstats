@@ -1,4 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+<<<<<<< Updated upstream
 "C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Font/File.spritefont","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Font/File.xnb","FontDescriptionProcessor","SpriteFontContent",2065,37913,0.4331581
 "C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/155739.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/Sprite.xnb","TextureProcessor","Texture2DContent",151356,730065,0.1094743
 "C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/goomba-definition.xml","C:\Users\adamt\source\repos\3902-Project\SprintZero\Content\bin\DesktopGL\Content\Images/goomba-definition.xml","CopyItem","File",1537,1537,0.002052
@@ -8,3 +9,14 @@ Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Siz
 "C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/misc-2.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/BigBlock2.xnb","TextureProcessor","Texture2DContent",14893,1560241,0.0848844
 "C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/misc-3.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/bigblock.xnb","TextureProcessor","Texture2DContent",85299,3405525,0.1788747
 "C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/Blocks.xnb","TextureProcessor","Texture2DContent",13083,458837,0.0255912
+=======
+"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Font/File.spritefont","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Font/File.xnb","FontDescriptionProcessor","SpriteFontContent",2065,37913,0.3850936
+"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/155739.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/Sprite.xnb","TextureProcessor","Texture2DContent",151356,730065,0.0772432
+"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/goombaspritesheet.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/goombaspritesheet.xnb","TextureProcessor","Texture2DContent",73711,2441281,0.1388188
+"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/items.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/items.xnb","TextureProcessor","Texture2DContent",1882,118645,0.0119939
+"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/koopaSprites.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/koopaSprites.xnb","TextureProcessor","Texture2DContent",1203,18517,0.0084353
+"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/mario.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/mario.xnb","TextureProcessor","Texture2DContent",6584,304645,0.021566
+"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/misc-2.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/BigBlock2.xnb","TextureProcessor","Texture2DContent",14893,1560241,0.0891875
+"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/misc-3.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/bigblock.xnb","TextureProcessor","Texture2DContent",85299,3405525,0.154888
+"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/Blocks.xnb","TextureProcessor","Texture2DContent",13083,458837,0.0204488
+>>>>>>> Stashed changes
