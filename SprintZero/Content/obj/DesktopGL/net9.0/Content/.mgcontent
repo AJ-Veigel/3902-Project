@@ -4,6 +4,7 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+<<<<<<< HEAD
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Font/File.spritefont</File>
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/155739.png</File>
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/goombaspritesheet.png</File>
@@ -13,6 +14,22 @@
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/misc-2.png</File>
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/misc-3.png</File>
     <File>C:/Users/thepi/Documents/VisualStudio/3902-Project/SprintZero/Content/Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png</File>
+=======
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Font/File.spritefont</File>
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/155739.png</File>
+<<<<<<< Updated upstream
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/goombasprites.png</File>
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/items.png</File>
+=======
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/goombaspritesheet.png</File>
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/items.png</File>
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/koopaSprites.png</File>
+>>>>>>> Stashed changes
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/mario.png</File>
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/misc-2.png</File>
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/misc-3.png</File>
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png</File>
+>>>>>>> goombaStuff1
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

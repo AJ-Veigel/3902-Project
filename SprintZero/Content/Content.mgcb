@@ -50,7 +50,7 @@
 #begin Images/goomba-definition.xml
 /copy:Images/goomba-definition.xml
 
-#begin Images/goombaspritesheet.png
+#begin Images/goombasprites.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -60,7 +60,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/goombaspritesheet.png
+/build:Images/goombasprites.png
 
 #begin Images/items-definition.xml
 /copy:Images/items-definition.xml
