@@ -314,3 +314,10 @@ C:\Users\thepi\Documents\VisualStudio\3902-Project\SprintZero\bin\Debug\net9.0\C
 C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\koopa-definition.xml
 C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\koopaSprites.xnb
 >>>>>>> Stashed changes
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\BigMario-definition.xml
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\goomba-definition.xml
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\koopa-definition.xml
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\SmallMario-definition.xml
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\goombasprites.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\koopaSprites.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net9.0\Content\Images\mario.xnb
