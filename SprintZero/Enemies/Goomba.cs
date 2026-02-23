@@ -18,6 +18,8 @@ public class Goomba : IEnemy
 
     public float startXPosition { get; set; }
 
+    public bool Dead { get; set; }
+
     public Goomba(TextureRegion region)
     {
         currentSprite = region;
@@ -28,9 +30,9 @@ public class Goomba : IEnemy
     {
         currentASprite = animated;
         currentASprite.Scale = new Vector2(4f);
-        position = new Vector2(400, 500);
+        position = new Vector2(400, 300);
     }
-    public Goomba  (TextureRegion goombaRight1, TextureRegion goombaLeft1, TextureRegion goombaFlat1, AnimatedSprite goombaWalk1, AnimatedSprite goombaHit1)
+    public Goomba(TextureRegion goombaRight1, TextureRegion goombaLeft1, TextureRegion goombaFlat1, AnimatedSprite goombaWalk1, AnimatedSprite goombaHit1)
     {
         currentSprite = goombaRight1;
         goombaRight1Sprite = goombaRight1;
@@ -39,16 +41,50 @@ public class Goomba : IEnemy
         goombaWalk1Sprite = goombaWalk1;
         goombaHit1Sprite = goombaHit1;
         currentASprite = goombaWalk1;
+        Dead = false;
         startXPosition = 400;
+    }
+
+    public Goomba(TextureAtlas goombaTexture)
+    {
+    TextureRegion goombaRight1Sprite = goombaTexture.GetRegion("goombaRight1");
+    TextureRegion goombaLeft1Sprite = goombaTexture.GetRegion("goombaLeft1");
+    TextureRegion goombaFlat1Sprite = goombaTexture.GetRegion("goombaFlat1");
+    AnimatedSprite goombaWalk1Sprite = goombaTexture.CreateAnimatedSprite("goombaWalk1");
+    AnimatedSprite goombaHit1Sprite = goombaTexture.CreateAnimatedSprite("goombaHit1");
     }
     public void Update(GameTime gameTime)
     {
-        //TODO: add animations
+
+        if (Dead == false)
+        {
+            currentSprite = goombaRight1Sprite;
+            currentASprite = goombaWalk1Sprite;
+            startXPosition += speed;
+            if (startXPosition > 600 || startXPosition < 200)
+            {
+                speed = -speed;
+            }
+        }
+         else 
+            {
+            currentSprite = goombaFlat1Sprite;
+            currentASprite = goombaHit1Sprite;
+  
+         }
     }
     public void Draw(SpriteBatch spriteBatch)
     {
+        if(currentSprite != null)
+        {
+            spriteBatch.Draw(currentSprite.Texture, position, currentSprite.SourceRectangle, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0f);
 
-        //TODO: add drawing logic
+        }
+        else if(currentASprite != null)
+        {
+            currentASprite.Draw(spriteBatch, position);
+
+        }
     }
-    public bool Dead { get; set; }
+   
 }
