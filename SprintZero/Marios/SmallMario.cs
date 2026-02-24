@@ -6,7 +6,7 @@ using SpriteZero.Marios;
 
 public class SmallMario : IMario
 {
- 
+
     private TextureRegion standingLeftSprite;
     private TextureRegion standingRightSprite;
     private TextureRegion jumpingLeftSprite;
@@ -20,74 +20,74 @@ public class SmallMario : IMario
     private AnimatedSprite rightFlagpoleSprite;
     private TextureRegion currentSprite;
     private AnimatedSprite currentASprite;
-    public Vector2 position {get;set;}
-    public float jumpStartHeight {get; set;}
-    public Boolean Jumping {get; set;}
-    public Boolean Falling  {get; set;}
-    public Boolean Direction {get; set;}
-    public Boolean Sprint {get;set;}
-    public Boolean Crouch {get;set;}
-    public Boolean Swim {get;set;}
+    public Vector2 position { get; set; }
+    public float jumpStartHeight { get; set; }
+    public Boolean Jumping { get; set; }
+    public Boolean Falling { get; set; }
+    public Boolean Direction { get; set; }
+    public Boolean Sprint { get; set; }
+    public Boolean Crouch { get; set; }
+    public Boolean Swim { get; set; }
     public void Move()
     {
-        if(Jumping)
+        if (Jumping)
         {
-            if(Direction)
+            if (Direction)
             {
-                position = new Vector2(position.X + 4f,position.Y);
+                position = new Vector2(position.X + 4f, position.Y);
                 currentSprite = jumpingRightSprite;
                 currentASprite = null;
             }
             else if (!Direction)
             {
-                position = new Vector2(position.X - 4f,position.Y);
+                position = new Vector2(position.X - 4f, position.Y);
                 currentSprite = jumpingLeftSprite;
                 currentASprite = null;
             }
         }
-        else if(!Jumping)
+        else if (!Jumping)
         {
-            if(Direction)
+            if (Direction)
             {
                 currentASprite = moveRightSprite;
                 currentASprite.Scale = new Vector2(4f);
-                position = new Vector2(position.X + 4f,position.Y);
+                position = new Vector2(position.X + 4f, position.Y);
                 currentSprite = null;
             }
             else if (!Direction)
             {
                 currentASprite = moveLeftSprite;
                 currentASprite.Scale = new Vector2(4f);
-                position = new Vector2(position.X - 4f,position.Y);
+                position = new Vector2(position.X - 4f, position.Y);
                 currentSprite = null;
             }
         }
-        
+
     }
     public void StopMove()
     {
-        if(!Jumping)
+        if (!Jumping)
         {
-            if(Direction)
+            if (Direction)
             {
                 currentSprite = standingRightSprite;
                 currentASprite = null;
             }
-            else if(!Direction)
+            else if (!Direction)
             {
                 currentSprite = standingLeftSprite;
-                currentASprite = null;    
+                currentASprite = null;
             }
         }
     }
     public void Jump()
     {
         Jumping = true;
-        if(Direction)
+        if (Direction)
         {
             currentSprite = jumpingRightSprite;
         }
-        else if(!Direction)
+        else if (!Direction)
         {
             currentSprite = jumpingLeftSprite;
         }
@@ -99,7 +99,7 @@ public class SmallMario : IMario
     }
     public void Fireball()
     {
-        
+
     }
     public SmallMario(TextureAtlas smallMarioTexture)
     {
@@ -137,29 +137,29 @@ public class SmallMario : IMario
     }
     public void Update(GameTime gameTime)
     {
-        if(currentASprite != null) currentASprite.Update(gameTime);
-        if(Jumping)
+        if (currentASprite != null) currentASprite.Update(gameTime);
+        if (Jumping)
         {
-            if(!Falling)
+            if (!Falling)
             {
                 position = new Vector2(position.X, position.Y - 4f);
-                if(position.Y <= jumpStartHeight - 100)
+                if (position.Y <= jumpStartHeight - 100)
                 {
                     Falling = true;
                 }
             }
-            else if(Falling)
+            else if (Falling)
             {
                 position = new Vector2(position.X, position.Y + 4f);
-                if(position.Y >= jumpStartHeight - 16)
+                if (position.Y >= jumpStartHeight - 16)
                 {
                     Falling = false;
                     Jumping = false;
-                    if(Direction)
+                    if (Direction)
                     {
                         currentSprite = standingRightSprite;
                     }
-                    else if(!Direction)
+                    else if (!Direction)
                     {
                         currentSprite = standingLeftSprite;
                     }
@@ -170,11 +170,11 @@ public class SmallMario : IMario
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if(currentSprite != null)
+        if (currentSprite != null)
         {
-            currentSprite.Draw(spriteBatch,position,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
+            currentSprite.Draw(spriteBatch, position, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
         }
-        else if(currentASprite != null)
+        else if (currentASprite != null)
         {
             currentASprite.Draw(spriteBatch, position);
         }

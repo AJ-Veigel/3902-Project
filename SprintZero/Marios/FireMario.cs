@@ -190,6 +190,11 @@ public class FireMario : IMario
         throwTimerMs = 0;
         SetAnimated(Direction ? throwRightSprite : throwLeftSprite);
     }
+
+    public void Damage()
+    {
+        
+    }
     public Vector2 FireballSpawnPosition
     {
         get
