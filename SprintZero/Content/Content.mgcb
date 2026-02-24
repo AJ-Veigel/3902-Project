@@ -47,6 +47,12 @@
 #begin Images/block-definition.xml
 /copy:Images/block-definition.xml
 
+#begin Images/Fireball-definition.xml
+/copy:Images/Fireball-definition.xml
+
+#begin Images/FireMario-definition.xml
+/copy:Images/FireMario-definition.xml
+
 #begin Images/goomba-definition.xml
 /copy:Images/goomba-definition.xml
 

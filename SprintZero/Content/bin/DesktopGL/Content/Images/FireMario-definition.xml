@@ -1,0 +1,109 @@
+<TextureAtlas>
+    <Texture>Images/mario</Texture>
+
+    <Regions>
+        <!-- Crouch -->
+        <Region name="crouchLeftFireMario"     x="0"   y="127" width="16" height="22"/>
+        <Region name="crouchRightFireMario"    x="389" y="127" width="16" height="22"/>
+
+        <!-- Jump -->
+        <Region name="jumpingLeftFireMario"    x="27"  y="122" width="16" height="32"/>
+        <Region name="jumpingRightFireMario"   x="362" y="122" width="16" height="32"/>
+
+        <!-- Stand -->
+        <Region name="standingLeftFireMario"   x="180" y="122" width="16" height="32"/>
+        <Region name="standingRightFireMario"  x="209" y="122" width="16" height="32"/>
+
+        <!-- Fire throw -->
+        <Region name="leftFlameThrow"          x="77"  y="123" width="16" height="30"/>
+        <Region name="rightFlameThrow"         x="312" y="123" width="16" height="30"/>
+
+        <!-- Move frames -->
+        <Region name="leftFireMario1"          x="102" y="123" width="16" height="30"/>
+        <Region name="leftFireMario2"          x="128" y="122" width="14" height="31"/>
+        <Region name="leftFireMario3"          x="152" y="122" width="16" height="32"/>
+
+        <Region name="rightFireMario1"         x="237" y="122" width="16" height="32"/>
+        <Region name="rightFireMario2"         x="263" y="122" width="14" height="31"/>
+        <Region name="rightFireMario3"         x="287" y="123" width="16" height="30"/>
+
+        <!-- Dash(?) -->
+        <Region name="extraFireMarioLeft"      x="52"  y="122" width="16" height="32"/>
+        <Region name="extraFireMarioRight"     x="337" y="122" width="16" height="32"/>
+
+        <!-- Flagpole -->
+        <Region name="flagpoleLeftFireMario1"  x="1"   y="158" width="14" height="30"/>
+        <Region name="flagpoleLeftFireMario2"  x="28"  y="159" width="14" height="27"/>
+
+        <Region name="flagpoleRightFireMario1" x="390" y="158" width="14" height="30"/>
+        <Region name="flagpoleRightFireMario2" x="363" y="159" width="14" height="27"/>
+
+        <!-- Swim (Left) -->
+        <Region name="leftSwimFireMario1"      x="180" y="158" width="16" height="29"/>
+        <Region name="leftSwimFireMario2"      x="152" y="158" width="16" height="29"/>
+        <Region name="leftSwimFireMario3"      x="127" y="158" width="16" height="29"/>
+        <Region name="leftSwimFireMario4"      x="103" y="158" width="14" height="30"/>
+        <Region name="leftSwimFireMario5"      x="78"  y="158" width="14" height="30"/>
+        <Region name="leftSwimFireMario6"      x="52"  y="158" width="16" height="30"/>
+
+        <!-- Swim (Right) -->
+        <Region name="rightSwimFireMario1"     x="209" y="158" width="16" height="29"/>
+        <Region name="rightSwimFireMario2"     x="237" y="158" width="16" height="29"/>
+        <Region name="rightSwimFireMario3"     x="262" y="158" width="16" height="29"/>
+        <Region name="rightSwimFireMario4"     x="288" y="158" width="14" height="30"/>
+        <Region name="rightSwimFireMario5"     x="313" y="158" width="14" height="30"/>
+        <Region name="rightSwimFireMario6"     x="337" y="158" width="16" height="30"/>
+    </Regions>
+
+    <Animations>
+        <Animation name="fireRightMove" delay="200">
+            <Frame region="rightFireMario1"/>
+            <Frame region="rightFireMario2"/>
+            <Frame region="rightFireMario3"/>
+            <Frame region="rightFireMario2"/>
+        </Animation>
+
+        <Animation name="fireLeftMove" delay="200">
+            <Frame region="leftFireMario1"/>
+            <Frame region="leftFireMario2"/>
+            <Frame region="leftFireMario3"/>
+            <Frame region="leftFireMario2"/>
+        </Animation>
+
+        <Animation name="fireLeftFlag" delay="200">
+            <Frame region="flagpoleLeftFireMario1"/>
+            <Frame region="flagpoleLeftFireMario2"/>
+        </Animation>
+
+        <Animation name="fireRightFlag" delay="200">
+            <Frame region="flagpoleRightFireMario1"/>
+            <Frame region="flagpoleRightFireMario2"/>
+        </Animation>
+
+        <Animation name="fireThrowRight" delay="200">
+            <Frame region="rightFlameThrow"/>
+        </Animation>
+
+        <Animation name="fireThrowLeft" delay="200">
+            <Frame region="leftFlameThrow"/>
+        </Animation>
+
+        <Animation name="fireLeftSwim" delay="200">
+            <Frame region="leftSwimFireMario1"/>
+            <Frame region="leftSwimFireMario2"/>
+            <Frame region="leftSwimFireMario3"/>
+            <Frame region="leftSwimFireMario4"/>
+            <Frame region="leftSwimFireMario5"/>
+            <Frame region="leftSwimFireMario6"/>
+        </Animation>
+
+        <Animation name="fireRightSwim" delay="200">
+            <Frame region="rightSwimFireMario1"/>
+            <Frame region="rightSwimFireMario2"/>
+            <Frame region="rightSwimFireMario3"/>
+            <Frame region="rightSwimFireMario4"/>
+            <Frame region="rightSwimFireMario5"/>
+            <Frame region="rightSwimFireMario6"/>
+        </Animation>
+    </Animations>
+</TextureAtlas>

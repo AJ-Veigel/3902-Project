@@ -26,7 +26,7 @@ public class Fireball : IProjectile
 
     public bool IsActive { get; private set; } = true;
     public bool Direction { get; }
-    public Fireball(AnimatedSprite fireballRolling, AnimatedSprite fireballPop,Vector2 location, bool Direction)
+    public Fireball(AnimatedSprite fireballRolling, AnimatedSprite fireballPop, Vector2 location, bool Direction)
     {
         rolling = fireballRolling;
         popped = fireballPop;
@@ -39,12 +39,14 @@ public class Fireball : IProjectile
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if(!IsActive) return;
-        if (state == FireballState.Rolling) {
-            rolling.Draw(spriteBatch,location);
-        } 
-        else {
-            popped.Draw(spriteBatch,location);
+        if (!IsActive) return;
+        if (state == FireballState.Rolling)
+        {
+            rolling.Draw(spriteBatch, location);
+        }
+        else
+        {
+            popped.Draw(spriteBatch, location);
         }
     }
 
@@ -61,7 +63,8 @@ public class Fireball : IProjectile
 
 
 
-    public void Update(GameTime gameTime) {
+    public void Update(GameTime gameTime)
+    {
         if (!IsActive) return;
 
         double dtMs = gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -76,7 +79,7 @@ public class Fireball : IProjectile
             rolling.Update(gameTime);
 
             // example ground bounce (replace with real collision later)
-            float groundY = 600f;             // ground
+            float groundY = 750f;             // ground
             float fireballHeight = 16f * 4f;  // base height * scale 
             if (location.Y + fireballHeight >= groundY)
             {
@@ -92,5 +95,7 @@ public class Fireball : IProjectile
             if (popTimerMs >= POP_DURATION_MS)
                 IsActive = false; // remove from manager list
         }
-    }    
+        if (location.X >= 1888 || location.X <= 0)
+            Pop();
+    }
 }

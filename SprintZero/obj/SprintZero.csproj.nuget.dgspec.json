@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\SprintZero\\SprintZero.csproj": {}
+    "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\SprintZero\\SprintZero.csproj": {}
   },
   "projects": {
-    "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {
+    "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
         "projectName": "MonoGameLibrary",
-        "projectPath": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
-        "packagesPath": "C:\\Users\\magan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\obj\\",
+        "projectPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
+        "packagesPath": "C:\\Users\\ajvei\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\magan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\ajvei\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -84,17 +84,17 @@
         }
       }
     },
-    "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\SprintZero\\SprintZero.csproj": {
+    "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\SprintZero\\SprintZero.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\SprintZero\\SprintZero.csproj",
+        "projectUniqueName": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\SprintZero\\SprintZero.csproj",
         "projectName": "SprintZero",
-        "projectPath": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\SprintZero\\SprintZero.csproj",
-        "packagesPath": "C:\\Users\\magan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\SprintZero\\obj\\",
+        "projectPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\SprintZero\\SprintZero.csproj",
+        "packagesPath": "C:\\Users\\ajvei\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\SprintZero\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\magan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\ajvei\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -106,8 +106,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {
-                "projectPath": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj"
+              "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {
+                "projectPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj"
               }
             }
           }
