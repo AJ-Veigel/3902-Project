@@ -1,0 +1,29 @@
+<TextureAtlas>
+    <Texture>Images/misc-3</Texture>
+
+    <Regions>
+        <Region name="Fireball1"     x="313" y="945" width="8" height="8"/>
+        <Region name="Fireball2"     x="324" y="945" width="8" height="8"/>
+        <Region name="Fireball3"     x="336" y="945" width="8" height="8"/>
+        <Region name="Fireball4"     x="348" y="945" width="8" height="8"/>
+        <Region name="Fireball5"     x="360" y="946" width="8" height="8"/>
+        <Region name="Fireball6"     x="372" y="943" width="12" height="12"/>
+        <Region name="Fireball7"     x="388" y="942" width="16" height="16"/>
+    </Regions>
+
+    <Animations>
+        <Animation name="FireballRolling" delay="200">
+            <Frame region="Fireball1"/>
+            <Frame region="Fireball2"/>
+            <Frame region="Fireball3"/>
+            <Frame region="Fireball4"/>
+        </Animation>
+
+        <Animation name="FireballPop" delay="200">
+            <Frame region="Fireball5"/>
+            <Frame region="Fireball6"/>
+            <Frame region="Fireball7"/>
+        </Animation>
+
+    </Animations>
+</TextureAtlas>
