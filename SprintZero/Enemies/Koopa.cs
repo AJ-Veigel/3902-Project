@@ -25,8 +25,8 @@ public class Koopa : IEnemy
 	private KoopaStates KoopaState { get; set; }
 	private float KoopaTimer { get; set; }
 
-	private readonly TextureRegion walk1;
-	private readonly TextureRegion walk2;
+	//private readonly TextureRegion walk1;
+	//private readonly TextureRegion walk2;
 
 	/*
 		green: (451, 816, 16, 24); (481, 815, 16, 24);

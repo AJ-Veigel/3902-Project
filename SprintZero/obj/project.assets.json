@@ -2,6 +2,13 @@
   "version": 3,
   "targets": {
     "net9.0": {
+      "MonoGame.Content.Builder.Task/3.8.4.1": {
+        "type": "package",
+        "build": {
+          "build/MonoGame.Content.Builder.Task.props": {},
+          "build/MonoGame.Content.Builder.Task.targets": {}
+        }
+      },
       "MonoGame.Framework.DesktopGL/3.8.4.1": {
         "type": "package",
         "dependencies": {
@@ -123,10 +130,34 @@
         "runtime": {
           "lib/netcoreapp2.0/_._": {}
         }
+      },
+      "MonoGameLibrary/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/MonoGameLibrary.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MonoGameLibrary.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "MonoGame.Content.Builder.Task/3.8.4.1": {
+      "sha512": "jf6IZXMiOhuybRaWQt//u+804yzMRGk3ZRvlBJG/0iusRwTunJsQvA6tMMJJc7gjUrY6rUkzRqwinKWXugyHfA==",
+      "type": "package",
+      "path": "monogame.content.builder.task/3.8.4.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "build/MonoGame.Content.Builder.Task.props",
+        "build/MonoGame.Content.Builder.Task.targets",
+        "monogame.content.builder.task.3.8.4.1.nupkg.sha512",
+        "monogame.content.builder.task.nuspec"
+      ]
+    },
     "MonoGame.Framework.DesktopGL/3.8.4.1": {
       "sha512": "YybxIIT5+Ky78E/XdkS0glyluMr2EeDZwx2LqXULAOCqiKt1+aDrjPZaqLL5qpNgBcMEHUeZJ4YjWe4TAZlWLw==",
       "type": "package",
@@ -265,11 +296,18 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "MonoGameLibrary/1.0.0": {
+      "type": "project",
+      "path": "../MonoGameLibrary/MonoGameLibrary.csproj",
+      "msbuildProject": "../MonoGameLibrary/MonoGameLibrary.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "MonoGame.Framework.DesktopGL >= 3.8.*"
+      "MonoGame.Content.Builder.Task >= 3.8.*",
+      "MonoGame.Framework.DesktopGL >= 3.8.*",
+      "MonoGameLibrary >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -278,11 +316,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
-      "projectName": "MonoGameLibrary",
-      "projectPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
+      "projectUniqueName": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\SprintZero\\SprintZero.csproj",
+      "projectName": "SprintZero",
+      "projectPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\SprintZero\\SprintZero.csproj",
       "packagesPath": "C:\\Users\\ajvei\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\obj\\",
+      "outputPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\SprintZero\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ajvei\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -296,7 +334,11 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {
+              "projectPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -315,8 +357,11 @@
       "net9.0": {
         "targetAlias": "net9.0",
         "dependencies": {
+          "MonoGame.Content.Builder.Task": {
+            "target": "Package",
+            "version": "[3.8.*, )"
+          },
           "MonoGame.Framework.DesktopGL": {
-            "suppressParent": "All",
             "target": "Package",
             "version": "[3.8.*, )"
           }
@@ -335,6 +380,10 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[9.0.12, 9.0.12]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
             "version": "[9.0.12, 9.0.12]"
           },
           {
