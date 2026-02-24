@@ -175,7 +175,10 @@ public class Game1 : Core
         enemies = new List<IEnemy>
 
         {
-            new Goomba(goombaTexture)
+            new Goomba(goombaTexture),
+            new Koopa(),
+            new Koopa(Koopa.KoopaType.Red),
+            new Koopa(Koopa.KoopaType.Blue)
         };
 
         currentBlockCount = 0;
