@@ -164,15 +164,7 @@ public class Game1 : Core
     {
         new SmallMario(smallMarioTexture),
         new BigMario(bigMarioTexture),
-        new FireMario(
-            standingLeftFireMario, standingRightFireMario,
-            jumpingLeftFireMario, jumpingRightFireMario,
-            crouchLeftFireMario, crouchRightFireMario,
-            rightFireMario, leftFireMario,
-            swimmingRightFireMario, swimmingLeftFireMario,
-            flagpoleLeftFireMario, flagpoleRightFireMario,
-            throwLeftFireMario, throwRightFireMario
-        )
+        new FireMario(fireMarioTexture)
     };
 
         goombaTexture = TextureAtlas.FromFile(Content, "images/goomba-definition.xml");
@@ -308,15 +300,7 @@ public class Game1 : Core
         }
         else if (marioNumber == 2)
         {
-            currentMario = new FireMario(
-            standingLeftFireMario, standingRightFireMario,
-            jumpingLeftFireMario, jumpingRightFireMario,
-            crouchLeftFireMario, crouchRightFireMario,
-            rightFireMario, leftFireMario,
-            swimmingRightFireMario, swimmingLeftFireMario,
-            flagpoleLeftFireMario, flagpoleRightFireMario,
-            throwLeftFireMario, throwRightFireMario
-            );
+            currentMario = new FireMario(fireMarioTexture);
             currentMarioNum = marioNumber;
         }
     }

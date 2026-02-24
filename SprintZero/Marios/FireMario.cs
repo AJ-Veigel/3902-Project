@@ -54,42 +54,27 @@ public class FireMario : IMario
     private const double THROW_DURATION_MS = 180;
     private const float groundLevel = 600f;
 
-    public FireMario(
-        TextureRegion standingLeft,
-        TextureRegion standingRight,
-        TextureRegion jumpingLeft,
-        TextureRegion jumpingRight,
-        TextureRegion crouchLeft,
-        TextureRegion crouchRight,
-        AnimatedSprite rightMove,
-        AnimatedSprite leftMove,
-        AnimatedSprite rightSwim,
-        AnimatedSprite leftSwim,
-        AnimatedSprite leftFlagpole,
-        AnimatedSprite rightFlagpole,
-        AnimatedSprite throwLeftFireMario,
-        AnimatedSprite throwRightFireMario
-    )
+    public FireMario( TextureAtlas fireMarioTexture )
     {
         // Store static poses
-        standingLeftSprite = standingLeft;
-        standingRightSprite = standingRight;
-        jumpingLeftSprite = jumpingLeft;
-        jumpingRightSprite = jumpingRight;
-        crouchLeftSprite = crouchLeft;
-        crouchRightSprite = crouchRight;
+        standingLeftSprite = fireMarioTexture.GetRegion("standingLeftFireMario");
+        standingRightSprite = fireMarioTexture.GetRegion("standingRightFireMario");
+        jumpingLeftSprite = fireMarioTexture.GetRegion("jumpingLeftFireMario");
+        jumpingRightSprite = fireMarioTexture.GetRegion("jumpingRightFireMario");
+        crouchLeftSprite = fireMarioTexture.GetRegion("crouchLeftFireMario");
+        crouchRightSprite = fireMarioTexture.GetRegion("crouchRightFireMario");
 
         // Store animated sprites
-        moveRightSprite = rightMove;
-        moveLeftSprite = leftMove;
-        swimRightSprite = rightSwim;
-        swimLeftSprite = leftSwim;
-        flagpoleLeftSprite = leftFlagpole;
-        flagpoleRightSprite = rightFlagpole;
+        moveRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightMove");
+        moveLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftMove");
+        swimRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightSwim");
+        swimLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftSwim");
+        flagpoleLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftFlag");
+        flagpoleRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightFlag");
 
         // Store throw spriteswe
-        throwLeftSprite = throwLeftFireMario;
-        throwRightSprite = throwRightFireMario;
+        throwLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowLeft");
+        throwRightSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowRight");
 
         // Set scale
         ApplyScale(moveRightSprite);
