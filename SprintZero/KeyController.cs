@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SprintZero;
 using SprintZero.Controllers;
@@ -53,6 +53,15 @@ public class KeyController : IController
         {
             int bigMario = 1;
             game.SetMario(bigMario);
+        }
+        if((current.IsKeyDown(Keys.D3) && previousState.IsKeyUp(Keys.D3)) ||  (current.IsKeyDown(Keys.NumPad3) && previousState.IsKeyUp(Keys.NumPad3)))
+        {
+            int fireMario = 2;
+            game.SetMario(fireMario);
+        }
+        if(current.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
+        {
+            game.MarioFire();
         }
         if((current.IsKeyDown(Keys.W) && previousState.IsKeyUp(Keys.W)) || (current.IsKeyDown(Keys.Up) && previousState.IsKeyUp(Keys.Up)))
         {

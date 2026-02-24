@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
@@ -13,14 +14,36 @@ namespace SprintZero;
  public class Game1 : Core
 {   
 
-private TextureAtlas blocksTexture,bigBlockTexture,bigBlockTexturePt2,itemTexture, smallMarioTexture, bigMarioTexture, goombaTexture;
+private TextureAtlas blocksTexture,bigBlockTexture,bigBlockTexturePt2,itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture;
 private TextureRegion ground,smallTube,castle,flagStill,mushroom,mediumTube, oneup_mushroom;
 
+private AnimatedSprite questionBlock,questionBlockHit,flower,coin,star,flagMove,aboveGroundBreak, fireballRolling, fireballPop;
+private AnimatedSprite rightSmallMario, leftSmallMario, swimmingRightSmallMario, swimmingLeftSmallMario, flagpoleRightSmallMario, flagpoleLeftSmallMario;
+private AnimatedSprite rightBigMario, leftBigMario, swimmingRightBigMario, swimmingLeftBigMario, flagpoleRightBigMario, flagpoleLeftBigMario;
 
-private AnimatedSprite questionBlock,questionBlockHit,flower,coin,star,flagMove,aboveGroundBreak;
+// ===========
+// Fire Mario 
+// ===========
+private TextureRegion standingLeftFireMario, standingRightFireMario;
+private TextureRegion jumpingLeftFireMario, jumpingRightFireMario;
+private TextureRegion crouchLeftFireMario, crouchRightFireMario;
+private TextureRegion leftFlameThrow, rightFlameThrow;
 
-    private List<IController> controllers;
+// Dash
+private TextureRegion dashFireMarioLeft, dashFireMarioRight;
+
+private AnimatedSprite rightFireMario, leftFireMario;
+private AnimatedSprite swimmingRightFireMario, swimmingLeftFireMario;
+private AnimatedSprite flagpoleRightFireMario, flagpoleLeftFireMario;
+
+// throw 
+private AnimatedSprite throwRightFireMario, throwLeftFireMario;
+
+
+
+private List<IController> controllers;
 private List<ISprite> blocks, items;
+private List<IProjectile> projectiles;
 private List<IMario> marios;
 private List<IEnemy> enemies;
 
@@ -79,6 +102,15 @@ public Game1() : base("SMB1",1920,1080,false){}
     mushroom = itemTexture.GetRegion("mushroom");
     oneup_mushroom = itemTexture.GetRegion("one_up");
 
+    //Projectiles
+    projectileTexture = TextureAtlas.FromFile(Content, "images/Fireball-definition.xml");
+    fireballRolling = projectileTexture.CreateAnimatedSprite("FireballRolling");
+    fireballPop = projectileTexture.CreateAnimatedSprite("FireballPop");
+
+    // fireballs are dynamic objects, don't exist at load time. They are created when the player presses the fire button.
+    // Fireballs will be added to the list as the user presses the shoot button.
+    projectiles = new List<IProjectile>();
+
     items = new List<ISprite>
     {
         new Flower(flower),
@@ -88,13 +120,72 @@ public Game1() : base("SMB1",1920,1080,false){}
         new OneUp(oneup_mushroom)
     };
 
+    // Small Mario
     smallMarioTexture = TextureAtlas.FromFile(Content,"images/SmallMario-definition.xml");
+    standingLeftSmallMario = smallMarioTexture.GetRegion("standingLeftSmallMario");
+    standingRightSmallMario = smallMarioTexture.GetRegion("standingRightSmallMario");
+    jumpingLeftSmallMario = smallMarioTexture.GetRegion("jumpingLeftSmallMario");
+    jumpingRightSmallMario = smallMarioTexture.GetRegion("jumpingRightSmallMario");
+    deathSmallMario = smallMarioTexture.GetRegion("deadMario");
+    rightSmallMario = smallMarioTexture.CreateAnimatedSprite("smallRightMove");
+    leftSmallMario = smallMarioTexture.CreateAnimatedSprite("smallLeftMove");
+    swimmingRightSmallMario = smallMarioTexture.CreateAnimatedSprite("smallRightSwim");
+    swimmingLeftSmallMario = smallMarioTexture.CreateAnimatedSprite("smallLeftSwim");
+    flagpoleLeftSmallMario = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
+    flagpoleRightSmallMario = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
+
+    // Big Mario
     bigMarioTexture = TextureAtlas.FromFile(Content, "images/BigMario-definition.xml");
+
+    // Fire Mario
+    fireMarioTexture = TextureAtlas.FromFile(Content, "Images/FireMario-definition.xml"); // or "images/..." depending on your output folder
+
+    // Static regions
+    standingLeftFireMario  = fireMarioTexture.GetRegion("standingLeftFireMario");
+    standingRightFireMario = fireMarioTexture.GetRegion("standingRightFireMario");
+
+    jumpingLeftFireMario   = fireMarioTexture.GetRegion("jumpingLeftFireMario");
+    jumpingRightFireMario  = fireMarioTexture.GetRegion("jumpingRightFireMario");
+
+    crouchLeftFireMario    = fireMarioTexture.GetRegion("crouchLeftFireMario");
+    crouchRightFireMario   = fireMarioTexture.GetRegion("crouchRightFireMario");
+
+    // Optional: access the raw throw pose regions (only if you want them)
+    leftFlameThrow  = fireMarioTexture.GetRegion("leftFlameThrow");
+    rightFlameThrow = fireMarioTexture.GetRegion("rightFlameThrow");
+
+    // Optional: the two extra regions (keeps “all 32 accounted for”)
+    dashFireMarioLeft  = fireMarioTexture.GetRegion("extraFireMarioLeft");
+    dashFireMarioRight = fireMarioTexture.GetRegion("extraFireMarioRight");
+
+    // Animated sprites
+    rightFireMario         = fireMarioTexture.CreateAnimatedSprite("fireRightMove");
+    leftFireMario          = fireMarioTexture.CreateAnimatedSprite("fireLeftMove");
+
+    swimmingRightFireMario = fireMarioTexture.CreateAnimatedSprite("fireRightSwim");
+    swimmingLeftFireMario  = fireMarioTexture.CreateAnimatedSprite("fireLeftSwim");
+
+    flagpoleLeftFireMario  = fireMarioTexture.CreateAnimatedSprite("fireLeftFlag");
+    flagpoleRightFireMario = fireMarioTexture.CreateAnimatedSprite("fireRightFlag");
+
+    // Throw (1-frame “animations”)
+    throwRightFireMario    = fireMarioTexture.CreateAnimatedSprite("fireThrowRight");
+    throwLeftFireMario     = fireMarioTexture.CreateAnimatedSprite("fireThrowLeft");
+
 
     marios = new List<IMario>
     {
-        new SmallMario(smallMarioTexture),
-        new BigMario(bigMarioTexture)
+        new SmallMario(standingLeftSmallMario, standingRightSmallMario, jumpingLeftSmallMario, jumpingRightSmallMario, deathSmallMario, rightSmallMario, leftSmallMario, swimmingRightSmallMario, swimmingLeftSmallMario, flagpoleLeftSmallMario, flagpoleRightSmallMario),
+        new BigMario(standingLeftBigMario, standingRightBigMario, jumpingLeftBigMario, jumpingRightBigMario, crouchLeftBigMario, crouchRightBigMario, rightBigMario, leftBigMario, swimmingRightBigMario, swimmingLeftBigMario, flagpoleLeftBigMario, flagpoleRightBigMario),
+        new FireMario(
+            standingLeftFireMario, standingRightFireMario,
+            jumpingLeftFireMario, jumpingRightFireMario,
+            crouchLeftFireMario, crouchRightFireMario,
+            rightFireMario, leftFireMario,
+            swimmingRightFireMario, swimmingLeftFireMario,
+            flagpoleLeftFireMario, flagpoleRightFireMario,
+            throwLeftFireMario, throwRightFireMario
+        )
     };
 
     goombaTexture = TextureAtlas.FromFile(Content, "images/goomba-definition.xml");
@@ -130,6 +221,12 @@ public Game1() : base("SMB1",1920,1080,false){}
          currentBlock.Update(gameTime);
          currentItem.Update(gameTime);
          currentMario.Update(gameTime);
+         for (int i = projectiles.Count - 1; i >= 0; i--)
+        {
+            projectiles[i].Update(gameTime);
+            if (projectiles[i] is Fireball fb && !fb.IsActive)
+                projectiles.RemoveAt(i);
+        }
          currentEnemy.Update(gameTime);
         base.Update(gameTime);
     }
@@ -143,11 +240,30 @@ public Game1() : base("SMB1",1920,1080,false){}
          currentBlock.Draw(SpriteBatch);
          currentItem.Draw(SpriteBatch);
          currentMario.Draw(SpriteBatch);
+         foreach (var p in projectiles)
+            p.Draw(SpriteBatch);
          currentEnemy.Draw(SpriteBatch);
         SpriteBatch.End();
         base.Draw(gameTime);
     }
 
+private void SpawnFireball()
+{
+    // 2 fireballs max
+    if (projectiles.Count >= 2) return;
+
+    Vector2 spawnPos = currentMario.position + new Vector2(currentMario.Direction ? 40f : -10f, 40f);
+
+    // create new animated sprites for each fireball
+    AnimatedSprite roll = projectileTexture.CreateAnimatedSprite("FireballRolling");
+    AnimatedSprite pop  = projectileTexture.CreateAnimatedSprite("FireballPop");
+    
+    var s = new Vector2(4f, 4f);
+    roll.Scale = s;
+    pop.Scale = s;
+
+    projectiles.Add(new Fireball(roll, pop, spawnPos, currentMario.Direction));
+}
 public void NextBlock()
     {
         currentBlockCount = (currentBlockCount+1)  % blocks.Count;
@@ -207,6 +323,14 @@ public void previousEnemy()
     public void MarioJump()
     {
         currentMario.Jump();
+    }
+    public void MarioFire()
+    {
+        if (currentMario.Equals(marios[2]))
+        {
+            currentMario.Fireball();
+            SpawnFireball();
+        }
     }
     public void MarioRight()
     {
