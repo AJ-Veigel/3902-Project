@@ -47,6 +47,21 @@
 #begin Images/block-definition.xml
 /copy:Images/block-definition.xml
 
+#begin Images/goomba-definition.xml
+/copy:Images/goomba-definition.xml
+
+#begin Images/goombasprites.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/goombasprites.png
+
 #begin Images/items-definition.xml
 /copy:Images/items-definition.xml
 
@@ -61,6 +76,21 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/items.png
+
+#begin Images/koopa-definition.xml
+/copy:Images/koopa-definition.xml
+
+#begin Images/koopaSprites.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/koopaSprites.png
 
 #begin Images/mario.png
 /importer:TextureImporter

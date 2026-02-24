@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SprintZero;
 using SprintZero.Controllers;
@@ -36,6 +36,14 @@ public class KeyController : IController
         {
             game.NextItem();
         }
+        if ((current.IsKeyDown(Keys.R) && previousState.IsKeyUp(Keys.R)))
+        {
+            game.Reset();
+        }
+        if ((current.IsKeyDown(Keys.E) && previousState.IsKeyUp(Keys.E)))
+        {
+            game.Damage();
+        }
         if((current.IsKeyDown(Keys.D1) && previousState.IsKeyUp(Keys.D1)) || (current.IsKeyDown(Keys.NumPad1) && previousState.IsKeyUp(Keys.NumPad1)))
         {
             int smallMario = 0;
@@ -55,23 +63,23 @@ public class KeyController : IController
         {
             game.MarioFire();
         }
-        if((current.IsKeyDown(Keys.W) && previousState.IsKeyUp(Keys.W)))
+        if((current.IsKeyDown(Keys.W) && previousState.IsKeyUp(Keys.W)) || (current.IsKeyDown(Keys.Up) && previousState.IsKeyUp(Keys.Up)))
         {
             game.MarioJump();
         }
-        if(current.IsKeyDown(Keys.D))
+        if(current.IsKeyDown(Keys.D) || current.IsKeyDown(Keys.Right))
         {
             game.MarioRight();
         }
-        if(current.IsKeyUp(Keys.D) && previousState.IsKeyDown(Keys.D))
+        if((current.IsKeyUp(Keys.D) && previousState.IsKeyDown(Keys.D)) || (current.IsKeyUp(Keys.Right) && previousState.IsKeyDown(Keys.Right)))
         {
             game.StopMarioRight();
         }
-        if(current.IsKeyDown(Keys.A))
+        if(current.IsKeyDown(Keys.A) || current.IsKeyDown(Keys.Left))
         {
             game.MarioLeft();
         }
-        if(current.IsKeyUp(Keys.A) && previousState.IsKeyDown(Keys.A))
+        if((current.IsKeyUp(Keys.A) && previousState.IsKeyDown(Keys.A)) || (current.IsKeyUp(Keys.Left) && previousState.IsKeyDown(Keys.Left)))
         {
             game.StopMarioLeft();
         }

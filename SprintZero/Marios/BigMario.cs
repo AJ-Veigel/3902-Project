@@ -20,9 +20,11 @@ public class BigMario : IMario
     private AnimatedSprite leftFlagpoleSprite;
     private AnimatedSprite rightFlagpoleSprite;
     private TextureRegion currentSprite;
-    private AnimatedSprite currentASprite;    
+    private AnimatedSprite currentASprite;      
     public Vector2 position {get;set;}
+    public float jumpStartHeight {get; set;}
     public Boolean Jumping {get; set;}
+    public Boolean Falling {get; set;}
     // If direction is True, mario is facing right, if direction is false, mario is facing left
     public Boolean Direction {get; set;}
     public Boolean Sprint {get;set;}
@@ -30,54 +32,74 @@ public class BigMario : IMario
     public Boolean Swim {get;set;}
     public void Move()
     {
-        if(Direction)
+        if(Jumping)
         {
-            currentASprite = moveRightSprite;
-            currentASprite.Scale = new Vector2(4f);
-            position = new Vector2(position.X + 4f,position.Y);
-            currentSprite = null;
+            if(Direction)
+            {
+                position = new Vector2(position.X + 4f,position.Y);
+                currentSprite = jumpingRightSprite;
+                currentASprite = null;
+            }
+            else if (!Direction)
+            {
+                position = new Vector2(position.X - 4f,position.Y);
+                currentSprite = jumpingLeftSprite;
+                currentASprite = null;
+            }
         }
-        else if (!Direction)
+        else if(!Jumping)
         {
-            currentASprite = moveLeftSprite;
-            currentASprite.Scale = new Vector2(4f);
-            position = new Vector2(position.X - 4f,position.Y);
-            currentSprite = null;
-        }
-        
+            if(Direction)
+            {
+                currentASprite = moveRightSprite;
+                currentASprite.Scale = new Vector2(4f);
+                position = new Vector2(position.X + 4f,position.Y);
+                currentSprite = null;
+            }
+            else if (!Direction)
+            {
+                currentASprite = moveLeftSprite;
+                currentASprite.Scale = new Vector2(4f);
+                position = new Vector2(position.X - 4f,position.Y);
+                currentSprite = null;
+            }
+        } 
     }
     public void StopMove()
     {
+        if(!Jumping)
+        {
+            if(Direction)
+            {
+                currentSprite = standingRightSprite;
+                currentASprite = null;
+            }
+            else if(!Direction)
+            {
+                currentSprite = standingLeftSprite;
+                currentASprite = null;    
+            }
+        }
+    }
+    public void Jump()
+    {
+        Jumping = true;
         if(Direction)
         {
-            currentSprite = standingRightSprite;
-            currentASprite = null;
+            currentSprite = jumpingRightSprite;
         }
         else if(!Direction)
         {
-            currentSprite = standingLeftSprite;
-            currentASprite = null;    
+            currentSprite = jumpingLeftSprite;
         }
-        
     }
-    public void Jump()
+    public void Damage()
     {
         
     }
     public void Fireball()
     {
         
-    }
-    public BigMario(TextureRegion region)
-    {
-        currentSprite = region;
-        position = new Vector2(300,600);
-    }
-    public BigMario(AnimatedSprite animated)
-    {
-        currentASprite = animated;
-        currentASprite.Scale = new Vector2(4f);
-        position = new Vector2(300, 664);
     }
     public BigMario(TextureRegion standingLeft, TextureRegion standingRight, TextureRegion jumpingLeft, TextureRegion jumpingRight, TextureRegion leftCrouch, TextureRegion rightCrouch, AnimatedSprite rightMove, AnimatedSprite leftMove, AnimatedSprite rightSwim, AnimatedSprite leftSwim, AnimatedSprite leftFlagpole, AnimatedSprite rightFlagpole)
     {
@@ -94,11 +116,76 @@ public class BigMario : IMario
         swimLeftSprite = leftSwim;
         leftFlagpoleSprite = leftFlagpole;
         rightFlagpoleSprite = rightFlagpole;
+        jumpStartHeight = 600f;
         position = new Vector2(300, 600);
+    }
+    public BigMario(TextureAtlas bigMarioTexture)
+    {
+        standingLeftSprite = bigMarioTexture.GetRegion("standingLeftBigMario");
+        standingRightSprite = bigMarioTexture.GetRegion("standingRightBigMario");
+        jumpingLeftSprite = bigMarioTexture.GetRegion("jumpingLeftBigMario");
+        jumpingRightSprite = bigMarioTexture.GetRegion("jumpingRightBigMario");
+        leftCrouchSprite = bigMarioTexture.GetRegion("crouchLeftBigMario");
+        rightCrouchSprite = bigMarioTexture.GetRegion("crouchRightBigMario");
+        moveRightSprite = bigMarioTexture.CreateAnimatedSprite("bigRightMove");
+        moveLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftMove");
+        swimRightSprite = bigMarioTexture.CreateAnimatedSprite("bigRightSwim");
+        swimLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftSwim");
+        leftFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftFlag");
+        rightFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigRightFlag");
+        currentSprite = standingLeftSprite;
+        jumpStartHeight = 600f;
+        position = new Vector2(300, 600);
+    }
+    public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
+    {
+        standingLeftSprite = bigMarioTexture.GetRegion("standingLeftBigMario");
+        standingRightSprite = bigMarioTexture.GetRegion("standingRightBigMario");
+        jumpingLeftSprite = bigMarioTexture.GetRegion("jumpingLeftBigMario");
+        jumpingRightSprite = bigMarioTexture.GetRegion("jumpingRightBigMario");
+        leftCrouchSprite = bigMarioTexture.GetRegion("crouchLeftBigMario");
+        rightCrouchSprite = bigMarioTexture.GetRegion("crouchRightBigMario");
+        moveRightSprite = bigMarioTexture.CreateAnimatedSprite("bigRightMove");
+        moveLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftMove");
+        swimRightSprite = bigMarioTexture.CreateAnimatedSprite("bigRightSwim");
+        swimLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftSwim");
+        leftFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftFlag");
+        rightFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigRightFlag");
+        currentSprite = standingLeftSprite;
+        jumpStartHeight = pos.Y + 64f;
+        position = pos;
     }
     public void Update(GameTime gameTime)
     {
         if(currentASprite != null) currentASprite.Update(gameTime);
+        if(Jumping)
+        {
+            if(!Falling)
+            {
+                position = new Vector2(position.X, position.Y - 4f);
+                if(position.Y <= jumpStartHeight - 100)
+                {
+                    Falling = true;
+                }
+            }
+            else if(Falling)
+            {
+                position = new Vector2(position.X, position.Y + 4f);
+                if(position.Y >= jumpStartHeight - 16)
+                {
+                    Falling = false;
+                    Jumping = false;
+                    if(Direction)
+                    {
+                        currentSprite = standingRightSprite;
+                    }
+                    else if(!Direction)
+                    {
+                        currentSprite = standingLeftSprite;
+                    }
+                }
+            }
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch)

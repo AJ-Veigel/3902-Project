@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using SprintZero.Controllers;
+using SpriteZero.Enemies;
 using SpriteZero.Marios;
 using SpriteZero.Sprites;
 
@@ -15,8 +16,6 @@ namespace SprintZero;
 
 private TextureAtlas blocksTexture,bigBlockTexture,bigBlockTexturePt2,itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture;
 private TextureRegion ground,smallTube,castle,flagStill,mushroom,mediumTube, oneup_mushroom;
-private TextureRegion standingRightSmallMario, standingLeftSmallMario, jumpingRightSmallMario, jumpingLeftSmallMario, deathSmallMario;
-private TextureRegion standingRightBigMario, standingLeftBigMario, jumpingRightBigMario, jumpingLeftBigMario, crouchLeftBigMario, crouchRightBigMario;
 
 private AnimatedSprite questionBlock,questionBlockHit,flower,coin,star,flagMove,aboveGroundBreak, fireballRolling, fireballPop;
 private AnimatedSprite rightSmallMario, leftSmallMario, swimmingRightSmallMario, swimmingLeftSmallMario, flagpoleRightSmallMario, flagpoleLeftSmallMario;
@@ -46,11 +45,13 @@ private List<IController> controllers;
 private List<ISprite> blocks, items;
 private List<IProjectile> projectiles;
 private List<IMario> marios;
+private List<IEnemy> enemies;
 
 private ISprite currentBlock,currentItem;
 private IMario currentMario;
+private IEnemy currentEnemy;
 
-private int currentBlockCount, currentItemCount;
+    private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount;
 
 public Game1() : base("SMB1",1920,1080,false){}
     protected override void Initialize()
@@ -135,18 +136,6 @@ public Game1() : base("SMB1",1920,1080,false){}
 
     // Big Mario
     bigMarioTexture = TextureAtlas.FromFile(Content, "images/BigMario-definition.xml");
-    standingLeftBigMario = bigMarioTexture.GetRegion("standingLeftBigMario");
-    standingRightBigMario = bigMarioTexture.GetRegion("standingRightBigMario");
-    jumpingLeftBigMario = bigMarioTexture.GetRegion("jumpingLeftBigMario");
-    jumpingRightBigMario = bigMarioTexture.GetRegion("jumpingRightBigMario");
-    crouchLeftBigMario = bigMarioTexture.GetRegion("crouchLeftBigMario");
-    crouchRightBigMario = bigMarioTexture.GetRegion("crouchRightBigMario");
-    rightBigMario = bigMarioTexture.CreateAnimatedSprite("bigRightMove");
-    leftBigMario = bigMarioTexture.CreateAnimatedSprite("bigLeftMove");
-    swimmingRightBigMario = bigMarioTexture.CreateAnimatedSprite("bigRightSwim");
-    swimmingLeftBigMario = bigMarioTexture.CreateAnimatedSprite("bigLeftSwim");
-    flagpoleLeftBigMario = bigMarioTexture.CreateAnimatedSprite("bigLeftFlag");
-    flagpoleRightBigMario = bigMarioTexture.CreateAnimatedSprite("bigRightFlag");
 
     // Fire Mario
     fireMarioTexture = TextureAtlas.FromFile(Content, "Images/FireMario-definition.xml"); // or "images/..." depending on your output folder
@@ -199,11 +188,27 @@ public Game1() : base("SMB1",1920,1080,false){}
         )
     };
 
-       currentBlockCount=0;
-       currentItemCount=0;
-       currentBlock = blocks[currentBlockCount];
-       currentItem = items[currentItemCount];
-       currentMario = marios[0];
+    goombaTexture = TextureAtlas.FromFile(Content, "images/goomba-definition.xml");
+
+
+        Koopa.loadTextures(Content);
+
+        enemies = new List<IEnemy>
+
+        {
+            new Goomba(goombaTexture)
+        };
+
+        currentBlockCount =0;
+        currentItemCount=0;
+        currentBlock = blocks[currentBlockCount];
+        currentItem = items[currentItemCount];
+        currentMario = marios[0];
+        currentMarioNum = 0;
+        currentEnemyCount = 0;
+        currentEnemy = enemies[currentEnemyCount];
+        
+
         base.LoadContent();
     }
     
@@ -222,6 +227,7 @@ public Game1() : base("SMB1",1920,1080,false){}
             if (projectiles[i] is Fireball fb && !fb.IsActive)
                 projectiles.RemoveAt(i);
         }
+         currentEnemy.Update(gameTime);
         base.Update(gameTime);
     }
     
@@ -236,6 +242,7 @@ public Game1() : base("SMB1",1920,1080,false){}
          currentMario.Draw(SpriteBatch);
          foreach (var p in projectiles)
             p.Draw(SpriteBatch);
+         currentEnemy.Draw(SpriteBatch);
         SpriteBatch.End();
         base.Draw(gameTime);
     }
@@ -285,9 +292,33 @@ public void PreviousItem()
         }
         currentItem = items[currentItemCount];
     }
+
+ public void nextEnemy()
+    {
+        currentEnemyCount = (currentEnemyCount+1)  % enemies.Count;
+        currentEnemy = enemies[currentEnemyCount];
+    }
+public void previousEnemy()
+    {
+        currentEnemyCount--;
+        if (currentEnemyCount < 0)
+        {
+            currentEnemyCount = enemies.Count -1;
+        }
+        currentEnemy = enemies[currentEnemyCount];
+    }
     public void SetMario(int marioNumber)
     {
-        currentMario = marios[marioNumber];
+        if(marioNumber == 0)
+        {
+            currentMario = new SmallMario(smallMarioTexture);
+            currentMarioNum = marioNumber;
+        }
+        else if(marioNumber == 1)
+        {
+            currentMario = new BigMario(bigMarioTexture);
+            currentMarioNum = marioNumber;
+        }
     }
     public void MarioJump()
     {
@@ -321,4 +352,24 @@ public void PreviousItem()
         currentMario.Direction = false;
         currentMario.StopMove();
     }
+    public void Damage()
+    {
+        Vector2 previousMarioPos;
+        if(currentMarioNum == 0)
+        {
+            currentMario.Damage();
+        }
+        else if(currentMarioNum == 1)
+        {
+            previousMarioPos = currentMario.position;
+            SetMario(0);
+            currentMario.position = new Vector2(previousMarioPos.X, previousMarioPos.Y + 64f);
+            
+        }
+    }
+    public void Reset()
+    {
+        Initialize();
+    }
 }
+ 
