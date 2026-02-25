@@ -1,0 +1,19 @@
+﻿<TextureAtlas>
+	<Texture>Images/koopaSprites</Texture>
+	<Regions>
+		<Region name ="greenWalk1" x="0" y="0" width="16" height="24"/>
+		<Region name ="greenWalk2" x="16" y="0" width="16" height="24"/>
+		<Region name ="greenShell1" x="32" y="0" width="16" height="24"/>
+		<Region name ="greenShell2" x="48" y="0" width="16" height="24"/>
+		<Region name ="redWalk1" x="0" y="24" width="16" height="24"/>
+		<Region name ="redWalk2" x="16" y="24" width="16" height="24"/>
+		<Region name ="redShell1" x="32" y="24" width="16" height="24"/>
+		<Region name ="redShell2" x="48" y="24" width="16" height="24"/>
+		<Region name ="blueWalk1" x="0" y="48" width="16" height="24"/>
+		<Region name ="blueWalk2" x="16" y="48" width="16" height="24"/>
+		<Region name ="blueShell1" x="32" y="48" width="16" height="24"/>
+		<Region name ="blueShell2" x="48" y="48" width="16" height="24"/>
+	</Regions>
+	<Animations>
+	</Animations>
+</TextureAtlas>

@@ -41,8 +41,32 @@
 #begin Images/BigBlocks2-definition.xml
 /copy:Images/BigBlocks2-definition.xml
 
+#begin Images/BigMario-definition.xml
+/copy:Images/BigMario-definition.xml
+
 #begin Images/block-definition.xml
 /copy:Images/block-definition.xml
+
+#begin Images/Fireball-definition.xml
+/copy:Images/Fireball-definition.xml
+
+#begin Images/FireMario-definition.xml
+/copy:Images/FireMario-definition.xml
+
+#begin Images/goomba-definition.xml
+/copy:Images/goomba-definition.xml
+
+#begin Images/goombasprites.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/goombasprites.png
 
 #begin Images/items-definition.xml
 /copy:Images/items-definition.xml
@@ -58,6 +82,33 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/items.png
+
+#begin Images/koopa-definition.xml
+/copy:Images/koopa-definition.xml
+
+#begin Images/koopaSprites.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/koopaSprites.png
+
+#begin Images/mario.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/mario.png
 
 #begin Images/misc-2.png
 /importer:TextureImporter
@@ -94,4 +145,7 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png;Images/Blocks.png
+
+#begin Images/SmallMario-definition.xml
+/copy:Images/SmallMario-definition.xml
 

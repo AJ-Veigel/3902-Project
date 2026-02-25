@@ -14,6 +14,7 @@
         <Region name = "Star3" x="60" y="82" width="20" height="30"/>
         <Region name = "Star4" x="90" y="82" width="20" height="30"/>
         <Region name = "mushroom" x="182" y="30" width="20" height="30"/>
+        <Region name = "one_up" x="214" y="34" width="16" height="16"/>
     </Regions>
     <Animations>
         <Animation name = "flower" delay="100">
@@ -22,12 +23,11 @@
             <Frame region="flowerC3"/>    
             <Frame region="flowerC1"/>   
         </Animation>     
-        <Animation name = "coin" delay="400">
+        <Animation name = "coin" delay="70">
             <Frame region="coin1"/>
             <Frame region="coin2"/>
+            <Frame region="coin3"/>
             <Frame region="coin4"/>
-            <Frame region="coin2"/>
-            <Frame region="coin2"/>
             <Frame region="coin1"/>
             </Animation>
         <Animation name = "star" delay = "300">
