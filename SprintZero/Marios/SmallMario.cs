@@ -21,8 +21,8 @@ public class SmallMario : IMario
     private TextureRegion currentSprite;
     private AnimatedSprite currentASprite;
     public Vector2 position { get; set; }
-    public Vector2 yVelocity {get; set;}
-    public Vector2 xVelocity {get; set;}
+    public float yVelocity {get; set;}
+    public float xVelocity {get; set;}
     public float jumpStartHeight { get; set; }
     public Boolean Jumping { get; set; }
     public Boolean Falling { get; set; }
@@ -30,19 +30,29 @@ public class SmallMario : IMario
     public Boolean Sprint { get; set; }
     public Boolean Crouch { get; set; }
     public Boolean Swim { get; set; }
+    private float DefaultMoveSpeed = 4f;
+    private float DefaultScale = 4f;
     public void Move()
     {
+        if(Direction)
+        {
+            xVelocity = DefaultMoveSpeed;
+        }
+        else
+        {
+            xVelocity = -DefaultMoveSpeed;
+        }
         if (Jumping)
         {
             if (Direction)
             {
-                position = new Vector2(position.X + 4f, position.Y);
+                position = new Vector2(position.X + xVelocity, position.Y);
                 currentSprite = jumpingRightSprite;
                 currentASprite = null;
             }
             else if (!Direction)
             {
-                position = new Vector2(position.X - 4f, position.Y);
+                position = new Vector2(position.X + xVelocity, position.Y);
                 currentSprite = jumpingLeftSprite;
                 currentASprite = null;
             }
@@ -52,22 +62,22 @@ public class SmallMario : IMario
             if (Direction)
             {
                 currentASprite = moveRightSprite;
-                currentASprite.Scale = new Vector2(4f);
-                position = new Vector2(position.X + 4f, position.Y);
+                currentASprite.Scale = new Vector2(DefaultScale);
+                position = new Vector2(position.X + xVelocity, position.Y);
                 currentSprite = null;
             }
             else if (!Direction)
             {
                 currentASprite = moveLeftSprite;
-                currentASprite.Scale = new Vector2(4f);
-                position = new Vector2(position.X - 4f, position.Y);
+                currentASprite.Scale = new Vector2(DefaultScale);
+                position = new Vector2(position.X + xVelocity, position.Y);
                 currentSprite = null;
             }
         }
-
     }
     public void StopMove()
     {
+        xVelocity = 0;
         if (!Jumping)
         {
             if (Direction)
@@ -85,6 +95,7 @@ public class SmallMario : IMario
     public void Jump()
     {
         Jumping = true;
+        yVelocity = 4f;
         if (Direction)
         {
             currentSprite = jumpingRightSprite;
