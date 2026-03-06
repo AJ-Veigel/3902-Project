@@ -94,6 +94,9 @@ public class FireMario : IMario
         // Start in standing-right pose (or left if you prefer)
         currentSprite = standingRightSprite;
         currentASprite = null;
+
+        // Set Mario Collider
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width * (int)SCALE, currentSprite.Height * (int)SCALE);
     }
 
     public FireMario( TextureAtlas fireMarioTexture , Vector2 pos)
@@ -137,7 +140,7 @@ public class FireMario : IMario
         currentASprite = null;
 
         // Set Mario Collider
-        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width * (int)SCALE, currentSprite.Height * (int)SCALE);
     }
 
     private static void ApplyScale(AnimatedSprite sprite)
@@ -271,7 +274,7 @@ public class FireMario : IMario
         }
         if(currentSprite != null)
         {
-            MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width * (int)SCALE, currentSprite.Height * (int)SCALE);
         }
         else if(currentASprite != null)
         {

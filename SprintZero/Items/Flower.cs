@@ -15,6 +15,7 @@ using SpriteZero.Sprites;
         set { _location = value; }
     }
     public Rectangle Collider {get; set;}
+    private const float SCALE = 4f;
 
     private float startY;
     private float riseSpeed = 2f;
@@ -25,9 +26,10 @@ using SpriteZero.Sprites;
     public Flower(AnimatedSprite animated)
     {
         sprite = animated;
-        sprite.Scale = new Vector2(4f);
+        sprite.Scale = new Vector2(SCALE);
         _location = new Vector2(300, 300);
         startY = _location.Y;
+        Collider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
 
     public void Update(GameTime gameTime)
@@ -45,6 +47,7 @@ using SpriteZero.Sprites;
                 rising = false; 
             }
         }
+        Collider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
 
     public void Draw(SpriteBatch spriteBatch)

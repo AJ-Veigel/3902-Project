@@ -2,9 +2,9 @@
     <Texture>Images/items</Texture>
 
     <Regions>
-        <Region name = "flowerC1" x="30" y="50" width="20" height="30"/>
-        <Region name = "flowerC2" x="60" y="50" width="20" height="30"/>
-        <Region name = "flowerC3" x="90" y="50" width="20" height="30"/>
+        <Region name = "flowerC1" x="34" y="64" width="16" height="16"/>
+        <Region name = "flowerC2" x="64" y="64" width="16" height="16"/>
+        <Region name = "flowerC3" x="94" y="64" width="16" height="16"/>
         <Region name ="coin1" x="120" y="96" width="20" height="12"/>
         <Region name ="coin2" x="150" y="96" width="20" height="12"/>
         <Region name ="coin3" x="171" y="96" width="20" height="12"/>
@@ -13,7 +13,7 @@
         <Region name = "Star2" x="30" y="82" width="20" height="30"/>
         <Region name = "Star3" x="60" y="82" width="20" height="30"/>
         <Region name = "Star4" x="90" y="82" width="20" height="30"/>
-        <Region name = "mushroom" x="182" y="30" width="20" height="30"/>
+        <Region name = "mushroom" x="184" y="34" width="16" height="16"/>
         <Region name = "one_up" x="214" y="34" width="16" height="16"/>
     </Regions>
     <Animations>
