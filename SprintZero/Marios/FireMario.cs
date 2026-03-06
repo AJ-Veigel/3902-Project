@@ -72,7 +72,7 @@ public class FireMario : IMario
         flagpoleLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftFlag");
         flagpoleRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightFlag");
 
-        // Store throw spriteswe
+        // Store throw sprites
         throwLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowLeft");
         throwRightSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowRight");
 
@@ -113,7 +113,7 @@ public class FireMario : IMario
         flagpoleLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftFlag");
         flagpoleRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightFlag");
 
-        // Store throw spriteswe
+        // Store throw sprites
         throwLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowLeft");
         throwRightSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowRight");
 

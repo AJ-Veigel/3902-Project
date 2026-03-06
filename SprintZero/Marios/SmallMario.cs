@@ -21,6 +21,8 @@ public class SmallMario : IMario
     private TextureRegion currentSprite;
     private AnimatedSprite currentASprite;
     public Vector2 position { get; set; }
+    public Vector2 yVelocity {get; set;}
+    public Vector2 xVelocity {get; set;}
     public float jumpStartHeight { get; set; }
     public Boolean Jumping { get; set; }
     public Boolean Falling { get; set; }
@@ -101,7 +103,8 @@ public class SmallMario : IMario
     {
 
     }
-    public SmallMario(TextureAtlas smallMarioTexture)
+
+    public void LoadMarioSprites(TextureAtlas smallMarioTexture)
     {
         standingLeftSprite = smallMarioTexture.GetRegion("standingLeftSmallMario");
         standingRightSprite = smallMarioTexture.GetRegion("standingRightSmallMario");
@@ -114,25 +117,34 @@ public class SmallMario : IMario
         swimLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftSwim");
         leftFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
         rightFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
+    }
+
+    public SmallMario(TextureAtlas smallMarioTexture)
+    {
+        // Load all of the sprites
+        LoadMarioSprites(smallMarioTexture);
+
+        // Default Sprite
         currentSprite = standingLeftSprite;
+
+        // default jump position
         jumpStartHeight = 664;
+
+        // default position
         position = new Vector2(300, 664);
     }
     public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
     {
-        standingLeftSprite = smallMarioTexture.GetRegion("standingLeftSmallMario");
-        standingRightSprite = smallMarioTexture.GetRegion("standingRightSmallMario");
-        jumpingLeftSprite = smallMarioTexture.GetRegion("jumpingLeftSmallMario");
-        jumpingRightSprite = smallMarioTexture.GetRegion("jumpingRightSmallMario");
-        deathSprite = smallMarioTexture.GetRegion("deadMario");
-        moveRightSprite = smallMarioTexture.CreateAnimatedSprite("smallRightMove");
-        moveLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftMove");
-        swimRightSprite = smallMarioTexture.CreateAnimatedSprite("smallRightSwim");
-        swimLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftSwim");
-        leftFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
-        rightFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
+        // Load all of the sprites
+        LoadMarioSprites(smallMarioTexture);
+
+        // Default Sprite
         currentSprite = standingLeftSprite;
+
+        // jump height based on position
         jumpStartHeight = pos.Y;
+
+        // set position to the passed Vector2
         position = pos;
     }
     public void Update(GameTime gameTime)

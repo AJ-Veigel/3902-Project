@@ -22,6 +22,8 @@ public class BigMario : IMario
     private TextureRegion currentSprite;
     private AnimatedSprite currentASprite;      
     public Vector2 position {get;set;}
+    public Vector2 yVelocity {get; set;}
+    public Vector2 xVelocity {get; set;}
     public float jumpStartHeight {get; set;}
     public Boolean Jumping {get; set;}
     public Boolean Falling {get; set;}
@@ -101,25 +103,7 @@ public class BigMario : IMario
     {
         
     }
-    public BigMario(TextureRegion standingLeft, TextureRegion standingRight, TextureRegion jumpingLeft, TextureRegion jumpingRight, TextureRegion leftCrouch, TextureRegion rightCrouch, AnimatedSprite rightMove, AnimatedSprite leftMove, AnimatedSprite rightSwim, AnimatedSprite leftSwim, AnimatedSprite leftFlagpole, AnimatedSprite rightFlagpole)
-    {
-        currentSprite = standingLeft;
-        standingLeftSprite = standingLeft;
-        standingRightSprite = standingRight;
-        jumpingLeftSprite = jumpingLeft;
-        jumpingRightSprite = jumpingRight;
-        leftCrouchSprite = leftCrouch;
-        rightCrouchSprite = rightCrouch;
-        moveRightSprite = rightMove;
-        moveLeftSprite = leftMove;
-        swimRightSprite = rightSwim;
-        swimLeftSprite = leftSwim;
-        leftFlagpoleSprite = leftFlagpole;
-        rightFlagpoleSprite = rightFlagpole;
-        jumpStartHeight = 600f;
-        position = new Vector2(300, 600);
-    }
-    public BigMario(TextureAtlas bigMarioTexture)
+    public void LoadMarioSprites(TextureAtlas bigMarioTexture)
     {
         standingLeftSprite = bigMarioTexture.GetRegion("standingLeftBigMario");
         standingRightSprite = bigMarioTexture.GetRegion("standingRightBigMario");
@@ -133,24 +117,17 @@ public class BigMario : IMario
         swimLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftSwim");
         leftFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftFlag");
         rightFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigRightFlag");
+    }
+    public BigMario(TextureAtlas bigMarioTexture)
+    {
+        LoadMarioSprites(bigMarioTexture);
         currentSprite = standingLeftSprite;
         jumpStartHeight = 600f;
         position = new Vector2(300, 600);
     }
     public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
     {
-        standingLeftSprite = bigMarioTexture.GetRegion("standingLeftBigMario");
-        standingRightSprite = bigMarioTexture.GetRegion("standingRightBigMario");
-        jumpingLeftSprite = bigMarioTexture.GetRegion("jumpingLeftBigMario");
-        jumpingRightSprite = bigMarioTexture.GetRegion("jumpingRightBigMario");
-        leftCrouchSprite = bigMarioTexture.GetRegion("crouchLeftBigMario");
-        rightCrouchSprite = bigMarioTexture.GetRegion("crouchRightBigMario");
-        moveRightSprite = bigMarioTexture.CreateAnimatedSprite("bigRightMove");
-        moveLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftMove");
-        swimRightSprite = bigMarioTexture.CreateAnimatedSprite("bigRightSwim");
-        swimLeftSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftSwim");
-        leftFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftFlag");
-        rightFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigRightFlag");
+        LoadMarioSprites(bigMarioTexture);
         currentSprite = standingLeftSprite;
         jumpStartHeight = pos.Y;
         position = pos;
