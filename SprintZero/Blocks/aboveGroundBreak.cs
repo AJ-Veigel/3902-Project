@@ -8,6 +8,7 @@ public class AboveGroundBreak : ISprite
     private AnimatedSprite sprite;
     public Vector2 location{get;set;}
     public Rectangle Collider {get; set;}
+    private const float SCALE = 4f;
     private Vector2 velocity;
     private float gravity = 0.5f;
     
@@ -20,6 +21,7 @@ public class AboveGroundBreak : ISprite
  
         location = new Vector2(530,325);
         velocity = new Vector2(-6f,-8f);
+        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Update(GameTime gameTime)
     {
