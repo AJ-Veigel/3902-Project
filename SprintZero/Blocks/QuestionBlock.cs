@@ -7,6 +7,7 @@ public class QuestionBlock : ISprite
 {
     private AnimatedSprite sprite;
     public Vector2 location{get;set;}
+    public Rectangle Collider {get; set;}
 
     public QuestionBlock(AnimatedSprite animated)
     {

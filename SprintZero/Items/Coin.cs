@@ -7,6 +7,7 @@ public class Coin : ISprite
 {
    private AnimatedSprite sprite;
   public Vector2 location {get;set;}
+  public Rectangle Collider {get; set;}
    private float riseSpeed = 2f;
    private int rise = 40;
    private float startY;

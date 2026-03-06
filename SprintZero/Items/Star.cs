@@ -7,6 +7,7 @@ public class Star : ISprite
 {
    private AnimatedSprite sprite;
  public Vector2 location{get;set;}
+ public Rectangle Collider {get; set;}
    private float horizontalSpeed = 2f;
    private float  verticalSpeed = 0f;
    private float gravity  = 0.3f;

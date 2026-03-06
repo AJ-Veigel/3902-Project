@@ -6,7 +6,8 @@ namespace SpriteZero.Sprites
     public interface ISprite
     {
         
-       Vector2 location {get;set;}
+        Vector2 location {get;set;}
+        Rectangle Collider {get; set;}
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
     }

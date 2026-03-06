@@ -8,6 +8,7 @@ public class smallTube : ISprite
  
     private TextureRegion sprite;
     public Vector2 location {get;set;}
+    public Rectangle Collider {get; set;}
     public smallTube(TextureRegion region)
     {
         sprite = region;

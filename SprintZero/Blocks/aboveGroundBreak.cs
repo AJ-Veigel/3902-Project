@@ -7,6 +7,7 @@ public class AboveGroundBreak : ISprite
 {
     private AnimatedSprite sprite;
     public Vector2 location{get;set;}
+    public Rectangle Collider {get; set;}
     private Vector2 velocity;
     private float gravity = 0.5f;
     
