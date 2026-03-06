@@ -22,6 +22,7 @@ public class BigMario : IMario
     private TextureRegion currentSprite;
     private AnimatedSprite currentASprite;      
     public Vector2 position {get;set;}
+    public Rectangle MarioCollider {get; set;}
     public float yVelocity {get; set;}
     public float xVelocity {get; set;}
     public float jumpStartHeight {get; set;}
@@ -114,6 +115,7 @@ public class BigMario : IMario
     {
         
     }
+
     public void LoadMarioSprites(TextureAtlas bigMarioTexture)
     {
         standingLeftSprite = bigMarioTexture.GetRegion("standingLeftBigMario");
@@ -135,6 +137,7 @@ public class BigMario : IMario
         currentSprite = standingLeftSprite;
         jumpStartHeight = 600f;
         position = new Vector2(300, 600);
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
     }
     public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
     {
@@ -142,10 +145,10 @@ public class BigMario : IMario
         currentSprite = standingLeftSprite;
         jumpStartHeight = pos.Y;
         position = pos;
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
     }
     public void Update(GameTime gameTime)
     {
-        if(currentASprite != null) currentASprite.Update(gameTime);
         if(Jumping)
         {
             if(!Falling)
@@ -173,6 +176,15 @@ public class BigMario : IMario
                     }
                 }
             }
+        }
+        if(currentSprite != null)
+        {
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
+        }
+        else if(currentASprite != null)
+        {
+            currentASprite.Update(gameTime);
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, (int)currentASprite.Width, (int)currentASprite.Height); 
         }
     }
 

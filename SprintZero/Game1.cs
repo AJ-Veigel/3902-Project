@@ -19,26 +19,6 @@ public class Game1 : Core
 
     private AnimatedSprite questionBlock, questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
-    // ===========
-    // Fire Mario 
-    // ===========
-    private TextureRegion standingLeftFireMario, standingRightFireMario;
-    private TextureRegion jumpingLeftFireMario, jumpingRightFireMario;
-    private TextureRegion crouchLeftFireMario, crouchRightFireMario;
-    private TextureRegion leftFlameThrow, rightFlameThrow;
-
-    // Dash
-    private TextureRegion dashFireMarioLeft, dashFireMarioRight;
-
-    private AnimatedSprite rightFireMario, leftFireMario;
-    private AnimatedSprite swimmingRightFireMario, swimmingLeftFireMario;
-    private AnimatedSprite flagpoleRightFireMario, flagpoleLeftFireMario;
-
-    // throw 
-    private AnimatedSprite throwRightFireMario, throwLeftFireMario;
-
-
-
     private List<IController> controllers;
     private List<ISprite> blocks, items;
     private List<IProjectile> projectiles;
@@ -50,6 +30,7 @@ public class Game1 : Core
     private IEnemy currentEnemy;
 
     private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount;
+    private Rectangle Bounds;
 
     public Game1() : base("SMB1", 1920, 1080, false) { }
     protected override void Initialize()
@@ -58,6 +39,8 @@ public class Game1 : Core
         {
             new KeyController(this)
         };
+
+        Bounds = new Rectangle(0, 0, 1920, 1080);
 
         base.Initialize();
     }
@@ -127,39 +110,6 @@ public class Game1 : Core
         // Fire Mario
         fireMarioTexture = TextureAtlas.FromFile(Content, "Images/FireMario-definition.xml"); // or "images/..." depending on your output folder
 
-        // Static regions
-        standingLeftFireMario = fireMarioTexture.GetRegion("standingLeftFireMario");
-        standingRightFireMario = fireMarioTexture.GetRegion("standingRightFireMario");
-
-        jumpingLeftFireMario = fireMarioTexture.GetRegion("jumpingLeftFireMario");
-        jumpingRightFireMario = fireMarioTexture.GetRegion("jumpingRightFireMario");
-
-        crouchLeftFireMario = fireMarioTexture.GetRegion("crouchLeftFireMario");
-        crouchRightFireMario = fireMarioTexture.GetRegion("crouchRightFireMario");
-
-        // Optional: access the raw throw pose regions (only if you want them)
-        leftFlameThrow = fireMarioTexture.GetRegion("leftFlameThrow");
-        rightFlameThrow = fireMarioTexture.GetRegion("rightFlameThrow");
-
-        // Optional: the two extra regions (keeps “all 32 accounted for”)
-        dashFireMarioLeft = fireMarioTexture.GetRegion("extraFireMarioLeft");
-        dashFireMarioRight = fireMarioTexture.GetRegion("extraFireMarioRight");
-
-        // Animated sprites
-        rightFireMario = fireMarioTexture.CreateAnimatedSprite("fireRightMove");
-        leftFireMario = fireMarioTexture.CreateAnimatedSprite("fireLeftMove");
-
-        swimmingRightFireMario = fireMarioTexture.CreateAnimatedSprite("fireRightSwim");
-        swimmingLeftFireMario = fireMarioTexture.CreateAnimatedSprite("fireLeftSwim");
-
-        flagpoleLeftFireMario = fireMarioTexture.CreateAnimatedSprite("fireLeftFlag");
-        flagpoleRightFireMario = fireMarioTexture.CreateAnimatedSprite("fireRightFlag");
-
-        // Throw (1-frame “animations”)
-        throwRightFireMario = fireMarioTexture.CreateAnimatedSprite("fireThrowRight");
-        throwLeftFireMario = fireMarioTexture.CreateAnimatedSprite("fireThrowLeft");
-
-
         marios = new List<IMario>
     {
         new SmallMario(smallMarioTexture),
@@ -210,9 +160,21 @@ public class Game1 : Core
                 projectiles.RemoveAt(i);
         }
         currentEnemy.Update(gameTime);
+        CheckBounds();
         base.Update(gameTime);
     }
 
+    public void CheckBounds()
+    {
+        if(Bounds.Left >= currentMario.MarioCollider.Left)
+        {
+            currentMario.position = new Vector2(currentMario.position.X + 4f, currentMario.position.Y);
+        }
+        else if(Bounds.Right <= currentMario.MarioCollider.Right)
+        {
+            currentMario.position = new Vector2(currentMario.position.X - 4f, currentMario.position.Y);
+        }
+    }
 
     protected override void Draw(GameTime gameTime)
     {

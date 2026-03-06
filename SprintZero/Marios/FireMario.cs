@@ -39,6 +39,7 @@ public class FireMario : IMario
     private AnimatedSprite currentASprite;
 
     public Vector2 position { get; set; }
+    public Rectangle MarioCollider {get; set;}
 
     // State flags 
     public bool Jumping { get; set; }
@@ -134,6 +135,9 @@ public class FireMario : IMario
         // Start in standing-right pose (or left if you prefer)
         currentSprite = standingRightSprite;
         currentASprite = null;
+
+        // Set Mario Collider
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
     }
 
     private static void ApplyScale(AnimatedSprite sprite)
@@ -265,10 +269,15 @@ public class FireMario : IMario
                 setAppropriate();
             }
         }
-
-
-        if (currentASprite != null)
+        if(currentSprite != null)
+        {
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
+        }
+        else if(currentASprite != null)
+        {
             currentASprite.Update(gameTime);
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, (int)currentASprite.Width, (int)currentASprite.Height); 
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch)
