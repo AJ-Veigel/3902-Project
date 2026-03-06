@@ -291,19 +291,23 @@ public class Game1 : Core
     }
     public void SetMario(int marioNumber)
     {
+        Vector2 currentPosition = currentMario.position;
         if (marioNumber == 0)
         {
-            currentMario = new SmallMario(smallMarioTexture);
+            if(currentMarioNum > 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y + 64f);
+            currentMario = new SmallMario(smallMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
         }
         else if (marioNumber == 1)
         {
-            currentMario = new BigMario(bigMarioTexture);
+            if(currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
+            currentMario = new BigMario(bigMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
         }
         else if (marioNumber == 2)
         {
-            currentMario = new FireMario(fireMarioTexture);
+            if(currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
+            currentMario = new FireMario(fireMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
         }
     }

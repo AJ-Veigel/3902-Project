@@ -132,7 +132,7 @@ public class SmallMario : IMario
         leftFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
         rightFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
         currentSprite = standingLeftSprite;
-        jumpStartHeight = pos.Y + 64f;
+        jumpStartHeight = pos.Y;
         position = pos;
     }
     public void Update(GameTime gameTime)

@@ -152,7 +152,7 @@ public class BigMario : IMario
         leftFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigLeftFlag");
         rightFlagpoleSprite = bigMarioTexture.CreateAnimatedSprite("bigRightFlag");
         currentSprite = standingLeftSprite;
-        jumpStartHeight = pos.Y + 64f;
+        jumpStartHeight = pos.Y;
         position = pos;
     }
     public void Update(GameTime gameTime)

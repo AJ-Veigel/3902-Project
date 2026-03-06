@@ -95,6 +95,47 @@ public class FireMario : IMario
         currentASprite = null;
     }
 
+    public FireMario( TextureAtlas fireMarioTexture , Vector2 pos)
+    {
+        // Store static poses
+        standingLeftSprite = fireMarioTexture.GetRegion("standingLeftFireMario");
+        standingRightSprite = fireMarioTexture.GetRegion("standingRightFireMario");
+        jumpingLeftSprite = fireMarioTexture.GetRegion("jumpingLeftFireMario");
+        jumpingRightSprite = fireMarioTexture.GetRegion("jumpingRightFireMario");
+        crouchLeftSprite = fireMarioTexture.GetRegion("crouchLeftFireMario");
+        crouchRightSprite = fireMarioTexture.GetRegion("crouchRightFireMario");
+
+        // Store animated sprites
+        moveRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightMove");
+        moveLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftMove");
+        swimRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightSwim");
+        swimLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftSwim");
+        flagpoleLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftFlag");
+        flagpoleRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightFlag");
+
+        // Store throw spriteswe
+        throwLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowLeft");
+        throwRightSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowRight");
+
+        // Set scale
+        ApplyScale(moveRightSprite);
+        ApplyScale(moveLeftSprite);
+        ApplyScale(swimRightSprite);
+        ApplyScale(swimLeftSprite);
+        ApplyScale(flagpoleLeftSprite);
+        ApplyScale(flagpoleRightSprite);
+        ApplyScale(throwLeftSprite);
+        ApplyScale(throwRightSprite);
+
+        // Defaults
+        position = pos;
+        Direction = true;
+
+        // Start in standing-right pose (or left if you prefer)
+        currentSprite = standingRightSprite;
+        currentASprite = null;
+    }
+
     private static void ApplyScale(AnimatedSprite sprite)
     {
         if (sprite != null)
