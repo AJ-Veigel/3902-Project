@@ -32,7 +32,7 @@ public class SmallMario : IMario
     public Boolean Crouch { get; set; }
     public Boolean Swim { get; set; }
     private float DefaultMoveSpeed = 4f;
-    private float DefaultScale = 4f;
+    private const float SCALE = 4f;
     public void Move()
     {
         if(Direction)
@@ -63,14 +63,14 @@ public class SmallMario : IMario
             if (Direction)
             {
                 currentASprite = moveRightSprite;
-                currentASprite.Scale = new Vector2(DefaultScale);
+                currentASprite.Scale = new Vector2(SCALE);
                 position = new Vector2(position.X + xVelocity, position.Y);
                 currentSprite = null;
             }
             else if (!Direction)
             {
                 currentASprite = moveLeftSprite;
-                currentASprite.Scale = new Vector2(DefaultScale);
+                currentASprite.Scale = new Vector2(SCALE);
                 position = new Vector2(position.X + xVelocity, position.Y);
                 currentSprite = null;
             }
@@ -146,7 +146,7 @@ public class SmallMario : IMario
         position = new Vector2(300, 664);
 
         // Set Mario Collider
-        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width * (int)SCALE, currentSprite.Height * (int)SCALE);
     }
     public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
     {
@@ -163,7 +163,7 @@ public class SmallMario : IMario
         position = pos;
 
         // Set Mario Collider
-        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width * (int)SCALE, currentSprite.Height * (int)SCALE);
     }
     public void Update(GameTime gameTime)
     {
@@ -197,7 +197,7 @@ public class SmallMario : IMario
         }
         if(currentSprite != null)
         {
-            MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width * (int)SCALE, currentSprite.Height * (int)SCALE);
         }
         else if(currentASprite != null)
         {

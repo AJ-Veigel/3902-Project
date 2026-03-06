@@ -175,11 +175,34 @@ public class Game1 : Core
         {
             currentMario.position = new Vector2(currentMario.position.X - 4f, currentMario.position.Y);
         }
+        if(currentItemCount == 3)
+        {
+            if(Bounds.Left >= currentItem.Collider.Left)
+            {
+                currentItem.location = new Vector2(currentItem.location.X + 2f, currentItem.location.Y);
+            }
+            else if(Bounds.Right <= currentItem.Collider.Right)
+            {
+                currentItem.location = new Vector2(currentItem.location.X - 2f, currentItem.location.Y);
+            }
+        }
     }
-    
+
     public void CheckCollisions()
     {
-        
+        if((currentItem.Collider.Intersects(currentMario.MarioCollider)))
+        {
+            // Checks to see if item is a fire flower and if mario is small or big
+            if(currentItemCount == 0 && currentMarioNum <= 1)
+            {
+                SetMario(2);
+            }
+            // Checks to see if the item is a mushroom and if mario is small
+            else if(currentItemCount == 3 && currentMarioNum == 0)
+            {
+                SetMario(1);
+            }
+        }
     }
 
     protected override void Draw(GameTime gameTime)
