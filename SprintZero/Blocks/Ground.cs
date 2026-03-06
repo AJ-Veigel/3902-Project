@@ -8,6 +8,7 @@ public class Ground : ISprite
  
     private TextureRegion sprite;
     public Vector2 location {get;set;}
+    public Rectangle Collider {get; set;}
     public Ground(TextureRegion region)
     {
         sprite = region;

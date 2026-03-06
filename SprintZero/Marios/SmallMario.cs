@@ -21,6 +21,9 @@ public class SmallMario : IMario
     private TextureRegion currentSprite;
     private AnimatedSprite currentASprite;
     public Vector2 position { get; set; }
+    public Rectangle MarioCollider {get; set;}
+    public float yVelocity {get; set;}
+    public float xVelocity {get; set;}
     public float jumpStartHeight { get; set; }
     public Boolean Jumping { get; set; }
     public Boolean Falling { get; set; }
@@ -28,19 +31,29 @@ public class SmallMario : IMario
     public Boolean Sprint { get; set; }
     public Boolean Crouch { get; set; }
     public Boolean Swim { get; set; }
+    private float DefaultMoveSpeed = 4f;
+    private float DefaultScale = 4f;
     public void Move()
     {
+        if(Direction)
+        {
+            xVelocity = DefaultMoveSpeed;
+        }
+        else
+        {
+            xVelocity = -DefaultMoveSpeed;
+        }
         if (Jumping)
         {
             if (Direction)
             {
-                position = new Vector2(position.X + 4f, position.Y);
+                position = new Vector2(position.X + xVelocity, position.Y);
                 currentSprite = jumpingRightSprite;
                 currentASprite = null;
             }
             else if (!Direction)
             {
-                position = new Vector2(position.X - 4f, position.Y);
+                position = new Vector2(position.X + xVelocity, position.Y);
                 currentSprite = jumpingLeftSprite;
                 currentASprite = null;
             }
@@ -50,22 +63,22 @@ public class SmallMario : IMario
             if (Direction)
             {
                 currentASprite = moveRightSprite;
-                currentASprite.Scale = new Vector2(4f);
-                position = new Vector2(position.X + 4f, position.Y);
+                currentASprite.Scale = new Vector2(DefaultScale);
+                position = new Vector2(position.X + xVelocity, position.Y);
                 currentSprite = null;
             }
             else if (!Direction)
             {
                 currentASprite = moveLeftSprite;
-                currentASprite.Scale = new Vector2(4f);
-                position = new Vector2(position.X - 4f, position.Y);
+                currentASprite.Scale = new Vector2(DefaultScale);
+                position = new Vector2(position.X + xVelocity, position.Y);
                 currentSprite = null;
             }
         }
-
     }
     public void StopMove()
     {
+        xVelocity = 0;
         if (!Jumping)
         {
             if (Direction)
@@ -83,6 +96,7 @@ public class SmallMario : IMario
     public void Jump()
     {
         Jumping = true;
+        yVelocity = 4f;
         if (Direction)
         {
             currentSprite = jumpingRightSprite;
@@ -101,7 +115,8 @@ public class SmallMario : IMario
     {
 
     }
-    public SmallMario(TextureAtlas smallMarioTexture)
+
+    public void LoadMarioSprites(TextureAtlas smallMarioTexture)
     {
         standingLeftSprite = smallMarioTexture.GetRegion("standingLeftSmallMario");
         standingRightSprite = smallMarioTexture.GetRegion("standingRightSmallMario");
@@ -114,30 +129,44 @@ public class SmallMario : IMario
         swimLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftSwim");
         leftFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
         rightFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
+    }
+
+    public SmallMario(TextureAtlas smallMarioTexture)
+    {
+        // Load all of the sprites
+        LoadMarioSprites(smallMarioTexture);
+
+        // Default Sprite
         currentSprite = standingLeftSprite;
+
+        // default jump position
         jumpStartHeight = 664;
+
+        // default position
         position = new Vector2(300, 664);
+
+        // Set Mario Collider
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
     }
     public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
     {
-        standingLeftSprite = smallMarioTexture.GetRegion("standingLeftSmallMario");
-        standingRightSprite = smallMarioTexture.GetRegion("standingRightSmallMario");
-        jumpingLeftSprite = smallMarioTexture.GetRegion("jumpingLeftSmallMario");
-        jumpingRightSprite = smallMarioTexture.GetRegion("jumpingRightSmallMario");
-        deathSprite = smallMarioTexture.GetRegion("deadMario");
-        moveRightSprite = smallMarioTexture.CreateAnimatedSprite("smallRightMove");
-        moveLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftMove");
-        swimRightSprite = smallMarioTexture.CreateAnimatedSprite("smallRightSwim");
-        swimLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftSwim");
-        leftFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
-        rightFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
+        // Load all of the sprites
+        LoadMarioSprites(smallMarioTexture);
+
+        // Default Sprite
         currentSprite = standingLeftSprite;
-        jumpStartHeight = pos.Y + 64f;
+
+        // jump height based on position
+        jumpStartHeight = pos.Y;
+
+        // set position to the passed Vector2
         position = pos;
+
+        // Set Mario Collider
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
     }
     public void Update(GameTime gameTime)
     {
-        if (currentASprite != null) currentASprite.Update(gameTime);
         if (Jumping)
         {
             if (!Falling)
@@ -165,6 +194,15 @@ public class SmallMario : IMario
                     }
                 }
             }
+        }
+        if(currentSprite != null)
+        {
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
+        }
+        else if(currentASprite != null)
+        {
+            currentASprite.Update(gameTime);
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, (int)currentASprite.Width, (int)currentASprite.Height); 
         }
     }
 

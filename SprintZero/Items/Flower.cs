@@ -14,6 +14,7 @@ using SpriteZero.Sprites;
         get { return _location; }
         set { _location = value; }
     }
+    public Rectangle Collider {get; set;}
 
     private float startY;
     private float riseSpeed = 2f;

@@ -39,6 +39,7 @@ public class FireMario : IMario
     private AnimatedSprite currentASprite;
 
     public Vector2 position { get; set; }
+    public Rectangle MarioCollider {get; set;}
 
     // State flags 
     public bool Jumping { get; set; }
@@ -72,7 +73,7 @@ public class FireMario : IMario
         flagpoleLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftFlag");
         flagpoleRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightFlag");
 
-        // Store throw spriteswe
+        // Store throw sprites
         throwLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowLeft");
         throwRightSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowRight");
 
@@ -93,6 +94,50 @@ public class FireMario : IMario
         // Start in standing-right pose (or left if you prefer)
         currentSprite = standingRightSprite;
         currentASprite = null;
+    }
+
+    public FireMario( TextureAtlas fireMarioTexture , Vector2 pos)
+    {
+        // Store static poses
+        standingLeftSprite = fireMarioTexture.GetRegion("standingLeftFireMario");
+        standingRightSprite = fireMarioTexture.GetRegion("standingRightFireMario");
+        jumpingLeftSprite = fireMarioTexture.GetRegion("jumpingLeftFireMario");
+        jumpingRightSprite = fireMarioTexture.GetRegion("jumpingRightFireMario");
+        crouchLeftSprite = fireMarioTexture.GetRegion("crouchLeftFireMario");
+        crouchRightSprite = fireMarioTexture.GetRegion("crouchRightFireMario");
+
+        // Store animated sprites
+        moveRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightMove");
+        moveLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftMove");
+        swimRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightSwim");
+        swimLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftSwim");
+        flagpoleLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireLeftFlag");
+        flagpoleRightSprite = fireMarioTexture.CreateAnimatedSprite("fireRightFlag");
+
+        // Store throw sprites
+        throwLeftSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowLeft");
+        throwRightSprite = fireMarioTexture.CreateAnimatedSprite("fireThrowRight");
+
+        // Set scale
+        ApplyScale(moveRightSprite);
+        ApplyScale(moveLeftSprite);
+        ApplyScale(swimRightSprite);
+        ApplyScale(swimLeftSprite);
+        ApplyScale(flagpoleLeftSprite);
+        ApplyScale(flagpoleRightSprite);
+        ApplyScale(throwLeftSprite);
+        ApplyScale(throwRightSprite);
+
+        // Defaults
+        position = pos;
+        Direction = true;
+
+        // Start in standing-right pose (or left if you prefer)
+        currentSprite = standingRightSprite;
+        currentASprite = null;
+
+        // Set Mario Collider
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
     }
 
     private static void ApplyScale(AnimatedSprite sprite)
@@ -224,10 +269,15 @@ public class FireMario : IMario
                 setAppropriate();
             }
         }
-
-
-        if (currentASprite != null)
+        if(currentSprite != null)
+        {
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width, currentSprite.Height);
+        }
+        else if(currentASprite != null)
+        {
             currentASprite.Update(gameTime);
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, (int)currentASprite.Width, (int)currentASprite.Height); 
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch)

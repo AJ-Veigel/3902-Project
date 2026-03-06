@@ -8,6 +8,7 @@ public class MediumTube : ISprite
  
     private TextureRegion sprite;
     public Vector2 location {get;set;}
+    public Rectangle Collider {get; set;}
     public MediumTube(TextureRegion region)
     {
         sprite = region;

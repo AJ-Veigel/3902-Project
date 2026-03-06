@@ -8,6 +8,7 @@ public class FlagStill : ISprite
  
     private TextureRegion sprite;
     public Vector2 location {get;set;}
+    public Rectangle Collider {get; set;}
     public FlagStill(TextureRegion region)
     {
         sprite = region;

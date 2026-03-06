@@ -8,6 +8,7 @@ public class CastleBlock : ISprite
  
     private TextureRegion sprite;
     public Vector2 location {get;set;}
+    public Rectangle Collider {get; set;}
     public CastleBlock(TextureRegion region)
     {
         sprite = region;

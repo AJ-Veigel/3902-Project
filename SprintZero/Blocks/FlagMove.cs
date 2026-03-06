@@ -7,6 +7,7 @@ public class FlagMove : ISprite
 {
     private AnimatedSprite sprite;
     public Vector2 location{get;set;}
+    public Rectangle Collider {get; set;}
 
     public FlagMove(AnimatedSprite animated)
     {
