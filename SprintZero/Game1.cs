@@ -161,6 +161,7 @@ public class Game1 : Core
         }
         currentEnemy.Update(gameTime);
         CheckBounds();
+        CheckCollisions();
         base.Update(gameTime);
     }
 
@@ -174,6 +175,11 @@ public class Game1 : Core
         {
             currentMario.position = new Vector2(currentMario.position.X - 4f, currentMario.position.Y);
         }
+    }
+    
+    public void CheckCollisions()
+    {
+        
     }
 
     protected override void Draw(GameTime gameTime)
