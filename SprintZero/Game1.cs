@@ -162,6 +162,7 @@ public class Game1 : Core
         currentEnemy.Update(gameTime);
         CheckBounds();
         CheckCollisions();
+        CheckEnemyCollisions();
         base.Update(gameTime);
     }
 
@@ -198,6 +199,21 @@ public class Game1 : Core
             else if(currentItemCount == 3 && currentMarioNum == 0)
             {
                 SetMario(1);
+            }
+        }
+    }
+
+    public void CheckEnemyCollisions()
+    {
+       if (currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) && !currentEnemy.Dead)
+       {
+            if (currentMario.Jumping && currentMario.MarioCollider.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
+            {
+                currentEnemy.Dead = true;
+            }
+            else
+            {
+                Damage();
             }
         }
     }
