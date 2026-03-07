@@ -7,6 +7,8 @@ public class FlagMove : ISprite
 {
     private AnimatedSprite sprite;
     public Vector2 location{get;set;}
+    public Rectangle Collider {get; set;}
+    private const float SCALE = 4f;
 
     public FlagMove(AnimatedSprite animated)
     {
@@ -15,6 +17,7 @@ public class FlagMove : ISprite
         sprite.Scale = new Vector2(4f);
  
         location = new Vector2(530,325);
+        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Update(GameTime gameTime)
     {

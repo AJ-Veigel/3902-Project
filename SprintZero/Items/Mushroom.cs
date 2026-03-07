@@ -7,6 +7,8 @@ public class Mushroom : ISprite
 {
    private TextureRegion sprite;
     public Vector2 location {get;set;}
+    public Rectangle Collider {get; set;}
+    private const float SCALE = 4f;
     private float horizontalSpeed = 2f;
     private float verticalSpeed=0f;
     private float gravity = 0.3f;
@@ -18,6 +20,7 @@ public class Mushroom : ISprite
         sprite = region;
         location = new Vector2(300,300);
         startY = location.Y;
+        Collider = new Rectangle((int)location.X, (int)location.Y, sprite.Width * (int)SCALE, sprite.Height * (int)SCALE);
     }
     public void Update(GameTime gameTime)
     {
@@ -41,10 +44,11 @@ public class Mushroom : ISprite
             verticalSpeed = 0f;
             location = new Vector2(location.X+horizontalSpeed,location.Y);
         }
+        Collider = new Rectangle((int)location.X, (int)location.Y, sprite.Width * (int)SCALE, sprite.Height * (int)SCALE);
     }
 
 public void Draw(SpriteBatch spriteBatch)
 {
-   sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f); 
+   sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,SCALE,SpriteEffects.None,0f); 
 }
 }

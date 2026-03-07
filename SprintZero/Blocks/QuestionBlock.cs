@@ -7,6 +7,8 @@ public class QuestionBlock : ISprite
 {
     private AnimatedSprite sprite;
     public Vector2 location{get;set;}
+    public Rectangle Collider {get; set;}
+    private const float SCALE = 4f;
 
     public QuestionBlock(AnimatedSprite animated)
     {
@@ -15,6 +17,7 @@ public class QuestionBlock : ISprite
         sprite.Scale = new Vector2(4f);
  
         location = new Vector2(530,325);
+        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Update(GameTime gameTime)
     {
