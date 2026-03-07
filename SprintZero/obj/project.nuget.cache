@@ -10,5 +10,15 @@
     "C:\\Users\\adamt\\.nuget\\packages\\monogame.library.sdl\\2.32.2.1\\monogame.library.sdl.2.32.2.1.nupkg.sha512",
     "C:\\Users\\adamt\\.nuget\\packages\\nvorbis\\0.10.4\\nvorbis.0.10.4.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "message": "Problem reading the cache file C:\\Users\\adamt\\source\\repos\\3902-Project\\SprintZero\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0.",
+      "projectPath": "C:\\Users\\adamt\\source\\repos\\3902-Project\\SprintZero\\SprintZero.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\adamt\\source\\repos\\3902-Project\\SprintZero\\SprintZero.csproj",
+      "targetGraphs": []
+    }
+  ]
 }
