@@ -9,10 +9,12 @@ public class FlagStill : ISprite
     private TextureRegion sprite;
     public Vector2 location {get;set;}
     public Rectangle Collider {get; set;}
+    private const float SCALE = 4f;
     public FlagStill(TextureRegion region)
     {
         sprite = region;
         location = new Vector2(530,325);
+        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Update(GameTime gameTime){}
 

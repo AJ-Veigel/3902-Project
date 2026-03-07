@@ -8,6 +8,7 @@ public class questionMarkHit : ISprite
     private AnimatedSprite sprite;
     public Vector2 location{get;set;}
     public Rectangle Collider {get; set;}
+    private const float SCALE = 4f;
     private float startY;
     private float bounceHeight=20f;
     private float riseSpeed=3f;
@@ -21,6 +22,7 @@ public class questionMarkHit : ISprite
         sprite.Scale = new Vector2(4f);
         location = new Vector2(530,325);
         startY = location.Y;
+        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
 
     public void Update(GameTime gameTime)
