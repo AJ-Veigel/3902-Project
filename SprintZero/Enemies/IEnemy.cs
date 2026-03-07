@@ -9,6 +9,7 @@ namespace SpriteZero.Enemies
 
         Vector2 position { get; set; }
         Boolean Dead { get; set; }
+        Rectangle EnemyCollider { get; set; }
 
 
         void Update(GameTime gameTime);

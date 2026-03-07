@@ -6,8 +6,10 @@ using SpriteZero.Enemies;
 public class Goomba : IEnemy
 {
     public Vector2 position { get; set; }
+    private const float SCALE = 4f;
     private float speed = 2f;
     private float animationTimer = 0f;
+    public Rectangle EnemyCollider { get; set; }
 
     private TextureRegion goombaRight1Sprite;
     private TextureRegion goombaLeft1Sprite;
@@ -31,6 +33,7 @@ public class Goomba : IEnemy
         currentASprite = goombaWalk1;
         Dead = false;
         position = new Vector2(600, 660);
+        EnemyCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.SourceRectangle.Width * (int)SCALE, currentSprite.SourceRectangle.Height * (int)SCALE);
     }
 
     public Goomba(TextureAtlas goombaTexture)
@@ -41,6 +44,7 @@ public class Goomba : IEnemy
      goombaWalk1Sprite = goombaTexture.CreateAnimatedSprite("goombaWalk1");
      goombaHit1Sprite = goombaTexture.CreateAnimatedSprite("goombaHit1");
      position = new Vector2(600, 660);
+     EnemyCollider = new Rectangle((int)position.X, (int)position.Y, goombaRight1Sprite.SourceRectangle.Width * (int)SCALE, goombaRight1Sprite.SourceRectangle.Height * (int)SCALE);
     }
     public void Update(GameTime gameTime)
     {
@@ -83,11 +87,13 @@ public class Goomba : IEnemy
     {
         if(currentSprite != null)
         {
+            EnemyCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.SourceRectangle.Width * (int)SCALE, currentSprite.SourceRectangle.Height * (int)SCALE);
             spriteBatch.Draw(currentSprite.Texture, position, currentSprite.SourceRectangle, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0f);
 
         }
         else if(currentASprite != null)
         {
+            EnemyCollider = new Rectangle((int)position.X, (int)position.Y, (int)currentASprite.Width, (int)currentASprite.Height); 
             currentASprite.Draw(spriteBatch, position);
 
         }
