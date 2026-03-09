@@ -71,7 +71,7 @@ public class Game1 : Core
             new questionMarkHit(questionBlockHit),
             new smallTube(smallTube),
             new CastleBlock(castle),
-            new FlagStill(flagStill),
+            //new FlagStill(flagStill), // This doesn't exist anymore?
             new FlagMove(flagMove),
             new MediumTube(mediumTube),
             new AboveGroundBreak(aboveGroundBreak)

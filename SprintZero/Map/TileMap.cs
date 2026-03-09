@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Reflection.Metadata.Ecma335;
 using Microsoft.Xna.Framework.Graphics;
 using SpriteZero.Sprites;
+using SpriteZero.blocks;
 
 namespace SprintZero.Map
 {
     public class TileMap
     {
-        private Dictionary<Point, ISprite> map; // We really should have a separate interface for blocks
+        private Dictionary<Point, IBlock> map;
 
         /*
          *  It would probably be more efficient to instead map to like, 4x4 tiles containing blocks, or something.
@@ -19,10 +20,10 @@ namespace SprintZero.Map
 
         public TileMap()
         {
-            map = new Dictionary<Point, ISprite>();
+            map = new Dictionary<Point, IBlock>();
         }
 
-        public void addBlockAt(Point p, ISprite block)
+        public void addBlockAt(Point p, IBlock block)
         {
             map.Add(p, block);
         }
@@ -32,14 +33,14 @@ namespace SprintZero.Map
             map.Remove(p);
         }
 
-        public ISprite getBlockAt(Point p)
+        public IBlock getBlockAt(Point p)
         {
             return map[p];
         }
 
-        public List<ISprite> getBlocksInRectangle(Rectangle rect)
+        public List<IBlock> getBlocksInRectangle(Rectangle rect)
         {
-            var list = new List<ISprite>();
+            var list = new List<IBlock>();
             for (int x = rect.Left; x < rect.Right; x++)
             {
                 for (int y = rect.Top; y < rect.Bottom; y++)
@@ -56,8 +57,8 @@ namespace SprintZero.Map
         public void Draw(SpriteBatch batch)
         {
             // TODO: work with camera system to not draw every block ever.
-            Dictionary<Point, ISprite>.ValueCollection values = map.Values;
-            foreach (ISprite s in values)
+            Dictionary<Point, IBlock>.ValueCollection values = map.Values;
+            foreach (IBlock s in values)
             {
                 s.Draw(batch);
             }

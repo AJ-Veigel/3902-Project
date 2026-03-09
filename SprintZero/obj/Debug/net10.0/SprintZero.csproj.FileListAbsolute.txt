@@ -116,3 +116,13 @@ C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\obj\Debug\net10.0\refint\S
 C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\obj\Debug\net10.0\SprintZero.pdb
 C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\obj\Debug\net10.0\SprintZero.genruntimeconfig.cache
 C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\obj\Debug\net10.0\ref\SprintZero.dll
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\mgcb.tool.restore
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.csproj.AssemblyReference.cache
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.AssemblyInfoInputs.cache
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.AssemblyInfo.cs
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.csproj.CoreCompileInputs.cache
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.sourcelink.json
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.dll
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\refint\SprintZero.dll
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.pdb
