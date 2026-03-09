@@ -8,6 +8,7 @@ namespace SpriteZero.Marios
     {
         
         Vector2 position {get;set;}
+        Vector2 velocity {get;set;}
         Rectangle MarioCollider {get; set;}
         Boolean Direction {get;set;}
         Boolean Jumping {get; set;}
