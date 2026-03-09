@@ -8,6 +8,8 @@ using SprintZero.Controllers;
 using SpriteZero.Enemies;
 using SpriteZero.Marios;
 using SpriteZero.Sprites;
+using SpriteZero.blocks;
+using SprintZero.PBCollision;
 
 namespace SprintZero;
 
@@ -20,12 +22,14 @@ public class Game1 : Core
     private AnimatedSprite questionBlock, questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
     private List<IController> controllers;
-    private List<ISprite> blocks, items;
+    private List<ISprite>  items;
+    private List<IBlock> blocks;
     private List<IProjectile> projectiles;
     private List<IMario> marios;
     private List<IEnemy> enemies;
 
-    private ISprite currentBlock, currentItem;
+    private ISprite  currentItem;
+    private IBlock currentBlock;
     private IMario currentMario;
     private IEnemy currentEnemy;
 
@@ -62,7 +66,7 @@ public class Game1 : Core
 
 
 
-        blocks = new List<ISprite>
+        blocks = new List<IBlock>
          {
             new Ground(ground),
             new QuestionBlock(questionBlock),
@@ -163,6 +167,7 @@ public class Game1 : Core
         CheckBounds();
         CheckCollisions();
         CheckEnemyCollisions();
+        playerBlockCollision.checkBlockCollision(currentMario,blocks);
         base.Update(gameTime);
     }
 

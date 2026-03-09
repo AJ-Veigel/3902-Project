@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Sprites;
+using SpriteZero.blocks;
+using SpriteZero.Marios;
 
-public class FlagStill : ISprite
+public class FlagStill : IBlock
 {
  
     private TextureRegion sprite;
@@ -23,4 +24,5 @@ public class FlagStill : ISprite
         sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
 
     }
+     public  void onHit(IMario mario, CollisionSide theSide){}
 }

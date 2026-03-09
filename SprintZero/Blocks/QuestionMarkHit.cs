@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Sprites;
+using SpriteZero.blocks;
+using SpriteZero.Marios;
 
-public class questionMarkHit : ISprite
+public class questionMarkHit : IBlock
 {
     private AnimatedSprite sprite;
     public Vector2 location{get;set;}
@@ -54,4 +55,5 @@ public class questionMarkHit : ISprite
     
         sprite.Draw(spriteBatch,location);
     }
+     public  void onHit(IMario mario, CollisionSide theSide){}
 }
