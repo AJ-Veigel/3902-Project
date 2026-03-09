@@ -20,11 +20,8 @@ public class AboveGroundBreak : IBlock
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();  
-
         location = new Vector2(300, 450);
         velocity = Vector2.Zero;
-
-        
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
 
@@ -39,7 +36,7 @@ public class AboveGroundBreak : IBlock
             location += velocity;  
         }
         else
-        {
+        {        
             sprite.Update(gameTime); 
         }
 
@@ -66,5 +63,6 @@ public class AboveGroundBreak : IBlock
             playTheBreakingAnimation = true;
             velocity = new Vector2(-6f, -8f); 
         }
+        
     }
 }

@@ -22,6 +22,7 @@ public class BigMario : IMario
     private TextureRegion currentSprite;
     private AnimatedSprite currentASprite;      
     public Vector2 position {get;set;}
+    public Vector2 velocity {get;set;}
     public Rectangle MarioCollider {get; set;}
     public float yVelocity {get; set;}
     public float xVelocity {get; set;}

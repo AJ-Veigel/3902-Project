@@ -14,7 +14,7 @@ public class MediumTube : IBlock
     public MediumTube(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(530,325);
+        location = new Vector2(400, 650);
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Update(GameTime gameTime){}
@@ -24,5 +24,8 @@ public class MediumTube : IBlock
         sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
 
     }
-     public  void onHit(IMario mario, CollisionSide theSide){}
+    //Need to do 
+     public  void onHit(IMario mario, CollisionSide theSide)
+    {
+    }
 }

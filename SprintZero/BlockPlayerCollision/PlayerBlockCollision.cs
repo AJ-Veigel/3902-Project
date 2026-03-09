@@ -9,12 +9,14 @@ namespace SprintZero.PBCollision
     {
         public static void checkBlockCollision(IMario mario, List<IBlock> blocks)
         {
+         
             foreach (IBlock block in blocks)
             {
                 if (mario.MarioCollider.Intersects(block.Collider))
                 {
                     CollisionSide theSide = getCollisionSide(mario.MarioCollider,block.Collider);
                     block.onHit(mario,theSide);
+
                 }
             }
         }

@@ -20,6 +20,7 @@
     <Animation name = "hit-Question" delay="300">
       <Frame region ="questionBlock1"/>
       <Frame region ="questionBlock2"/>
+      
       </Animation>
       <Animation name = "aboveGroundBreak" delay ="300">
         <Frame region ="aboveGround"/>

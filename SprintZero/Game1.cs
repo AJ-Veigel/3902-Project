@@ -19,7 +19,7 @@ public class Game1 : Core
     private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture;
     private TextureRegion ground, smallTube, castle, flagStill, mushroom, mediumTube, oneup_mushroom;
 
-    private AnimatedSprite questionBlock, questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
+    private AnimatedSprite  questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
     private List<IController> controllers;
     private List<ISprite>  items;
@@ -52,7 +52,6 @@ public class Game1 : Core
     {
         blocksTexture = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         ground = blocksTexture.GetRegion("ground");
-        questionBlock = blocksTexture.CreateAnimatedSprite("question-Block");
         questionBlockHit = blocksTexture.CreateAnimatedSprite("hit-Question");
         bigBlockTexture = TextureAtlas.FromFile(Content, "images/bigblock-definition.xml");
         aboveGroundBreak = blocksTexture.CreateAnimatedSprite("aboveGroundBreak");
@@ -69,7 +68,6 @@ public class Game1 : Core
         blocks = new List<IBlock>
          {
             new Ground(ground),
-            new QuestionBlock(questionBlock),
             new questionMarkHit(questionBlockHit),
             new smallTube(smallTube),
             new CastleBlock(castle),
