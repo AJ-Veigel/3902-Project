@@ -206,8 +206,13 @@ public class Game1 : Core
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {
             projectiles[i].Update(gameTime);
-            if (projectiles[i] is Fireball fb && !fb.IsActive)
-                projectiles.RemoveAt(i);
+            if (projectiles[i] is Fireball fb) {
+                if(!fb.IsActive) {  
+                    projectiles.RemoveAt(i);
+                    continue;
+                }
+                collisionCheck(fb);   
+            }
         }
         currentEnemy.Update(gameTime);
         base.Update(gameTime);
@@ -357,6 +362,39 @@ public class Game1 : Core
             SetMario(1);
         }
     }
+
+    public void collisionCheck(Fireball fb)
+    {
+        for (int j = enemies.Count-1; j >= 0; j--)
+        {
+            switch (enemies[j])
+            {
+                case Goomba:
+                    if (fb.location.X < enemies[j].position.X + 16 &&
+                        fb.location.X + 8 > enemies[j].position.X &&
+                        fb.location.Y < enemies[j].position.Y + 16 &&
+                        fb.location.Y + 8 > enemies[j].position.Y)
+                    {
+                        // Goomba take damage
+                        enemies[j].Dead = true;
+                        fb.Pop();
+                    }
+                    break;
+                case Koopa:
+                    if (fb.location.X < enemies[j].position.X + 16 &&
+                        fb.location.X + 8 > enemies[j].position.X &&
+                        fb.location.Y < enemies[j].position.Y + 24 &&
+                        fb.location.Y + 8 > enemies[j].position.Y)
+                    {
+                        // Koopa take damage
+                        enemies[j].Dead = true;
+                        fb.Pop();
+                    }
+                    break;
+            }
+        }
+    }
+
     public void Reset()
     {
         Initialize();
