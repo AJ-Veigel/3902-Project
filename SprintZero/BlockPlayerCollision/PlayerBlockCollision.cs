@@ -15,9 +15,12 @@ namespace SprintZero.PBCollision
                 if (mario.MarioCollider.Intersects(block.Collider))
                 {
                     CollisionSide theSide = getCollisionSide(mario.MarioCollider,block.Collider);
+                    
                     block.onHit(mario,theSide);
 
                 }
+            
+                
             }
         }
         private static CollisionSide getCollisionSide(Rectangle mario,Rectangle block)
