@@ -29,5 +29,8 @@ public class FlagMove : IBlock
     
         sprite.Draw(spriteBatch,location);
     }
-    public  void onHit(IMario mario, CollisionSide theSide){}
+    public  void onHit(IMario mario, CollisionSide theSide)
+    {
+        
+    }
 }

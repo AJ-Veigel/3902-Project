@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
@@ -17,7 +16,7 @@ public class Game1 : Core
 {
 
     private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture;
-    private TextureRegion ground, smallTube, castle, flagStill, mushroom, mediumTube, oneup_mushroom;
+    private TextureRegion ground, smallTube, castle, mushroom, mediumTube, oneup_mushroom;
 
     private AnimatedSprite  questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
@@ -57,7 +56,6 @@ public class Game1 : Core
         aboveGroundBreak = blocksTexture.CreateAnimatedSprite("aboveGroundBreak");
         smallTube = bigBlockTexture.GetRegion("tube");
         castle = bigBlockTexture.GetRegion("castle");
-        flagStill = bigBlockTexture.GetRegion("flag");
         bigBlockTexturePt2 = TextureAtlas.FromFile(Content, "images/BigBlocks2-definition.xml");
         mediumTube = bigBlockTexturePt2.GetRegion("mediumTube");
         flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
@@ -71,7 +69,6 @@ public class Game1 : Core
             new questionMarkHit(questionBlockHit),
             new smallTube(smallTube),
             new CastleBlock(castle),
-            //new FlagStill(flagStill), // This doesn't exist anymore?
             new FlagMove(flagMove),
             new MediumTube(mediumTube),
             new AboveGroundBreak(aboveGroundBreak)

@@ -33,6 +33,7 @@ public class BigMario : IMario
     public Boolean Direction {get; set;}
     public Boolean Sprint {get;set;}
     public Boolean Crouch {get;set;}
+    public Boolean isOnGround {get;set;}
     public Boolean Swim {get;set;}
     private float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
@@ -150,6 +151,7 @@ public class BigMario : IMario
     }
     public void Update(GameTime gameTime)
     {
+        
         if(Jumping)
         {
             if(!Falling)
@@ -160,6 +162,7 @@ public class BigMario : IMario
                     Falling = true;
                 }
             }
+            
             else if(Falling)
             {
                 position = new Vector2(position.X, position.Y + 4f);
