@@ -14,16 +14,15 @@ namespace SprintZero.PBCollision
                 if (mario.MarioCollider.Intersects(block.Collider))
                 {
                     CollisionSide theSide = getCollisionSide(mario.MarioCollider, block.Collider);
-                    block.onHit(mario, theSide);
+                    block.onCollision(mario, theSide);
                 }
                 else
-                {
-                    
+                { 
                     bool horizontallyAbove = mario.MarioCollider.Right > block.Collider.Left &&
                                              mario.MarioCollider.Left < block.Collider.Right;
 
                     bool onTop = mario.MarioCollider.Bottom >= block.Collider.Top - 1 &&
-                                 mario.MarioCollider.Bottom <= block.Collider.Top + 4;
+                                 mario.MarioCollider.Bottom <= block.Collider.Top + 5;
 
                     if (horizontallyAbove && !onTop)
                     {
