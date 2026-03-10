@@ -14,7 +14,7 @@ public class Ground : IBlock
     public Ground(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(530,300);
+        location = new Vector2(300, 700);
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Update(GameTime gameTime){}
@@ -24,5 +24,14 @@ public class Ground : IBlock
         sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
 
     }
-     public  void onHit(IMario mario, CollisionSide theSide){}
+     public  void onCollision(IMario mario, CollisionSide theSide)
+    {
+         if (theSide == CollisionSide.Top) {
+           mario.position = new Vector2(mario.position.X,location.Y- mario.MarioCollider.Height);
+            if (theSide == CollisionSide.None)
+            {
+                mario.Falling = true;
+            }
+    }
+    }
 }
