@@ -24,5 +24,14 @@ public class smallTube : IBlock
         sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
 
     }
-     public  void onHit(IMario mario, CollisionSide theSide){}
+     public  void onHit(IMario mario, CollisionSide theSide)
+    {
+        if (theSide == CollisionSide.Top) {
+           mario.position = new Vector2(mario.position.X,location.Y- mario.MarioCollider.Height);
+            if (theSide == CollisionSide.None)
+            {
+                mario.Falling = true;
+            }
+        }
+    }
 }

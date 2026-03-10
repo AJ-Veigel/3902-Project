@@ -9,18 +9,29 @@ namespace SprintZero.PBCollision
     {
         public static void checkBlockCollision(IMario mario, List<IBlock> blocks)
         {
-         
             foreach (IBlock block in blocks)
             {
                 if (mario.MarioCollider.Intersects(block.Collider))
                 {
-                    CollisionSide theSide = getCollisionSide(mario.MarioCollider,block.Collider);
-                    
-                    block.onHit(mario,theSide);
-
+                    CollisionSide theSide = getCollisionSide(mario.MarioCollider, block.Collider);
+                    block.onHit(mario, theSide);
                 }
-            
-                
+                else
+                {
+                    
+                    bool horizontallyAbove = mario.MarioCollider.Right > block.Collider.Left &&
+                                             mario.MarioCollider.Left < block.Collider.Right;
+
+                    bool onTop = mario.MarioCollider.Bottom >= block.Collider.Top - 1 &&
+                                 mario.MarioCollider.Bottom <= block.Collider.Top + 4;
+
+                    if (horizontallyAbove && !onTop)
+                    {
+                        
+                        mario.Falling = true;
+                        mario.position = new Vector2(mario.position.X, mario.position.Y + 2f); 
+                    }
+                }
             }
         }
         private static CollisionSide getCollisionSide(Rectangle mario,Rectangle block)
