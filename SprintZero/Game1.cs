@@ -65,13 +65,13 @@ public class Game1 : Core
 
         blocks = new List<IBlock>
          {
-         //   new Ground(ground),
-           // new questionMarkHit(questionBlockHit),
-           // new smallTube(smallTube),
-           // new CastleBlock(castle),
-           // new FlagMove(flagMove),
+            new Ground(ground),
+            new questionMarkHit(questionBlockHit),
+            new smallTube(smallTube),
+            new CastleBlock(castle),
+            new FlagMove(flagMove),
             new MediumTube(mediumTube),
-           // new AboveGroundBreak(aboveGroundBreak)
+            new AboveGroundBreak(aboveGroundBreak)
 
          };
 
