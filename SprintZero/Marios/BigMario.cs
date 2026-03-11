@@ -5,64 +5,64 @@ using MonoGameLibrary.Graphics;
 using SpriteZero.Marios;
 
 public class BigMario : IMario
-{   
-    public Vector2 position {get;set;}
+{
+    public Vector2 position { get; set; }
     private MarioSprite marioSprites;
-    public Rectangle MarioCollider {get; set;}
-    public float yVelocity {get; set;}
-    public float xVelocity {get; set;}
-    public float jumpStartHeight {get; set;}
-    public Boolean Jumping {get; set;}
-    public Boolean Falling {get; set;}
+    public Rectangle MarioCollider { get; set; }
+    public float yVelocity { get; set; }
+    public float xVelocity { get; set; }
+    public float jumpStartHeight { get; set; }
+    public Boolean Jumping { get; set; }
+    public Boolean Falling { get; set; }
     // If direction is True, mario is facing right, if direction is false, mario is facing left
-    public Boolean Direction {get; set;}
-    public Boolean Sprinting {get;set;}
-    public Boolean Crouching {get;set;}
-    public Boolean Swimming {get;set;}
+    public Boolean Direction { get; set; }
+    public Boolean Sprinting { get; set; }
+    public Boolean Crouching { get; set; }
+    public Boolean Swimming { get; set; }
     private float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     public void Move()
     {
-        if(!Crouching)
-        {
-        if(Direction)
-        {
-            xVelocity = DefaultMoveSpeed;
-        }
-        else
-        {
-            xVelocity = -DefaultMoveSpeed;
-        }
-        if (Jumping)
+        if (!Crouching)
         {
             if (Direction)
             {
-                position = new Vector2(position.X + xVelocity, position.Y);
-                marioSprites.SetLocation(position);
-                marioSprites.SetSprite("jumpRight");
+                xVelocity = DefaultMoveSpeed;
             }
-            else if (!Direction)
+            else
             {
-                position = new Vector2(position.X + xVelocity, position.Y);
-                marioSprites.SetLocation(position);
-                marioSprites.SetSprite("jumpLeft");
+                xVelocity = -DefaultMoveSpeed;
             }
-        }
-        else if (!Jumping)
-        {
-            if (Direction)
+            if (Jumping)
             {
-                marioSprites.SetAnimatedSprite("moveRight");
-                position = new Vector2(position.X + xVelocity, position.Y);
-                marioSprites.SetLocation(position);
+                if (Direction)
+                {
+                    position = new Vector2(position.X + xVelocity, position.Y);
+                    marioSprites.SetLocation(position);
+                    marioSprites.SetSprite("jumpRight");
+                }
+                else if (!Direction)
+                {
+                    position = new Vector2(position.X + xVelocity, position.Y);
+                    marioSprites.SetLocation(position);
+                    marioSprites.SetSprite("jumpLeft");
+                }
             }
-            else if (!Direction)
+            else if (!Jumping)
             {
-                marioSprites.SetAnimatedSprite("moveLeft");
-                position = new Vector2(position.X + xVelocity, position.Y);
-                marioSprites.SetLocation(position);
+                if (Direction)
+                {
+                    marioSprites.SetAnimatedSprite("moveRight");
+                    position = new Vector2(position.X + xVelocity, position.Y);
+                    marioSprites.SetLocation(position);
+                }
+                else if (!Direction)
+                {
+                    marioSprites.SetAnimatedSprite("moveLeft");
+                    position = new Vector2(position.X + xVelocity, position.Y);
+                    marioSprites.SetLocation(position);
+                }
             }
-        }
         }
     }
     public void StopMove()
@@ -95,30 +95,30 @@ public class BigMario : IMario
     }
     public void Crouch()
     {
-        if(Crouching)
+        if (Crouching)
         {
-            if(Direction)
+            if (Direction)
             {
                 position = new Vector2(position.X, position.Y + 10f * (SCALE));
                 marioSprites.SetLocation(position);
                 marioSprites.SetSprite("crouchRight");
             }
-            else if(!Direction)
+            else if (!Direction)
             {
                 position = new Vector2(position.X, position.Y + 10f * (SCALE));
                 marioSprites.SetLocation(position);
                 marioSprites.SetSprite("crouchLeft");
             }
         }
-        else if(!Crouching)
+        else if (!Crouching)
         {
-            if(Direction)
+            if (Direction)
             {
                 position = new Vector2(position.X, position.Y - 10f * (SCALE));
                 marioSprites.SetLocation(position);
                 marioSprites.SetSprite("standRight");
             }
-            else if(!Direction)
+            else if (!Direction)
             {
                 position = new Vector2(position.X, position.Y - 10f * (SCALE));
                 marioSprites.SetLocation(position);
@@ -128,11 +128,11 @@ public class BigMario : IMario
     }
     public void Damage()
     {
-        
+
     }
     public void Fireball()
     {
-        
+
     }
     public BigMario(TextureAtlas bigMarioTexture)
     {
@@ -162,7 +162,7 @@ public class BigMario : IMario
     }
     public void Update(GameTime gameTime)
     {
-        if(Jumping)
+        if (Jumping)
         {
             if (!Falling)
             {
@@ -173,7 +173,7 @@ public class BigMario : IMario
                     Falling = true;
                 }
             }
-            else if(Falling)
+            else if (Falling)
             {
                 position = new Vector2(position.X, position.Y + 4f);
                 marioSprites.SetLocation(position);
@@ -193,6 +193,7 @@ public class BigMario : IMario
             }
         }
         marioSprites.Update(gameTime);
+        MarioCollider = marioSprites.UpdateCollider();
     }
 
     public void Draw(SpriteBatch spriteBatch)

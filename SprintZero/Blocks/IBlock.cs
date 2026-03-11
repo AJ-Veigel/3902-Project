@@ -4,7 +4,7 @@ using SpriteZero.Marios;
 
 namespace SpriteZero.blocks
 {
-    public enum CollisionSide {None, Top,Bottom,Left,Right}
+    public enum CollisionSide {None, Top, Bottom, Left, Right}
     public interface IBlock
     {
         

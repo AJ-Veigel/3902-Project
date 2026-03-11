@@ -7,8 +7,9 @@ using SpriteZero.Sprites;
 
 public class MarioSprite : ISprite
 {
-    public Rectangle Collider {get; set;}
-    public Vector2 location {get; set;}
+    private const float SCALE = 4f;
+    public Rectangle Collider { get; set; }
+    public Vector2 location { get; set; }
     private TextureRegion standingLeftSprite;
     private TextureRegion standingRightSprite;
     private TextureRegion jumpingLeftSprite;
@@ -125,7 +126,7 @@ public class MarioSprite : ISprite
     // marioNumber = 2 : fire mario
     public void LoadContent(TextureAtlas marioTexture, int marioNumber)
     {
-        if(marioNumber == 0)
+        if (marioNumber == 0)
         {
             // Store Still Sprites
             standingLeftSprite = marioTexture.GetRegion("standingLeftSmallMario");
@@ -148,7 +149,7 @@ public class MarioSprite : ISprite
             throwLeftSprite = null;
             throwRightSprite = null;
         }
-        else if(marioNumber == 1)
+        else if (marioNumber == 1)
         {
             // Store Still Sprites
             standingLeftSprite = marioTexture.GetRegion("standingLeftBigMario");
@@ -171,7 +172,7 @@ public class MarioSprite : ISprite
             throwRightSprite = null;
             deathSprite = null;
         }
-        else if(marioNumber == 2)
+        else if (marioNumber == 2)
         {
             // Store Still Sprites
             standingLeftSprite = marioTexture.GetRegion("standingLeftFireMario");
@@ -199,6 +200,19 @@ public class MarioSprite : ISprite
         currentSprite = standingLeftSprite;
         currentAnimatedSprite = null;
     }
+    public Rectangle UpdateCollider()
+    {
+        Rectangle Collider = new Rectangle(0, 0, 0, 0);
+        if(currentSprite != null)
+        {
+            Collider = new Rectangle((int)location.X, (int)location.Y, GetSprite().Width * (int)SCALE, GetSprite().Height * (int)SCALE);
+        }
+        else if(currentAnimatedSprite != null)
+        {
+            Collider = new Rectangle((int)location.X, (int)location.Y, (int)GetAnimatedSprite().Width, (int)GetAnimatedSprite().Height); 
+        }
+        return Collider;
+    }
     public void Draw(SpriteBatch spriteBatch)
     {
         if (currentSprite != null)
@@ -214,7 +228,7 @@ public class MarioSprite : ISprite
 
     public void Update(GameTime gameTime)
     {
-        if(currentAnimatedSprite != null)
+        if (currentAnimatedSprite != null)
         {
             currentAnimatedSprite.Update(gameTime);
         }

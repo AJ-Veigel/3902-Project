@@ -8,13 +8,13 @@ public class SmallMario : IMario
 {
     private MarioSprite marioSprites;
     public Vector2 position { get; set; }
-    public Rectangle MarioCollider {get; set;}
-    public float yVelocity {get; set;}
-    public float xVelocity {get; set;}
+    public Rectangle MarioCollider { get; set; }
+    public float yVelocity { get; set; }
+    public float xVelocity { get; set; }
     public float jumpStartHeight { get; set; }
     public Boolean Jumping { get; set; }
     public Boolean Falling { get; set; }
-    public Boolean isOnGround {get;set;}
+    public Boolean isOnGround { get; set; }
     public Boolean Direction { get; set; }
     public Boolean Sprinting { get; set; }
     public Boolean Crouching { get; set; }
@@ -23,7 +23,7 @@ public class SmallMario : IMario
     private const float SCALE = 4f;
     public void Move()
     {
-        if(Direction)
+        if (Direction)
         {
             xVelocity = DefaultMoveSpeed;
         }
@@ -93,7 +93,7 @@ public class SmallMario : IMario
     }
     public void Crouch()
     {
-        
+
     }
     public void Damage()
     {
@@ -162,6 +162,7 @@ public class SmallMario : IMario
             }
         }
         marioSprites.Update(gameTime);
+        MarioCollider = marioSprites.UpdateCollider();
     }
 
     public void Draw(SpriteBatch spriteBatch)
