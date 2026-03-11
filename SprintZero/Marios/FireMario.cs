@@ -46,9 +46,9 @@ public class FireMario : IMario
     public bool Jumping { get; set; }
     public bool Falling { get; set; }
     public bool Direction { get; set; } = true; 
-    public bool Sprint { get; set; }
-    public bool Crouch { get; set; }
-    public bool Swim { get; set; }
+    public bool Sprinting { get; set; }
+    public bool Crouching { get; set; }
+    public bool Swimming { get; set; }
 
     // Throw Timer
     private bool throwing;
@@ -174,7 +174,7 @@ public class FireMario : IMario
         );
 
         // Only set run animation if we’re not in a higher-priority pose
-        if (!Jumping && !Crouch && !Swim && !throwing && !Falling)
+        if (!Jumping && !Crouching && !Swimming && !throwing && !Falling)
         {
             SetAnimated(Direction ? moveRightSprite : moveLeftSprite);
         }
@@ -182,9 +182,9 @@ public class FireMario : IMario
 
     public void setAppropriate()
     {
-        if (Swim)
+        if (Swimming)
             SetAnimated(Direction ? swimRightSprite : swimLeftSprite);
-        else if (Crouch)
+        else if (Crouching)
             SetRegion(Direction ? crouchRightSprite : crouchLeftSprite);
         else if (Jumping)
             SetRegion(Direction ? jumpingRightSprite : jumpingLeftSprite);
@@ -194,7 +194,7 @@ public class FireMario : IMario
 
     public void StopMove()
     {
-        if (!Jumping && !Crouch && !Swim && !throwing)
+        if (!Jumping && !Crouching && !Swimming && !throwing)
         {
             SetRegion(Direction ? standingRightSprite : standingLeftSprite);
         }
@@ -216,6 +216,11 @@ public class FireMario : IMario
         jumpStartHeight = position.Y;
         Jumping = true;
         SetRegion(Direction ? jumpingRightSprite : jumpingLeftSprite);
+    }
+
+    public void Crouch()
+    {
+        
     }
 
     public void Fireball()

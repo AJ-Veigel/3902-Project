@@ -327,6 +327,16 @@ public class Game1 : Core
     {
         currentMario.Jump();
     }
+    public void MarioCrouch()
+    {
+        currentMario.Crouching = true;
+        currentMario.Crouch();
+    }
+    public void MarioUncrouch()
+    {
+        currentMario.Crouching = false;
+        currentMario.Crouch();
+    }
     public void MarioFire()
     {
         if (currentMarioNum == 2)

@@ -15,9 +15,9 @@ public class SmallMario : IMario
     public Boolean Jumping { get; set; }
     public Boolean Falling { get; set; }
     public Boolean Direction { get; set; }
-    public Boolean Sprint { get; set; }
-    public Boolean Crouch { get; set; }
-    public Boolean Swim { get; set; }
+    public Boolean Sprinting { get; set; }
+    public Boolean Crouching { get; set; }
+    public Boolean Swimming { get; set; }
     private float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     public void Move()
@@ -89,6 +89,10 @@ public class SmallMario : IMario
             marioSprites.SetSprite("jumpLeft");
         }
     }
+    public void Crouch()
+    {
+        
+    }
     public void Damage()
     {
         marioSprites.SetSprite("death");
@@ -99,12 +103,11 @@ public class SmallMario : IMario
     }
     public SmallMario(TextureAtlas smallMarioTexture)
     {
-
-        // default jump position
-        jumpStartHeight = 664;
-
         // default position
         position = new Vector2(300, 664);
+
+        // jump height based on position
+        jumpStartHeight = position.Y;
 
         marioSprites = new MarioSprite(smallMarioTexture, 0, position);
 
@@ -113,11 +116,11 @@ public class SmallMario : IMario
     }
     public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
     {
-        // jump height based on position
-        jumpStartHeight = pos.Y;
-
         // set position to the passed Vector2
         position = pos;
+
+        // jump height based on position
+        jumpStartHeight = pos.Y;
 
         marioSprites = new MarioSprite(smallMarioTexture, 0, position);
 

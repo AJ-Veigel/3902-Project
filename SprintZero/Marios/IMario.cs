@@ -11,12 +11,13 @@ namespace SpriteZero.Marios
         Rectangle MarioCollider {get; set;}
         Boolean Direction {get;set;}
         Boolean Jumping {get; set;}
-        Boolean Sprint {get;set;}
-        Boolean Swim {get;set;}
-        Boolean Crouch {get;set;}
+        Boolean Sprinting {get;set;}
+        Boolean Swimming {get;set;}
+        Boolean Crouching {get;set;}
         void Move();
         void StopMove();
         void Jump();
+        void Crouch();
         void Fireball();
         void Damage();
         
