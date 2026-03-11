@@ -12,15 +12,15 @@ public class AboveGroundBreak : IBlock
     private const float SCALE = 4f;
     private Vector2 velocity;
     private float gravity = 0.5f;
-    private bool isBroken = false; 
+    private bool isBroken = false;
     private bool playTheBreakingAnimation = false;
 
     public AboveGroundBreak(AnimatedSprite animated)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
-        sprite.Pause();  
-        location = new Vector2(300, 728);
+        sprite.Pause();
+        location = new Vector2(300, 700);
         velocity = Vector2.Zero;
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
@@ -29,18 +29,18 @@ public class AboveGroundBreak : IBlock
     {
         if (playTheBreakingAnimation)
         {
-            sprite.Play();        
+            sprite.Play();
             sprite.Update(gameTime);
 
-            velocity.Y += gravity; 
-            location += velocity;  
+            velocity.Y += gravity;
+            location += velocity;
         }
         else
-        {        
-            sprite.Update(gameTime); 
+        {
+            sprite.Update(gameTime);
         }
 
-        
+
         Collider = new Rectangle(
             (int)location.X,
             (int)location.Y,
@@ -54,20 +54,20 @@ public class AboveGroundBreak : IBlock
         sprite.Draw(spriteBatch, location);
     }
 
-   public void onCollision(IMario mario, CollisionSide theSide)
-{
-    if (theSide == CollisionSide.Bottom && !isBroken && (mario is BigMario || mario is FireMario))
+    public void onCollision(IMario mario, CollisionSide theSide)
     {
-        isBroken = true;
-        playTheBreakingAnimation = true;
-        velocity = new Vector2(-6f, -8f); 
-    }
-    else if (theSide == CollisionSide.Top && !isBroken)
-    {
-        mario.position = new Vector2(mario.position.X, location.Y - mario.MarioCollider.Height);
-        mario.Falling = false;
-        mario.Jumping = false;
-    }
+        if (theSide == CollisionSide.Bottom && !isBroken && (mario is BigMario || mario is FireMario))
+        {
+            isBroken = true;
+            playTheBreakingAnimation = true;
+            velocity = new Vector2(-6f, -8f);
+        }
+        else if (theSide == CollisionSide.Top && !isBroken)
+        {
+            mario.position = new Vector2(mario.position.X, location.Y - mario.MarioCollider.Height);
+            mario.Falling = false;
+            mario.Jumping = false;
+        }
 
-}
+    }
 }
