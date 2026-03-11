@@ -15,6 +15,7 @@ namespace SpriteZero.Marios
         Boolean Sprinting {get;set;}
         Boolean Swimming {get;set;}
         Boolean Crouching {get;set;}
+        Boolean Falling {get; set;}
         void Move();
         void StopMove();
         void Jump();

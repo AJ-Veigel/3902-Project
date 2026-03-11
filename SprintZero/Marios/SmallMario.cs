@@ -80,6 +80,7 @@ public class SmallMario : IMario
     public void Jump()
     {
         Jumping = true;
+        jumpStartHeight = position.Y;
         yVelocity = 4f;
         if (Direction)
         {
