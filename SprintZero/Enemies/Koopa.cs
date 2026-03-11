@@ -26,15 +26,6 @@ public class Koopa : IEnemy
 	private float KoopaTimer { get; set; }
 	public Rectangle EnemyCollider { get; set; }
 
-	//private readonly TextureRegion walk1;
-	//private readonly TextureRegion walk2;
-
-	/*
-		green: (451, 816, 16, 24); (481, 815, 16, 24);
-		red: (451, 846, 16, 25); (481, 845, 16, 25); // why are these taller
-		blue: (453, 875, 16, 24); (483, 874, 16, 24);
-	*/
-
 	public static void loadTextures(ContentManager content)
 	{
 		TextureAtlas atlas = TextureAtlas.FromFile(content, "Images/koopa-definition.xml");
