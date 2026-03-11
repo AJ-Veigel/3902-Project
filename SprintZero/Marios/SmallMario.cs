@@ -20,8 +20,8 @@ public class SmallMario : IMario
     private AnimatedSprite rightFlagpoleSprite;
     private TextureRegion currentSprite;
     private AnimatedSprite currentASprite;
+    private MarioSprite marioSprites;
     public Vector2 position { get; set; }
-     public Vector2 velocity {get;set;}
     public Rectangle MarioCollider {get; set;}
     public float yVelocity {get; set;}
     public float xVelocity {get; set;}
@@ -49,31 +49,33 @@ public class SmallMario : IMario
             if (Direction)
             {
                 position = new Vector2(position.X + xVelocity, position.Y);
-                currentSprite = jumpingRightSprite;
-                currentASprite = null;
+                marioSprites.SetLocation(position);
+                marioSprites.SetSprite("jumpRight");
+                marioSprites.SetAnimatedSprite("");
             }
             else if (!Direction)
             {
                 position = new Vector2(position.X + xVelocity, position.Y);
-                currentSprite = jumpingLeftSprite;
-                currentASprite = null;
+                marioSprites.SetLocation(position);
+                marioSprites.SetSprite("jumpLeft");
+                marioSprites.SetAnimatedSprite("");
             }
         }
         else if (!Jumping)
         {
             if (Direction)
             {
-                currentASprite = moveRightSprite;
-                currentASprite.Scale = new Vector2(SCALE);
+                marioSprites.SetAnimatedSprite("moveRight");
                 position = new Vector2(position.X + xVelocity, position.Y);
-                currentSprite = null;
+                marioSprites.SetLocation(position);
+                marioSprites.SetSprite("");
             }
             else if (!Direction)
             {
-                currentASprite = moveLeftSprite;
-                currentASprite.Scale = new Vector2(SCALE);
+                marioSprites.SetAnimatedSprite("moveLeft");
                 position = new Vector2(position.X + xVelocity, position.Y);
-                currentSprite = null;
+                marioSprites.SetLocation(position);
+                marioSprites.SetSprite("");
             }
         }
     }
@@ -84,13 +86,13 @@ public class SmallMario : IMario
         {
             if (Direction)
             {
-                currentSprite = standingRightSprite;
-                currentASprite = null;
+                marioSprites.SetSprite("standRight");
+                marioSprites.SetAnimatedSprite("");
             }
             else if (!Direction)
             {
-                currentSprite = standingLeftSprite;
-                currentASprite = null;
+                marioSprites.SetSprite("standLeft");
+                marioSprites.SetAnimatedSprite("");
             }
         }
     }
@@ -100,45 +102,24 @@ public class SmallMario : IMario
         yVelocity = 4f;
         if (Direction)
         {
-            currentSprite = jumpingRightSprite;
+            marioSprites.SetSprite("jumpRight");
         }
         else if (!Direction)
         {
-            currentSprite = jumpingLeftSprite;
+            marioSprites.SetSprite("jumpLeft");
         }
     }
     public void Damage()
     {
-        currentSprite = deathSprite;
-        currentASprite = null;
+        marioSprites.SetSprite("death");
+        marioSprites.SetAnimatedSprite("");
     }
     public void Fireball()
     {
 
     }
-
-    public void LoadMarioSprites(TextureAtlas smallMarioTexture)
-    {
-        standingLeftSprite = smallMarioTexture.GetRegion("standingLeftSmallMario");
-        standingRightSprite = smallMarioTexture.GetRegion("standingRightSmallMario");
-        jumpingLeftSprite = smallMarioTexture.GetRegion("jumpingLeftSmallMario");
-        jumpingRightSprite = smallMarioTexture.GetRegion("jumpingRightSmallMario");
-        deathSprite = smallMarioTexture.GetRegion("deadMario");
-        moveRightSprite = smallMarioTexture.CreateAnimatedSprite("smallRightMove");
-        moveLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftMove");
-        swimRightSprite = smallMarioTexture.CreateAnimatedSprite("smallRightSwim");
-        swimLeftSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftSwim");
-        leftFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallLeftFlag");
-        rightFlagpoleSprite = smallMarioTexture.CreateAnimatedSprite("smallRightFlag");
-    }
-
     public SmallMario(TextureAtlas smallMarioTexture)
     {
-        // Load all of the sprites
-        LoadMarioSprites(smallMarioTexture);
-
-        // Default Sprite
-        currentSprite = standingLeftSprite;
 
         // default jump position
         jumpStartHeight = 664;
@@ -146,16 +127,13 @@ public class SmallMario : IMario
         // default position
         position = new Vector2(300, 664);
 
+        marioSprites = new MarioSprite(smallMarioTexture, 0, position);
+
         // Set Mario Collider
-        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width * (int)SCALE, currentSprite.Height * (int)SCALE);
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
     }
     public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
     {
-        // Load all of the sprites
-        LoadMarioSprites(smallMarioTexture);
-
-        // Default Sprite
-        currentSprite = standingLeftSprite;
 
         // jump height based on position
         jumpStartHeight = pos.Y;
@@ -163,8 +141,10 @@ public class SmallMario : IMario
         // set position to the passed Vector2
         position = pos;
 
+        marioSprites = new MarioSprite(smallMarioTexture, 0, position);
+
         // Set Mario Collider
-        MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width * (int)SCALE, currentSprite.Height * (int)SCALE);
+        MarioCollider = new Rectangle((int)position.X, (int)position.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
     }
     public void Update(GameTime gameTime)
     {
@@ -173,6 +153,7 @@ public class SmallMario : IMario
             if (!Falling)
             {
                 position = new Vector2(position.X, position.Y - 4f);
+                marioSprites.SetLocation(position);
                 if (position.Y <= jumpStartHeight - 100)
                 {
                     Falling = true;
@@ -181,6 +162,7 @@ public class SmallMario : IMario
             else if (Falling)
             {
                 position = new Vector2(position.X, position.Y + 4f);
+                marioSprites.SetLocation(position);
                 if (position.Y >= jumpStartHeight - 16)
                 {
                     Falling = false;
@@ -198,25 +180,17 @@ public class SmallMario : IMario
         }
         if(currentSprite != null)
         {
-            MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width * (int)SCALE, currentSprite.Height * (int)SCALE);
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
         }
         else if(currentASprite != null)
         {
             currentASprite.Update(gameTime);
-            MarioCollider = new Rectangle((int)position.X, (int)position.Y, (int)currentASprite.Width, (int)currentASprite.Height); 
+            MarioCollider = new Rectangle((int)position.X, (int)position.Y, (int)marioSprites.GetAnimatedSprite().Width, (int)marioSprites.GetAnimatedSprite().Height); 
         }
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if (currentSprite != null)
-        {
-            currentSprite.Draw(spriteBatch, position, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
-        }
-        else if (currentASprite != null)
-        {
-            currentASprite.Draw(spriteBatch, position);
-        }
-
+        marioSprites.Draw(spriteBatch);
     }
 }
