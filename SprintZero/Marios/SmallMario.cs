@@ -14,6 +14,7 @@ public class SmallMario : IMario
     public float jumpStartHeight { get; set; }
     public Boolean Jumping { get; set; }
     public Boolean Falling { get; set; }
+    public Boolean isOnGround {get;set;}
     public Boolean Direction { get; set; }
     public Boolean Sprinting { get; set; }
     public Boolean Crouching { get; set; }

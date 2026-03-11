@@ -13,6 +13,6 @@ namespace SpriteZero.blocks
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
 
-        void onHit(IMario mario, CollisionSide side);
+        void onCollision(IMario mario, CollisionSide side);
     }
 }

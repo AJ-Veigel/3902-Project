@@ -11,6 +11,7 @@ public class FireMario : IMario
     private const float MOVE_SPEED = 4f;
     private const float GRAVITY = 4f;
     private const float JUMP_VELOCITY = 4f;
+  
     private float jumpStartHeight;
      public Vector2 velocity {get;set;}
 

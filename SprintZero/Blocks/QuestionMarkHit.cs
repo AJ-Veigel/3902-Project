@@ -22,7 +22,7 @@ public class questionMarkHit : IBlock
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause(); 
-        location = new Vector2(300, 450);
+        location = new Vector2(400,600);
         startY = location.Y;
 
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
@@ -61,13 +61,22 @@ public class questionMarkHit : IBlock
         sprite.Draw(spriteBatch, location);
     }
 
-    public void onHit(IMario mario, CollisionSide theSide)
+    public void onCollision(IMario mario, CollisionSide theSide)
     {
         if (theSide == CollisionSide.Bottom && !isHit)
         {
             isHit = true;
             rising = true;
                
+        } else if (theSide == CollisionSide.Top) {
+           mario.position = new Vector2(mario.position.X,location.Y- mario.MarioCollider.Height);
+            if (theSide == CollisionSide.None)
+            {
+                mario.Falling = true;
+            }
+
         }
+
+        
     }
 }

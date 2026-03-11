@@ -10,7 +10,6 @@ public class MediumTube : IBlock
     private TextureRegion sprite;
     public Vector2 location {get;set;}
     public Rectangle Collider {get; set;}
-    private const float SCALE = 4f;
     public MediumTube(TextureRegion region)
     {
         sprite = region;
@@ -24,8 +23,20 @@ public class MediumTube : IBlock
         sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
 
     }
-    //Need to do 
-     public  void onHit(IMario mario, CollisionSide theSide)
+    
+     public  void onCollision(IMario mario, CollisionSide theSide)
     {
-    }
+        if (theSide == CollisionSide.Top) {
+           mario.position = new Vector2(mario.position.X,location.Y- mario.MarioCollider.Height);
+           mario.Jumping = false;
+           mario.Falling = false;
+        }
+           else if (theSide == CollisionSide.Left)
+            {
+                mario.position  = new Vector2(location.X-mario.MarioCollider.Width,mario.position.Y);
+            }
+            else if (theSide == CollisionSide.Right){
+            mario.position =new Vector2(location.X+mario.MarioCollider.Width,mario.position.Y);
+        }
+        }
 }

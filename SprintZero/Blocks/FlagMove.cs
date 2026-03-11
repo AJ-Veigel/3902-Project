@@ -17,7 +17,7 @@ public class FlagMove : IBlock
         sprite = animated;
         sprite.Scale = new Vector2(4f);
  
-        location = new Vector2(530,325);
+        location = new Vector2(300, 700);
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Update(GameTime gameTime)
@@ -29,5 +29,8 @@ public class FlagMove : IBlock
     
         sprite.Draw(spriteBatch,location);
     }
-    public  void onHit(IMario mario, CollisionSide theSide){}
+    public  void onCollision(IMario mario, CollisionSide theSide)
+    {
+        
+    }
 }

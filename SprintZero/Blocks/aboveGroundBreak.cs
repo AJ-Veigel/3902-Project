@@ -20,7 +20,7 @@ public class AboveGroundBreak : IBlock
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();  
-        location = new Vector2(300, 450);
+        location = new Vector2(300, 700);
         velocity = Vector2.Zero;
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
@@ -54,15 +54,20 @@ public class AboveGroundBreak : IBlock
         sprite.Draw(spriteBatch, location);
     }
 
-    public void onHit(IMario mario, CollisionSide theSide)
+   public void onCollision(IMario mario, CollisionSide theSide)
+{
+    if (theSide == CollisionSide.Bottom && !isBroken && (mario is BigMario || mario is FireMario))
     {
-       
-        if (theSide == CollisionSide.Bottom && !isBroken && (mario is BigMario || mario is FireMario))
-        {
-            isBroken = true;
-            playTheBreakingAnimation = true;
-            velocity = new Vector2(-6f, -8f); 
-        }
-        
+        isBroken = true;
+        playTheBreakingAnimation = true;
+        velocity = new Vector2(-6f, -8f); 
     }
+    else if (theSide == CollisionSide.Top && !isBroken)
+    {
+        mario.position = new Vector2(mario.position.X, location.Y - mario.MarioCollider.Height);
+        mario.Falling = false;
+        mario.Jumping = false;
+    }
+
+}
 }
