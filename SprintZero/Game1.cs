@@ -18,16 +18,16 @@ public class Game1 : Core
     private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture;
     private TextureRegion ground, smallTube, castle, mushroom, mediumTube, oneup_mushroom;
 
-    private AnimatedSprite  questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
+    private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
     private List<IController> controllers;
-    private List<ISprite>  items;
+    private List<ISprite> items;
     private List<IBlock> blocks;
     private List<IProjectile> projectiles;
     private List<IMario> marios;
     private List<IEnemy> enemies;
 
-    private ISprite  currentItem;
+    private ISprite currentItem;
     private IBlock currentBlock;
     private IMario currentMario;
     private IEnemy currentEnemy;
@@ -72,7 +72,6 @@ public class Game1 : Core
             new FlagMove(flagMove),
             new MediumTube(mediumTube),
             new AboveGroundBreak(aboveGroundBreak)
-
          };
 
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
@@ -155,37 +154,39 @@ public class Game1 : Core
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {
             projectiles[i].Update(gameTime);
-            if (projectiles[i] is Fireball fb) {
-                if(!fb.IsActive) {  
+            if (projectiles[i] is Fireball fb)
+            {
+                if (!fb.IsActive)
+                {
                     projectiles.RemoveAt(i);
                     continue;
                 }
-                collisionCheck(fb);   
+                collisionCheck(fb);
             }
         }
         currentEnemy.Update(gameTime);
         CheckBounds();
         CheckCollisions();
         CheckEnemyCollisions();
-        playerBlockCollision.checkBlockCollision(currentMario,blocks);
+        playerBlockCollision.checkBlockCollision(currentMario, blocks);
         base.Update(gameTime);
     }
 
     public void CheckBounds()
     {
-        if(Bounds.Left >= currentMario.MarioCollider.Left)
+        if (Bounds.Left >= currentMario.MarioCollider.Left)
         {
             currentMario.position = new Vector2(currentMario.position.X + 4f, currentMario.position.Y);
         }
-        else if(Bounds.Right <= currentMario.MarioCollider.Right)
+        else if (Bounds.Right <= currentMario.MarioCollider.Right)
         {
             currentMario.position = new Vector2(currentMario.position.X - 4f, currentMario.position.Y);
         }
-        if(Bounds.Left >= currentItem.Collider.Left)
+        if (Bounds.Left >= currentItem.Collider.Left)
         {
             currentItem.location = new Vector2(currentItem.location.X + 2f, currentItem.location.Y);
         }
-        else if(Bounds.Right <= currentItem.Collider.Right)
+        else if (Bounds.Right <= currentItem.Collider.Right)
         {
             currentItem.location = new Vector2(currentItem.location.X - 2f, currentItem.location.Y);
         }
@@ -193,15 +194,15 @@ public class Game1 : Core
 
     public void CheckCollisions()
     {
-        if((currentItem.Collider.Intersects(currentMario.MarioCollider)))
+        if ((currentItem.Collider.Intersects(currentMario.MarioCollider)))
         {
             // Checks to see if item is a fire flower and if mario is small or big
-            if(currentItemCount == 0 && currentMarioNum <= 1)
+            if (currentItemCount == 0 && currentMarioNum <= 1)
             {
                 SetMario(2);
             }
             // Checks to see if the item is a mushroom and if mario is small
-            else if(currentItemCount == 3 && currentMarioNum == 0)
+            else if (currentItemCount == 3 && currentMarioNum == 0)
             {
                 SetMario(1);
             }
@@ -210,8 +211,8 @@ public class Game1 : Core
 
     public void CheckEnemyCollisions()
     {
-       if (currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) && !currentEnemy.Dead)
-       {
+        if (currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) && !currentEnemy.Dead)
+        {
             if (currentMario.Jumping && currentMario.MarioCollider.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
             {
                 currentEnemy.Dead = true;
@@ -287,6 +288,7 @@ public class Game1 : Core
     public void nextEnemy()
     {
         currentEnemyCount = (currentEnemyCount + 1) % enemies.Count;
+        enemies[currentEnemyCount].Dead = false;
         currentEnemy = enemies[currentEnemyCount];
     }
     public void previousEnemy()
@@ -296,6 +298,7 @@ public class Game1 : Core
         {
             currentEnemyCount = enemies.Count - 1;
         }
+        enemies[currentEnemyCount].Dead = false;
         currentEnemy = enemies[currentEnemyCount];
     }
     public void SetMario(int marioNumber)
@@ -303,19 +306,19 @@ public class Game1 : Core
         Vector2 currentPosition = currentMario.position;
         if (marioNumber == 0)
         {
-            if(currentMarioNum > 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y + 64f);
+            if (currentMarioNum > 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y + 64f);
             currentMario = new SmallMario(smallMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
         }
         else if (marioNumber == 1)
         {
-            if(currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
+            if (currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
             currentMario = new BigMario(bigMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
         }
         else if (marioNumber == 2)
         {
-            if(currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
+            if (currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
             currentMario = new FireMario(fireMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
         }
@@ -323,6 +326,16 @@ public class Game1 : Core
     public void MarioJump()
     {
         currentMario.Jump();
+    }
+    public void MarioCrouch()
+    {
+        currentMario.Crouching = true;
+        currentMario.Crouch();
+    }
+    public void MarioUncrouch()
+    {
+        currentMario.Crouching = false;
+        currentMario.Crouch();
     }
     public void MarioFire()
     {
@@ -370,7 +383,7 @@ public class Game1 : Core
 
     public void collisionCheck(Fireball fb)
     {
-        for (int j = enemies.Count-1; j >= 0; j--)
+        for (int j = enemies.Count - 1; j >= 0; j--)
         {
             switch (enemies[j])
             {

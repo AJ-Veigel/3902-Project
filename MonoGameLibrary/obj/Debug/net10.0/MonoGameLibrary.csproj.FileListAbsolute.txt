@@ -37,3 +37,16 @@ C:\Users\thepi\Documents\VisualStudio\Project\MonoGameLibrary\obj\Debug\net10.0\
 C:\Users\thepi\Documents\VisualStudio\Project\MonoGameLibrary\obj\Debug\net10.0\refint\MonoGameLibrary.dll
 C:\Users\thepi\Documents\VisualStudio\Project\MonoGameLibrary\obj\Debug\net10.0\MonoGameLibrary.pdb
 C:\Users\thepi\Documents\VisualStudio\Project\MonoGameLibrary\obj\Debug\net10.0\ref\MonoGameLibrary.dll
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\bin\Debug\net10.0\MonoGameLibrary.deps.json
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\bin\Debug\net10.0\MonoGameLibrary.dll
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\bin\Debug\net10.0\MonoGameLibrary.pdb
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net10.0\MonoGameLibrary.csproj.AssemblyReference.cache
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net10.0\MonoGameLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net10.0\MonoGameLibrary.AssemblyInfoInputs.cache
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net10.0\MonoGameLibrary.AssemblyInfo.cs
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net10.0\MonoGameLibrary.csproj.CoreCompileInputs.cache
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net10.0\MonoGameLibrary.sourcelink.json
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net10.0\MonoGameLibrary.dll
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net10.0\refint\MonoGameLibrary.dll
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net10.0\MonoGameLibrary.pdb
+C:\Users\ajvei\Documents\GitHub\3902-Project\MonoGameLibrary\obj\Debug\net10.0\ref\MonoGameLibrary.dll

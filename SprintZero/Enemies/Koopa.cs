@@ -26,16 +26,16 @@ public class Koopa : IEnemy
 	private float KoopaTimer { get; set; }
 	public Rectangle EnemyCollider { get; set; }
 
-    //private readonly TextureRegion walk1;
-    //private readonly TextureRegion walk2;
+	//private readonly TextureRegion walk1;
+	//private readonly TextureRegion walk2;
 
-    /*
+	/*
 		green: (451, 816, 16, 24); (481, 815, 16, 24);
 		red: (451, 846, 16, 25); (481, 845, 16, 25); // why are these taller
 		blue: (453, 875, 16, 24); (483, 874, 16, 24);
 	*/
 
-    public static void loadTextures(ContentManager content)
+	public static void loadTextures(ContentManager content)
 	{
 		TextureAtlas atlas = TextureAtlas.FromFile(content, "Images/koopa-definition.xml");
 		const int StateCount = 5;
@@ -77,10 +77,12 @@ public class Koopa : IEnemy
 		if (Type == KoopaType.Green)
 		{
 			sprites = green;
-		} else if (Type == KoopaType.Red)
+		}
+		else if (Type == KoopaType.Red)
 		{
 			sprites = red;
-		} else
+		}
+		else
 		{
 			sprites = blue;
 		}
@@ -118,7 +120,7 @@ public class Koopa : IEnemy
 
 	public void Update(GameTime gameTime)
 	{
-		this.KoopaTimer -= (float) gameTime.ElapsedGameTime.TotalSeconds;
+		this.KoopaTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
 		HandleTimer(); // Handles timed events.
 
 		// TODO: implement physics.

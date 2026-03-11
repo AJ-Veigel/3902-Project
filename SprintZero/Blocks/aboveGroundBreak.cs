@@ -20,7 +20,7 @@ public class AboveGroundBreak : IBlock
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();  
-        location = new Vector2(300, 700);
+        location = new Vector2(300, 728);
         velocity = Vector2.Zero;
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }

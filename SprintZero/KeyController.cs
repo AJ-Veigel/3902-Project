@@ -75,6 +75,14 @@ public class KeyController : IController
         {
             game.MarioJump();
         }
+        if ((current.IsKeyDown(Keys.S) && previousState.IsKeyUp(Keys.S)) || (current.IsKeyDown(Keys.Down) && previousState.IsKeyUp(Keys.Down)))
+        {
+            game.MarioCrouch();
+        }
+        if ((current.IsKeyUp(Keys.S) && previousState.IsKeyDown(Keys.S)) || (current.IsKeyUp(Keys.Down) && previousState.IsKeyDown(Keys.Down)))
+        {
+            game.MarioUncrouch();
+        }
         if (current.IsKeyDown(Keys.D) || current.IsKeyDown(Keys.Right))
         {
             game.MarioRight();
