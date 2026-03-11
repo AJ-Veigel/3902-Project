@@ -61,6 +61,7 @@ public class MarioSprite : ISprite
                 currentSprite = null;
                 break;
         }
+        currentAnimatedSprite = null;
     }
 
     public AnimatedSprite GetAnimatedSprite()
@@ -100,6 +101,7 @@ public class MarioSprite : ISprite
                 currentAnimatedSprite = null;
                 break;
         }
+        currentSprite = null;
     }
 
     public Vector2 GetLocation()
@@ -210,8 +212,11 @@ public class MarioSprite : ISprite
         }
     }
 
-    public void Update(GameTime gametime)
+    public void Update(GameTime gameTime)
     {
-        
+        if(currentAnimatedSprite != null)
+        {
+            currentAnimatedSprite.Update(gameTime);
+        }
     }
 }
