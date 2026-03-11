@@ -9,6 +9,7 @@ using SpriteZero.Marios;
 using SpriteZero.Sprites;
 using SpriteZero.blocks;
 using SprintZero.PBCollision;
+using SprintZero.Map;
 
 namespace SprintZero;
 
@@ -32,6 +33,8 @@ public class Game1 : Core
     private IMario currentMario;
     private IEnemy currentEnemy;
 
+    private TileMap map;
+
     private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount;
     private Rectangle Bounds;
 
@@ -44,6 +47,8 @@ public class Game1 : Core
         };
 
         Bounds = new Rectangle(0, 0, 1920, 1080);
+
+        map = new TileMap();
 
         base.Initialize();
     }
@@ -73,6 +78,16 @@ public class Game1 : Core
             new MediumTube(mediumTube),
             new AboveGroundBreak(aboveGroundBreak)
          };
+
+        for (int x = -1; x < 32; x++)
+        {
+            for (int y = 11; y < 18; y++)
+            {
+                Ground b = new Ground(ground);
+                b.location = new Vector2(x * 64, y * 64);
+                map.addBlockAt(new Point(x, y), b);
+            }
+        }
 
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
         flower = itemTexture.CreateAnimatedSprite("flower");
@@ -168,7 +183,8 @@ public class Game1 : Core
         CheckBounds();
         CheckCollisions();
         CheckEnemyCollisions();
-        playerBlockCollision.checkBlockCollision(currentMario, blocks);
+        //playerBlockCollision.checkBlockCollision(currentMario, blocks);
+        playerBlockCollision.checkBlockCollision(currentMario, map.getBlocksInRectangle(currentMario.MarioCollider));
         base.Update(gameTime);
     }
 
@@ -235,6 +251,7 @@ public class Game1 : Core
         foreach (var p in projectiles)
             p.Draw(SpriteBatch);
         currentEnemy.Draw(SpriteBatch);
+        map.Draw(SpriteBatch);
         SpriteBatch.End();
         base.Draw(gameTime);
     }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Reflection.Metadata.Ecma335;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpriteZero.Sprites;
 using SpriteZero.blocks;
 
 namespace SprintZero.Map
