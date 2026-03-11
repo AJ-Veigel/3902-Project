@@ -162,7 +162,7 @@ public class BigMario : IMario
     }
     public void Update(GameTime gameTime)
     {
-        if (Jumping)
+        if(Jumping)
         {
             if (!Falling)
             {
@@ -173,7 +173,7 @@ public class BigMario : IMario
                     Falling = true;
                 }
             }
-            else if (Falling)
+            else if(Falling)
             {
                 position = new Vector2(position.X, position.Y + 4f);
                 marioSprites.SetLocation(position);
