@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/thepi/Documents/VisualStudio/Project/SprintZero/Content/Images/koopaSprites.png</SourceFile>
-  <SourceTime>2026-02-23T12:52:27.8087662-05:00</SourceTime>
-  <DestFile>C:/Users/thepi/Documents/VisualStudio/Project/SprintZero/Content/bin/DesktopGL/Content/Images/koopaSprites.xnb</DestFile>
-  <DestTime>2026-03-11T12:42:42.5049507-04:00</DestTime>
+  <SourceFile>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/koopaSprites.png</SourceFile>
+  <SourceTime>2026-03-12T02:31:12.5922196-04:00</SourceTime>
+  <DestFile>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/koopaSprites.xnb</DestFile>
+  <DestTime>2026-03-12T02:35:05.7381925-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2025-10-20T10:25:32-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

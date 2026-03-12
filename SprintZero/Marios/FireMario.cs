@@ -12,10 +12,12 @@ public class FireMario : IMario
     private const float GRAVITY = 4f;
     private const float JUMP_VELOCITY = 4f;
   
-    private float jumpStartHeight;
+    public float jumpStartHeight {get;set;}
      public Vector2 velocity {get;set;}
 
-
+    public float yVelocity { get; set; }
+    public float xVelocity { get; set; }
+    private MarioSprite marioSprites;
     // Static poses
     private readonly TextureRegion standingLeftSprite;
     private readonly TextureRegion standingRightSprite;
@@ -50,12 +52,12 @@ public class FireMario : IMario
     public bool Sprinting { get; set; }
     public bool Crouching { get; set; }
     public bool Swimming { get; set; }
+    public bool isOnGround {get;set;} = true;
 
     // Throw Timer
     private bool throwing;
     private double throwTimerMs;
     private const double THROW_DURATION_MS = 180;
-    private const float groundLevel = 600f;
 
     public FireMario( TextureAtlas fireMarioTexture )
     {
@@ -210,14 +212,24 @@ public class FireMario : IMario
         }    
     }
 
-    public void Jump()
+ public void Jump()
+{
+    if (isOnGround) // prevent double jump
     {
-        if(Jumping || Falling)
-            return;
-        jumpStartHeight = position.Y;
         Jumping = true;
+        Falling = false;
+        jumpStartHeight = position.Y;
+        isOnGround = false; // Mario is now in the air
+
         SetRegion(Direction ? jumpingRightSprite : jumpingLeftSprite);
     }
+}
+        // if(Jumping || Falling)
+        //     return;
+        // jumpStartHeight = position.Y;
+        // Jumping = true;
+        // SetRegion(Direction ? jumpingRightSprite : jumpingLeftSprite);
+    
 
     public void Crouch()
     {
@@ -245,51 +257,42 @@ public class FireMario : IMario
         }
     }
 
-    public void Update(GameTime gameTime)
-    {
-        if (Jumping || Falling)
-            UpdateAirSpriteForDirection();
+  public void Update(GameTime gameTime)
+{
+    Vector2 newPosition = position;
 
-        if (Jumping)
+    if (Jumping)
+    {
+        if (!Falling)
         {
-            position = new Vector2(position.X, position.Y - JUMP_VELOCITY);
-            if(position.Y <= jumpStartHeight - 96)
+            newPosition.Y -= JUMP_VELOCITY;
+
+            if (newPosition.Y <= jumpStartHeight - 100)
             {
-                Jumping = false;
                 Falling = true;
             }
         }
-        if (Falling)
+        else
         {
-            position = new Vector2(position.X, position.Y + GRAVITY);
-            if(position.Y >= groundLevel-32)
-            {
-                Falling = false;
-                setAppropriate();
-            }
-        }
+            newPosition.Y += GRAVITY;
 
-        if (throwing)
-        {
-            throwTimerMs += gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (throwTimerMs >= THROW_DURATION_MS)
+            if (newPosition.Y >= jumpStartHeight)
+                {
+                    Jumping = false;
+                    Falling = false;
+                }
+        }
+        MarioCollider = new Rectangle((int)position.X,(int)position.Y,currentSprite.Width*(int)SCALE,currentSprite.Height*(int)SCALE);
+        if(!Jumping && !Falling)
             {
-                throwing = false;
-                // Return to the most appropriate pose after throwing
-                setAppropriate();
+                isOnGround = true;
             }
-        }
-        if(currentSprite != null)
-        {
-            MarioCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.Width * (int)SCALE, currentSprite.Height * (int)SCALE);
-        }
-        else if(currentASprite != null)
-        {
-            currentASprite.Update(gameTime);
-            MarioCollider = new Rectangle((int)position.X, (int)position.Y, (int)currentASprite.Width, (int)currentASprite.Height); 
-        }
+
+        UpdateAirSpriteForDirection();
     }
 
+    position = newPosition;
+}
     public void Draw(SpriteBatch spriteBatch)
     {
         if (currentSprite != null)

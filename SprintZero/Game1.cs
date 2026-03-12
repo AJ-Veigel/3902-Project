@@ -70,7 +70,7 @@ public class Game1 : Core
 
         blocks = new List<IBlock>
          {
-            new Ground(ground),
+        //    new Ground(ground),
             new questionMarkHit(questionBlockHit),
             new smallTube(smallTube),
             new CastleBlock(castle),
@@ -321,6 +321,7 @@ public class Game1 : Core
     public void SetMario(int marioNumber)
     {
         Vector2 currentPosition = currentMario.position;
+        
         if (marioNumber == 0)
         {
             if (currentMarioNum > 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y + 64f);
@@ -339,6 +340,7 @@ public class Game1 : Core
             currentMario = new FireMario(fireMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
         }
+        currentMario.isOnGround = true;
     }
     public void MarioJump()
     {

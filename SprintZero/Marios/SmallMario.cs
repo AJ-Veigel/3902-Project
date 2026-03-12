@@ -79,9 +79,13 @@ public class SmallMario : IMario
     }
     public void Jump()
     {
-        Jumping = true;
-        jumpStartHeight = position.Y;
-        yVelocity = 4f;
+        if (isOnGround)
+        {
+            Jumping = true;
+            Falling = false;
+            yVelocity = 4f;
+            jumpStartHeight = position.Y;
+
         if (Direction)
         {
             marioSprites.SetSprite("jumpRight");
@@ -89,6 +93,8 @@ public class SmallMario : IMario
         else if (!Direction)
         {
             marioSprites.SetSprite("jumpLeft");
+        }
+        isOnGround = false;
         }
     }
     public void Crouch()
@@ -103,19 +109,26 @@ public class SmallMario : IMario
     {
 
     }
-    public SmallMario(TextureAtlas smallMarioTexture)
-    {
-        // default position
-        position = new Vector2(300, 664);
+public SmallMario(TextureAtlas smallMarioTexture)
+{
+    // default position
+    position = new Vector2(300, 650);
 
-        // jump height based on position
-        jumpStartHeight = position.Y;
+    // jump height based on position
+    jumpStartHeight = position.Y;
 
-        marioSprites = new MarioSprite(smallMarioTexture, 0, position);
+    marioSprites = new MarioSprite(smallMarioTexture, 0, position);
 
-        // Set Mario Collider
-        MarioCollider = new Rectangle((int)position.X, (int)position.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
-    }
+    // Set Mario Collider
+    MarioCollider = new Rectangle(
+        (int)position.X,
+        (int)position.Y,
+        marioSprites.GetSprite().Width * (int)SCALE,
+        marioSprites.GetSprite().Height * (int)SCALE
+    );
+
+    isOnGround = true;  
+}
     public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
     {
         // set position to the passed Vector2
@@ -128,43 +141,44 @@ public class SmallMario : IMario
 
         // Set Mario Collider
         MarioCollider = new Rectangle((int)position.X, (int)position.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
+        isOnGround = true;
     }
     public void Update(GameTime gameTime)
+{
+   if (Jumping)
+{
+    if (!Falling)
     {
-        if (Jumping)
-        {
-            if (!Falling)
-            {
-                position = new Vector2(position.X, position.Y - 4f);
-                marioSprites.SetLocation(position);
-                if (position.Y <= jumpStartHeight - 100)
-                {
-                    Falling = true;
-                }
-            }
-            else if (Falling)
-            {
-                position = new Vector2(position.X, position.Y + 4f);
-                marioSprites.SetLocation(position);
-                if (position.Y >= jumpStartHeight - 16)
-                {
-                    Falling = false;
-                    Jumping = false;
-                    if (Direction)
-                    {
-                        marioSprites.SetSprite("standRight");
-                    }
-                    else if (!Direction)
-                    {
-                        marioSprites.SetSprite("standLeft");
-                    }
-                }
-            }
-        }
-        marioSprites.Update(gameTime);
-        MarioCollider = marioSprites.UpdateCollider();
-    }
+        position = new Vector2(position.X, position.Y - SCALE);
+        marioSprites.SetLocation(position);
 
+        if (position.Y <= jumpStartHeight - 100)
+            Falling = true;
+    }
+    else 
+    {
+        position = new Vector2(position.X, position.Y + SCALE);
+        marioSprites.SetLocation(position);
+
+        if (position.Y >= jumpStartHeight)
+        {
+            position = new Vector2(position.X, jumpStartHeight); 
+            Jumping = false;
+            Falling = false;
+            isOnGround = true;
+
+            if (Direction)
+                marioSprites.SetSprite("standRight");
+            else
+                marioSprites.SetSprite("standLeft");
+        }
+    }
+}
+    
+
+    marioSprites.Update(gameTime);
+    MarioCollider = marioSprites.UpdateCollider();
+}
     public void Draw(SpriteBatch spriteBatch)
     {
         marioSprites.Draw(spriteBatch);

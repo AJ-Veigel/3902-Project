@@ -13,6 +13,7 @@ public class BigMario : IMario
     public float xVelocity { get; set; }
     public float jumpStartHeight { get; set; }
     public Boolean Jumping { get; set; }
+    public Boolean isOnGround {get;set;}
     public Boolean Falling { get; set; }
     // If direction is True, mario is facing right, if direction is false, mario is facing left
     public Boolean Direction { get; set; }
@@ -82,15 +83,21 @@ public class BigMario : IMario
     }
     public void Jump()
     {
-        Jumping = true;
-        yVelocity = 4f;
-        if (Direction)
+       if (isOnGround)
         {
-            marioSprites.SetSprite("jumpRight");
-        }
-        else if (!Direction)
-        {
-            marioSprites.SetSprite("jumpLeft");
+            Jumping = true;
+            Falling = false;
+            yVelocity = 4f;
+            jumpStartHeight = position.Y;
+            if (Direction)
+            {
+                marioSprites.SetSprite("jumpRight");
+            }
+            else if (!Direction)
+            {
+                marioSprites.SetSprite("jumpLeft");
+            }
+            isOnGround = false;
         }
     }
     public void Crouch()
@@ -143,6 +150,7 @@ public class BigMario : IMario
         jumpStartHeight = position.Y;
 
         marioSprites = new MarioSprite(bigMarioTexture, 1, position);
+        isOnGround = true;
 
         // Set Mario Collider
         MarioCollider = new Rectangle((int)position.X, (int)position.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
@@ -156,46 +164,46 @@ public class BigMario : IMario
         jumpStartHeight = position.Y;
 
         marioSprites = new MarioSprite(bigMarioTexture, 1, position);
-
+    isOnGround = true;
         // Set Mario Collider
         MarioCollider = new Rectangle((int)position.X, (int)position.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
     }
-    public void Update(GameTime gameTime)
+   public void Update(GameTime gameTime)
+{
+   if (Jumping)
+{
+    if (!Falling)
     {
-        if (Jumping)
-        {
-            if (!Falling)
-            {
-                position = new Vector2(position.X, position.Y - 4f);
-                marioSprites.SetLocation(position);
-                if (position.Y <= jumpStartHeight - 100)
-                {
-                    Falling = true;
-                }
-            }
-            else if (Falling)
-            {
-                position = new Vector2(position.X, position.Y + 4f);
-                marioSprites.SetLocation(position);
-                if (position.Y >= jumpStartHeight - 16)
-                {
-                    Falling = false;
-                    Jumping = false;
-                    if (Direction)
-                    {
-                        marioSprites.SetSprite("standRight");
-                    }
-                    else if (!Direction)
-                    {
-                        marioSprites.SetSprite("standLeft");
-                    }
-                }
-            }
-        }
-        marioSprites.Update(gameTime);
-        MarioCollider = marioSprites.UpdateCollider();
-    }
+        position = new Vector2(position.X, position.Y - SCALE);
+        marioSprites.SetLocation(position);
 
+        if (position.Y <= jumpStartHeight - 100)
+            Falling = true;
+    }
+    else 
+    {
+        position = new Vector2(position.X, position.Y + SCALE);
+        marioSprites.SetLocation(position);
+
+        if (position.Y >= jumpStartHeight)
+        {
+            position = new Vector2(position.X, jumpStartHeight); 
+            Jumping = false;
+            Falling = false;
+            isOnGround = true;
+
+            if (Direction)
+                marioSprites.SetSprite("standRight");
+            else
+                marioSprites.SetSprite("standLeft");
+        }
+    }
+}
+    
+
+    marioSprites.Update(gameTime);
+    MarioCollider = marioSprites.UpdateCollider();
+}
     public void Draw(SpriteBatch spriteBatch)
     {
         marioSprites.Draw(spriteBatch);

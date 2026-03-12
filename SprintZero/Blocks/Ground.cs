@@ -17,21 +17,33 @@ public class Ground : IBlock
         location = new Vector2(300, 700);
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
-    public void Update(GameTime gameTime){}
+    public void Update(GameTime gameTime)
+{
+    Collider = new Rectangle(
+        (int)location.X,
+        (int)location.Y,
+        (int)(sprite.Width * SCALE),
+        (int)(sprite.Height * SCALE)
+    );
+}
 
     public void Draw(SpriteBatch spriteBatch)
     {
         sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
 
     }
-     public  void onCollision(IMario mario, CollisionSide theSide)
+public void onCollision(IMario mario, CollisionSide theSide)
+{
+    if (theSide == CollisionSide.Top)
     {
-         if (theSide == CollisionSide.Top) {
-           mario.position = new Vector2(mario.position.X,location.Y- mario.MarioCollider.Height);
-            if (theSide == CollisionSide.None)
-            {
-                mario.Falling = true;
-            }
+        mario.position = new Vector2(
+            mario.position.X,
+            Collider.Top - mario.MarioCollider.Height
+        );
+
+        mario.Falling = false;
+        mario.Jumping = false;
+        mario.jumpStartHeight = mario.position.Y;
     }
-    }
+}
 }
