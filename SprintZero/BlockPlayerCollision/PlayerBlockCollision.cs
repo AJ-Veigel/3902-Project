@@ -28,7 +28,6 @@ namespace SprintZero.PBCollision
                     {
                         
                         mario.Falling = true;
-                        mario.position = new Vector2(mario.position.X, mario.position.Y + 2f); 
                     }
                 }
             }

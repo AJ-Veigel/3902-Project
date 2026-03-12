@@ -11,6 +11,8 @@ namespace SpriteZero.Marios
         Rectangle MarioCollider { get; set; }
         Boolean Direction { get; set; }
         Boolean Jumping { get; set; }
+        float jumpStartHeight {get;set;}
+        Boolean isOnGround {get;set;}
         Boolean Sprinting { get; set; }
         Boolean Swimming { get; set; }
         Boolean Crouching { get; set; }
