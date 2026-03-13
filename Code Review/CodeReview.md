@@ -37,3 +37,13 @@ In the plaintext file for a code quality review, include the following informati
 •	Specific comments on code quality : The code is very clean, and everything makes sense. The methods are short and able to be read properly. 
 •	A hypothetical change to make to the game related to file being reviewed and how the current implementation could or could not easily support that change 
      A Hypothetical change to the potentially using a list of some kind for all of the different sprites as they would be easily accessed and stored there, though this could cause problems with reuseability for certain enemies that could be implemented later that would           be unable to understand why you choose specific points in the list every time for readability.
+
+In the plaintext file for a code quality review, include the following information: 
+•	Author of the code review: Adam Novak
+•	Date of the code review: 3/13/26
+•	Sprint number: Sprint three
+•	Name of the .cs file being reviewed : Koopa.cs
+•	Author of the .cs file being reviewed : Alex
+•	Specific comments on code quality : The code is generally easy to understand (variable names are fine, everything seems logical, etc.). I also like the use of the helper method HandleTimer outside of the Update method, in order to clean up the update method. LoadTextures looks super long, but I don't know if there's a more efficient way to load the textures in besides doing what Alex did.
+•	A hypothetical change to make to the game related to file being reviewed and how the current implementation could or could not easily support that change 
+     A hypothetical change would be to align it a bit more with the IEnemy and enemy collision stuff that I wrote, in order to make it work as the Goomba stuff does. I don't think it would be a particularly difficult change to implement.
