@@ -34,7 +34,7 @@ namespace SprintZero.PBCollision
         }
         private static CollisionSide getCollisionSide(Rectangle mario,Rectangle block)
         {
-            CollisionSide theSide = CollisionSide.Top;
+            CollisionSide theSide;
             Rectangle overlap = Rectangle.Intersect(mario,block);
             if (overlap.Width < overlap.Height)
             {
