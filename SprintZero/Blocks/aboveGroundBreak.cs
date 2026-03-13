@@ -2,8 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
+<<<<<<< HEAD
 using SprintZero.blocks;
 using SprintZero.Marios;
+=======
+using SpriteZero.Marios;
+using SpriteZero.blocks;
+>>>>>>> origin/block-mario-fix
 
 public class AboveGroundBreak : IBlock
 {
@@ -14,7 +19,7 @@ public class AboveGroundBreak : IBlock
     private Vector2 velocity;
     private float gravity = 0.5f;
     private bool isBroken = false;
-    private bool playTheBreakingAnimation = false;
+    private bool playBreakingAnimation = false;
 
     public AboveGroundBreak(AnimatedSprite animated)
     {
@@ -31,9 +36,10 @@ public class AboveGroundBreak : IBlock
         return true;
     }
 
+
     public void Update(GameTime gameTime)
     {
-        if (playTheBreakingAnimation)
+        if (playBreakingAnimation)
         {
             sprite.Play();
             sprite.Update(gameTime);
@@ -46,31 +52,17 @@ public class AboveGroundBreak : IBlock
             sprite.Update(gameTime);
         }
 
-
-      if (!isBroken)
-{
-    Collider = new Rectangle(
-        (int)location.X,
-        (int)location.Y,
-        (int)sprite.Width,
-        (int)sprite.Height
-    );
-}
-else
-{
-    Collider = Rectangle.Empty;
-}
+        Collider = !isBroken
+            ? new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height)
+            : Rectangle.Empty;
     }
 
-public void Draw(SpriteBatch spriteBatch)
-{
-    if (!isBroken)
+    public void Draw(SpriteBatch spriteBatch)
     {
-        sprite.Draw(spriteBatch, location);
+        if (!isBroken)
+            sprite.Draw(spriteBatch, location);
     }
-}
-
-   public void onCollision(IMario mario, CollisionSide theSide)
+public void onCollision(IMario mario, CollisionSide side)
 {
     if (theSide == CollisionSide.Bottom && !isBroken)
     {
@@ -83,13 +75,13 @@ public void Draw(SpriteBatch spriteBatch)
         }
     }
 
-    else if (theSide == CollisionSide.Top && !isBroken)
+    if (shouldBreak)
     {
-        Vector2 zero = new Vector2(0, 0);
-        Rectangle marioRect = mario.Collider.getBoundingRectangle(zero);
-        mario.location = new Vector2(mario.location.X, location.Y - marioRect.Height);
+        isBroken = true;
+        playBreakingAnimation = true;
+        velocity = new Vector2(-6f, -8f);
+        mario.Jumping = true;
         mario.Falling = true;
-        mario.Jumping = false;
     }
 }
 }
