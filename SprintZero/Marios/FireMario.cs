@@ -348,8 +348,6 @@ public class FireMario : IMario
                 }
             }
 
-            Collider = marioSprites.UpdateCollider();
-
             UpdateAirSpriteForDirection();
         }
 
@@ -366,6 +364,10 @@ public class FireMario : IMario
                 setAppropriate();
             }
         }
+
+        Collider = marioSprites.UpdateCollider();
+
+        marioSprites.Update(gameTime);
     }
     public void Draw(SpriteBatch spriteBatch)
     {
