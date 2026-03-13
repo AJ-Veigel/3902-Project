@@ -19,14 +19,17 @@ public class Koopa : IEnemy
 	public enum KoopaType { Green, Red, Blue };
 	public Vector2 position { get; set; }
 	public bool Dead { get; set; }
-	private bool FacingLeft { get; set; }
+	public bool onGround { get; set; }
+    private bool FacingLeft { get; set; }
 	private KoopaType Type { get; set; }
 	private enum KoopaStates { Walk1, Walk2, ShellStill, ShellStill2, ShellMoving }
 	private KoopaStates KoopaState { get; set; }
 	private float KoopaTimer { get; set; }
 	public Rectangle EnemyCollider { get; set; }
+	public float VelocityX { get; set; }
+	public float VelocityY { get; set; }
 
-	public static void loadTextures(ContentManager content)
+    public static void loadTextures(ContentManager content)
 	{
 		TextureAtlas atlas = TextureAtlas.FromFile(content, "Images/koopa-definition.xml");
 		const int StateCount = 5;
@@ -60,7 +63,12 @@ public class Koopa : IEnemy
 		Type = type;
 	}
 
-	public void Draw(SpriteBatch spriteBatch)
+	public void ReverseDirection()
+	{
+		FacingLeft = !FacingLeft;
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
 	{
 		float scaleX = FacingLeft ? 4.0f : -4.0f; // Normal scale if facing left, otherwise negative scale for facing right.
 		int offX = FacingLeft ? 0 : -16; // I suspect this is needed but idk for sure.
