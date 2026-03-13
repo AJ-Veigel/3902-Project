@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Reflection.Metadata.Ecma335;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpriteZero.Sprites;
 using SpriteZero.blocks;
+
 
 namespace SprintZero.Map
 {
@@ -25,7 +23,7 @@ namespace SprintZero.Map
 
         public void addBlockAt(Point p, IBlock block)
         {
-            map.Add(p, block);
+            map[p] = block;
         }
 
         public void removeBlockAt(Point p)
@@ -37,7 +35,12 @@ namespace SprintZero.Map
         {
             return map[p];
         }
-
+        
+        public bool TryGetBlockAt(Point tilePos, out IBlock block)
+        {
+            return map.TryGetValue(tilePos, out block);
+        }
+        
         public List<IBlock> getBlocksInRectangle(Rectangle rect)
         {
             var list = new List<IBlock>();
@@ -45,22 +48,36 @@ namespace SprintZero.Map
             {
                 for (int y = rect.Top; y < rect.Bottom; y++)
                 {
-                    if (map.ContainsKey(new Point(x, y)))
+                    Point p = new Point(x, y);
+                    if (map.TryGetValue(p, out IBlock block))
                     {
-                        list.Add(map[new Point(x, y)]);
+                        list.Add(block);
                     }
                 }
             }
             return list;
         }
 
-        public void Draw(SpriteBatch batch)
+        public void Draw(SpriteBatch batch, Rectangle cameraWorldBounds, int tileSize)
         {
             // TODO: work with camera system to not draw every block ever.
-            Dictionary<Point, IBlock>.ValueCollection values = map.Values;
-            foreach (IBlock s in values)
+
+            int leftTile = cameraWorldBounds.Left / tileSize - 1;
+            int rightTile = cameraWorldBounds.Right / tileSize + 1;
+            int topTile = cameraWorldBounds.Top / tileSize - 1;
+            int bottomTile = cameraWorldBounds.Bottom / tileSize + 1;
+
+            for (int x = leftTile; x <= rightTile; x++)
             {
-                s.Draw(batch);
+                for (int y = topTile; y <= bottomTile; y++)
+                {
+                    Point tilePos = new Point(x, y);
+
+                    if (map.TryGetValue(tilePos, out IBlock block))
+                    {
+                        block.Draw(batch);
+                    }
+                }
             }
         }
     }
