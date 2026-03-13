@@ -61,13 +61,25 @@ namespace SprintZero.Map
 
     return list;
 }
-        public void Draw(SpriteBatch batch)
+        public void Draw(SpriteBatch batch, Rectangle cameraWorldBounds, int tileSize) 
         {
             // TODO: work with camera system to not draw every block ever.
-            Dictionary<Point, IBlock>.ValueCollection values = map.Values;
-            foreach (IBlock s in values)
+            int leftTile = cameraWorldBounds.Left / tileSize - 1;
+            int rightTile = cameraWorldBounds.Right / tileSize + 1;
+            int topTile = cameraWorldBounds.Top / tileSize - 1;
+            int bottomTile = cameraWorldBounds.Bottom / tileSize + 1;
+
+            for (int x = leftTile; x <= rightTile; x++)
             {
-                s.Draw(batch);
+                for (int y = topTile; y <= bottomTile; y++)
+                {
+                    Point tilePos = new Point(x, y);
+
+                    if (map.TryGetValue(tilePos, out IBlock block))
+                    {
+                        block.Draw(batch);
+                    }
+                }
             }
         }
         public List<IBlock> getAllBlocks()

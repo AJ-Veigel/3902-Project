@@ -10,6 +10,8 @@ using SpriteZero.Sprites;
 using SpriteZero.blocks;
 using SprintZero.PBCollision;
 using SprintZero.Map;
+using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
 
 namespace SprintZero;
 
@@ -35,8 +37,9 @@ public class Game1 : Core
 
     private TileMap map;
 
-    private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount;
+    private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount, currentLevel;
     private Rectangle Bounds;
+    private OrthographicCamera camera;
 
     public Game1() : base("SMB1", 1920, 1080, false) { }
     protected override void Initialize()
@@ -51,6 +54,9 @@ public class Game1 : Core
         map = new TileMap();
 
         base.Initialize();
+        // Create camera with viewport adapter
+        var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
+        camera = new OrthographicCamera(viewportAdapter); 
     }
     protected override void LoadContent()
     {
@@ -156,6 +162,11 @@ public class Game1 : Core
         currentEnemyCount = 0;
         currentEnemy = enemies[currentEnemyCount];
 
+        currentLevel = 0;
+        Level1 level = new Level1();
+        map = new TileMap();
+        level.Populate(map);
+
 
         base.LoadContent();
     }
@@ -188,6 +199,7 @@ public class Game1 : Core
         CheckEnemyCollisions();
         playerBlockCollision.checkBlockCollision(currentMario, blocks);
         playerBlockCollision.checkBlockCollision(currentMario, map.getBlocksInRectangle(currentMario.MarioCollider));
+        camera.Position = currentMario.position - new Vector2(780f, 560f);;
         base.Update(gameTime);
     }
 
@@ -247,14 +259,21 @@ public class Game1 : Core
     {
 
         GraphicsDevice.Clear(Color.CornflowerBlue);
-        SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetViewMatrix());
         currentBlock.Draw(SpriteBatch);
         currentItem.Draw(SpriteBatch);
         currentMario.Draw(SpriteBatch);
         foreach (var p in projectiles)
             p.Draw(SpriteBatch);
         currentEnemy.Draw(SpriteBatch);
-        map.Draw(SpriteBatch);
+        var visibleArea = camera.BoundingRectangle;
+        Rectangle cameraRect = new Rectangle(
+            (int)visibleArea.Left,
+            (int)visibleArea.Top,
+            (int)visibleArea.Width,
+            (int)visibleArea.Height
+        );
+        map.Draw(SpriteBatch, cameraRect, 16);
         SpriteBatch.End();
         base.Draw(gameTime);
     }
