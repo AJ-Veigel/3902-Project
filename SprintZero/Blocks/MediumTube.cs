@@ -6,37 +6,82 @@ using SpriteZero.Marios;
 
 public class MediumTube : IBlock
 {
- 
     private TextureRegion sprite;
-    public Vector2 location {get;set;}
-    public Rectangle Collider {get; set;}
+
+    public Vector2 location { get; set; }
+    public Rectangle Collider { get; set; }
+
+    private const float SCALE = 4f;
+
     public MediumTube(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(400, 650);
-        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
+
+        // Default location
+        location = new Vector2(800, 650);
+
+        // Initialize collider
+        Collider = new Rectangle(
+            (int)location.X,
+            (int)location.Y,
+            (int)(sprite.Width * SCALE),
+            (int)(sprite.Height * SCALE)
+        );
     }
-    public void Update(GameTime gameTime){}
+
+    public void Update(GameTime gameTime)
+    {
+        // Keep collider in sync with location
+        Collider = new Rectangle(
+            (int)location.X,
+            (int)location.Y,
+            (int)(sprite.Width * SCALE),
+            (int)(sprite.Height * SCALE)
+        );
+    }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
-
+        sprite.Draw(
+            spriteBatch,
+            location,
+            Color.White,
+            0f,
+            Vector2.One,
+            SCALE,
+            SpriteEffects.None,
+            0f
+        );
     }
-    
-     public  void onCollision(IMario mario, CollisionSide theSide)
+
+    public void onCollision(IMario mario, CollisionSide theSide)
     {
-        if (theSide == CollisionSide.Top) {
-           mario.position = new Vector2(mario.position.X,location.Y- mario.MarioCollider.Height);
-           mario.Jumping = false;
-           mario.Falling = false;
+        // Make a local copy to avoid "cannot modify return value"
+        Vector2 newPos = mario.position;
+
+        if (theSide == CollisionSide.Top)
+        {
+            // Land Mario on top
+            newPos.Y = Collider.Top - mario.MarioCollider.Height;
+            mario.Jumping = false;
+            mario.Falling = false;
+            mario.isOnGround = true;
         }
-           else if (theSide == CollisionSide.Left)
-            {
-                mario.position  = new Vector2(location.X-mario.MarioCollider.Width,mario.position.Y);
-            }
-            else if (theSide == CollisionSide.Right){
-            mario.position =new Vector2(location.X+mario.MarioCollider.Width,mario.position.Y);
+        else if (theSide == CollisionSide.Left)
+        {
+            newPos.X = Collider.Left - mario.MarioCollider.Width;
         }
+        else if (theSide == CollisionSide.Right)
+        {
+            newPos.X = Collider.Right;
         }
+        else if (theSide == CollisionSide.Bottom)
+        {
+            newPos.Y = Collider.Bottom;
+            mario.Falling = true; // Gravity takes over
+        }
+
+        // Assign the modified position back
+        mario.position = newPos;
+    }
 }

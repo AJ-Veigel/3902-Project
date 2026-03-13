@@ -11,6 +11,7 @@ public class FireMario : IMario
     private const float MOVE_SPEED = 4f;
     private const float GRAVITY = 4f;
     private const float JUMP_VELOCITY = 4f;
+    private float currentPlatformY;
   
     public float jumpStartHeight {get;set;}
      public Vector2 velocity {get;set;}
@@ -204,13 +205,8 @@ public class FireMario : IMario
     }
   public void LandOnBlock(float blockTopY)
 {
-    // Copy position to a local variable
     Vector2 newPos = position;
-
-    // Modify the Y value
     newPos.Y = blockTopY - currentSprite.Height * SCALE;
-
-    // Assign back
     position = newPos;
 
     jumpStartHeight = position.Y;
@@ -224,6 +220,7 @@ public class FireMario : IMario
         (int)position.X,
         (int)position.Y,
         currentSprite.Width * (int)SCALE,
+        
         currentSprite.Height * (int)SCALE
     );
 }
@@ -236,15 +233,16 @@ public class FireMario : IMario
         }    
     }
 
- public void Jump()
+public void Jump()
 {
-    if (isOnGround) // prevent double jump
+    if (isOnGround)
     {
         Jumping = true;
         Falling = false;
         jumpStartHeight = position.Y;
-        isOnGround = false; // Mario is now in the air
+        isOnGround = false;
 
+        // Update sprite
         SetRegion(Direction ? jumpingRightSprite : jumpingLeftSprite);
     }
 }

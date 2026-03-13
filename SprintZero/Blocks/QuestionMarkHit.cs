@@ -25,7 +25,7 @@ public class questionMarkHit : IBlock
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.PauseFrame(0);
-        location = new Vector2(400, 500);
+        location = new Vector2(400, 400);
         startY = location.Y;
 
         Collider = new Rectangle(
@@ -82,20 +82,15 @@ public class questionMarkHit : IBlock
     public void onCollision(IMario mario, CollisionSide theSide)
     {
       
-        if (theSide == CollisionSide.Bottom && !isHit && mario.Jumping && (mario is SmallMario || mario is FireMario || mario is BigMario ))
-        {
-            isHit = true;
-            movingUp = true;
+        // if (theSide == CollisionSide.Bottom && !isHit && mario.Jumping && (mario is SmallMario || mario is FireMario || mario is BigMario ))
+        // {
+        //     isHit = true;
+        //     movingUp = true;
 
-            mario.Falling = false;
-            mario.isOnGround = true;
-            mario.Jumping = true;
-        }
+        //     mario.Falling = false;
+        //     mario.isOnGround = true;
+        //     mario.Jumping = true;
+        // }
 
-        if (theSide == CollisionSide.Top)
-        {
-           //todo
-            
-        }
     }
 }
