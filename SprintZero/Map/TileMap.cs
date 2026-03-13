@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using SpriteZero.blocks;
 
 
@@ -40,7 +41,7 @@ namespace SprintZero.Map
         {
             return map.TryGetValue(tilePos, out block);
         }
-        
+
         public List<IBlock> getBlocksInRectangle(Rectangle rect)
         {
             var list = new List<IBlock>();
@@ -61,7 +62,6 @@ namespace SprintZero.Map
         public void Draw(SpriteBatch batch, Rectangle cameraWorldBounds, int tileSize)
         {
             // TODO: work with camera system to not draw every block ever.
-
             int leftTile = cameraWorldBounds.Left / tileSize - 1;
             int rightTile = cameraWorldBounds.Right / tileSize + 1;
             int topTile = cameraWorldBounds.Top / tileSize - 1;

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace SprintZero
 {
@@ -42,7 +38,7 @@ namespace SprintZero
                 ||  otherY > this.height
                 || (otherX + other.width) < 0.0f
                 || (otherY + other.height) < 0.0f
-            ) { return CollisionSide.None;} // 
+            ) { return CollisionSide.None;}
 
             float left = this.width - otherX; // How 'far' this collides with the left side of other
             float top = this.height - otherY; // How 'far' this collides with the top side of other u get the point.
@@ -55,6 +51,18 @@ namespace SprintZero
             else if (real == top) { return CollisionSide.Top; }
             else if (real == right) { return CollisionSide.Right; }
             return CollisionSide.Bottom;
+        }
+
+        public Rectangle getBoundingRectangle(Vector2 offset)
+        {
+            float thisX = this.x - offset.X;
+            float thisY = this.y - offset.Y;
+            return new Rectangle(
+                (int)MathF.Floor(thisX), 
+                (int)MathF.Floor(thisY), 
+                (int)MathF.Ceiling(this.width),
+                (int)MathF.Ceiling(this.height)
+            );
         }
 
     }

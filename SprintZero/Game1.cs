@@ -39,7 +39,7 @@ public class Game1 : Core
     private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount, currentLevel;
     private Rectangle Bounds;
     private OrthographicCamera camera;
-    private TileMap tileMap;
+    private TileMap map;
 
     public Game1() : base("SMB1", 1920, 1080, false) { }
     protected override void Initialize()
@@ -50,6 +50,8 @@ public class Game1 : Core
         };
 
         Bounds = new Rectangle(0, 0, 1920, 1080);
+
+        map = new TileMap();
 
         base.Initialize();
          
@@ -83,6 +85,16 @@ public class Game1 : Core
             new MediumTube(mediumTube),
             new AboveGroundBreak(aboveGroundBreak)
          };
+
+        for (int x = -1; x < 32; x++)
+        {
+            for (int y = 11; y < 18; y++)
+            {
+                Ground b = new Ground(ground);
+                b.location = new Vector2(x * 64, y * 64);
+                map.addBlockAt(new Point(x, y), b);
+            }
+        }
 
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
         flower = itemTexture.CreateAnimatedSprite("flower");
@@ -150,8 +162,8 @@ public class Game1 : Core
 
         currentLevel = 0;
         Level1 level = new Level1();
-        tileMap = new TileMap();
-        level.Populate(tileMap);
+        map = new TileMap();
+        level.Populate(map);
 
         base.LoadContent();
     }
@@ -183,7 +195,11 @@ public class Game1 : Core
         CheckCollisions();
         CheckEnemyCollisions();
         playerBlockCollision.checkBlockCollision(currentMario, blocks);
-        camera.Position = currentMario.position - new Vector2(700f, 480f);
+        Vector2 marioFeet = new Vector2(
+            currentMario.MarioCollider.Center.X,
+            currentMario.MarioCollider.Bottom
+        );
+        camera.Position = marioFeet - new Vector2(700f, 600f);
 
         base.Update(gameTime);
     }
@@ -252,7 +268,7 @@ public class Game1 : Core
             (int)visibleArea.Height
         );
         SpriteBatch.Begin(transformMatrix: camera.GetViewMatrix());
-        tileMap.Draw(SpriteBatch, cameraRect, 16);
+        map.Draw(SpriteBatch, cameraRect, 16);
         currentBlock.Draw(SpriteBatch);
         currentItem.Draw(SpriteBatch);
         currentMario.Draw(SpriteBatch);
@@ -328,6 +344,7 @@ public class Game1 : Core
     public void SetMario(int marioNumber)
     {
         Vector2 currentPosition = currentMario.position;
+        
         if (marioNumber == 0)
         {
             if (currentMarioNum > 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y + 64f);
@@ -346,6 +363,7 @@ public class Game1 : Core
             currentMario = new FireMario(fireMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
         }
+        currentMario.isOnGround = true;
     }
     public void MarioJump()
     {
