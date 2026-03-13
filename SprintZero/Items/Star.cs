@@ -1,13 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
+using SprintZero;
 using SpriteZero.Sprites;
 
-public class Star : ISprite
+public class Star : ICollidable
 {
     private AnimatedSprite sprite;
     public Vector2 location{get;set;}
-    public Rectangle Collider {get; set;}
+    public Hitbox Collider {get; set;}
     private const float SCALE = 4f;
     private float horizontalSpeed = 2f;
     private float verticalSpeed = 0f;
@@ -23,7 +25,12 @@ public class Star : ISprite
         sprite.Scale = new Vector2(SCALE);
         location = new Vector2(300,300);
         startY = location.Y;
-        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
+        Collider = new Hitbox((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
+    }
+
+    public Boolean GetCollidable()
+    {
+        return true;
     }
     public void Update(GameTime gameTime)
     {
@@ -47,7 +54,7 @@ public class Star : ISprite
             verticalSpeed = 0f;
             location = new Vector2(location.X+horizontalSpeed,location.Y);
         }
-        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
+        Collider = new Hitbox((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Draw(SpriteBatch spriteBatch)
     {

@@ -1,12 +1,14 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SpriteZero.Sprites;
+using SprintZero;
 
 public class MarioSprite : ISprite
 {
     private const float SCALE = 4f;
-    public Rectangle Collider { get; set; }
+    public Hitbox Collider { get; set; }
     public Vector2 location { get; set; }
     private TextureRegion standingLeftSprite;
     private TextureRegion standingRightSprite;
@@ -198,16 +200,21 @@ public class MarioSprite : ISprite
         currentSprite = standingLeftSprite;
         currentAnimatedSprite = null;
     }
-    public Rectangle UpdateCollider()
+
+    public Boolean GetCollidable()
     {
-        Rectangle Collider = new Rectangle(0, 0, 0, 0);
-        if(currentSprite != null)
+        return true;
+    }
+    public Hitbox UpdateCollider()
+    {
+        Hitbox Collider = new Hitbox(0, 0, 0, 0);
+        if (currentSprite != null)
         {
-            Collider = new Rectangle((int)location.X, (int)location.Y, GetSprite().Width * (int)SCALE, GetSprite().Height * (int)SCALE);
+            Collider = new Hitbox((int)location.X, (int)location.Y, GetSprite().Width * (int)SCALE, GetSprite().Height * (int)SCALE);
         }
-        else if(currentAnimatedSprite != null)
+        else if (currentAnimatedSprite != null)
         {
-            Collider = new Rectangle((int)location.X, (int)location.Y, (int)GetAnimatedSprite().Width, (int)GetAnimatedSprite().Height); 
+            Collider = new Hitbox((int)location.X, (int)location.Y, (int)GetAnimatedSprite().Width, (int)GetAnimatedSprite().Height);
         }
         return Collider;
     }
@@ -215,11 +222,11 @@ public class MarioSprite : ISprite
     {
         if (currentSprite != null)
         {
-            currentSprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
+            currentSprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, SCALE, SpriteEffects.None, 0f);
         }
         else if (currentAnimatedSprite != null)
         {
-            currentAnimatedSprite.Scale = new Vector2(4f);
+            currentAnimatedSprite.Scale = new Vector2(SCALE);
             currentAnimatedSprite.Draw(spriteBatch, location);
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SpriteZero.blocks;
@@ -16,6 +17,11 @@ public class CastleBlock : IBlock
         sprite = region;
         location = new Vector2(800,30);
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
+    }
+
+    public Boolean GetCollidable()
+    {
+        return true;
     }
     public void Update(GameTime gameTime){}
 

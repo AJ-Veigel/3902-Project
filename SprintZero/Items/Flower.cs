@@ -1,9 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
+using SprintZero;
 using SpriteZero.Sprites;
 
-   public class Flower : ISprite
+   public class Flower : ICollidable
 {
     private AnimatedSprite sprite;
 
@@ -14,7 +16,7 @@ using SpriteZero.Sprites;
         get { return _location; }
         set { _location = value; }
     }
-    public Rectangle Collider {get; set;}
+    public Hitbox Collider {get; set;}
     private const float SCALE = 4f;
 
     private float startY;
@@ -29,7 +31,12 @@ using SpriteZero.Sprites;
         sprite.Scale = new Vector2(SCALE);
         _location = new Vector2(300, 300);
         startY = _location.Y;
-        Collider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+        Collider = new Hitbox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+    }
+
+    public Boolean GetCollidable()
+    {
+        return true;
     }
 
     public void Update(GameTime gameTime)
@@ -47,7 +54,7 @@ using SpriteZero.Sprites;
                 rising = false; 
             }
         }
-        Collider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+        Collider = new Hitbox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
 
     public void Draw(SpriteBatch spriteBatch)

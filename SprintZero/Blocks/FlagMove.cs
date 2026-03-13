@@ -30,6 +30,11 @@ public class FlagMove : IBlock
         UpdateCollider();
     }
 
+    public Boolean GetCollidable()
+    {
+        return true;
+    }
+
     public void Update(GameTime gameTime)
     {
         flagSprite.Update(gameTime);
@@ -37,20 +42,20 @@ public class FlagMove : IBlock
         // Slide Mario down the flag
         if (marioSliding && slidingMario != null)
         {
-            Vector2 newMarioPos = slidingMario.position;
+            Vector2 newMarioPos = slidingMario.location;
             newMarioPos.Y = Math.Min(newMarioPos.Y + marioSlideSpeed, bottomY - slidingMario.MarioCollider.Height);
-            slidingMario.position = newMarioPos;
+            slidingMario.location = newMarioPos;
 
             // Update Mario collider
             slidingMario.MarioCollider = new Rectangle(
-                (int)slidingMario.position.X,
-                (int)slidingMario.position.Y,
+                (int)slidingMario.location.X,
+                (int)slidingMario.location.Y,
                 slidingMario.MarioCollider.Width,
                 slidingMario.MarioCollider.Height
             );
 
             // Stop sliding when Mario reaches the bottom
-            if (slidingMario.position.Y >= bottomY - slidingMario.MarioCollider.Height)
+            if (slidingMario.location.Y >= bottomY - slidingMario.MarioCollider.Height)
             {
                 slidingMario.EndFlagPole();
                 marioSliding = false;
@@ -91,9 +96,9 @@ public class FlagMove : IBlock
             slidingMario.GrabFlagPole();
 
             // Attach Mario to flag horizontally
-            slidingMario.position = new Vector2(
+            slidingMario.location = new Vector2(
                 location.X - slidingMario.MarioCollider.Width,
-                slidingMario.position.Y
+                slidingMario.location.Y
             );
         }
     }

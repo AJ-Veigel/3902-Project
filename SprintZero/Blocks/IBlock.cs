@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpriteZero.Marios;
 
@@ -10,6 +11,7 @@ namespace SpriteZero.blocks
         
         Vector2 location {get;set;}
         Rectangle Collider {get; set;}
+        Boolean GetCollidable();
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
 

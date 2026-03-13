@@ -15,20 +15,21 @@ namespace SprintZero;
 
 public class Game1 : Core
 {
-
+    private const int WINDOW_HEIGHT = 1080;
+    private const int WINDOW_WIDTH = 1920;
     private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture;
     private TextureRegion ground, smallTube, castle, mushroom, mediumTube, oneup_mushroom;
 
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
     private List<IController> controllers;
-    private List<ISprite> items;
+    private List<ICollidable> items;
     private List<IBlock> blocks;
     private List<IProjectile> projectiles;
     private List<IMario> marios;
     private List<IEnemy> enemies;
 
-    private ISprite currentItem;
+    private ICollidable currentItem;
     private IBlock currentBlock;
     private IMario currentMario;
     private IEnemy currentEnemy;
@@ -36,9 +37,9 @@ public class Game1 : Core
     private TileMap map;
 
     private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount;
-    private Rectangle Bounds;
+    private Hitbox Bounds;
 
-    public Game1() : base("SMB1", 1920, 1080, false) { }
+    public Game1() : base("SMB1", WINDOW_WIDTH, WINDOW_HEIGHT, false) { }
     protected override void Initialize()
     {
         controllers = new List<IController>
@@ -46,7 +47,7 @@ public class Game1 : Core
             new KeyController(this)
         };
 
-        Bounds = new Rectangle(0, 0, 1920, 1080);
+        Bounds = new Hitbox(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         map = new TileMap();
 
@@ -72,9 +73,9 @@ public class Game1 : Core
          {
         //    new Ground(ground), //Done
             new questionMarkHit(questionBlockHit),
-       //     new smallTube(smallTube),
-     //       new CastleBlock(castle),
-      //      new FlagMove(flagMove),
+        //    new smallTube(smallTube),
+        //    new CastleBlock(castle),
+        //    new FlagMove(flagMove),
         //    new MediumTube(mediumTube),
         //    new AboveGroundBreak(aboveGroundBreak)
          };
@@ -85,13 +86,13 @@ public class Game1 : Core
             {
                 Ground b = new Ground(ground);
                 b.location = new Vector2(x * 64, y * 64);
-                map.addBlockAt(new Point(x, y), b);                
+                map.addBlockAt(new Point(x, y), b);
             }
         }
 
 
 
-        
+
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
         flower = itemTexture.CreateAnimatedSprite("flower");
         coin = itemTexture.CreateAnimatedSprite("coin");
@@ -108,7 +109,7 @@ public class Game1 : Core
         // Fireballs will be added to the list as the user presses the shoot button.
         projectiles = new List<IProjectile>();
 
-        items = new List<ISprite>
+        items = new List<ICollidable>
     {
         new Flower(flower),
         new Coin(coin),
@@ -193,27 +194,38 @@ public class Game1 : Core
 
     public void CheckBounds()
     {
-        if (Bounds.Left >= currentMario.MarioCollider.Left)
+
+        Vector2 zero = new Vector2(0, 0);
+        Rectangle boundsRect = Bounds.getBoundingRectangle(zero);
+        Rectangle marioRect = currentMario.Collider.getBoundingRectangle(zero);
+
+
+        if (boundsRect.Left >= marioRect.Left)
         {
-            currentMario.position = new Vector2(currentMario.position.X + 4f, currentMario.position.Y);
+            currentMario.location = new Vector2(currentMario.location.X + 4f, currentMario.location.Y);
         }
-        else if (Bounds.Right <= currentMario.MarioCollider.Right)
+        else if (boundsRect.Right <= marioRect.Right)
         {
-            currentMario.position = new Vector2(currentMario.position.X - 4f, currentMario.position.Y);
+            currentMario.location = new Vector2(currentMario.location.X - 4f, currentMario.location.Y);
         }
-        if (Bounds.Left >= currentItem.Collider.Left)
+        if (currentItem.GetCollidable())
         {
-            currentItem.location = new Vector2(currentItem.location.X + 2f, currentItem.location.Y);
-        }
-        else if (Bounds.Right <= currentItem.Collider.Right)
-        {
-            currentItem.location = new Vector2(currentItem.location.X - 2f, currentItem.location.Y);
+            Rectangle itemRect = currentItem.Collider.getBoundingRectangle(zero);
+            if (boundsRect.Left >= itemRect.Left)
+            {
+                currentItem.location = new Vector2(currentItem.location.X + 2f, currentItem.location.Y);
+            }
+            else if (boundsRect.Right <= itemRect.Right)
+            {
+                currentItem.location = new Vector2(currentItem.location.X - 2f, currentItem.location.Y);
+            }
         }
     }
 
     public void CheckCollisions()
     {
-        if ((currentItem.Collider.Intersects(currentMario.MarioCollider)))
+        Vector2 zero = new Vector2(0, 0);
+        if (currentItem.GetCollidable() && (currentItem.Collider.CollidesWith(zero, currentMario.Collider, zero)) != Hitbox.CollisionSide.None)
         {
             // Checks to see if item is a fire flower and if mario is small or big
             if (currentItemCount == 0 && currentMarioNum <= 1)
@@ -264,7 +276,7 @@ public class Game1 : Core
         // 2 fireballs max
         if (projectiles.Count >= 2) return;
 
-        Vector2 spawnPos = currentMario.position + new Vector2(currentMario.Direction ? 40f : -10f, 40f);
+        Vector2 spawnPos = currentMario.location + new Vector2(currentMario.Direction ? 40f : -10f, 40f);
 
         // create new animated sprites for each fireball
         AnimatedSprite roll = projectileTexture.CreateAnimatedSprite("FireballRolling");
@@ -323,8 +335,8 @@ public class Game1 : Core
     }
     public void SetMario(int marioNumber)
     {
-        Vector2 currentPosition = currentMario.position;
-        
+        Vector2 currentPosition = currentMario.location;
+
         if (marioNumber == 0)
         {
             if (currentMarioNum > 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y + 64f);
