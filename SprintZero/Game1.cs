@@ -10,6 +10,7 @@ using SpriteZero.Sprites;
 using SpriteZero.blocks;
 using SprintZero.PBCollision;
 using SprintZero.Map;
+using System;
 
 namespace SprintZero;
 
@@ -182,10 +183,11 @@ public class Game1 : Core
                 collisionCheck(fb);
             }
         }
-        currentEnemy.Update(gameTime);
         CheckBounds();
         CheckCollisions();
-        CheckEnemyCollisions();
+        CheckEnemyMarioCollisions();
+        currentEnemy.Update(gameTime);
+        CheckEnemyBlockCollisions(currentEnemy);
         playerBlockCollision.checkBlockCollision(currentMario, blocks);
         playerBlockCollision.checkBlockCollision(currentMario, map.getBlocksInRectangle(currentMario.MarioCollider));
         base.Update(gameTime);
@@ -228,7 +230,7 @@ public class Game1 : Core
         }
     }
 
-    public void CheckEnemyCollisions()
+    public void CheckEnemyMarioCollisions()
     {
         if (currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) && !currentEnemy.Dead)
         {
@@ -239,6 +241,57 @@ public class Game1 : Core
             else
             {
                 Damage();
+            }
+        }
+    }
+
+    public void CheckEnemyBlockCollisions(IEnemy enemy)
+    {
+        if(currentEnemy != null && !currentEnemy.Dead)
+        {
+            
+            List<IBlock> nearbyBlocks = map.getBlocksInRectangle(currentEnemy.EnemyCollider);
+            nearbyBlocks.AddRange(blocks);
+
+            foreach (var block in nearbyBlocks)
+            {
+                Rectangle blockRect = block.Collider;
+                Rectangle enemyRect = currentEnemy.EnemyCollider;
+
+                if (enemyRect.Intersects(blockRect)) {
+                    float overlapX = Math.Min(enemyRect.Right, blockRect.Right) - Math.Max(enemyRect.Left, blockRect.Left);
+                    float overlapY = Math.Min(enemyRect.Bottom, blockRect.Bottom) - Math.Max(enemyRect.Top, blockRect.Top);
+
+
+                    //side collision
+                    if (overlapX < overlapY)
+                    {
+                        if (enemyRect.Center.X < blockRect.Center.X)
+                        {
+                            currentEnemy.position = new Vector2(currentEnemy.position.X - overlapX, currentEnemy.position.Y);
+                        }
+                        else { 
+                            currentEnemy.position = new Vector2(currentEnemy.position.X + overlapX, currentEnemy.position.Y);
+                        }
+
+                        currentEnemy.ReverseDirection();
+                        //top/bottom collision
+                    } else
+                    {
+                        if (enemyRect.Center.Y < blockRect.Center.Y)
+                        {
+                            currentEnemy.position = new Vector2(currentEnemy.position.X, currentEnemy.position.Y - overlapY);
+                            currentEnemy.VelocityY = 0;
+                            currentEnemy.onGround = true;
+                        }
+                        else
+                        {
+                            currentEnemy.position = new Vector2(currentEnemy.position.X, currentEnemy.position.Y + overlapY);
+                            currentEnemy.VelocityY = 0;
+                        }
+                    }
+                }
+                currentEnemy.EnemyCollider = new Rectangle((int)currentEnemy.position.X, (int)currentEnemy.position.Y, enemyRect.Width, enemyRect.Height);
             }
         }
     }
