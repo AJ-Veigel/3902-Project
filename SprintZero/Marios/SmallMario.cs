@@ -67,7 +67,7 @@ public class SmallMario : IMario
     public void StopMove()
     {
         xVelocity = 0;
-        if (!Jumping)
+        if (!Jumping && !Swimming)
         {
             if (Direction)
             {
@@ -225,14 +225,9 @@ public class SmallMario : IMario
                 }
             }
         }
-        if(!isOnGround)
-        {
-
-        }
 
         // Update sprite animations / collider
-        if (marioSprites != null)
-            marioSprites.Update(gameTime);
+        marioSprites.Update(gameTime);
 
         //MarioCollider = marioSprites != null ? marioSprites.UpdateCollider() : MarioCollider;
         Collider = marioSprites.UpdateCollider();

@@ -79,13 +79,13 @@ public class FireMario : IMario
         if (!Jumping && !Crouching && !Swimming && !throwing && !Falling)
         {
             if (Direction)
-        {
-            marioSprites.SetAnimatedSprite("moveRight");
-        }
-        else
-        {
-            marioSprites.SetAnimatedSprite("moveLeft");
-        }
+            {
+                marioSprites.SetAnimatedSprite("moveRight");
+            }
+            else
+            {
+                marioSprites.SetAnimatedSprite("moveLeft");
+            }
         }
     }
 
@@ -311,7 +311,7 @@ public class FireMario : IMario
 
     public void SetCollidable(Boolean state)
     {
-        Collidable = state;
+        
     }
 
     public void Update(GameTime gameTime)
@@ -347,10 +347,13 @@ public class FireMario : IMario
                     Jumping = false;
                     Falling = false;
                     isOnGround = true;
+
+                    if (Direction)
+                        marioSprites.SetSprite("standRight");
+                    else
+                        marioSprites.SetSprite("standLeft");
                 }
             }
-
-            UpdateAirSpriteForDirection();
         }
 
         location = newlocation;
