@@ -7,53 +7,71 @@ using SpriteZero.Marios;
 public class questionMarkHit : IBlock
 {
     private AnimatedSprite sprite;
+
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
 
     private const float SCALE = 4f;
     private float startY;
     private float bounceHeight = 20f;
-    private float riseSpeed = 3f;
+    private float bounceSpeed = 3f;
+
     private bool isHit = false;
-    private bool rising = false;
+    private bool movingUp = false;
+    private bool movingDown = false;
 
     public questionMarkHit(AnimatedSprite animated)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
-        sprite.Pause(); 
-        location = new Vector2(400,600);
+        sprite.PauseFrame(0);
+        location = new Vector2(400, 500);
         startY = location.Y;
 
-        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
+        Collider = new Rectangle(
+            (int)location.X,
+            (int)location.Y,
+            (int)(sprite.Width * SCALE),
+            (int)(sprite.Height * SCALE)
+        );
     }
 
     public void Update(GameTime gameTime)
     {
         sprite.Update(gameTime);
 
-        if (rising)
+
+        if (movingUp)
         {
-  
-            location = new Vector2(location.X, location.Y - riseSpeed);
+            location = new Vector2(location.X, location.Y - bounceSpeed);
+
             if (location.Y <= startY - bounceHeight)
             {
                 location = new Vector2(location.X, startY - bounceHeight);
-                rising = false; 
-            }
-        }
-        else if (isHit && location.Y < startY)
-        {
-         
-            location = new Vector2(location.X, location.Y + riseSpeed);
-            if (location.Y >= startY)
-            {
-                location = new Vector2(location.X, startY);
-                sprite.PauseFrame(2); 
+                movingUp = false;
+                movingDown = true;
             }
         }
 
-        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
+        if (movingDown)
+        {
+            location = new Vector2(location.X, location.Y + bounceSpeed);
+
+            if (location.Y >= startY)
+            {
+                location = new Vector2(location.X, startY);
+                movingDown = false;
+
+                sprite.PauseFrame(2);
+            }
+        }
+
+        Collider = new Rectangle(
+            (int)location.X,
+            (int)location.Y,
+            (int)(sprite.Width * SCALE),
+            (int)(sprite.Height * SCALE)
+        );
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -63,20 +81,21 @@ public class questionMarkHit : IBlock
 
     public void onCollision(IMario mario, CollisionSide theSide)
     {
-        if (theSide == CollisionSide.Bottom && !isHit)
+      
+        if (theSide == CollisionSide.Bottom && !isHit && mario.Jumping && (mario is SmallMario || mario is FireMario || mario is BigMario ))
         {
             isHit = true;
-            rising = true;
-               
-        } else if (theSide == CollisionSide.Top) {
-           mario.position = new Vector2(mario.position.X,location.Y- mario.MarioCollider.Height);
-            if (theSide == CollisionSide.None)
-            {
-                mario.Falling = true;
-            }
+            movingUp = true;
 
+            mario.Falling = false;
+            mario.isOnGround = true;
+            mario.Jumping = true;
         }
 
-        
+        if (theSide == CollisionSide.Top)
+        {
+           //todo
+            
+        }
     }
 }

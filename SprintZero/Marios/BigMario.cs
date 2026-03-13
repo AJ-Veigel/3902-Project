@@ -81,26 +81,39 @@ public class BigMario : IMario
             }
         }
     }
+   public void LandOnBlock(float blockTopY)
+{
+    position = new Vector2(position.X, blockTopY - marioSprites.GetSprite().Height * SCALE);
+    isOnGround = true;
+    Jumping = false;
+    Falling = false;
+    jumpStartHeight = position.Y;
+
+    if (Direction)
+        marioSprites.SetSprite("standRight");
+    else
+        marioSprites.SetSprite("standLeft");
+
+    MarioCollider = marioSprites.UpdateCollider();
+}
+
+
     public void Jump()
+{
+    if (isOnGround)
     {
-       if (isOnGround)
-        {
-            Jumping = true;
-            Falling = false;
-            yVelocity = 4f;
-            jumpStartHeight = position.Y;
-            if (Direction)
-            {
-                marioSprites.SetSprite("jumpRight");
-            }
-            else if (!Direction)
-            {
-                marioSprites.SetSprite("jumpLeft");
-            }
-            isOnGround = false;
-        }
+        Jumping = true;
+        Falling = false;
+        jumpStartHeight = position.Y;
+
+        if (Direction)
+            marioSprites.SetSprite("jumpRight");
+        else
+            marioSprites.SetSprite("jumpLeft");
+
+        isOnGround = false;
     }
-    public void Crouch()
+}    public void Crouch()
     {
         if (Crouching)
         {
@@ -141,6 +154,28 @@ public class BigMario : IMario
     {
 
     }
+    public void GrabFlagPole()
+    {
+        Jumping = false;
+        Falling = true;
+        if (Direction)
+        {
+            marioSprites.SetAnimatedSprite("flagpoleRight");
+        }
+        else
+        {
+            marioSprites.SetAnimatedSprite("flagpoleLeft");
+        }
+    }
+    public void EndFlagPole()
+{
+    if (Direction)
+        marioSprites.SetSprite("standRight");
+    else
+        marioSprites.SetSprite("standLeft");
+
+    isOnGround = true;
+}
     public BigMario(TextureAtlas bigMarioTexture)
     {
         // default position

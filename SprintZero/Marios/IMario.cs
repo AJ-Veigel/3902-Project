@@ -23,8 +23,12 @@ namespace SpriteZero.Marios
         void Crouch();
         void Fireball();
         void Damage();
+        void GrabFlagPole();
+        void EndFlagPole();
+        float yVelocity {get;set;}
 
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
+        void LandOnBlock(float blockTopY);
     }
 }

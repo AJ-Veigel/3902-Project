@@ -14,15 +14,18 @@ public class CastleBlock : IBlock
     public CastleBlock(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(300, 700);
+        location = new Vector2(800,30);
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Update(GameTime gameTime){}
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,4f,SpriteEffects.None,0f);
+        sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,SCALE,SpriteEffects.None,0f);
 
     }
-    public  void onCollision(IMario mario, CollisionSide theSide){}
+    public  void onCollision(IMario mario, CollisionSide theSide)
+    {
+        
+    }
 }
