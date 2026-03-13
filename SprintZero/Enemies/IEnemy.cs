@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpriteZero.Enemies
+namespace SprintZero.Enemies
 {
     public interface IEnemy
     {
@@ -10,7 +10,7 @@ namespace SpriteZero.Enemies
         Vector2 position { get; set; }
         Boolean Dead { get; set; }
         Rectangle EnemyCollider { get; set; }
-
+        Boolean GetCollidable();
 
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);

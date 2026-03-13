@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.blocks;
-using SpriteZero.Marios;
+using SprintZero.blocks;
+using SprintZero.Marios;
 using System;
 
 public class FlagMove : IBlock
@@ -37,25 +37,27 @@ public class FlagMove : IBlock
 
     public void Update(GameTime gameTime)
     {
+        Vector2 zero = new Vector2(0, 0);
+        Rectangle marioRect = slidingMario.Collider.getBoundingRectangle(zero);
         flagSprite.Update(gameTime);
 
         // Slide Mario down the flag
         if (marioSliding && slidingMario != null)
         {
             Vector2 newMarioPos = slidingMario.location;
-            newMarioPos.Y = Math.Min(newMarioPos.Y + marioSlideSpeed, bottomY - slidingMario.MarioCollider.Height);
+            newMarioPos.Y = Math.Min(newMarioPos.Y + marioSlideSpeed, bottomY - marioRect.Height);
             slidingMario.location = newMarioPos;
 
             // Update Mario collider
-            slidingMario.MarioCollider = new Rectangle(
+            marioRect = new Rectangle(
                 (int)slidingMario.location.X,
                 (int)slidingMario.location.Y,
-                slidingMario.MarioCollider.Width,
-                slidingMario.MarioCollider.Height
+                marioRect.Width,
+                marioRect.Height
             );
 
             // Stop sliding when Mario reaches the bottom
-            if (slidingMario.location.Y >= bottomY - slidingMario.MarioCollider.Height)
+            if (slidingMario.location.Y >= bottomY - marioRect.Height)
             {
                 slidingMario.EndFlagPole();
                 marioSliding = false;
@@ -83,8 +85,11 @@ public class FlagMove : IBlock
 
     public void onCollision(IMario mario, CollisionSide theSide)
     {
+        Vector2 zero = new Vector2(0, 0);
+        Rectangle marioRect = mario.Collider.getBoundingRectangle(zero);
+        Rectangle slidingMarioRect = mario.Collider.getBoundingRectangle(zero);
         // Start sliding if Mario hits the flag
-        if (!marioSliding && mario.MarioCollider.Intersects(Collider))
+        if (!marioSliding && marioRect.Intersects(Collider))
         {
             marioSliding = true;
             slidingMario = mario;
@@ -97,7 +102,7 @@ public class FlagMove : IBlock
 
             // Attach Mario to flag horizontally
             slidingMario.location = new Vector2(
-                location.X - slidingMario.MarioCollider.Width,
+                location.X - slidingMarioRect.Width,
                 slidingMario.location.Y
             );
         }

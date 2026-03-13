@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.blocks;
-using SpriteZero.Marios;
+using SprintZero.blocks;
+using SprintZero.Marios;
 
 public class Ground : IBlock
 {
@@ -40,11 +40,13 @@ public class Ground : IBlock
     }
     public void onCollision(IMario mario, CollisionSide theSide)
     {
+        Vector2 zero = new Vector2(0, 0);
+        Rectangle marioRect = mario.Collider.getBoundingRectangle(zero);
         if (theSide == CollisionSide.Top)
         {
             mario.location = new Vector2(
                 mario.location.X,
-                Collider.Top - mario.MarioCollider.Height
+                Collider.Top - marioRect.Height
             );
 
             mario.Falling = false;

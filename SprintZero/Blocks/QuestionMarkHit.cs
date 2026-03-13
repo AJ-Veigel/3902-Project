@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.blocks;
-using SpriteZero.Marios;
+using SprintZero.blocks;
+using SprintZero.Marios;
 
 public class questionMarkHit : IBlock
 {
@@ -32,8 +32,8 @@ public class questionMarkHit : IBlock
         Collider = new Rectangle(
             (int)location.X,
             (int)location.Y,
-            (int)(sprite.Width * SCALE),
-            (int)(sprite.Height * SCALE)
+            (int)sprite.Width,
+            (int)sprite.Height
         );
     }
 
@@ -75,8 +75,8 @@ public class questionMarkHit : IBlock
         Collider = new Rectangle(
             (int)location.X,
             (int)location.Y,
-            (int)(sprite.Width * SCALE),
-            (int)(sprite.Height * SCALE)
+            (int)sprite.Width,
+            (int)sprite.Height
         );
     }
 

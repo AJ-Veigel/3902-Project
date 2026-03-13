@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using SpriteZero.blocks;
-using SpriteZero.Marios;
+using SprintZero.blocks;
+using SprintZero.Marios;
 
 namespace SprintZero.PBCollision
 {
@@ -9,20 +9,22 @@ namespace SprintZero.PBCollision
     {
         public static void checkBlockCollision(IMario mario, List<IBlock> blocks)
         {
+            Vector2 zero = new Vector2(0, 0);
+            Rectangle marioRect = mario.Collider.getBoundingRectangle(zero);
             foreach (IBlock block in blocks)
             {
-                if (mario.MarioCollider.Intersects(block.Collider))
+                if (marioRect.Intersects(block.Collider))
                 {
-                    CollisionSide theSide = getCollisionSide(mario.MarioCollider, block.Collider);
+                    CollisionSide theSide = getCollisionSide(marioRect, block.Collider);
                     block.onCollision(mario, theSide);
                 }
                 else
                 { 
-                    bool horizontallyAbove = mario.MarioCollider.Right > block.Collider.Left &&
-                                             mario.MarioCollider.Left < block.Collider.Right;
+                    bool horizontallyAbove = marioRect.Right > block.Collider.Left &&
+                                             marioRect.Left < block.Collider.Right;
 
-                    bool onTop = mario.MarioCollider.Bottom >= block.Collider.Top - 1 &&
-                                 mario.MarioCollider.Bottom <= block.Collider.Top + 5;
+                    bool onTop = marioRect.Bottom >= block.Collider.Top - 1 &&
+                                 marioRect.Bottom <= block.Collider.Top + 5;
 
                     if (horizontallyAbove && !onTop)
                     {

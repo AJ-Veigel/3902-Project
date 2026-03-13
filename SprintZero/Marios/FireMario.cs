@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero;
-using SpriteZero.Marios;
+using SprintZero.Marios;
 
 public class FireMario : IMario
 {
@@ -20,14 +20,9 @@ public class FireMario : IMario
     public float xVelocity { get; set; }
     private MarioSprite marioSprites;
 
-    // Currently drawing 
-    private TextureRegion currentSprite;
-    private AnimatedSprite currentASprite;
-
     public Vector2 location { get; set; }
     public Hitbox Collider {get; set; }
-    public Rectangle MarioCollider { get; set; }
-
+    public Boolean Collidable { get; set; }
     // State flags 
     public bool Jumping { get; set; }
     public bool Falling { get; set; }
@@ -162,7 +157,7 @@ public class FireMario : IMario
         Vector2 newPos = location;
 
         // Modify the Y value
-        newPos.Y = blockTopY - currentSprite.Height * SCALE;
+        newPos.Y = blockTopY - marioSprites.GetSprite().Height * SCALE;
 
         // Assign back
         location = newPos;
@@ -206,6 +201,7 @@ public class FireMario : IMario
             Jumping = true;
             Falling = false;
             jumpStartHeight = location.Y;
+            yVelocity = -JUMP_VELOCITY;
             isOnGround = false; // Mario is now in the air
 
             if(Direction)
@@ -313,6 +309,11 @@ public class FireMario : IMario
         return true;
     }
 
+    public void SetCollidable(Boolean state)
+    {
+        Collidable = state;
+    }
+
     public void Update(GameTime gameTime)
     {
         Vector2 newlocation = location;
@@ -329,6 +330,7 @@ public class FireMario : IMario
                 // Check if reached peak
                 if (newlocation.Y <= jumpStartHeight - 100)
                 {
+                    yVelocity = GRAVITY;
                     Falling = true;
                 }
             }

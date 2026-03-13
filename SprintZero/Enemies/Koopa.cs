@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Enemies;
+using SprintZero.Enemies;
 
 public class Koopa : IEnemy
 {
@@ -59,6 +59,11 @@ public class Koopa : IEnemy
 		KoopaTimer = WALK_TIME;
 		Type = type;
 	}
+
+	public Boolean GetCollidable()
+    {
+        return true;
+    }
 
 	public void Draw(SpriteBatch spriteBatch)
 	{

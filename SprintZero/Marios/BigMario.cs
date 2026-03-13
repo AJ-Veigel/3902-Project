@@ -4,14 +4,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero;
-using SpriteZero.Marios;
+using SprintZero.Marios;
 
 public class BigMario : IMario
 {
     public Vector2 location { get; set; }
     public Hitbox Collider { get; set; }
+    public Boolean Collidable { get; set; }
     private MarioSprite marioSprites;
-    public Rectangle MarioCollider { get; set; }
     public float yVelocity { get; set; }
     public float xVelocity { get; set; }
     public float jumpStartHeight { get; set; }
@@ -109,6 +109,7 @@ public class BigMario : IMario
         {
             Jumping = true;
             Falling = false;
+            yVelocity = -SCALE;
             jumpStartHeight = location.Y;
 
             if (Direction)
@@ -193,9 +194,6 @@ public class BigMario : IMario
         marioSprites = new MarioSprite(bigMarioTexture, 1, location);
         isOnGround = true;
 
-        // Set Mario Collider
-        MarioCollider = new Rectangle((int)location.X, (int)location.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
-
         Collider = marioSprites.UpdateCollider();
     }
     public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
@@ -209,8 +207,6 @@ public class BigMario : IMario
         marioSprites = new MarioSprite(bigMarioTexture, 1, location);
 
         isOnGround = true;
-        // Set Mario Collider
-        MarioCollider = new Rectangle((int)location.X, (int)location.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
 
         Collider = marioSprites.UpdateCollider();
     }
@@ -219,21 +215,29 @@ public class BigMario : IMario
     {
         return true;
     }
+
+    public void SetCollidable(Boolean state)
+    {
+        Collidable = state;
+    }
     public void Update(GameTime gameTime)
     {
         if (Jumping)
         {
             if (!Falling)
             {
-                location = new Vector2(location.X, location.Y - SCALE);
+                location = new Vector2(location.X, location.Y +yVelocity);
                 marioSprites.SetLocation(location);
 
                 if (location.Y <= jumpStartHeight - 100)
+                {
+                    yVelocity = SCALE;
                     Falling = true;
+                }
             }
             else
             {
-                location = new Vector2(location.X, location.Y + SCALE);
+                location = new Vector2(location.X, location.Y + yVelocity);
                 marioSprites.SetLocation(location);
 
                 if (location.Y >= jumpStartHeight)

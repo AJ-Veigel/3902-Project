@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Enemies;
+using SprintZero.Enemies;
 
 public class Goomba : IEnemy
 {
@@ -10,7 +11,7 @@ public class Goomba : IEnemy
     private float speed = 2f;
     private float animationTimer = 0f;
     public Rectangle EnemyCollider { get; set; }
-
+    private Boolean Collidable = true;
     private TextureRegion goombaRight1Sprite;
     private TextureRegion goombaLeft1Sprite;
     private TextureRegion goombaFlat1Sprite;
@@ -27,7 +28,7 @@ public class Goomba : IEnemy
         currentSprite = goombaRight1;
         goombaRight1Sprite = goombaRight1;
         goombaLeft1Sprite = goombaLeft1;
-        goombaFlat1Sprite= goombaFlat1;
+        goombaFlat1Sprite = goombaFlat1;
         goombaWalk1Sprite = goombaWalk1;
         goombaHit1Sprite = goombaHit1;
         currentASprite = goombaWalk1;
@@ -38,17 +39,27 @@ public class Goomba : IEnemy
 
     public Goomba(TextureAtlas goombaTexture)
     {
-     goombaRight1Sprite = goombaTexture.GetRegion("goombaRight1");
-     goombaLeft1Sprite = goombaTexture.GetRegion("goombaLeft1");
-     goombaFlat1Sprite = goombaTexture.GetRegion("goombaFlat1");
-     goombaWalk1Sprite = goombaTexture.CreateAnimatedSprite("goombaWalk1");
-     goombaHit1Sprite = goombaTexture.CreateAnimatedSprite("goombaHit1");
-     position = new Vector2(600, 660);
-     EnemyCollider = new Rectangle((int)position.X, (int)position.Y, goombaRight1Sprite.SourceRectangle.Width * (int)SCALE, goombaRight1Sprite.SourceRectangle.Height * (int)SCALE);
+        goombaRight1Sprite = goombaTexture.GetRegion("goombaRight1");
+        goombaLeft1Sprite = goombaTexture.GetRegion("goombaLeft1");
+        goombaFlat1Sprite = goombaTexture.GetRegion("goombaFlat1");
+        goombaWalk1Sprite = goombaTexture.CreateAnimatedSprite("goombaWalk1");
+        goombaHit1Sprite = goombaTexture.CreateAnimatedSprite("goombaHit1");
+        position = new Vector2(600, 660);
+        EnemyCollider = new Rectangle((int)position.X, (int)position.Y, goombaRight1Sprite.SourceRectangle.Width * (int)SCALE, goombaRight1Sprite.SourceRectangle.Height * (int)SCALE);
+    }
+
+    public Boolean GetCollidable()
+    {
+        return true;
+    }
+
+    public void SetCollidable(Boolean state)
+    {
+        Collidable = state;
     }
     public void Update(GameTime gameTime)
     {
-        if(currentSprite == null)
+        if (currentSprite == null)
         {
             currentSprite = goombaRight1Sprite;
         }
@@ -61,7 +72,7 @@ public class Goomba : IEnemy
             if (animationTimer >= 0.5)
             {
                 animationTimer = 0f;
-                if(currentSprite == goombaRight1Sprite)
+                if (currentSprite == goombaRight1Sprite)
                 {
                     currentSprite = goombaLeft1Sprite;
                 }
@@ -76,27 +87,27 @@ public class Goomba : IEnemy
                 speed = -speed;
             }
         }
-         else 
-            {
+        else
+        {
+            SetCollidable(false);
             currentSprite = goombaFlat1Sprite;
             currentASprite = goombaHit1Sprite;
-  
-         }
+        }
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        if(currentSprite != null)
+        if (currentSprite != null)
         {
-            EnemyCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.SourceRectangle.Width * (int)SCALE, currentSprite.SourceRectangle.Height * (int)SCALE);
+            if (Collidable) EnemyCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.SourceRectangle.Width * (int)SCALE, currentSprite.SourceRectangle.Height * (int)SCALE);
             spriteBatch.Draw(currentSprite.Texture, position, currentSprite.SourceRectangle, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0f);
 
         }
-        else if(currentASprite != null)
+        else if (currentASprite != null)
         {
-            EnemyCollider = new Rectangle((int)position.X, (int)position.Y, (int)currentASprite.Width, (int)currentASprite.Height); 
+            if (Collidable) EnemyCollider = new Rectangle((int)position.X, (int)position.Y, (int)currentASprite.Width, (int)currentASprite.Height);
             currentASprite.Draw(spriteBatch, position);
 
         }
     }
-   
+
 }

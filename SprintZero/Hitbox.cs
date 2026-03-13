@@ -64,6 +64,5 @@ namespace SprintZero
                 (int)MathF.Ceiling(this.height)
             );
         }
-
     }
 }

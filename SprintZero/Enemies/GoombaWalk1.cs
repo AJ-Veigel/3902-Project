@@ -17,6 +17,12 @@ public class GoombaWalk1 : ISprite
 
         location = new Vector2(180, 120);
     }
+
+    public Boolean GetCollidable()
+    {
+        return true;
+    }
+
     public void Update(GameTime gameTime)
     {
         sprite.Update(gameTime);

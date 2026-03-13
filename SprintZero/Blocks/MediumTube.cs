@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.blocks;
-using SpriteZero.Marios;
+using SprintZero.blocks;
+using SprintZero.Marios;
 
 public class MediumTube : IBlock
 {
@@ -32,19 +32,21 @@ public class MediumTube : IBlock
 
     public void onCollision(IMario mario, CollisionSide theSide)
     {
+        Vector2 zero = new Vector2(0, 0);
+        Rectangle marioRect = mario.Collider.getBoundingRectangle(zero);
         if (theSide == CollisionSide.Top)
         {
-            mario.location = new Vector2(mario.location.X, location.Y - mario.MarioCollider.Height);
+            mario.location = new Vector2(mario.location.X, location.Y - marioRect.Height);
             mario.Jumping = false;
             mario.Falling = false;
         }
         else if (theSide == CollisionSide.Left)
         {
-            mario.location = new Vector2(location.X - mario.MarioCollider.Width, mario.location.Y);
+            mario.location = new Vector2(location.X - marioRect.Width, mario.location.Y);
         }
         else if (theSide == CollisionSide.Right)
         {
-            mario.location = new Vector2(location.X + mario.MarioCollider.Width, mario.location.Y);
+            mario.location = new Vector2(location.X + marioRect.Width, mario.location.Y);
         }
     }
 }

@@ -3,14 +3,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero;
-using SpriteZero.Marios;
+using SprintZero.Marios;
 
 public class SmallMario : IMario
 {
     private MarioSprite marioSprites;
     public Vector2 location { get; set; }
     public Hitbox Collider {get; set; }
-    public Rectangle MarioCollider { get; set; }
+    public Boolean Collidable { get; set; }
     public float yVelocity { get; set; }
     public float xVelocity { get; set; }
     public float jumpStartHeight { get; set; }
@@ -85,7 +85,7 @@ public class SmallMario : IMario
         {
             Jumping = true;
             Falling = false;
-            yVelocity = 4f;
+            yVelocity = -SCALE;
             jumpStartHeight = location.Y;
 
             if (Direction)
@@ -143,14 +143,6 @@ public class SmallMario : IMario
 
         marioSprites = new MarioSprite(smallMarioTexture, 0, location);
 
-        // Set Mario Collider
-        MarioCollider = new Rectangle(
-            (int)location.X,
-            (int)location.Y,
-            marioSprites.GetSprite().Width * (int)SCALE,
-            marioSprites.GetSprite().Height * (int)SCALE
-        );
-
         Collider = marioSprites.UpdateCollider();
 
         isOnGround = true;
@@ -186,8 +178,6 @@ public class SmallMario : IMario
 
         marioSprites = new MarioSprite(smallMarioTexture, 0, location);
 
-        // Set Mario Collider
-        MarioCollider = new Rectangle((int)location.X, (int)location.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
         Collider = marioSprites.UpdateCollider();
         isOnGround = true;
     }
@@ -196,21 +186,29 @@ public class SmallMario : IMario
     {
         return true;
     }
+
+    public void SetCollidable(Boolean state)
+    {
+        Collidable = state;
+    }
     public void Update(GameTime gameTime)
     {
         if (Jumping)
         {
             if (!Falling)
             {
-                location = new Vector2(location.X, location.Y - SCALE); // move up
+                location = new Vector2(location.X, location.Y + yVelocity); // move up
                 marioSprites.SetLocation(location);
 
                 if (location.Y <= jumpStartHeight - 100) // fixed jump height
+                {
+                    yVelocity = SCALE;
                     Falling = true;
+                }
             }
             else
             {
-                location = new Vector2(location.X, location.Y + SCALE); // move down
+                location = new Vector2(location.X, location.Y + yVelocity); // move down
                 marioSprites.SetLocation(location);
 
                 if (location.Y >= jumpStartHeight)

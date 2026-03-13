@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.blocks;
-using SpriteZero.Marios;
+using SprintZero.blocks;
+using SprintZero.Marios;
 
 public class AboveGroundBreak : IBlock
 {
@@ -85,7 +85,9 @@ public void Draw(SpriteBatch spriteBatch)
 
     else if (theSide == CollisionSide.Top && !isBroken)
     {
-        mario.location = new Vector2(mario.location.X, location.Y - mario.MarioCollider.Height);
+        Vector2 zero = new Vector2(0, 0);
+        Rectangle marioRect = mario.Collider.getBoundingRectangle(zero);
+        mario.location = new Vector2(mario.location.X, location.Y - marioRect.Height);
         mario.Falling = true;
         mario.Jumping = false;
     }

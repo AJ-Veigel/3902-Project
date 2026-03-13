@@ -4,10 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using SprintZero.Controllers;
-using SpriteZero.Enemies;
-using SpriteZero.Marios;
+using SprintZero.Enemies;
+using SprintZero.Marios;
 using SpriteZero.Sprites;
-using SpriteZero.blocks;
+using SprintZero.blocks;
 using SprintZero.PBCollision;
 using SprintZero.Map;
 
@@ -183,12 +183,14 @@ public class Game1 : Core
                 collisionCheck(fb);
             }
         }
+        Vector2 zero = new Vector2(0, 0);
+        Rectangle marioRect = currentMario.Collider.getBoundingRectangle(zero);
         currentEnemy.Update(gameTime);
         CheckBounds();
         CheckCollisions();
         CheckEnemyCollisions();
         playerBlockCollision.checkBlockCollision(currentMario, blocks);
-        playerBlockCollision.checkBlockCollision(currentMario, map.getBlocksInRectangle(currentMario.MarioCollider));
+        playerBlockCollision.checkBlockCollision(currentMario, map.getBlocksInRectangle(marioRect));
         base.Update(gameTime);
     }
 
@@ -225,7 +227,7 @@ public class Game1 : Core
     public void CheckCollisions()
     {
         Vector2 zero = new Vector2(0, 0);
-        if (currentItem.GetCollidable() && (currentItem.Collider.CollidesWith(zero, currentMario.Collider, zero)) != Hitbox.CollisionSide.None)
+        if (currentItem.GetCollidable() && currentItem.Collider.CollidesWith(zero, currentMario.Collider, zero) != Hitbox.CollisionSide.None)
         {
             // Checks to see if item is a fire flower and if mario is small or big
             if (currentItemCount == 0 && currentMarioNum <= 1)
@@ -242,15 +244,20 @@ public class Game1 : Core
 
     public void CheckEnemyCollisions()
     {
-        if (currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) && !currentEnemy.Dead)
+        Vector2 zero = new Vector2(0, 0);
+        if (currentEnemy.GetCollidable())
         {
-            if (currentMario.Jumping && currentMario.MarioCollider.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
+            Rectangle marioRect = currentMario.Collider.getBoundingRectangle(zero);
+            if (currentEnemy.EnemyCollider.Intersects(marioRect) && !currentEnemy.Dead)
             {
-                currentEnemy.Dead = true;
-            }
-            else
-            {
-                Damage();
+                if (currentMario.yVelocity > 0 && marioRect.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
+                {
+                    currentEnemy.Dead = true;
+                }
+                else
+                {
+                    Damage();
+                }
             }
         }
     }
@@ -408,6 +415,7 @@ public class Game1 : Core
         else if (currentMarioNum == 1)
         {
             SetMario(0);
+            currentMario.GetCollidable();
         }
         else if (currentMarioNum == 2)
         {
@@ -419,30 +427,33 @@ public class Game1 : Core
     {
         for (int j = enemies.Count - 1; j >= 0; j--)
         {
-            switch (enemies[j])
+            if (enemies[j].GetCollidable())
             {
-                case Goomba:
-                    if (fb.location.X < enemies[j].position.X + 16 &&
-                        fb.location.X + 8 > enemies[j].position.X &&
-                        fb.location.Y < enemies[j].position.Y + 16 &&
-                        fb.location.Y + 8 > enemies[j].position.Y)
-                    {
-                        // Goomba take damage
-                        enemies[j].Dead = true;
-                        fb.Pop();
-                    }
-                    break;
-                case Koopa:
-                    if (fb.location.X < enemies[j].position.X + 16 &&
-                        fb.location.X + 8 > enemies[j].position.X &&
-                        fb.location.Y < enemies[j].position.Y + 24 &&
-                        fb.location.Y + 8 > enemies[j].position.Y)
-                    {
-                        // Koopa take damage
-                        enemies[j].Dead = true;
-                        fb.Pop();
-                    }
-                    break;
+                switch (enemies[j])
+                {
+                    case Goomba:
+                        if (fb.location.X < enemies[j].position.X + 16 &&
+                            fb.location.X + 8 > enemies[j].position.X &&
+                            fb.location.Y < enemies[j].position.Y + 16 &&
+                            fb.location.Y + 8 > enemies[j].position.Y)
+                        {
+                            // Goomba take damage
+                            enemies[j].Dead = true;
+                            fb.Pop();
+                        }
+                        break;
+                    case Koopa:
+                        if (fb.location.X < enemies[j].position.X + 16 &&
+                            fb.location.X + 8 > enemies[j].position.X &&
+                            fb.location.Y < enemies[j].position.Y + 24 &&
+                            fb.location.Y + 8 > enemies[j].position.Y)
+                        {
+                            // Koopa take damage
+                            enemies[j].Dead = true;
+                            fb.Pop();
+                        }
+                        break;
+                }
             }
         }
     }
