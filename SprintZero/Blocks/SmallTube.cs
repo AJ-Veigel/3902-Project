@@ -13,7 +13,7 @@ public class smallTube : IBlock
     public smallTube(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(400,500);
+        location = new Vector2(400,700);
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Update(GameTime gameTime){}

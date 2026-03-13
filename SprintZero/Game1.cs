@@ -71,12 +71,12 @@ public class Game1 : Core
         blocks = new List<IBlock>
          {
         //    new Ground(ground), //Done
-       //     new questionMarkHit(questionBlockHit),
-       //     new smallTube(smallTube),
-       //       new CastleBlock(castle),
-      //      new FlagMove(flagMove),
-      //    new MediumTube(mediumTube),
-           new AboveGroundBreak(aboveGroundBreak)
+        //    new questionMarkHit(questionBlockHit), //Done
+        //    new smallTube(smallTube),
+       //       new CastleBlock(castle), 
+      //      new FlagMove(flagMove), 
+         new MediumTube(mediumTube),
+       //    new AboveGroundBreak(aboveGroundBreak) //Done
          };
 
         for (int x = -1; x < 32; x++)

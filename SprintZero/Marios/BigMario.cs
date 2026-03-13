@@ -22,6 +22,9 @@ public class BigMario : IMario
     public Boolean Swimming { get; set; }
     private float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
+    private const float GRAVITY = 0.35f;
+private const float JUMP_POWER = -8f;
+
     public void Move()
     {
         if (!Crouching)
@@ -98,22 +101,22 @@ public class BigMario : IMario
 }
 
 
-    public void Jump()
+  public void Jump()
 {
     if (isOnGround)
     {
+        yVelocity = JUMP_POWER;
         Jumping = true;
         Falling = false;
-        jumpStartHeight = position.Y;
+        isOnGround = false;
 
         if (Direction)
             marioSprites.SetSprite("jumpRight");
         else
             marioSprites.SetSprite("jumpLeft");
-
-        isOnGround = false;
     }
-}    public void Crouch()
+}   
+ public void Crouch()
     {
         if (Crouching)
         {
