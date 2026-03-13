@@ -35,22 +35,32 @@ namespace SprintZero.Map
             return map[p];
         }
 
-        public List<IBlock> getBlocksInRectangle(Rectangle rect)
-        {
-            var list = new List<IBlock>();
-            for (int x = rect.Left; x < rect.Right; x++)
-            {
-                for (int y = rect.Top; y < rect.Bottom; y++)
-                {
-                    if (map.ContainsKey(new Point(x, y)))
-                    {
-                        list.Add(map[new Point(x, y)]);
-                    }
-                }
-            }
-            return list;
-        }
+       public List<IBlock> getBlocksInRectangle(Rectangle rect)
+{
+    var list = new List<IBlock>();
 
+    int tileSize = 64;
+
+    int leftTile = rect.Left / tileSize;
+    int rightTile = rect.Right / tileSize;
+    int topTile = rect.Top / tileSize;
+    int bottomTile = rect.Bottom / tileSize;
+
+    for (int x = leftTile; x <= rightTile; x++)
+    {
+        for (int y = topTile; y <= bottomTile; y++)
+        {
+            Point p = new Point(x, y);
+
+            if (map.ContainsKey(p))
+            {
+                list.Add(map[p]);
+            }
+        }
+    }
+
+    return list;
+}
         public void Draw(SpriteBatch batch)
         {
             // TODO: work with camera system to not draw every block ever.
@@ -59,6 +69,10 @@ namespace SprintZero.Map
             {
                 s.Draw(batch);
             }
+        }
+        public List<IBlock> getAllBlocks()
+        {
+            return new List<IBlock>(map.Values);
         }
     }
 }

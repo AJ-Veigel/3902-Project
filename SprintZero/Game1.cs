@@ -70,13 +70,13 @@ public class Game1 : Core
 
         blocks = new List<IBlock>
          {
-        //    new Ground(ground),
+        //    new Ground(ground), //Done
             new questionMarkHit(questionBlockHit),
-            new smallTube(smallTube),
-            new CastleBlock(castle),
-            new FlagMove(flagMove),
-            new MediumTube(mediumTube),
-            new AboveGroundBreak(aboveGroundBreak)
+       //     new smallTube(smallTube),
+     //       new CastleBlock(castle),
+      //      new FlagMove(flagMove),
+        //    new MediumTube(mediumTube),
+        //    new AboveGroundBreak(aboveGroundBreak)
          };
 
         for (int x = -1; x < 32; x++)
@@ -85,10 +85,13 @@ public class Game1 : Core
             {
                 Ground b = new Ground(ground);
                 b.location = new Vector2(x * 64, y * 64);
-                map.addBlockAt(new Point(x, y), b);
+                map.addBlockAt(new Point(x, y), b);                
             }
         }
 
+
+
+        
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
         flower = itemTexture.CreateAnimatedSprite("flower");
         coin = itemTexture.CreateAnimatedSprite("coin");
@@ -183,7 +186,7 @@ public class Game1 : Core
         CheckBounds();
         CheckCollisions();
         CheckEnemyCollisions();
-        //playerBlockCollision.checkBlockCollision(currentMario, blocks);
+        playerBlockCollision.checkBlockCollision(currentMario, blocks);
         playerBlockCollision.checkBlockCollision(currentMario, map.getBlocksInRectangle(currentMario.MarioCollider));
         base.Update(gameTime);
     }

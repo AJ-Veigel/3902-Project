@@ -202,7 +202,31 @@ public class FireMario : IMario
             SetRegion(Direction ? standingRightSprite : standingLeftSprite);
         }
     }
+  public void LandOnBlock(float blockTopY)
+{
+    // Copy position to a local variable
+    Vector2 newPos = position;
 
+    // Modify the Y value
+    newPos.Y = blockTopY - currentSprite.Height * SCALE;
+
+    // Assign back
+    position = newPos;
+
+    jumpStartHeight = position.Y;
+    Jumping = false;
+    Falling = false;
+    isOnGround = true;
+
+    SetRegion(Direction ? standingRightSprite : standingLeftSprite);
+
+    MarioCollider = new Rectangle(
+        (int)position.X,
+        (int)position.Y,
+        currentSprite.Width * (int)SCALE,
+        currentSprite.Height * (int)SCALE
+    );
+}
     public void UpdateAirSpriteForDirection()
     {
         if(throwing) return;
@@ -230,7 +254,19 @@ public class FireMario : IMario
         // Jumping = true;
         // SetRegion(Direction ? jumpingRightSprite : jumpingLeftSprite);
     
-
+public void GrabFlagPole()
+    {
+        Jumping = false;
+        Falling = false;
+        if (Direction)
+        {
+            SetAnimated(flagpoleRightSprite);
+        }
+        else
+        {
+            SetAnimated(flagpoleLeftSprite);
+        }
+    }
     public void Crouch()
     {
         
@@ -247,6 +283,14 @@ public class FireMario : IMario
     {
         
     }
+public void EndFlagPole()
+{
+    SetRegion(Direction ? standingRightSprite : standingLeftSprite);
+
+    isOnGround = true;
+    Jumping = false;
+    Falling = false;
+}
     public Vector2 FireballSpawnPosition
     {
         get
@@ -257,16 +301,19 @@ public class FireMario : IMario
         }
     }
 
-  public void Update(GameTime gameTime)
+public void Update(GameTime gameTime)
 {
     Vector2 newPosition = position;
 
-    if (Jumping)
+    // Handle jumping and falling
+    if (Jumping || Falling)
     {
         if (!Falling)
         {
+            // Move up
             newPosition.Y -= JUMP_VELOCITY;
 
+            // Check if reached peak
             if (newPosition.Y <= jumpStartHeight - 100)
             {
                 Falling = true;
@@ -274,24 +321,43 @@ public class FireMario : IMario
         }
         else
         {
+            // Move down
             newPosition.Y += GRAVITY;
 
+            // Stop falling when reaching the ground
             if (newPosition.Y >= jumpStartHeight)
-                {
-                    Jumping = false;
-                    Falling = false;
-                }
-        }
-        MarioCollider = new Rectangle((int)position.X,(int)position.Y,currentSprite.Width*(int)SCALE,currentSprite.Height*(int)SCALE);
-        if(!Jumping && !Falling)
             {
+                newPosition.Y = jumpStartHeight;
+                Jumping = false;
+                Falling = false;
                 isOnGround = true;
             }
+        }
+
+        // Update Mario collider
+        MarioCollider = new Rectangle(
+            (int)newPosition.X,
+            (int)newPosition.Y,
+            currentSprite.Width * (int)SCALE,
+            currentSprite.Height * (int)SCALE
+        );
 
         UpdateAirSpriteForDirection();
     }
 
     position = newPosition;
+
+    // Update throwing timer
+    if (throwing)
+    {
+        throwTimerMs += gameTime.ElapsedGameTime.TotalMilliseconds;
+        if (throwTimerMs >= THROW_DURATION_MS)
+        {
+            throwing = false;
+            throwTimerMs = 0;
+            setAppropriate();
+        }
+    }
 }
     public void Draw(SpriteBatch spriteBatch)
     {
