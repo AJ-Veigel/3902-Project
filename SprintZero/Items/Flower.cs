@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Sprites;
+using SprintZero;
 
-   public class Flower : ISprite
+   public class Flower : ICollidable
 {
     private AnimatedSprite sprite;
 
@@ -14,12 +14,13 @@ using SpriteZero.Sprites;
         get { return _location; }
         set { _location = value; }
     }
-    public Rectangle Collider {get; set;}
+    public Hitbox Collider {get; set;}
+    public Rectangle RectCollider { get; set; }
     private const float SCALE = 4f;
 
     private float startY;
     private float riseSpeed = 2f;
-    private float riseHeight = 100f; 
+    private float riseHeight = 20f; 
 
     private bool rising = true;
 
@@ -27,9 +28,10 @@ using SpriteZero.Sprites;
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
-        _location = new Vector2(300, 300);
+        _location = new Vector2(400, 600);
         startY = _location.Y;
-        Collider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+        //Collider = new HitBox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+        RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
 
     public void Update(GameTime gameTime)
@@ -47,7 +49,8 @@ using SpriteZero.Sprites;
                 rising = false; 
             }
         }
-        Collider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+        //Collider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+        RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
 
     public void Draw(SpriteBatch spriteBatch)

@@ -234,3 +234,4 @@ C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\MonoG
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.csproj.Up2Date
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.genruntimeconfig.cache
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\ref\SprintZero.dll
+C:\Users\ajvei\Documents\GitHub\3902-Project\SprintZero\bin\Debug\net10.0\MonoGame.Extended.dll

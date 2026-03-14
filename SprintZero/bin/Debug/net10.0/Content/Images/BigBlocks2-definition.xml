@@ -1,7 +1,7 @@
 ﻿<TextureAtlas>
     <Texture>Images/bigBlock2</Texture>
     <Regions>
-        <Region name="mediumTube" x="265" y="399" width="44" height="120"/>
+        <Region name="mediumTube" x="271" y="401" width="32" height="48"/>
         <Region name="flag1" x="245" y="593" width="28" height="170"/>
         <Region name="flag2" x="212" y="593" width="28" height="170"/>
         <Region name="flag3" x="178" y="593" width="28" height="170"/>

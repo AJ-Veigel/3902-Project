@@ -1,13 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Sprites;
+using SprintZero;
 
-public class Mushroom : ISprite
+public class Mushroom : ICollidable
 {
    private TextureRegion sprite;
     public Vector2 location {get;set;}
-    public Rectangle Collider {get; set;}
+    public Hitbox Collider {get; set;}
+    public Rectangle RectCollider { get; set; }
     private const float SCALE = 4f;
     private float horizontalSpeed = 2f;
     private float verticalSpeed=0f;
@@ -18,9 +19,10 @@ public class Mushroom : ISprite
     public Mushroom(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(300,300);
+        location = new Vector2(300,600);
         startY = location.Y;
-        Collider = new Rectangle((int)location.X, (int)location.Y, sprite.Width * (int)SCALE, sprite.Height * (int)SCALE);
+        //Collider = new Rectangle((int)location.X, (int)location.Y, sprite.Width * (int)SCALE, sprite.Height * (int)SCALE);
+        RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
     public void Update(GameTime gameTime)
     {
@@ -44,7 +46,8 @@ public class Mushroom : ISprite
             verticalSpeed = 0f;
             location = new Vector2(location.X+horizontalSpeed,location.Y);
         }
-        Collider = new Rectangle((int)location.X, (int)location.Y, sprite.Width * (int)SCALE, sprite.Height * (int)SCALE);
+        //Collider = new Rectangle((int)location.X, (int)location.Y, sprite.Width * (int)SCALE, sprite.Height * (int)SCALE);
+        RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
 
 public void Draw(SpriteBatch spriteBatch)

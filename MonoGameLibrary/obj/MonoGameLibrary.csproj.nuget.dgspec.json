@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\adamt\\source\\repos\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {}
+    "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {}
   },
   "projects": {
-    "C:\\Users\\adamt\\source\\repos\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {
+    "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\adamt\\source\\repos\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
         "projectName": "MonoGameLibrary",
-        "projectPath": "C:\\Users\\adamt\\source\\repos\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
-        "packagesPath": "C:\\Users\\adamt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\adamt\\source\\repos\\3902-Project\\MonoGameLibrary\\obj\\",
+        "projectPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\MonoGameLibrary.csproj",
+        "packagesPath": "C:\\Users\\ajvei\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\MonoGameLibrary\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\adamt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ajvei\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -68,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.104/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

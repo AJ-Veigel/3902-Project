@@ -1,13 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Sprites;
+using SprintZero;
 
-public class OneUp : ISprite
+public class OneUp : ICollidable
 {
    private TextureRegion sprite;
     public Vector2 location {get;set;}
-    public Rectangle Collider {get; set;}
+    public Hitbox Collider {get; set;}
+    public Rectangle RectCollider { get; set; }
     private float horizontalSpeed = 2f;
     private float verticalSpeed=0f;
     private float gravity = 0.3f;
@@ -18,7 +19,7 @@ public class OneUp : ISprite
     public OneUp(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(500,500);
+        location = new Vector2(400,600);
         startY = location.Y;
     }
     public void Update(GameTime gameTime)

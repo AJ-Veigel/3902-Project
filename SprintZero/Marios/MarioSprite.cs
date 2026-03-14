@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Sprites;
+using SprintZero.Sprites;
 
 public class MarioSprite : ISprite
 {

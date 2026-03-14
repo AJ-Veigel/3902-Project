@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Marios;
-using SpriteZero.blocks;
+using SprintZero.Marios;
+using SprintZero.blocks;
 
 public class AboveGroundBreak : IBlock
 {

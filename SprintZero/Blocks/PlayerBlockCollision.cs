@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using SpriteZero.blocks;
-using SpriteZero.Marios;
+using SprintZero.blocks;
+using SprintZero.Marios;
 
 namespace SprintZero.PBCollision
 {
@@ -26,15 +26,14 @@ namespace SprintZero.PBCollision
 
                     if (horizontallyAbove && !onTop)
                     {
-                        
                         mario.Falling = true;
                     }
                 }
             }
         }
-        private static CollisionSide getCollisionSide(Rectangle mario,Rectangle block)
+        private static CollisionSide getCollisionSide(Rectangle mario, Rectangle block)
         {
-            CollisionSide theSide;
+            CollisionSide theSide = CollisionSide.None;
             Rectangle overlap = Rectangle.Intersect(mario,block);
             if (overlap.Width < overlap.Height)
             {
