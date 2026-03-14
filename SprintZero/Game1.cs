@@ -36,7 +36,8 @@ public class Game1 : Core
     private IMario currentMario;
     private IEnemy currentEnemy;
 
-    private TileMap map;
+    private List<TileMap> maps; // Temporary!
+    private TileMap map; // Current map.
 
     private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount, currentLevel;
     private Rectangle Bounds;
@@ -53,7 +54,7 @@ public class Game1 : Core
 
         Bounds = new Rectangle(0, 0, 1920, 1080);
 
-        map = new TileMap();
+        maps = new List<TileMap>();
 
         base.Initialize();
         // Create camera with viewport adapter
@@ -155,9 +156,14 @@ public class Game1 : Core
         currentEnemy = enemies[currentEnemyCount];
 
         currentLevel = 0;
-        TestLevel level = new TestLevel(Content);
-        map = new TileMap();
-        level.Populate(map);
+        var mapTest = new TileMap();
+        ILevel level = new TestLevel(Content);
+        level.Populate(mapTest);
+        maps.Add(mapTest);
+        var map1 = new TileMap();
+        level = new Level1(Content);
+        level.Populate(map1);
+        maps.Add(map1);
 
 
         base.LoadContent();
@@ -169,6 +175,7 @@ public class Game1 : Core
         {
             controller.Update(gameTime);
         }
+        map = maps[currentLevel];
         currentBlock.Update(gameTime);
         currentItem.Update(gameTime);
         currentMario.Update(gameTime);

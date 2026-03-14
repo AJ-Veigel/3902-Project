@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SprintZero.Map;
 using SprintZero.blocks;
+using SprintZero.Map;
 using SpriteZero.Enemies;
 
 namespace SprintZero.Map
@@ -13,32 +14,38 @@ namespace SprintZero.Map
         private const int TileSize = 64; // 64 in screen coordinates
 
         public Color BGColor { get; set; }
-        public Level1()
+        private ContentManager content { get; set; }
+
+        public Level1(ContentManager content)
         {
-            this.BGColor = Color.AliceBlue; // Load whatever we need to from file here?
-        }
-        public void Populate(TileMap tileMap)
-        {
-            for (int x = 0; x < 50; x++)
-            {
-                Point tilePos = new Point(x, 12);
-
-
-                // Once we're able to place blocks more efficiently, we could begin building the levels.
-                // Below is an example of how it might work. 
-
-                // tileMap.addBlockAt(
-                //     tilePos,
-                //     new Ground(region, tilePos.X * TileSize, tilePos.Y * TileSize)
-                // );
-            }
+            this.BGColor = Color.AliceBlue;
+            this.content = content;
         }
 
         public List<IEnemy> GetEnemies()
         {
-            var list = new List<IEnemy>();
+            return new List<IEnemy>(); // Return empty list, for now.
+        }
+        private static void placeGroundAt(TileMap map, TextureRegion ground, Point tilePos)
+        {
+            var block = new Ground(ground);
+            block.location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            map.addBlockAt(tilePos, block);
+        }
 
-            return list;
+        public void Populate(TileMap tileMap)
+        {
+            TextureAtlas blocksTexture = TextureAtlas.FromFile(this.content, "images/block-definition.xml");
+            TextureRegion ground = blocksTexture.GetRegion("ground");
+            for (int x = -200; x < 50; x++)
+            {
+                placeGroundAt(tileMap, ground, new Point(x, -13));
+            }
+
+            for (int x = 50; x < 100; x++)
+            {
+                placeGroundAt(tileMap, ground, new Point(x, x - 63));
+            }
         }
 
     }
