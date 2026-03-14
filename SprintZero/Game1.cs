@@ -47,7 +47,8 @@ public class Game1 : Core
     {
         controllers = new List<IController>
         {
-            new KeyController(this)
+            new KeyController(this),
+            new MouseController(this)
         };
 
         Bounds = new Rectangle(0, 0, 1920, 1080);
