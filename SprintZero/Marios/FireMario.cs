@@ -265,6 +265,15 @@ public class FireMario : IMario
         }
 
         MarioCollider = marioSprites.UpdateCollider();
+
+        if ((Jumping || Falling) && !isOnGround)
+        {
+            if (Direction)
+                marioSprites.SetSprite("jumpRight");
+            else
+                marioSprites.SetSprite("jumpLeft");
+        }
+
         marioSprites.Update(gameTime);
     }
     public void Draw(SpriteBatch spriteBatch)
