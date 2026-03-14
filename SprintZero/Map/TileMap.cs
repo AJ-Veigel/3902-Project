@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SprintZero.blocks;
+using SpriteZero.blocks;
 
 namespace SprintZero.Map
 {
@@ -35,33 +35,33 @@ namespace SprintZero.Map
             return map[p];
         }
 
-       public List<IBlock> getBlocksInRectangle(Rectangle rect)
-{
-    var list = new List<IBlock>();
-
-    int tileSize = 64;
-
-    int leftTile = rect.Left / tileSize;
-    int rightTile = rect.Right / tileSize;
-    int topTile = rect.Top / tileSize;
-    int bottomTile = rect.Bottom / tileSize;
-
-    for (int x = leftTile; x <= rightTile; x++)
-    {
-        for (int y = topTile; y <= bottomTile; y++)
+        public List<IBlock> getBlocksInRectangle(Rectangle rect)
         {
-            Point p = new Point(x, y);
+            var list = new List<IBlock>();
 
-            if (map.ContainsKey(p))
+            int tileSize = 64;
+
+            int leftTile = rect.Left / tileSize;
+            int rightTile = rect.Right / tileSize;
+            int topTile = rect.Top / tileSize;
+            int bottomTile = rect.Bottom / tileSize;
+
+            for (int x = leftTile; x <= rightTile; x++)
             {
-                list.Add(map[p]);
-            }
-        }
-    }
+                for (int y = topTile; y <= bottomTile; y++)
+                {
+                    Point p = new Point(x, y);
 
-    return list;
-}
-        public void Draw(SpriteBatch batch, Rectangle cameraWorldBounds, int tileSize) 
+                    if (map.ContainsKey(p))
+                    {
+                        list.Add(map[p]);
+                    }
+                }
+            }
+
+            return list;
+        }
+        public void Draw(SpriteBatch batch, Rectangle cameraWorldBounds, int tileSize)
         {
             // TODO: work with camera system to not draw every block ever.
             int leftTile = cameraWorldBounds.Left / tileSize - 1;

@@ -1,7 +1,17 @@
 using SprintZero.Map;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using SpriteZero.Enemies;
+using System.ComponentModel;
 
-public interface ILevel
+namespace SprintZero.Map
 {
-    
-    void Populate(TileMap tileMap);
+    public interface ILevel
+    {
+        Color BGColor { get; set; }
+        void Populate(TileMap tileMap);
+
+        List<IEnemy> GetEnemies();
+    }
+
 }

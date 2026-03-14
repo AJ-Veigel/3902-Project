@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using SpriteZero.Enemies;
 using SpriteZero.Sprites;
 using SprintZero;
-
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SprintZero.Map
 {
@@ -16,17 +16,13 @@ namespace SprintZero.Map
         private List<IEnemy> enemies;
         private List<IProjectile> projectiles;
 
-        public MapManager(Color BGColor)
+        public MapManager(ILevel Level)
         {
             this.map = new TileMap();
-            this.BGcolor = BGColor;
+            Level.Populate(this.map);
+            this.BGcolor = Level.BGColor;
             this.enemies = new List<IEnemy>();
             this.projectiles = new List<IProjectile>();
-        }
-
-        public void Load(ContentManager loader)
-        {
-            // Load in a file and do stuff? idk.
         }
 
         public void Update(GameTime dt)
