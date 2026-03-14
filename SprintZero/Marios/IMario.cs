@@ -2,12 +2,12 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpriteZero.Marios
+namespace SprintZero.Marios
 {
     public interface IMario
     {
 
-        Vector2 position { get; set; }
+        Vector2 location { get; set; }
         Rectangle MarioCollider { get; set; }
         Boolean Direction { get; set; }
         Boolean Jumping { get; set; }
@@ -26,6 +26,7 @@ namespace SpriteZero.Marios
         void GrabFlagPole();
         void EndFlagPole();
         float yVelocity {get;set;}
+        float xVelocity { get; set; }
 
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);

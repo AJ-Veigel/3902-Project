@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpriteZero.Marios;
+using SprintZero.Marios;
 
-namespace SpriteZero.blocks
+namespace SprintZero.blocks
 {
     public enum CollisionSide {None, Top, Bottom, Left, Right}
     public interface IBlock

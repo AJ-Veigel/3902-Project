@@ -8,11 +8,20 @@
     ".NETCoreApp,Version=v10.0": {
       "SprintZero/1.0.0": {
         "dependencies": {
+          "MonoGame.Extended": "5.4.0",
           "MonoGame.Framework.DesktopGL": "3.8.4.1",
           "MonoGameLibrary": "1.0.0"
         },
         "runtime": {
           "SprintZero.dll": {}
+        }
+      },
+      "MonoGame.Extended/5.4.0": {
+        "runtime": {
+          "lib/net8.0/MonoGame.Extended.dll": {
+            "assemblyVersion": "5.4.0.0",
+            "fileVersion": "5.4.0.0"
+          }
         }
       },
       "MonoGame.Framework.DesktopGL/3.8.4.1": {
@@ -129,6 +138,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "MonoGame.Extended/5.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wqUu2k/IETqF5Y4fUIzCTH7+I36Z4bEUyKJaTEkGngQW6ux8ZvP2syhM5EOekDigNRR6T4I7wpjctnW7jKYEFA==",
+      "path": "monogame.extended/5.4.0",
+      "hashPath": "monogame.extended.5.4.0.nupkg.sha512"
     },
     "MonoGame.Framework.DesktopGL/3.8.4.1": {
       "type": "package",

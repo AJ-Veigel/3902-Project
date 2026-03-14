@@ -5,9 +5,9 @@ using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using SprintZero.Controllers;
 using SpriteZero.Enemies;
-using SpriteZero.Marios;
+using SprintZero.Marios;
 using SpriteZero.Sprites;
-using SpriteZero.blocks;
+using SprintZero.blocks;
 using SprintZero.PBCollision;
 using SprintZero.Map;
 using MonoGame.Extended;
@@ -25,13 +25,13 @@ public class Game1 : Core
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
     private List<IController> controllers;
-    private List<ISprite> items;
+    private List<ICollidable> items;
     private List<IBlock> blocks;
     private List<IProjectile> projectiles;
     private List<IMario> marios;
     private List<IEnemy> enemies;
 
-    private ISprite currentItem;
+    private ICollidable currentItem;
     private IBlock currentBlock;
     private IMario currentMario;
     private IEnemy currentEnemy;
@@ -115,7 +115,7 @@ public class Game1 : Core
         // Fireballs will be added to the list as the user presses the shoot button.
         projectiles = new List<IProjectile>();
 
-        items = new List<ISprite>
+        items = new List<ICollidable>
     {
         new Flower(flower),
         new Coin(coin),
@@ -194,40 +194,19 @@ public class Game1 : Core
                 collisionCheck(fb);
             }
         }
-        CheckBounds();
         CheckCollisions();
         CheckEnemyMarioCollisions();
         currentEnemy.Update(gameTime);
         CheckEnemyBlockCollisions(currentEnemy);
         playerBlockCollision.checkBlockCollision(currentMario, blocks);
         playerBlockCollision.checkBlockCollision(currentMario, map.getBlocksInRectangle(currentMario.MarioCollider));
-        camera.Position = currentMario.position - new Vector2(780f, 560f);;
+        camera.Position = currentMario.location - new Vector2(780f, 560f);;
         base.Update(gameTime);
-    }
-
-    public void CheckBounds()
-    {
-        if (Bounds.Left >= currentMario.MarioCollider.Left)
-        {
-            currentMario.position = new Vector2(currentMario.position.X + 4f, currentMario.position.Y);
-        }
-        else if (Bounds.Right <= currentMario.MarioCollider.Right)
-        {
-            currentMario.position = new Vector2(currentMario.position.X - 4f, currentMario.position.Y);
-        }
-        if (Bounds.Left >= currentItem.Collider.Left)
-        {
-            currentItem.location = new Vector2(currentItem.location.X + 2f, currentItem.location.Y);
-        }
-        else if (Bounds.Right <= currentItem.Collider.Right)
-        {
-            currentItem.location = new Vector2(currentItem.location.X - 2f, currentItem.location.Y);
-        }
     }
 
     public void CheckCollisions()
     {
-        if ((currentItem.Collider.Intersects(currentMario.MarioCollider)))
+        if (currentItem.RectCollider.Intersects(currentMario.MarioCollider))
         {
             // Checks to see if item is a fire flower and if mario is small or big
             if (currentItemCount == 0 && currentMarioNum <= 1)
@@ -336,7 +315,7 @@ public class Game1 : Core
         // 2 fireballs max
         if (projectiles.Count >= 2) return;
 
-        Vector2 spawnPos = currentMario.position + new Vector2(currentMario.Direction ? 40f : -10f, 40f);
+        Vector2 spawnPos = currentMario.location + new Vector2(currentMario.Direction ? 40f : -10f, 40f);
 
         // create new animated sprites for each fireball
         AnimatedSprite roll = projectileTexture.CreateAnimatedSprite("FireballRolling");
@@ -395,7 +374,7 @@ public class Game1 : Core
     }
     public void SetMario(int marioNumber)
     {
-        Vector2 currentPosition = currentMario.position;
+        Vector2 currentPosition = currentMario.location;
         
         if (marioNumber == 0)
         {

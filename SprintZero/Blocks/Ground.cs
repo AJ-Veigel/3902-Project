@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.blocks;
-using SpriteZero.Marios;
+using SprintZero.blocks;
+using SprintZero.Marios;
 
 public class Ground : IBlock
 {
@@ -36,14 +36,14 @@ public void onCollision(IMario mario, CollisionSide theSide)
 {
     if (theSide == CollisionSide.Top)
     {
-        mario.position = new Vector2(
-            mario.position.X,
+        mario.location = new Vector2(
+            mario.location.X,
             Collider.Top - mario.MarioCollider.Height
         );
 
         mario.Falling = false;
         mario.Jumping = false;
-        mario.jumpStartHeight = mario.position.Y;
+        mario.jumpStartHeight = mario.location.Y;
     }
 }
 }

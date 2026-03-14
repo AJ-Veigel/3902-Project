@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.blocks;
-using SpriteZero.Marios;
+using SprintZero.blocks;
+using SprintZero.Marios;
+using System;
 
 public class questionMarkHit : IBlock
 {
@@ -34,6 +35,11 @@ public class questionMarkHit : IBlock
             (int)(sprite.Width * SCALE),
             (int)(sprite.Height * SCALE)
         );
+    }
+
+    public Boolean GetCollidable()
+    {
+        return true;
     }
 
     public void Update(GameTime gameTime)

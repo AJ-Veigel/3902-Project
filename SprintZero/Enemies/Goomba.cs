@@ -35,7 +35,7 @@ public class Goomba : IEnemy
         goombaHit1Sprite = goombaHit1;
         currentASprite = goombaWalk1;
         Dead = false;
-        position = new Vector2(600, 650);
+        position = new Vector2(600, 664);
         EnemyCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.SourceRectangle.Width * (int)SCALE, currentSprite.SourceRectangle.Height * (int)SCALE);
     }
 
