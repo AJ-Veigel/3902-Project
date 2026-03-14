@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero.Map;
-using SpriteZero.blocks;
+using SprintZero.blocks;
 using SpriteZero.Enemies;
 
 namespace SprintZero.Map

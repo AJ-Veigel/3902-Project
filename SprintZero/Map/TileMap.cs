@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpriteZero.blocks;
+using SprintZero.blocks;
 
 namespace SprintZero.Map
 {
