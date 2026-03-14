@@ -45,7 +45,7 @@ namespace SprintZero.Map
             {
                 for (int y = 12; y < 24; y++) 
                 {
-                    if (x%2 == 0 && x > 12 && x < 38) { continue; }
+                    if (x%2 == 0 && x > 12 && x < 38 && y < 15) { continue; }
                     placeGroundAt(tileMap, ground, new Point(x, y));
                 }
             }

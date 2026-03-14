@@ -86,16 +86,6 @@ public class Game1 : Core
        //    new AboveGroundBreak(aboveGroundBreak) //Done
          };
 
-        for (int x = -1; x < 32; x++)
-        {
-            for (int y = 11; y < 18; y++)
-            {
-                Ground b = new Ground(ground);
-                b.location = new Vector2(x * 64, y * 64);
-                map.addBlockAt(new Point(x, y), b);                
-            }
-        }
-
 
 
         
@@ -164,7 +154,7 @@ public class Game1 : Core
         currentEnemy = enemies[currentEnemyCount];
 
         currentLevel = 0;
-        Level1 level = new Level1();
+        TestLevel level = new TestLevel(Content);
         map = new TileMap();
         level.Populate(map);
 
@@ -305,7 +295,7 @@ public class Game1 : Core
             (int)visibleArea.Width,
             (int)visibleArea.Height
         );
-        map.Draw(SpriteBatch, cameraRect, 16);
+        map.Draw(SpriteBatch, cameraRect, 64);
         SpriteBatch.End();
         base.Draw(gameTime);
     }
