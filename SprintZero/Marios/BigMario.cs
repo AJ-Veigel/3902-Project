@@ -12,6 +12,8 @@ public class BigMario : IMario
     public float yVelocity { get; set; }
     public float xVelocity { get; set; }
     public float jumpStartHeight { get; set; }
+    private float groundY;
+    private float currentPlatformY;
     public Boolean Jumping { get; set; }
     public Boolean isOnGround { get; set; }
     public Boolean Falling { get; set; }
@@ -22,7 +24,7 @@ public class BigMario : IMario
     public Boolean Swimming { get; set; }
     private float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
-    private const float GRAVITY = 0.35f;
+    private const float GRAVITY = 0.2f;
     private const float JUMP_POWER = -8f;
 
     public void Move()
@@ -108,12 +110,11 @@ public class BigMario : IMario
             yVelocity = JUMP_POWER;
             Jumping = true;
             Falling = false;
+            jumpStartHeight = location.Y;
             isOnGround = false;
 
-            if (Direction)
-                marioSprites.SetSprite("jumpRight");
-            else
-                marioSprites.SetSprite("jumpLeft");
+            // Update sprite
+            marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
         }
     }
     public void Crouch()
@@ -181,62 +182,97 @@ public class BigMario : IMario
     }
     public BigMario(TextureAtlas bigMarioTexture)
     {
-        // default location
-        location = new Vector2(300, 664);
+        // Defaults
+        location = new Vector2(300, 600);
+        Direction = true;
 
-        // jump height based on location
-        jumpStartHeight = location.Y;
+        groundY = location.Y;
+        currentPlatformY = groundY;
+
+        yVelocity = 0f;
+        xVelocity = 0f;
 
         marioSprites = new MarioSprite(bigMarioTexture, 1, location);
-        isOnGround = true;
 
         // Set Mario Collider
-        MarioCollider = new Rectangle((int)location.X, (int)location.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
+        MarioCollider = marioSprites.UpdateCollider();
+
+        isOnGround = true;
     }
     public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
     {
-        // default location
+        // Defaults
         location = pos;
+        Direction = true;
 
-        // jump height based on location
-        jumpStartHeight = location.Y;
+        groundY = location.Y;
+        currentPlatformY = groundY;
+
+        yVelocity = 0f;
+        xVelocity = 0f;
 
         marioSprites = new MarioSprite(bigMarioTexture, 1, location);
-        isOnGround = true;
+
         // Set Mario Collider
-        MarioCollider = new Rectangle((int)location.X, (int)location.Y, marioSprites.GetSprite().Width * (int)SCALE, marioSprites.GetSprite().Height * (int)SCALE);
+        MarioCollider = marioSprites.UpdateCollider();
+
+        isOnGround = true;
     }
     public void Update(GameTime gameTime)
     {
-        if (Jumping)
+        if (Jumping && !Falling)
         {
-            if (!Falling)
+            yVelocity += GRAVITY;
+            location = new Vector2(location.X, location.Y + yVelocity);
+            marioSprites.SetLocation(location);
+
+            if (yVelocity <= 0)
+                Falling = true;
+        }
+
+        if (Falling)
+        {
+            if(yVelocity <= -JUMP_POWER)
+                yVelocity += GRAVITY;
+            location = new Vector2(location.X, location.Y + yVelocity);
+            marioSprites.SetLocation(location);
+
+            if (location.Y >= currentPlatformY)
             {
-                location = new Vector2(location.X, location.Y - SCALE);
-                marioSprites.SetLocation(location);
+                yVelocity = 0;
+                location = new Vector2(location.X, currentPlatformY);
+                Jumping = false;
+                Falling = false;
+                isOnGround = true;
 
-                if (location.Y <= jumpStartHeight - 100)
-                    Falling = true;
-            }
-            else
-            {
-                location = new Vector2(location.X, location.Y + SCALE);
-                marioSprites.SetLocation(location);
-
-                if (location.Y >= jumpStartHeight)
-                {
-                    location = new Vector2(location.X, jumpStartHeight);
-                    Jumping = false;
-                    Falling = false;
-                    isOnGround = true;
-
-                    if (Direction)
-                        marioSprites.SetSprite("standRight");
-                    else
-                        marioSprites.SetSprite("standLeft");
-                }
+                if (Direction)
+                    marioSprites.SetSprite("standRight");
+                else
+                    marioSprites.SetSprite("standLeft");
             }
         }
+
+
+        if(isOnGround)
+        {
+            Falling = false;
+            yVelocity = 0f;
+        }
+
+        MarioCollider = marioSprites.UpdateCollider();
+
+
+        if ((Jumping || Falling) && !isOnGround)
+        {
+            if (Direction)
+                marioSprites.SetSprite("jumpRight");
+            else
+                marioSprites.SetSprite("jumpLeft");
+        }
+
+        marioSprites.Update(gameTime);
+
+        MarioCollider = marioSprites.UpdateCollider();
 
 
         marioSprites.Update(gameTime);

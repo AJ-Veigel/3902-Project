@@ -9,8 +9,9 @@ public class FireMario : IMario
 {
     private const float SCALE = 4f;
     private const float MOVE_SPEED = 4f;
-    private const float GRAVITY = 4f;
-    private const float JUMP_VELOCITY = 4f;
+    private const float GRAVITY = 0.2f;
+    private const float JUMP_POWER = -8f;
+    private float groundY;
     private float currentPlatformY;
 
     public float jumpStartHeight { get; set; }
@@ -47,10 +48,18 @@ public class FireMario : IMario
         location = new Vector2(300, 600);
         Direction = true;
 
+        groundY = location.Y;
+        currentPlatformY = groundY;
+
+        yVelocity = 0f;
+        xVelocity = 0f;
+
         marioSprites = new MarioSprite(fireMarioTexture, 2, location);
 
         // Set Mario Collider
         MarioCollider = marioSprites.UpdateCollider();
+
+        isOnGround = true;
     }
 
     public FireMario(TextureAtlas fireMarioTexture, Vector2 pos)
@@ -59,10 +68,18 @@ public class FireMario : IMario
         location = pos;
         Direction = true;
 
+        groundY = location.Y;
+        currentPlatformY = groundY;
+
+        yVelocity = 0f;
+        xVelocity = 0f;
+
         marioSprites = new MarioSprite(fireMarioTexture, 2, location);
 
         // Set Mario Collider
         MarioCollider = marioSprites.UpdateCollider();
+
+        isOnGround = true;
     }
 
     private static void ApplyScale(AnimatedSprite sprite)
@@ -135,14 +152,7 @@ public class FireMario : IMario
 
         marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
 
-        MarioCollider = new Rectangle(
-            (int)location.X,
-            (int)location.Y,
-            currentSprite.Width * (int)SCALE,
-
-            currentSprite.Height * (int)SCALE
-        );
-        marioSprites.UpdateCollider();
+        MarioCollider = marioSprites.UpdateCollider();
     }
     public void UpdateAirSpriteForDirection()
     {
@@ -157,6 +167,7 @@ public class FireMario : IMario
     {
         if (isOnGround)
         {
+            yVelocity = JUMP_POWER;
             Jumping = true;
             Falling = false;
             jumpStartHeight = location.Y;
@@ -180,7 +191,36 @@ public class FireMario : IMario
     }
     public void Crouch()
     {
-
+        if (Crouching)
+        {
+            if (Direction)
+            {
+                location = new Vector2(location.X, location.Y + 10f * (SCALE));
+                marioSprites.SetLocation(location);
+                marioSprites.SetSprite("crouchRight");
+            }
+            else if (!Direction)
+            {
+                location = new Vector2(location.X, location.Y + 10f * (SCALE));
+                marioSprites.SetLocation(location);
+                marioSprites.SetSprite("crouchLeft");
+            }
+        }
+        else if (!Crouching)
+        {
+            if (Direction)
+            {
+                location = new Vector2(location.X, location.Y - 10f * (SCALE));
+                marioSprites.SetLocation(location);
+                marioSprites.SetSprite("standRight");
+            }
+            else if (!Direction)
+            {
+                location = new Vector2(location.X, location.Y - 10f * (SCALE));
+                marioSprites.SetLocation(location);
+                marioSprites.SetSprite("standLeft");
+            }
+        }
     }
 
     public void Fireball()
@@ -221,24 +261,28 @@ public class FireMario : IMario
         {
             if (!Falling)
             {
+                yVelocity += GRAVITY;
                 // Move up
-                newlocation.Y -= JUMP_VELOCITY;
+                newlocation.Y += yVelocity;
 
                 // Check if reached peak
-                if (newlocation.Y <= jumpStartHeight - 100)
+                if (yVelocity <= 0)
                 {
                     Falling = true;
                 }
             }
             else
             {
+                if(yVelocity <= -JUMP_POWER)
+                    yVelocity += GRAVITY;
                 // Move down
-                newlocation.Y += GRAVITY;
+                newlocation.Y += yVelocity;
 
                 // Stop falling when reaching the ground
-                if (newlocation.Y >= jumpStartHeight)
+                if (newlocation.Y >= currentPlatformY)
                 {
-                    newlocation.Y = jumpStartHeight;
+                    yVelocity = 0f;
+                    newlocation.Y = currentPlatformY;
                     Jumping = false;
                     Falling = false;
                     isOnGround = true;
