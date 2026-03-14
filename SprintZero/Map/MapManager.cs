@@ -34,13 +34,14 @@ namespace SprintZero.Map
             }
         }
 
-        public void Draw(GameTime dt)
+        public void Draw(SpriteBatch batch, Rectangle cameraBounds)
         {
             // STUB
             foreach(var enemy in this.enemies)
             {
-                enemy.Update(dt);
+                enemy.Draw(batch);
             }
+            map.Draw(batch, cameraBounds, 64);
         }
 
     }
