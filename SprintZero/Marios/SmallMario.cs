@@ -203,7 +203,7 @@ public class SmallMario : IMario
             marioSprites.SetLocation(location);
 
 
-            if (location.Y >= groundY)
+            if (location.Y >= currentPlatformY)
             {
                 location = new Vector2(location.X, currentPlatformY);
                 Jumping = false;
@@ -218,11 +218,10 @@ public class SmallMario : IMario
         }
 
 
-        if (marioSprites != null)
-            MarioCollider = marioSprites.UpdateCollider();
+        MarioCollider = marioSprites.UpdateCollider();
 
 
-        if ((Jumping || Falling) && marioSprites != null)
+        if ((Jumping || Falling) && !isOnGround)
         {
             if (Direction)
                 marioSprites.SetSprite("jumpRight");
@@ -230,8 +229,7 @@ public class SmallMario : IMario
                 marioSprites.SetSprite("jumpLeft");
         }
 
-        if (marioSprites != null)
-            marioSprites.Update(gameTime);
+        marioSprites.Update(gameTime);
 
         MarioCollider = marioSprites.UpdateCollider();
     }
