@@ -13,6 +13,7 @@ using SprintZero.Map;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using System;
+using System.Linq;
 
 namespace SprintZero;
 
@@ -450,6 +451,16 @@ public class Game1 : Core
         {
             SetMario(1);
         }
+    }
+
+    public void toggleMap(int roomNumber)
+    {
+        currentLevel = roomNumber;
+        if (roomNumber >= maps.Count)
+        {
+            currentLevel = 0;
+        }
+        // update function handles it from here.
     }
 
     public void collisionCheck(Fireball fb)

@@ -39,12 +39,12 @@ namespace SprintZero.Map
             TextureRegion ground = blocksTexture.GetRegion("ground");
             for (int x = -200; x < 50; x++)
             {
-                placeGroundAt(tileMap, ground, new Point(x, -13));
+                placeGroundAt(tileMap, ground, new Point(x, 13));
             }
 
             for (int x = 50; x < 100; x++)
             {
-                placeGroundAt(tileMap, ground, new Point(x, x - 63));
+                placeGroundAt(tileMap, ground, new Point(x, x + -37));
             }
         }
 
