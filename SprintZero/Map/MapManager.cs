@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SprintZero.Map
 {
-    internal class MapManager
+    public class MapManager
     {
         // Handles collisions, updates, and drawing within one 'map' (i.e, the above ground section of 1-1)
         private TileMap map;
