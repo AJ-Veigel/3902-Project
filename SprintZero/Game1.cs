@@ -223,6 +223,16 @@ public class Game1 : Core
         {
             currentItem.location = new Vector2(currentItem.location.X - 2f, currentItem.location.Y);
         }
+        if (Bounds.Left >= currentEnemy.EnemyCollider.Left)
+        {
+            currentEnemy.position = new Vector2(currentItem.position.X + 2f, currentItem.position.Y);
+            currentEnemy.ReverseDirection();
+        }
+        else if (Bounds.Right <= currentEnemy.EnemyCollider.Right)
+        {
+            currentEnemy.position = new Vector2(currentItem.position.X - 2f, currentItem.position.Y);
+            currentEnemy.ReverseDirection();
+        }
     }
 
     public void CheckCollisions()
