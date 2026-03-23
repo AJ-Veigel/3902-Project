@@ -16,19 +16,6 @@ namespace SprintZero.PBCollision
                     CollisionSide theSide = getCollisionSide(mario.MarioCollider, block.Collider);
                     block.onCollision(mario, theSide);
                 }
-                else
-                { 
-                    bool horizontallyAbove = mario.MarioCollider.Right > block.Collider.Left &&
-                                             mario.MarioCollider.Left < block.Collider.Right;
-
-                    bool onTop = mario.MarioCollider.Bottom >= block.Collider.Top - 1 &&
-                                 mario.MarioCollider.Bottom <= block.Collider.Top + 5;
-
-                    if (horizontallyAbove && !onTop)
-                    {
-                        mario.Falling = true;
-                    }
-                }
             }
         }
         private static CollisionSide getCollisionSide(Rectangle mario, Rectangle block)
@@ -43,7 +30,7 @@ namespace SprintZero.PBCollision
                 }
                 else
                 {
-                    theSide = CollisionSide.Right;
+                    theSide = CollisionSide.Right; 
                 }
             }
             else

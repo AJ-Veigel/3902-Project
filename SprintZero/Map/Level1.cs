@@ -28,7 +28,7 @@ namespace SprintZero.Map
         }
         private static void placeGroundAt(TileMap map, TextureRegion ground, Point tilePos)
         {
-            var block = new Ground(ground);
+            var block = new Ground(ground, tilePos);
             block.location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
             map.addBlockAt(tilePos, block);
         }
