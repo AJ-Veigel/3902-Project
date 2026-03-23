@@ -36,7 +36,7 @@ public class SmallMario : IMario
         {
             xVelocity = -DefaultMoveSpeed;
         }
-        if (Jumping)
+        if (Jumping & !isOnGround)
         {
             if (Direction)
             {
@@ -207,13 +207,12 @@ public class SmallMario : IMario
             location = new Vector2(location.X, location.Y + yVelocity);
             marioSprites.SetLocation(location);
 
-            if (location.Y >= currentPlatformY)
+            if (isOnGround)
             {
                 yVelocity = 0;
                 location = new Vector2(location.X, currentPlatformY);
                 Jumping = false;
                 Falling = false;
-                isOnGround = true;
 
                 if (Direction)
                     marioSprites.SetSprite("standRight");

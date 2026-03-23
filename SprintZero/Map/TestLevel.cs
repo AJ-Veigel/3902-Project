@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended.Tiled;
 using MonoGameLibrary.Graphics;
 using SpriteZero.Enemies;
+using SprintZero.blocks;
 
 namespace SprintZero.Map
 {
@@ -32,8 +33,8 @@ namespace SprintZero.Map
 
         private static void placeGroundAt(TileMap map, TextureRegion ground, Point tilePos)
         {
-            var block = new Ground(ground);
-            block.location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new Ground(ground, location);
             map.addBlockAt(tilePos, block);
         }
 
