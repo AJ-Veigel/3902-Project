@@ -9,6 +9,7 @@ namespace SprintZero.PBCollision
     {
         public static void checkBlockCollision(IMario mario, List<IBlock> blocks)
         {
+            
             foreach (IBlock block in blocks)
             {
                 if (mario.MarioCollider.Intersects(block.Collider))

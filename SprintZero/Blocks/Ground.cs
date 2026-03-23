@@ -17,10 +17,10 @@ public class Ground : IBlock
         location = new Vector2(600, 600);
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
-    public Ground(TextureRegion region, Point pos)
+    public Ground(TextureRegion region, Vector2 pos)
     {
         sprite = region;
-        location = new Vector2(pos.X, pos.Y);
+        location = pos;
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
     public void Update(GameTime gameTime)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,8 +29,8 @@ namespace SprintZero.Map
         }
         private static void placeGroundAt(TileMap map, TextureRegion ground, Point tilePos)
         {
-            var block = new Ground(ground, tilePos);
-            block.location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new Ground(ground, location);
             map.addBlockAt(tilePos, block);
         }
 
