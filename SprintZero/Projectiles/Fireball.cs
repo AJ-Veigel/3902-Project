@@ -24,6 +24,9 @@ public class Fireball : IProjectile
     private double popTimerMs = 0;
     private const double POP_DURATION_MS = 200;
 
+    private int bounceCount = 0;
+    private const int MAX_BOUNCE = 8;
+
     public bool IsActive { get; private set; } = true;
     public bool Direction { get; }
     public Fireball(AnimatedSprite fireballRolling, AnimatedSprite fireballPop, Vector2 location, bool Direction)
@@ -85,6 +88,7 @@ public class Fireball : IProjectile
             {
                 location = new Vector2(location.X, groundY - fireballHeight);
                 velocity.Y = BOUNCE_VELOCITY;
+                bounceCount++;
             }
         }
         else // Popped
@@ -95,7 +99,6 @@ public class Fireball : IProjectile
             if (popTimerMs >= POP_DURATION_MS)
                 IsActive = false; // remove from manager list
         }
-        if (location.X >= 1888 || location.X <= 0)
-            Pop();
+        if (bounceCount > MAX_BOUNCE) { Pop(); }
     }
 }

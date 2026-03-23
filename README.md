@@ -5,7 +5,7 @@ Player controls:
  -Press 'e' to see Mario damaged
  -Press up arrow or 'w' to jump
  -Press space to shoot a fireball as Fire Mario
-To view the different objects, press 't' or 'y'
+To view different maps, left click in the top left corner of the screen.
 To view the different items, press 'u' or 'i'
 To view the different enemies, press 'o' or 'p'
 If you wish to reset the game, press 'r'
