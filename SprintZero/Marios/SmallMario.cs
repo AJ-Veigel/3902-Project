@@ -19,6 +19,7 @@ public class SmallMario : IMario
     public Boolean Sprinting { get; set; }
     public Boolean Crouching { get; set; }
     public Boolean Swimming { get; set; }
+    public Boolean Moving { get; set; }
     private const float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
@@ -28,6 +29,7 @@ public class SmallMario : IMario
 
     public void Move()
     {
+        Moving = true;
         if (Direction)
         {
             xVelocity = DefaultMoveSpeed;
@@ -69,8 +71,9 @@ public class SmallMario : IMario
     }
     public void StopMove()
     {
+        Moving = false;
         xVelocity = 0;
-        if (!Jumping)
+        if (!Jumping && !Falling)
         {
             if (Direction)
             {
@@ -130,8 +133,26 @@ public class SmallMario : IMario
 
         isOnGround = true;
     }
+    public void LandOnBlock(float blockTopY)
+    {
+        location = new Vector2(location.X, blockTopY - marioSprites.GetSprite().Height * SCALE);
+        currentPlatformY = location.Y;
+        yVelocity = 0f;
+        Jumping = false;
+        Falling = false;
+        isOnGround = true;
+        jumpStartHeight = location.Y;
+
+        if (Direction)
+            marioSprites.SetSprite("standRight");
+        else
+            marioSprites.SetSprite("standLeft");
+
+        MarioCollider = marioSprites.UpdateCollider();
+    }
     public SmallMario(TextureAtlas smallMarioTexture)
     {
+        Moving = true;
         // default location
         location = new Vector2(300, 664);
         groundY = location.Y;
@@ -150,25 +171,10 @@ public class SmallMario : IMario
 
         isOnGround = true;
     }
-    public void LandOnBlock(float blockTopY)
-    {
-        location = new Vector2(location.X, blockTopY - marioSprites.GetSprite().Height * SCALE);
-        currentPlatformY = location.Y;
-        yVelocity = 0f;
-        Jumping = false;
-        Falling = false;
-        isOnGround = true;
-        jumpStartHeight = location.Y;
-
-        if (Direction)
-            marioSprites.SetSprite("standRight");
-        else
-            marioSprites.SetSprite("standLeft");
-
-        MarioCollider = marioSprites.UpdateCollider();
-    }
+    
     public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
     {
+        Moving = true;
         // set location to the passed Vector2
         location = pos;
 
@@ -224,6 +230,7 @@ public class SmallMario : IMario
 
         if(isOnGround)
         {
+            if(!Moving) StopMove();
             Falling = false;
             yVelocity = 0f;
         }
