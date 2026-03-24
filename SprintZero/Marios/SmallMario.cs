@@ -205,6 +205,7 @@ public class SmallMario : IMario
 
             if (yVelocity <= 0)
                 Falling = true;
+                Jumping = false;
         }
 
         if (Falling)

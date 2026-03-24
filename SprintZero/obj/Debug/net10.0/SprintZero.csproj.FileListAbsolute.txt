@@ -236,3 +236,4 @@ C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\Sprin
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\ref\SprintZero.dll
 C:\Users\ajvei\Documents\GitHub\3902-Project\SprintZero\bin\Debug\net10.0\MonoGame.Extended.dll
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\MonoGame.Extended.dll
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\MonoGame.Extended.dll
