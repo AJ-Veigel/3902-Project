@@ -179,9 +179,6 @@ public class Game1 : Core
 
     map = maps[currentLevel];
 
- 
-    currentMario.isOnGround = false;
-
 
     currentMario.Update(gameTime);
 
@@ -212,24 +209,6 @@ public class Game1 : Core
         currentMario,
         map.getBlocksInRectangle(currentMario.MarioCollider)
     );
- 
-    
-    if (!currentMario.isOnGround)
-    {
-        currentMario.Falling = true;
-        currentMario.Jumping = false;
-        currentMario.yVelocity += 0.2f;
-    }
-    else
-    {
-        currentMario.Falling = false;
-
-     
-        if (currentMario.yVelocity > 0)
-        {
-            currentMario.yVelocity = 0;
-        }
-    }
 
     CheckCollisions();
     CheckEnemyMarioCollisions();
@@ -260,7 +239,7 @@ public class Game1 : Core
     {
         if (currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) && !currentEnemy.Dead)
         {
-            if (currentMario.Jumping && currentMario.MarioCollider.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
+            if (currentMario.Falling && currentMario.MarioCollider.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
             {
                 currentEnemy.Dead = true;
             }
