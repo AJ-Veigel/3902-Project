@@ -46,7 +46,7 @@ public class BigMario : IMario
         // Set Mario Collider
         MarioCollider = marioSprites.UpdateCollider();
 
-        isOnGround = true;
+        isOnGround = false;
     }
     public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
     {
@@ -66,7 +66,7 @@ public class BigMario : IMario
         // Set Mario Collider
         MarioCollider = marioSprites.UpdateCollider();
 
-        isOnGround = true;
+        isOnGround = false;
     }
     public void Move()
     {

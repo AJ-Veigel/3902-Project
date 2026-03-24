@@ -46,7 +46,7 @@ public class SmallMario : IMario
         // Set Mario Collider
         MarioCollider = marioSprites.UpdateCollider();
 
-        isOnGround = true;
+        isOnGround = false;
     }
     public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
     {
@@ -68,7 +68,7 @@ public class SmallMario : IMario
         // Set Mario Collider
         MarioCollider = marioSprites.UpdateCollider();
 
-        isOnGround = true;
+        isOnGround = false;
     }
 
     public void Move()
@@ -235,6 +235,10 @@ public class SmallMario : IMario
             if (!Moving) StopMove();
             Falling = false;
             yVelocity = 0f;
+        } 
+        else if (!isOnGround && !Jumping)
+        {
+            Falling = true;
         }
 
         MarioCollider = marioSprites.UpdateCollider();

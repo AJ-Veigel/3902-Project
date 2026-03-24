@@ -57,7 +57,7 @@ public class FireMario : IMario
         // Set Mario Collider
         MarioCollider = marioSprites.UpdateCollider();
 
-        isOnGround = true;
+        isOnGround = false;
     }
 
     public FireMario(TextureAtlas fireMarioTexture, Vector2 pos)
@@ -78,7 +78,7 @@ public class FireMario : IMario
         // Set Mario Collider
         MarioCollider = marioSprites.UpdateCollider();
 
-        isOnGround = true;
+        isOnGround = false;
     }
 
     public void Move()
