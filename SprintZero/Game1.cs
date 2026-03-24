@@ -60,7 +60,7 @@ public class Game1 : Core
         base.Initialize();
         // Create camera with viewport adapter
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
-        camera = new OrthographicCamera(viewportAdapter); 
+        camera = new OrthographicCamera(viewportAdapter);
     }
     protected override void LoadContent()
     {
@@ -91,7 +91,7 @@ public class Game1 : Core
 
 
 
-        
+
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
         flower = itemTexture.CreateAnimatedSprite("flower");
         coin = itemTexture.CreateAnimatedSprite("coin");
@@ -170,53 +170,53 @@ public class Game1 : Core
         base.LoadContent();
     }
 
-   protected override void Update(GameTime gameTime)
-{
-    foreach (IController controller in controllers)
+    protected override void Update(GameTime gameTime)
     {
-        controller.Update(gameTime);
-    }
-
-    map = maps[currentLevel];
-
-
-    currentMario.Update(gameTime);
-
-    
-    currentBlock.Update(gameTime);
-    currentItem.Update(gameTime);
-
-    for (int i = projectiles.Count - 1; i >= 0; i--)
-    {
-        projectiles[i].Update(gameTime);
-        if (projectiles[i] is Fireball fb)
+        foreach (IController controller in controllers)
         {
-            if (!fb.IsActive)
-            {
-                projectiles.RemoveAt(i);
-                continue;
-            }
-            collisionCheck(fb);
+            controller.Update(gameTime);
         }
+
+        map = maps[currentLevel];
+
+
+        currentMario.Update(gameTime);
+
+
+        currentBlock.Update(gameTime);
+        currentItem.Update(gameTime);
+
+        for (int i = projectiles.Count - 1; i >= 0; i--)
+        {
+            projectiles[i].Update(gameTime);
+            if (projectiles[i] is Fireball fb)
+            {
+                if (!fb.IsActive)
+                {
+                    projectiles.RemoveAt(i);
+                    continue;
+                }
+                collisionCheck(fb);
+            }
+        }
+
+        currentEnemy.Update(gameTime);
+        CheckEnemyBlockCollisions(currentEnemy);
+
+
+        playerBlockCollision.checkBlockCollision(currentMario, blocks);
+        playerBlockCollision.checkBlockCollision(
+            currentMario,
+            map.getBlocksInRectangle(currentMario.MarioCollider)
+        );
+
+        CheckCollisions();
+        CheckEnemyMarioCollisions();
+
+        camera.Position = currentMario.location - new Vector2(780f, 560f);
+
+        base.Update(gameTime);
     }
-
-    currentEnemy.Update(gameTime);
-    CheckEnemyBlockCollisions(currentEnemy);
-
-    
-    playerBlockCollision.checkBlockCollision(currentMario, blocks);
-    playerBlockCollision.checkBlockCollision(
-        currentMario,
-        map.getBlocksInRectangle(currentMario.MarioCollider)
-    );
-
-    CheckCollisions();
-    CheckEnemyMarioCollisions();
-
-    camera.Position = currentMario.location - new Vector2(780f, 560f);
-
-    base.Update(gameTime);
-}
 
     public void CheckCollisions()
     {
@@ -252,9 +252,9 @@ public class Game1 : Core
 
     public void CheckEnemyBlockCollisions(IEnemy enemy)
     {
-        if(currentEnemy != null && !currentEnemy.Dead)
+        if (currentEnemy != null && !currentEnemy.Dead)
         {
-            
+
             List<IBlock> nearbyBlocks = map.getBlocksInRectangle(currentEnemy.EnemyCollider);
             nearbyBlocks.AddRange(blocks);
 
@@ -263,7 +263,8 @@ public class Game1 : Core
                 Rectangle blockRect = block.Collider;
                 Rectangle enemyRect = currentEnemy.EnemyCollider;
 
-                if (enemyRect.Intersects(blockRect)) {
+                if (enemyRect.Intersects(blockRect))
+                {
                     float overlapX = Math.Min(enemyRect.Right, blockRect.Right) - Math.Max(enemyRect.Left, blockRect.Left);
                     float overlapY = Math.Min(enemyRect.Bottom, blockRect.Bottom) - Math.Max(enemyRect.Top, blockRect.Top);
 
@@ -275,13 +276,15 @@ public class Game1 : Core
                         {
                             currentEnemy.position = new Vector2(currentEnemy.position.X - overlapX, currentEnemy.position.Y);
                         }
-                        else { 
+                        else
+                        {
                             currentEnemy.position = new Vector2(currentEnemy.position.X + overlapX, currentEnemy.position.Y);
                         }
 
                         currentEnemy.ReverseDirection();
                         //top/bottom collision
-                    } else
+                    }
+                    else
                     {
                         if (enemyRect.Center.Y < blockRect.Center.Y)
                         {
@@ -389,7 +392,7 @@ public class Game1 : Core
     public void SetMario(int marioNumber)
     {
         Vector2 currentPosition = currentMario.location;
-        
+
         if (marioNumber == 0)
         {
             if (currentMarioNum > 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y + 64f);

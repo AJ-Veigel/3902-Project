@@ -6,26 +6,26 @@ using SprintZero.Marios;
 
 public class CastleBlock : IBlock
 {
- 
+
     private TextureRegion sprite;
-    public Vector2 location {get;set;}
-    public Rectangle Collider {get; set;}
+    public Vector2 location { get; set; }
+    public Rectangle Collider { get; set; }
     private const float SCALE = 4f;
     public CastleBlock(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(800,30);
+        location = new Vector2(800, 30);
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
-    public void Update(GameTime gameTime){}
+    public void Update(GameTime gameTime) { }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        sprite.Draw(spriteBatch,location,Color.White,0f,Vector2.One,SCALE,SpriteEffects.None,0f);
+        sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, SCALE, SpriteEffects.None, 0f);
 
     }
-    public  void onCollision(IMario mario, CollisionSide theSide)
+    public void onCollision(IMario mario, CollisionSide theSide)
     {
-        
+
     }
 }

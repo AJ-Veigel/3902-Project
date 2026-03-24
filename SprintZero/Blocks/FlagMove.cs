@@ -15,8 +15,8 @@ public class FlagMove : IBlock
     private IMario slidingMario;
 
     public Vector2 location { get; set; }
-    public Rectangle Collider { get;  set; }
-    private float bottomY; 
+    public Rectangle Collider { get; set; }
+    private float bottomY;
 
     public FlagMove(AnimatedSprite sprite)
     {

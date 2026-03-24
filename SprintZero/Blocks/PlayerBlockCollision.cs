@@ -9,7 +9,7 @@ namespace SprintZero.PBCollision
     {
         public static void checkBlockCollision(IMario mario, List<IBlock> blocks)
         {
-            
+
             foreach (IBlock block in blocks)
             {
                 if (mario.MarioCollider.Intersects(block.Collider))
@@ -22,7 +22,7 @@ namespace SprintZero.PBCollision
         private static CollisionSide getCollisionSide(Rectangle mario, Rectangle block)
         {
             CollisionSide theSide = CollisionSide.None;
-            Rectangle overlap = Rectangle.Intersect(mario,block);
+            Rectangle overlap = Rectangle.Intersect(mario, block);
             if (overlap.Width < overlap.Height)
             {
                 if (mario.Center.X < block.Center.X)
@@ -31,7 +31,7 @@ namespace SprintZero.PBCollision
                 }
                 else
                 {
-                    theSide = CollisionSide.Right; 
+                    theSide = CollisionSide.Right;
                 }
             }
             else
@@ -47,7 +47,7 @@ namespace SprintZero.PBCollision
             }
             return theSide;
         }
-     }
-        
-        
+    }
+
+
 }

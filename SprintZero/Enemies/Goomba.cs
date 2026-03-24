@@ -30,7 +30,7 @@ public class Goomba : IEnemy
         currentSprite = goombaRight1;
         goombaRight1Sprite = goombaRight1;
         goombaLeft1Sprite = goombaLeft1;
-        goombaFlat1Sprite= goombaFlat1;
+        goombaFlat1Sprite = goombaFlat1;
         goombaWalk1Sprite = goombaWalk1;
         goombaHit1Sprite = goombaHit1;
         currentASprite = goombaWalk1;
@@ -41,13 +41,13 @@ public class Goomba : IEnemy
 
     public Goomba(TextureAtlas goombaTexture)
     {
-     goombaRight1Sprite = goombaTexture.GetRegion("goombaRight1");
-     goombaLeft1Sprite = goombaTexture.GetRegion("goombaLeft1");
-     goombaFlat1Sprite = goombaTexture.GetRegion("goombaFlat1");
-     goombaWalk1Sprite = goombaTexture.CreateAnimatedSprite("goombaWalk1");
-     goombaHit1Sprite = goombaTexture.CreateAnimatedSprite("goombaHit1");
-     position = new Vector2(600, 650);
-     EnemyCollider = new Rectangle((int)position.X, (int)position.Y, goombaRight1Sprite.SourceRectangle.Width * (int)SCALE, goombaRight1Sprite.SourceRectangle.Height * (int)SCALE);
+        goombaRight1Sprite = goombaTexture.GetRegion("goombaRight1");
+        goombaLeft1Sprite = goombaTexture.GetRegion("goombaLeft1");
+        goombaFlat1Sprite = goombaTexture.GetRegion("goombaFlat1");
+        goombaWalk1Sprite = goombaTexture.CreateAnimatedSprite("goombaWalk1");
+        goombaHit1Sprite = goombaTexture.CreateAnimatedSprite("goombaHit1");
+        position = new Vector2(600, 650);
+        EnemyCollider = new Rectangle((int)position.X, (int)position.Y, goombaRight1Sprite.SourceRectangle.Width * (int)SCALE, goombaRight1Sprite.SourceRectangle.Height * (int)SCALE);
     }
 
     public void ReverseDirection()
@@ -56,7 +56,7 @@ public class Goomba : IEnemy
     }
     public void Update(GameTime gameTime)
     {
-        if(currentSprite == null)
+        if (currentSprite == null)
         {
             currentSprite = goombaRight1Sprite;
         }
@@ -67,8 +67,9 @@ public class Goomba : IEnemy
         {
             if (!onGround)
             {
-                VelocityY = MathHelper.Clamp(VelocityY + Gravity, -10f, 12f); 
-            } else
+                VelocityY = MathHelper.Clamp(VelocityY + Gravity, -10f, 12f);
+            }
+            else
             {
                 VelocityY = 0f;
             }
@@ -78,9 +79,10 @@ public class Goomba : IEnemy
             currentSprite.SourceRectangle.Width * (int)SCALE,
             currentSprite.SourceRectangle.Height * (int)SCALE);
 
-            if(animationTimer >= 0.5f) {
+            if (animationTimer >= 0.5f)
+            {
                 animationTimer = 0f;
-                if(currentSprite == goombaRight1Sprite)
+                if (currentSprite == goombaRight1Sprite)
                 {
                     currentSprite = goombaLeft1Sprite;
                 }
@@ -92,27 +94,27 @@ public class Goomba : IEnemy
             currentASprite = goombaWalk1Sprite;
 
         }
-         else 
-            {
+        else
+        {
             currentSprite = goombaFlat1Sprite;
             currentASprite = goombaHit1Sprite;
-  
-         }
+
+        }
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        if(currentSprite != null)
+        if (currentSprite != null)
         {
-            
+
             spriteBatch.Draw(currentSprite.Texture, position, currentSprite.SourceRectangle, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0f);
 
         }
-        else if(currentASprite != null)
+        else if (currentASprite != null)
         {
-            
+
             currentASprite.Draw(spriteBatch, position);
 
         }
     }
-   
+
 }

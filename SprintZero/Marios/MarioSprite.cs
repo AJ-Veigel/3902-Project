@@ -201,13 +201,13 @@ public class MarioSprite : ISprite
     public Rectangle UpdateCollider()
     {
         Rectangle Collider = new Rectangle(0, 0, 0, 0);
-        if(currentSprite != null)
+        if (currentSprite != null)
         {
             Collider = new Rectangle((int)location.X, (int)location.Y, GetSprite().Width * (int)SCALE, GetSprite().Height * (int)SCALE);
         }
-        else if(currentAnimatedSprite != null)
+        else if (currentAnimatedSprite != null)
         {
-            Collider = new Rectangle((int)location.X, (int)location.Y, (int)GetAnimatedSprite().Width, (int)GetAnimatedSprite().Height); 
+            Collider = new Rectangle((int)location.X, (int)location.Y, (int)GetAnimatedSprite().Width, (int)GetAnimatedSprite().Height);
         }
         return Collider;
     }

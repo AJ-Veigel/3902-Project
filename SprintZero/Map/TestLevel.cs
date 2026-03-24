@@ -17,7 +17,7 @@ namespace SprintZero.Map
     {
 
         private const int TileSize = 64; // 64 in screen coordinates
-        public Color BGColor { get; set;}
+        public Color BGColor { get; set; }
 
         private ContentManager content { get; set; }
 
@@ -44,9 +44,9 @@ namespace SprintZero.Map
             TextureRegion ground = blocksTexture.GetRegion("ground");
             for (int x = 0; x < 50; x++)
             {
-                for (int y = 12; y < 24; y++) 
+                for (int y = 12; y < 24; y++)
                 {
-                    if (x%2 == 0 && x > 12 && x < 38 && y < 15) { continue; }
+                    if (x % 2 == 0 && x > 12 && x < 38 && y < 15) { continue; }
                     placeGroundAt(tileMap, ground, new Point(x, y));
                 }
             }

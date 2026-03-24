@@ -87,7 +87,7 @@ public class questionMarkHit : IBlock
 
     public void onCollision(IMario mario, CollisionSide theSide)
     {
-      
+
         // if (theSide == CollisionSide.Bottom && !isHit && mario.Jumping && (mario is SmallMario || mario is FireMario || mario is BigMario ))
         // {
         //     isHit = true;

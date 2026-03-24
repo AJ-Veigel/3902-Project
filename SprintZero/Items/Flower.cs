@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero;
 
-   public class Flower : ICollidable
+public class Flower : ICollidable
 {
     private AnimatedSprite sprite;
 
@@ -14,13 +14,13 @@ using SprintZero;
         get { return _location; }
         set { _location = value; }
     }
-    public Hitbox Collider {get; set;}
+    public Hitbox Collider { get; set; }
     public Rectangle RectCollider { get; set; }
     private const float SCALE = 4f;
 
     private float startY;
     private float riseSpeed = 2f;
-    private float riseHeight = 20f; 
+    private float riseHeight = 20f;
 
     private bool rising = true;
 
@@ -40,13 +40,13 @@ using SprintZero;
 
         if (rising)
         {
-          
+
             _location.Y -= riseSpeed;
 
             if (_location.Y <= startY - riseHeight)
             {
                 _location.Y = startY - riseHeight;
-                rising = false; 
+                rising = false;
             }
         }
         //Collider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);

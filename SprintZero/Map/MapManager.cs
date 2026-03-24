@@ -37,7 +37,7 @@ namespace SprintZero.Map
         public void Draw(SpriteBatch batch, Rectangle cameraBounds)
         {
             // STUB
-            foreach(var enemy in this.enemies)
+            foreach (var enemy in this.enemies)
             {
                 enemy.Draw(batch);
             }

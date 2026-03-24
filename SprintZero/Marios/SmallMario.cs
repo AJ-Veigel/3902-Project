@@ -205,7 +205,7 @@ public class SmallMario : IMario
 
             if (yVelocity <= 0)
                 Falling = true;
-                Jumping = false;
+            Jumping = false;
         }
 
         if (Falling)
@@ -235,7 +235,7 @@ public class SmallMario : IMario
             if (!Moving) StopMove();
             Falling = false;
             yVelocity = 0f;
-        } 
+        }
         else if (!isOnGround && !Jumping)
         {
             Falling = true;

@@ -34,11 +34,11 @@ namespace SprintZero
             Vector2 diff = otherOffset - (selfOffset + new Vector2(this.x, this.y)); // How much offset from this hitbox the other hitbox is.
             // This X,Y is 0.
             float otherX = other.x + diff.X; float otherY = other.y + diff.Y;
-            if (    otherX > this.width
-                ||  otherY > this.height
+            if (otherX > this.width
+                || otherY > this.height
                 || (otherX + other.width) < 0.0f
                 || (otherY + other.height) < 0.0f
-            ) { return CollisionSide.None;}
+            ) { return CollisionSide.None; }
 
             float left = this.width - otherX; // How 'far' this collides with the left side of other
             float top = this.height - otherY; // How 'far' this collides with the top side of other u get the point.
@@ -58,8 +58,8 @@ namespace SprintZero
             float thisX = this.x - offset.X;
             float thisY = this.y - offset.Y;
             return new Rectangle(
-                (int)MathF.Floor(thisX), 
-                (int)MathF.Floor(thisY), 
+                (int)MathF.Floor(thisX),
+                (int)MathF.Floor(thisY),
                 (int)MathF.Ceiling(this.width),
                 (int)MathF.Ceiling(this.height)
             );

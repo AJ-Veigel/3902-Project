@@ -40,7 +40,7 @@ public class Ground : IBlock
     }
     public void onCollision(IMario mario, CollisionSide theSide)
     {
-        if (theSide == CollisionSide.Top && mario.yVelocity >=0)
+        if (theSide == CollisionSide.Top && mario.yVelocity >= 0)
         {
             mario.location = new Vector2(
                 mario.location.X,

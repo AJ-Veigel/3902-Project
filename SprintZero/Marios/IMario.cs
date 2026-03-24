@@ -11,8 +11,8 @@ namespace SprintZero.Marios
         Rectangle MarioCollider { get; set; }
         Boolean Direction { get; set; }
         Boolean Jumping { get; set; }
-        float jumpStartHeight {get;set;}
-        Boolean isOnGround {get;set;}
+        float jumpStartHeight { get; set; }
+        Boolean isOnGround { get; set; }
         Boolean Sprinting { get; set; }
         Boolean Swimming { get; set; }
         Boolean Crouching { get; set; }
@@ -25,7 +25,7 @@ namespace SprintZero.Marios
         void Damage();
         void GrabFlagPole();
         void EndFlagPole();
-        float yVelocity {get;set;}
+        float yVelocity { get; set; }
         float xVelocity { get; set; }
 
         void Update(GameTime gameTime);
