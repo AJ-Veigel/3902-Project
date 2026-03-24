@@ -170,38 +170,74 @@ public class Game1 : Core
         base.LoadContent();
     }
 
-    protected override void Update(GameTime gameTime)
+   protected override void Update(GameTime gameTime)
+{
+    foreach (IController controller in controllers)
     {
-        foreach (IController controller in controllers)
-        {
-            controller.Update(gameTime);
-        }
-        map = maps[currentLevel];
-        currentBlock.Update(gameTime);
-        currentItem.Update(gameTime);
-        currentMario.Update(gameTime);
-        for (int i = projectiles.Count - 1; i >= 0; i--)
-        {
-            projectiles[i].Update(gameTime);
-            if (projectiles[i] is Fireball fb)
-            {
-                if (!fb.IsActive)
-                {
-                    projectiles.RemoveAt(i);
-                    continue;
-                }
-                collisionCheck(fb);
-            }
-        }
-        CheckCollisions();
-        CheckEnemyMarioCollisions();
-        currentEnemy.Update(gameTime);
-        CheckEnemyBlockCollisions(currentEnemy);
-        playerBlockCollision.checkBlockCollision(currentMario, blocks);
-        playerBlockCollision.checkBlockCollision(currentMario, map.getBlocksInRectangle(currentMario.MarioCollider));
-        camera.Position = currentMario.location - new Vector2(780f, 560f);;
-        base.Update(gameTime);
+        controller.Update(gameTime);
     }
+
+    map = maps[currentLevel];
+
+ 
+    currentMario.isOnGround = false;
+
+
+    currentMario.Update(gameTime);
+
+    
+    currentBlock.Update(gameTime);
+    currentItem.Update(gameTime);
+
+    for (int i = projectiles.Count - 1; i >= 0; i--)
+    {
+        projectiles[i].Update(gameTime);
+        if (projectiles[i] is Fireball fb)
+        {
+            if (!fb.IsActive)
+            {
+                projectiles.RemoveAt(i);
+                continue;
+            }
+            collisionCheck(fb);
+        }
+    }
+
+    currentEnemy.Update(gameTime);
+    CheckEnemyBlockCollisions(currentEnemy);
+
+    
+    playerBlockCollision.checkBlockCollision(currentMario, blocks);
+    playerBlockCollision.checkBlockCollision(
+        currentMario,
+        map.getBlocksInRectangle(currentMario.MarioCollider)
+    );
+ 
+    
+    if (!currentMario.isOnGround)
+    {
+        currentMario.Falling = true;
+        currentMario.Jumping = false;
+        currentMario.yVelocity += 0.2f;
+    }
+    else
+    {
+        currentMario.Falling = false;
+
+     
+        if (currentMario.yVelocity > 0)
+        {
+            currentMario.yVelocity = 0;
+        }
+    }
+
+    CheckCollisions();
+    CheckEnemyMarioCollisions();
+
+    camera.Position = currentMario.location - new Vector2(780f, 560f);
+
+    base.Update(gameTime);
+}
 
     public void CheckCollisions()
     {

@@ -1,15 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "p0+KU7cAzDM=",
+  "dgSpecHash": "9dXgubRTM7g=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ajvei\\Documents\\GitHub\\3902-Project\\SprintZero\\SprintZero.csproj",
+  "projectFilePath": "C:\\Users\\magan\\Downloads\\SMB1\\3902-Project\\SprintZero\\SprintZero.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ajvei\\.nuget\\packages\\monogame.content.builder.task\\3.8.4.1\\monogame.content.builder.task.3.8.4.1.nupkg.sha512",
-    "C:\\Users\\ajvei\\.nuget\\packages\\monogame.extended\\5.4.0\\monogame.extended.5.4.0.nupkg.sha512",
-    "C:\\Users\\ajvei\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.4.1\\monogame.framework.desktopgl.3.8.4.1.nupkg.sha512",
-    "C:\\Users\\ajvei\\.nuget\\packages\\monogame.library.openal\\1.24.3.2\\monogame.library.openal.1.24.3.2.nupkg.sha512",
-    "C:\\Users\\ajvei\\.nuget\\packages\\monogame.library.sdl\\2.32.2.1\\monogame.library.sdl.2.32.2.1.nupkg.sha512",
-    "C:\\Users\\ajvei\\.nuget\\packages\\nvorbis\\0.10.4\\nvorbis.0.10.4.nupkg.sha512"
+    "C:\\Users\\magan\\.nuget\\packages\\monogame.content.builder.task\\3.8.4.1\\monogame.content.builder.task.3.8.4.1.nupkg.sha512",
+    "C:\\Users\\magan\\.nuget\\packages\\monogame.extended\\5.4.0\\monogame.extended.5.4.0.nupkg.sha512",
+    "C:\\Users\\magan\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.4.1\\monogame.framework.desktopgl.3.8.4.1.nupkg.sha512",
+    "C:\\Users\\magan\\.nuget\\packages\\monogame.library.openal\\1.24.3.2\\monogame.library.openal.1.24.3.2.nupkg.sha512",
+    "C:\\Users\\magan\\.nuget\\packages\\monogame.library.sdl\\2.32.2.1\\monogame.library.sdl.2.32.2.1.nupkg.sha512",
+    "C:\\Users\\magan\\.nuget\\packages\\nvorbis\\0.10.4\\nvorbis.0.10.4.nupkg.sha512"
   ],
   "logs": []
 }
