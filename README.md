@@ -9,4 +9,8 @@ To view different maps, left click in the top left corner of the screen.
 To view the different items, press 'u' or 'i'
 To view the different enemies, press 'o' or 'p'
 If you wish to reset the game, press 'r'
-If you wish to quit the game, press 'q' 
+If you wish to quit the game, press 'q'
+
+## Links
+
+[![Hypercommit](https://img.shields.io/badge/Hypercommit-DB2475)](https://hypercommit.com/3902-project)
