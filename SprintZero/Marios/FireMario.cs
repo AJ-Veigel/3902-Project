@@ -21,29 +21,27 @@ public class FireMario : IMario
     public float xVelocity { get; set; }
     private MarioSprite marioSprites;
 
-    // Currently drawing 
-    private TextureRegion currentSprite;
-    private AnimatedSprite currentASprite;
-
     public Vector2 location { get; set; }
     public Rectangle MarioCollider { get; set; }
 
     // State flags 
-    public bool Jumping { get; set; }
-    public bool Falling { get; set; }
-    public bool Direction { get; set; } = true;
-    public bool Sprinting { get; set; }
-    public bool Crouching { get; set; }
-    public bool Swimming { get; set; }
-    public bool isOnGround { get; set; } = true;
+    public Boolean Jumping { get; set; }
+    public Boolean Falling { get; set; }
+    public Boolean Direction { get; set; } = true;
+    public Boolean Sprinting { get; set; }
+    public Boolean Crouching { get; set; }
+    public Boolean Swimming { get; set; }
+    public Boolean Moving { get; set; }
+    public Boolean isOnGround { get; set; } = true;
 
     // Throw Timer
-    private bool throwing;
+    private Boolean throwing;
     private double throwTimerMs;
     private const double THROW_DURATION_MS = 180;
 
     public FireMario(TextureAtlas fireMarioTexture)
     {
+        Moving = false;
         // Defaults
         location = new Vector2(300, 600);
         Direction = true;
@@ -64,6 +62,7 @@ public class FireMario : IMario
 
     public FireMario(TextureAtlas fireMarioTexture, Vector2 pos)
     {
+        Moving = false;
         // Defaults
         location = pos;
         Direction = true;
@@ -82,40 +81,24 @@ public class FireMario : IMario
         isOnGround = true;
     }
 
-    private static void ApplyScale(AnimatedSprite sprite)
-    {
-        if (sprite != null)
-        {
-            sprite.Scale = new Vector2(SCALE);
-        }
-    }
-
-    private void SetRegion(TextureRegion region)
-    {
-        currentSprite = region;
-        currentASprite = null;
-    }
-
-    private void SetAnimated(AnimatedSprite anim)
-    {
-        currentASprite = anim;
-        currentSprite = null;
-    }
-
     public void Move()
     {
-        // If you’re throwing, you might want to ignore Move animation for a split second.
-        // Up to you—this keeps movement but doesn’t override the throw pose.
-        location = new Vector2(
-            location.X + (Direction ? MOVE_SPEED : -MOVE_SPEED),
-            location.Y
-        );
-        marioSprites.SetLocation(location);
-
-        // Only set run animation if we’re not in a higher-priority pose
-        if (!Jumping && !Crouching && !Swimming && !throwing && !Falling)
+        if (!Crouching)
         {
-            marioSprites.SetAnimatedSprite(Direction ? "moveRight" : "moveLeft");
+            Moving = true;
+            // If you’re throwing, you might want to ignore Move animation for a split second.
+            // Up to you—this keeps movement but doesn’t override the throw pose.
+            location = new Vector2(
+                location.X + (Direction ? MOVE_SPEED : -MOVE_SPEED),
+                location.Y
+            );
+            marioSprites.SetLocation(location);
+
+            // Only set run animation if we’re not in a higher-priority pose
+            if (!Jumping && !Swimming && !throwing && !Falling)
+            {
+                marioSprites.SetAnimatedSprite(Direction ? "moveRight" : "moveLeft");
+            }
         }
     }
 
@@ -133,6 +116,7 @@ public class FireMario : IMario
 
     public void StopMove()
     {
+        Moving = false;
         if (!Jumping && !Crouching && !Swimming && !throwing)
         {
             marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
@@ -141,7 +125,7 @@ public class FireMario : IMario
     public void LandOnBlock(float blockTopY)
     {
         Vector2 newPos = location;
-        newPos.Y = blockTopY - currentSprite.Height * SCALE;
+        newPos.Y = blockTopY - MarioCollider.Height;
         location = newPos;
         marioSprites.SetLocation(location);
 
@@ -191,34 +175,19 @@ public class FireMario : IMario
     }
     public void Crouch()
     {
-        if (Crouching)
+        if (!Falling && !Jumping && !Swimming)
         {
-            if (Direction)
+            if (Crouching)
             {
                 location = new Vector2(location.X, location.Y + 10f * (SCALE));
                 marioSprites.SetLocation(location);
-                marioSprites.SetSprite("crouchRight");
+                marioSprites.SetSprite(Direction ? "crouchRight" : "crouchLeft");
             }
-            else if (!Direction)
-            {
-                location = new Vector2(location.X, location.Y + 10f * (SCALE));
-                marioSprites.SetLocation(location);
-                marioSprites.SetSprite("crouchLeft");
-            }
-        }
-        else if (!Crouching)
-        {
-            if (Direction)
+            else if (!Crouching)
             {
                 location = new Vector2(location.X, location.Y - 10f * (SCALE));
                 marioSprites.SetLocation(location);
-                marioSprites.SetSprite("standRight");
-            }
-            else if (!Direction)
-            {
-                location = new Vector2(location.X, location.Y - 10f * (SCALE));
-                marioSprites.SetLocation(location);
-                marioSprites.SetSprite("standLeft");
+                marioSprites.SetSprite(Direction ? "crouchRight" : "crouchLeft");
             }
         }
     }
@@ -273,19 +242,18 @@ public class FireMario : IMario
             }
             else
             {
-                if(yVelocity <= -JUMP_POWER)
+                if (yVelocity <= -JUMP_POWER)
                     yVelocity += GRAVITY;
                 // Move down
                 newlocation.Y += yVelocity;
 
                 // Stop falling when reaching the ground
-                if (newlocation.Y >= currentPlatformY)
+                if (isOnGround)
                 {
                     yVelocity = 0f;
                     newlocation.Y = currentPlatformY;
                     Jumping = false;
                     Falling = false;
-                    isOnGround = true;
 
                     marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
                 }

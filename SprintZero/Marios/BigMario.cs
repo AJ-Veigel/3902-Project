@@ -22,82 +22,91 @@ public class BigMario : IMario
     public Boolean Sprinting { get; set; }
     public Boolean Crouching { get; set; }
     public Boolean Swimming { get; set; }
+    public Boolean Moving { get; set; }
     private float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private const float JUMP_POWER = -8f;
 
+    public BigMario(TextureAtlas bigMarioTexture)
+    {
+        Moving = false;
+        // Defaults
+        location = new Vector2(300, 600);
+        Direction = true;
+
+        groundY = location.Y;
+        currentPlatformY = groundY;
+
+        yVelocity = 0f;
+        xVelocity = 0f;
+
+        marioSprites = new MarioSprite(bigMarioTexture, 1, location);
+
+        // Set Mario Collider
+        MarioCollider = marioSprites.UpdateCollider();
+
+        isOnGround = true;
+    }
+    public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
+    {
+        Moving = false;
+        // Defaults
+        location = pos;
+        Direction = true;
+
+        groundY = location.Y;
+        currentPlatformY = groundY;
+
+        yVelocity = 0f;
+        xVelocity = 0f;
+
+        marioSprites = new MarioSprite(bigMarioTexture, 1, location);
+
+        // Set Mario Collider
+        MarioCollider = marioSprites.UpdateCollider();
+
+        isOnGround = true;
+    }
     public void Move()
     {
         if (!Crouching)
         {
-            if (Direction)
+            Moving = true;
+            Moving = true;
+            // If you’re throwing, you might want to ignore Move animation for a split second.
+            // Up to you—this keeps movement but doesn’t override the throw pose.
+            location = new Vector2(
+                location.X + (Direction ? DefaultMoveSpeed : -DefaultMoveSpeed),
+                location.Y
+            );
+            marioSprites.SetLocation(location);
+
+            // Only set run animation if we’re not in a higher-priority pose
+            if (!Jumping && !Swimming && !Falling)
             {
-                xVelocity = DefaultMoveSpeed;
-            }
-            else
-            {
-                xVelocity = -DefaultMoveSpeed;
-            }
-            if (Jumping)
-            {
-                if (Direction)
-                {
-                    location = new Vector2(location.X + xVelocity, location.Y);
-                    marioSprites.SetLocation(location);
-                    marioSprites.SetSprite("jumpRight");
-                }
-                else if (!Direction)
-                {
-                    location = new Vector2(location.X + xVelocity, location.Y);
-                    marioSprites.SetLocation(location);
-                    marioSprites.SetSprite("jumpLeft");
-                }
-            }
-            else if (!Jumping)
-            {
-                if (Direction)
-                {
-                    marioSprites.SetAnimatedSprite("moveRight");
-                    location = new Vector2(location.X + xVelocity, location.Y);
-                    marioSprites.SetLocation(location);
-                }
-                else if (!Direction)
-                {
-                    marioSprites.SetAnimatedSprite("moveLeft");
-                    location = new Vector2(location.X + xVelocity, location.Y);
-                    marioSprites.SetLocation(location);
-                }
+                marioSprites.SetAnimatedSprite(Direction ? "moveRight" : "moveLeft");
             }
         }
     }
     public void StopMove()
     {
+        Moving = false;
         xVelocity = 0;
-        if (!Jumping)
+        if (!Jumping && !Crouching && !Falling)
         {
-            if (Direction)
-            {
-                marioSprites.SetSprite("standRight");
-            }
-            else if (!Direction)
-            {
-                marioSprites.SetSprite("standLeft");
-            }
+            marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
         }
     }
     public void LandOnBlock(float blockTopY)
     {
-        location = new Vector2(location.X, blockTopY - marioSprites.GetSprite().Height * SCALE);
+        location = new Vector2(location.X, blockTopY - MarioCollider.Height);
         isOnGround = true;
         Jumping = false;
         Falling = false;
         jumpStartHeight = location.Y;
 
-        if (Direction)
-            marioSprites.SetSprite("standRight");
-        else
-            marioSprites.SetSprite("standLeft");
+        marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
 
         MarioCollider = marioSprites.UpdateCollider();
     }
@@ -119,34 +128,19 @@ public class BigMario : IMario
     }
     public void Crouch()
     {
-        if (Crouching)
+        if (!Falling && !Jumping && !Swimming)
         {
-            if (Direction)
+            if (Crouching)
             {
                 location = new Vector2(location.X, location.Y + 10f * (SCALE));
                 marioSprites.SetLocation(location);
-                marioSprites.SetSprite("crouchRight");
+                marioSprites.SetSprite(Direction ? "crouchRight" : "crouchLeft");
             }
-            else if (!Direction)
-            {
-                location = new Vector2(location.X, location.Y + 10f * (SCALE));
-                marioSprites.SetLocation(location);
-                marioSprites.SetSprite("crouchLeft");
-            }
-        }
-        else if (!Crouching)
-        {
-            if (Direction)
+            else if (!Crouching)
             {
                 location = new Vector2(location.X, location.Y - 10f * (SCALE));
                 marioSprites.SetLocation(location);
-                marioSprites.SetSprite("standRight");
-            }
-            else if (!Direction)
-            {
-                location = new Vector2(location.X, location.Y - 10f * (SCALE));
-                marioSprites.SetLocation(location);
-                marioSprites.SetSprite("standLeft");
+                marioSprites.SetSprite(Direction ? "crouchRight" : "crouchLeft");
             }
         }
     }
@@ -180,44 +174,7 @@ public class BigMario : IMario
 
         isOnGround = true;
     }
-    public BigMario(TextureAtlas bigMarioTexture)
-    {
-        // Defaults
-        location = new Vector2(300, 600);
-        Direction = true;
 
-        groundY = location.Y;
-        currentPlatformY = groundY;
-
-        yVelocity = 0f;
-        xVelocity = 0f;
-
-        marioSprites = new MarioSprite(bigMarioTexture, 1, location);
-
-        // Set Mario Collider
-        MarioCollider = marioSprites.UpdateCollider();
-
-        isOnGround = true;
-    }
-    public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
-    {
-        // Defaults
-        location = pos;
-        Direction = true;
-
-        groundY = location.Y;
-        currentPlatformY = groundY;
-
-        yVelocity = 0f;
-        xVelocity = 0f;
-
-        marioSprites = new MarioSprite(bigMarioTexture, 1, location);
-
-        // Set Mario Collider
-        MarioCollider = marioSprites.UpdateCollider();
-
-        isOnGround = true;
-    }
     public void Update(GameTime gameTime)
     {
         if (Jumping && !Falling)
@@ -232,18 +189,17 @@ public class BigMario : IMario
 
         if (Falling)
         {
-            if(yVelocity <= -JUMP_POWER)
+            if (yVelocity <= -JUMP_POWER)
                 yVelocity += GRAVITY;
             location = new Vector2(location.X, location.Y + yVelocity);
             marioSprites.SetLocation(location);
 
-            if (location.Y >= currentPlatformY)
+            if (isOnGround)
             {
                 yVelocity = 0;
                 location = new Vector2(location.X, currentPlatformY);
                 Jumping = false;
                 Falling = false;
-                isOnGround = true;
 
                 if (Direction)
                     marioSprites.SetSprite("standRight");
@@ -253,8 +209,9 @@ public class BigMario : IMario
         }
 
 
-        if(isOnGround)
+        if (isOnGround)
         {
+            if (!Moving) StopMove();
             Falling = false;
             yVelocity = 0f;
         }
