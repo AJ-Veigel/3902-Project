@@ -12,15 +12,15 @@ If you wish to reset the game, press 'r'
 If you wish to quit the game, press 'q' 
 
 Code reference links:
-    Code from the MonoGameLibrary is written using MonoGame Tutorals. The exact breakdown is below. 
-    AnimatedSprite.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/09_the_animatedsprite_class/index.html
-    Animation.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/09_the_animatedsprite_class/index.html
-    ISprite.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/08_the_sprite_class/index.html & https://docs.monogame.net/articles/tutorials/building_2d_games/07_optimizing_texture_rendering/index.html
-    TextureAtlas.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/07_optimizing_texture_rendering/index.html & https://docs.monogame.net/articles/tutorials/building_2d_games/09_the_animatedsprite_class/index.html
-    TextureRegion.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/08_the_sprite_class/index.html & https://docs.monogame.net/articles/tutorials/building_2d_games/07_optimizing_texture_rendering/index.html
-    GamePadInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html
-    IController.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html 
-    KeyboardInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html
-    MouseInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html & https://docs.monogame.net/api/Microsoft.Xna.Framework.Input.Mouse.html
+    Code from the MonoGameLibrary is written using MonoGame Tutorals. The exact breakdown is below. \
+    AnimatedSprite.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/09_the_animatedsprite_class/index.html \
+    Animation.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/09_the_animatedsprite_class/index.html \
+    ISprite.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/08_the_sprite_class/index.html  & https://docs.monogame.net/articles/tutorials/building_2d_games/07_optimizing_texture_rendering/index.html \
+    TextureAtlas.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/07_optimizing_texture_rendering/index.html & https://docs.monogame.net/articles/tutorials/building_2d_games/09_the_animatedsprite_class/index.html \
+    TextureRegion.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/08_the_sprite_class/index.html & https://docs.monogame.net/articles/tutorials/building_2d_games/07_optimizing_texture_rendering/index.html \
+    GamePadInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html \
+    IController.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html \
+    KeyboardInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html \
+    MouseInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html & https://docs.monogame.net/api/Microsoft.Xna.Framework.Input.Mouse.html 
     
 
