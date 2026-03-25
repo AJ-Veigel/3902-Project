@@ -52,5 +52,13 @@ public class Ground : IBlock
             mario.isOnGround = true;
             mario.jumpStartHeight = mario.location.Y;
         }
+        else if (theSide == CollisionSide.Left)
+        {
+            mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
+        }
+        else if (theSide == CollisionSide.Right)
+        {
+            mario.location = new Vector2(Collider.Right, mario.location.Y);
+        }
     }
 }

@@ -25,20 +25,6 @@ public class Goomba : IEnemy
 
     public bool Dead { get; set; }
 
-    public Goomba(TextureRegion goombaRight1, TextureRegion goombaLeft1, TextureRegion goombaFlat1, AnimatedSprite goombaWalk1, AnimatedSprite goombaHit1)
-    {
-        currentSprite = goombaRight1;
-        goombaRight1Sprite = goombaRight1;
-        goombaLeft1Sprite = goombaLeft1;
-        goombaFlat1Sprite = goombaFlat1;
-        goombaWalk1Sprite = goombaWalk1;
-        goombaHit1Sprite = goombaHit1;
-        currentASprite = goombaWalk1;
-        Dead = false;
-        position = new Vector2(600, 664);
-        EnemyCollider = new Rectangle((int)position.X, (int)position.Y, currentSprite.SourceRectangle.Width * (int)SCALE, currentSprite.SourceRectangle.Height * (int)SCALE);
-    }
-
     public Goomba(TextureAtlas goombaTexture)
     {
         goombaRight1Sprite = goombaTexture.GetRegion("goombaRight1");
@@ -98,7 +84,7 @@ public class Goomba : IEnemy
         {
             currentSprite = goombaFlat1Sprite;
             currentASprite = goombaHit1Sprite;
-
+            EnemyCollider = new Rectangle(0, 0, 0, 0);
         }
     }
     public void Draw(SpriteBatch spriteBatch)
