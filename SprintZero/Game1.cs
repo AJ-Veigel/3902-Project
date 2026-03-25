@@ -485,7 +485,7 @@ public class Game1 : Core
     {
         for (int j = enemies.Count - 1; j >= 0; j--)
         {
-            if (currentEnemyCount == j)
+            if (currentEnemyCount == j && !currentEnemy.Dead)
             {
                 switch (enemies[j])
                 {

@@ -61,15 +61,9 @@ public class Goomba : IEnemy
             }
             position = new Vector2(position.X + VelocityX, position.Y + VelocityY);
 
-            if(!Dead){
-                EnemyCollider = new Rectangle((int)position.X, (int)position.Y,
-                    currentSprite.SourceRectangle.Width * (int)SCALE,
-                    currentSprite.SourceRectangle.Height * (int)SCALE);
-            } 
-            else
-            {
-                EnemyCollider = new Rectangle(0, 0, 0, 0);
-            }
+            EnemyCollider = new Rectangle((int)position.X, (int)position.Y,
+            currentSprite.SourceRectangle.Width * (int)SCALE,
+            currentSprite.SourceRectangle.Height * (int)SCALE);
 
             if (animationTimer >= 0.5f)
             {
@@ -90,7 +84,7 @@ public class Goomba : IEnemy
         {
             currentSprite = goombaFlat1Sprite;
             currentASprite = goombaHit1Sprite;
-
+            EnemyCollider = new Rectangle(0, 0, 0, 0);
         }
     }
     public void Draw(SpriteBatch spriteBatch)
