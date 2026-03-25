@@ -10,3 +10,4 @@ To view the different items, press 'u' or 'i'
 To view the different enemies, press 'o' or 'p'
 If you wish to reset the game, press 'r'
 If you wish to quit the game, press 'q' 
+
