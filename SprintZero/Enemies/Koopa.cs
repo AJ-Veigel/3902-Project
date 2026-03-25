@@ -16,6 +16,9 @@ public class Koopa : IEnemy
 	private const float WALK_TIME = 0.25f;
 	private const float CLOSE_AWAKEN_TIME = 3.0f;
 	private const float AWAKEN_TIME = 5.0f;
+
+	private const float WALK_SPEED = 192.0f;
+	private const float SHELL_SPEED = 384.0f;
 	public enum KoopaType { Green, Red, Blue };
 	public Vector2 position { get; set; }
 	public bool Dead { get; set; }
@@ -56,9 +59,11 @@ public class Koopa : IEnemy
 	public Koopa(KoopaType type = KoopaType.Green)
 	{
 		Dead = false;
+		onGround = false;
 		position = new Vector2(600.0f, 660.0f);
 		FacingLeft = true;
 		KoopaState = KoopaStates.Walk1;
+		VelocityX = -WALK_SPEED;
 		KoopaTimer = WALK_TIME;
 		Type = type;
 	}
@@ -66,6 +71,34 @@ public class Koopa : IEnemy
 	public void ReverseDirection()
 	{
 		FacingLeft = !FacingLeft;
+	}
+
+	private void updateCollider()
+	{
+		bool isShell = false;
+
+		switch (this.KoopaState)
+		{
+			case KoopaStates.ShellStill:
+			case KoopaStates.ShellStill2:
+			case KoopaStates.ShellMoving:
+				isShell = true;
+				break;
+			default:
+				break;
+		}
+
+		Point point;
+		if (isShell)
+		{
+            point = new Point((int)this.position.X, (int)this.position.Y + 12*4);
+			this.EnemyCollider = new Rectangle(point, new Point(16 * 4, 12 * 4));
+		}
+		else
+		{
+            point = new Point((int)this.position.X, (int)this.position.Y);
+            this.EnemyCollider = new Rectangle(point, new Point(16 * 4, 24 * 4));
+		}
 	}
 
 	public void Draw(SpriteBatch spriteBatch)
@@ -119,10 +152,34 @@ public class Koopa : IEnemy
 
 	public void Update(GameTime gameTime)
 	{
-		this.KoopaTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+		float timeSeconds = (float) gameTime.ElapsedGameTime.TotalSeconds;
+        this.KoopaTimer -= timeSeconds;
 		HandleTimer(); // Handles timed events.
 
-		// TODO: implement physics.
+		// Try move.
+		this.VelocityY += 0.25f * timeSeconds; // I made up this gravity.
+		this.position += new Vector2(this.VelocityX, this.VelocityY) * timeSeconds;
+
+		this.updateCollider();
+
+		if (onGround)
+		{
+			switch (this.KoopaState)
+			{
+                case KoopaStates.Walk1:
+				case KoopaStates.Walk2:
+					this.VelocityX = WALK_SPEED;
+					break;
+				case KoopaStates.ShellMoving:
+					this.VelocityX = SHELL_SPEED;
+					break;
+				default:
+					this.VelocityX = 0;
+					break;
+            }
+			if (FacingLeft) { this.VelocityX = -this.VelocityX; }
+			this.VelocityY = 0;
+		}
 	}
 }
 
