@@ -38,27 +38,5 @@ public class Ground : IBlock
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
 
     }
-    public void onCollision(IMario mario, CollisionSide theSide)
-    {
-        if (theSide == CollisionSide.Top && mario.yVelocity >= 0)
-        {
-            mario.location = new Vector2(
-                mario.location.X,
-                Collider.Top - mario.MarioCollider.Height
-            );
 
-            mario.Falling = false;
-            mario.Jumping = false;
-            mario.isOnGround = true;
-            mario.jumpStartHeight = mario.location.Y;
-        }
-        else if (theSide == CollisionSide.Left)
-        {
-            mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
-        }
-        else if (theSide == CollisionSide.Right)
-        {
-            mario.location = new Vector2(Collider.Right, mario.location.Y);
-        }
-    }
 }
