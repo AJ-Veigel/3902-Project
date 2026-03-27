@@ -83,7 +83,7 @@ public class FireMario : IMario
 
     public void Move()
     {
-        if (!Crouching)
+        if (!Crouching || Jumping)
         {
             Moving = true;
             // If you’re throwing, you might want to ignore Move animation for a split second.

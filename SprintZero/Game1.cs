@@ -43,6 +43,7 @@ public class Game1 : Core
     private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount, currentLevel;
     private Rectangle Bounds;
     private OrthographicCamera camera;
+    private float prevX;
 
     public Game1() : base("SMB1", 1920, 1080, false) { }
     protected override void Initialize()
@@ -155,6 +156,7 @@ public class Game1 : Core
         currentMarioNum = 0;
         currentEnemyCount = 0;
         currentEnemy = enemies[currentEnemyCount];
+        prevX = 0;
 
         currentLevel = 0;
         var mapTest = new TileMap();
@@ -213,7 +215,13 @@ public class Game1 : Core
         CheckCollisions();
         CheckEnemyMarioCollisions();
 
-        camera.Position = currentMario.location - new Vector2(780f, 560f);
+        // Camera
+        if(currentMario.location.X > prevX)
+        {
+            camera.Position = new Vector2(currentMario.location.X - 560f, camera.Position.Y);
+            prevX = currentMario.location.X;
+        }
+
 
         base.Update(gameTime);
     }
@@ -402,20 +410,26 @@ public class Game1 : Core
         else if (marioNumber == 1)
         {
             if (currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
+            float velocity = currentMario.yVelocity;
             currentMario = new BigMario(bigMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
+            currentMario.yVelocity = velocity;
+            currentMario.Falling = true;
         }
         else if (marioNumber == 2)
         {
             if (currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
+            float velocity = currentMario.yVelocity;
             currentMario = new FireMario(fireMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
+            currentMario.yVelocity = velocity;
+            currentMario.Falling = true; 
         }
-        currentMario.isOnGround = true;
+        // currentMario.isOnGround = true;
     }
     public void MarioJump()
     {
-        currentMario.Jump();
+        currentMario.Jump(); 
     }
     public void MarioCrouch()
     {
@@ -483,6 +497,7 @@ public class Game1 : Core
 
     public void collisionCheck(Fireball fb)
     {
+        
         for (int j = enemies.Count - 1; j >= 0; j--)
         {
             if (currentEnemyCount == j && !currentEnemy.Dead)
@@ -512,6 +527,21 @@ public class Game1 : Core
                         }
                         break;
                 }
+            }
+        }
+        for (int k = blocks.Count - 1; k >= 0; k--)
+        {
+            switch (blocks[k])
+            {
+                case MediumTube:
+                    if (fb.location.X < blocks[k].location.X + 120 &&
+                        fb.location.X + 8 > blocks[k].location.X - 24 &&
+                        fb.location.Y < blocks[k].location.Y + 192 &&
+                        fb.location.Y + 8 > blocks[k].location.Y - 24)
+                    {
+                        fb.Pop(); 
+                    }
+                    break;
             }
         }
     }
