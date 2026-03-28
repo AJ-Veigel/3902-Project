@@ -28,7 +28,7 @@ public class smallTube : IBlock
     if (theSide == CollisionSide.Top)
     {
           
-        Console.WriteLine($"[Collision Debug] Mario landed on SmallTube at {Collider.Location}");
+       // Console.WriteLine($"[Collision Debug] Mario landed on SmallTube at {Collider.Location}");
     }
     else if (theSide == CollisionSide.Left)
     {
