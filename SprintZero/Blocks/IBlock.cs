@@ -13,7 +13,7 @@ namespace SprintZero.blocks
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
 
-        void onCollision(IMario mario, CollisionSide side) // default implementation.
+        void  onCollision(IMario mario, CollisionSide side)
         {
             switch (side)
             {
@@ -28,10 +28,7 @@ namespace SprintZero.blocks
                     mario.xVelocity = 0;
                     break;
                 case CollisionSide.Top:
-                    if (mario.yVelocity < 0) { break; }
-
-                    mario.LandOnBlock(Collider.Top);
-                    break;
+                   break;
                 case CollisionSide.Bottom:
                     if (mario.yVelocity > 0) { break; }
                     mario.location = new Vector2(mario.location.X, Collider.Bottom);

@@ -77,17 +77,15 @@ public class Game1 : Core
         flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
 
 
-
-
         blocks = new List<IBlock>
          {
-        //    new Ground(ground), //Done
-        //    new questionMarkHit(questionBlockHit), //Done
-        //    new smallTube(smallTube),
+        //   new ground(ground), 
+        //    new questionMarkHit(questionBlockHit), 
+       //    new smallTube(smallTube),
        //       new CastleBlock(castle), 
       //      new FlagMove(flagMove), 
-         new MediumTube(mediumTube),
-       //    new AboveGroundBreak(aboveGroundBreak) //Done
+        new MediumTube(mediumTube),
+       //    new AboveGroundBreak(aboveGroundBreak)
          };
 
 

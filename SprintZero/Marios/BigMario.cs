@@ -51,7 +51,7 @@ public class BigMario : IMario
     public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
     {
         Moving = false;
-        // Defaults
+       
         location = pos;
         Direction = true;
 
@@ -109,6 +109,7 @@ public class BigMario : IMario
         marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
 
         MarioCollider = marioSprites.UpdateCollider();
+
     }
 
 
@@ -124,6 +125,7 @@ public class BigMario : IMario
 
             // Update sprite
             marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
+  
         }
     }
     public void Crouch()
@@ -193,6 +195,7 @@ public class BigMario : IMario
                 yVelocity += GRAVITY;
             location = new Vector2(location.X, location.Y + yVelocity);
             marioSprites.SetLocation(location);
+        
 
             if (isOnGround)
             {
@@ -239,4 +242,6 @@ public class BigMario : IMario
     {
         marioSprites.Draw(spriteBatch);
     }
+
+
 }

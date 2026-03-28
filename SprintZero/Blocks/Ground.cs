@@ -11,12 +11,7 @@ public class Ground : IBlock
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
     private const float SCALE = 4f;
-    public Ground(TextureRegion region)
-    {
-        sprite = region;
-        location = new Vector2(600, 600);
-        Collider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
-    }
+  
     public Ground(TextureRegion region, Vector2 pos)
     {
         sprite = region;

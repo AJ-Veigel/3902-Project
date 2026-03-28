@@ -22,5 +22,8 @@ Code reference links:
     IController.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html \
     KeyboardInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html \
     MouseInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html & https://docs.monogame.net/api/Microsoft.Xna.Framework.Input.Mouse.html 
+    Sprites used for this game are from the following:
+    -
+
     
 
