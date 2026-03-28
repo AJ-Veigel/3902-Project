@@ -1,4 +1,5 @@
-This is the project for the 3902 CSE Project class at OSU
+This is the project for the 3902 CSE Project class at OSU!
+
 Player controls:
  -'wasd' and arrow keys to move
  -Press numbers (1,2,3) to change Mario sprite
@@ -21,9 +22,10 @@ Code reference links:
     GamePadInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html \
     IController.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html \
     KeyboardInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html \
-    MouseInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html & https://docs.monogame.net/api/Microsoft.Xna.Framework.Input.Mouse.html 
-    Sprites used for this game are from the following:
-    -
+    MouseInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html & https://docs.monogame.net/api/Microsoft.Xna.Framework.Input.Mouse.html \
+    
+Sprite reference links:
+        Sprites used for this game are from Super Mario Bros created by Nintendo. The sprite sheets are allocated from https://www.mariouniverse.com/sprites-nes-smb/. 
 
     
 
