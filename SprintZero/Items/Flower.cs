@@ -1,47 +1,60 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Sprites;
+using SprintZero;
 
-public class Flower : ISprite
+public class Flower : ICollidable
 {
-private AnimatedSprite sprite;
-public Vector2 location{get;set;}
+    private AnimatedSprite sprite;
 
-private float startY;
 
-private float riseSpeed = 3f;
-private float targetY= 10f;
+    private Vector2 _location;
+    public Vector2 location
+    {
+        get { return _location; }
+        set { _location = value; }
+    }
+    public Hitbox Collider { get; set; }
+    public Rectangle RectCollider { get; set; }
+    private const float SCALE = 4f;
 
-private bool rising = true;
-   
-public Flower(AnimatedSprite animated)
+    private float startY;
+    private float riseSpeed = 2f;
+    private float riseHeight = 20f;
+
+    private bool rising = true;
+
+    public Flower(AnimatedSprite animated)
     {
         sprite = animated;
-        sprite.Scale = new Vector2(4f);
-        location = new Vector2(300,300);
-        startY = location.Y;
+        sprite.Scale = new Vector2(SCALE);
+        _location = new Vector2(400, 600);
+        startY = _location.Y;
+        //Collider = new HitBox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+        RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
-  
 
-   public void Update(GameTime gameTime)
-{
-    sprite.Update(gameTime);
-
-    if (rising && location.Y > targetY)
+    public void Update(GameTime gameTime)
     {
-        location = new Vector2(location.X, location.Y - riseSpeed);
+        sprite.Update(gameTime);
 
-        if (location.Y <= targetY)
+        if (rising)
         {
-            location = new Vector2(location.X, targetY);
-            rising = false;
+
+            _location.Y -= riseSpeed;
+
+            if (_location.Y <= startY - riseHeight)
+            {
+                _location.Y = startY - riseHeight;
+                rising = false;
+            }
         }
+        //Collider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+        RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
-}
-   
-        public void Draw(SpriteBatch spriteBatch)
+
+    public void Draw(SpriteBatch spriteBatch)
     {
-        sprite.Draw(spriteBatch,location);
+        sprite.Draw(spriteBatch, _location);
     }
 }

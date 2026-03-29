@@ -207,7 +207,9 @@ public static TextureAtlas FromFile(ContentManager content, string fileName)
                     atlas.AddAnimation(name, animation);
                 }
             }
-
+            System.Diagnostics.Debug.WriteLine(
+    "Loaded animations: " + string.Join(", ", atlas._animations.Keys)
+);
             return atlas;
         }
     }
