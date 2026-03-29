@@ -47,20 +47,4 @@ private void UpdateCollider()
 
     }
 
-    public void onCollision(IMario mario, CollisionSide theSide)
-{
-    if (theSide == CollisionSide.Top)
-    {
-          
-      //  Console.WriteLine($"[Collision Debug] Mario landed on MediumTube at {Collider.Location}");
-    }
-    else if (theSide == CollisionSide.Left)
-    {
-        mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
-    }
-    else if (theSide == CollisionSide.Right)
-    {
-        mario.location = new Vector2(Collider.Right, mario.location.Y);
-    }
-}
 }

@@ -78,19 +78,16 @@ public class FlagMove : IBlock
 
     public void onCollision(IMario mario, CollisionSide theSide)
     {
-        // Start sliding if Mario hits the flag
+      
         if (!marioSliding && mario.MarioCollider.Intersects(Collider))
         {
             marioSliding = true;
             slidingMario = mario;
 
-            // Start flag animation
             flagSprite.Play();
 
-            // Tell Mario to play the flagpole animation
             slidingMario.GrabFlagPole();
 
-            // Attach Mario to flag horizontally
             slidingMario.location = new Vector2(
                 location.X - slidingMario.MarioCollider.Width,
                 slidingMario.location.Y

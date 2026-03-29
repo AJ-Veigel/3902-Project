@@ -5,7 +5,6 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Font/File.spritefont</File>
-    <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/155739.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/goombasprites.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/items.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/koopaSprites.png</File>
@@ -16,7 +15,6 @@
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
-    <File>Images/Sprite.png</File>
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
