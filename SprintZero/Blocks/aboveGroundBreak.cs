@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero.Marios;
 using SprintZero.blocks;
+using System.Runtime.InteropServices.Marshalling;
 
 public class AboveGroundBreak : IBlock
 {
@@ -20,7 +21,7 @@ public class AboveGroundBreak : IBlock
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();
-        location = new Vector2(300, 500);
+        location = new Vector2(600, 700);
         velocity = Vector2.Zero;
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
 
@@ -52,48 +53,37 @@ public class AboveGroundBreak : IBlock
         if (!isBroken)
             sprite.Draw(spriteBatch, location);
     }
+    
     public void onCollision(IMario mario, CollisionSide side)
     {
         bool shouldBreak = false;
+    if (!isBroken){
+        if(side == CollisionSide.Bottom && (mario is BigMario || mario is FireMario)){
+            shouldBreak = true;
 
-        if (!isBroken)
-        {
-            Rectangle nextMario = mario.MarioCollider;
-
-            if (mario.Jumping && !mario.Falling)
-                nextMario.Y -= 4;
-            else if (mario.Falling)
-                nextMario.Y += 4;
-
-
-            bool horizontalOverlap = nextMario.Right > location.X && nextMario.X < location.X + (int)sprite.Width;
-
-
-            bool hittingFromBelow = nextMario.Top < location.Y &&
-                                    nextMario.Bottom >= location.Y &&
-                                    horizontalOverlap;
-
-            if (hittingFromBelow)
+        } else
             {
-                if (mario is BigMario || mario is FireMario)
+                if (side == CollisionSide.Left)
                 {
-                    shouldBreak = true;
+                    mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width,mario.location.Y);
                 }
-                else
+                if (side == CollisionSide.Right)
                 {
-
-                    mario.LandOnBlock(location.Y + sprite.Height * SCALE);
+                    mario.location = new Vector2(Collider.Right,mario.location.Y);
+                }
+                else if (side == CollisionSide.Top)
+                {
+                    mario.LandOnBlock(location.Y);
                 }
             }
-        }
-
-        if (shouldBreak)
-        {
-            isBroken = true;
-            playBreakingAnimation = true;
-            velocity = new Vector2(-6f, -8f);
-            mario.Jumping = true;
-            mario.Falling = true;
-        }
+            if (shouldBreak)
+            {
+                isBroken = true;
+                playBreakingAnimation = true;
+                velocity = new Vector2(-6f,-8f);
+                mario.Jumping = true; 
+                mario.Falling = true;
+            }
     }
+}
 }

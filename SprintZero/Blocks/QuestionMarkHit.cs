@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SprintZero.Marios;
@@ -26,7 +27,7 @@ public class questionMarkHit : IBlock
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.PauseFrame(0);
-        location = new Vector2(400, 400);
+        location = new Vector2(600, 800);
         startY = location.Y;
 
         Collider = new Rectangle(
@@ -68,7 +69,7 @@ public class questionMarkHit : IBlock
                 location = new Vector2(location.X, startY);
                 movingDown = false;
 
-                sprite.PauseFrame(2);
+                sprite.PauseFrame(3);
             }
         }
 
@@ -85,18 +86,34 @@ public class questionMarkHit : IBlock
         sprite.Draw(spriteBatch, location);
     }
 
-    public void onCollision(IMario mario, CollisionSide theSide)
+   
+   public void onCollision(IMario mario, CollisionSide side)
     {
 
-        // if (theSide == CollisionSide.Bottom && !isHit && mario.Jumping && (mario is SmallMario || mario is FireMario || mario is BigMario ))
-        // {
-        //     isHit = true;
-        //     movingUp = true;
-
-        //     mario.Falling = false;
-        //     mario.isOnGround = true;
-        //     mario.Jumping = true;
-        // }
+    if (!isHit && side == CollisionSide.Bottom){
+            isHit = true;
+            movingUp = true;
+            sprite.Stop();
+            sprite.PauseFrame(3);
+            mario.Jumping = true;
+            mario.Jumping = true;
+    
+        }  else
+        {
+            if (side == CollisionSide.Left)
+            {
+                mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
+            } else if (side == CollisionSide.Right)
+            {
+                mario.location = new Vector2(Collider.Right,mario.location.Y);
+    
+                }
+            else if (side == CollisionSide.Top)
+            {
+                mario.LandOnBlock(location.Y);
+            }
+        }
 
     }
+
 }

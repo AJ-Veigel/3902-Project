@@ -14,7 +14,7 @@ If you wish to quit the game, press 'q'
 
 Code reference links:
     Code from the MonoGameLibrary is written using MonoGame Tutorals. The exact breakdown is below. \
-    AnimatedSprite.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/09_the_animatedsprite_class/index.html \
+    AnimatedSprite.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/09_the_animatedsprite_class/index.html &https://docs.monogame.net/articles/getting_to_know/howto/graphics/HowTo_Animate_Sprite.html \
     Animation.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/09_the_animatedsprite_class/index.html \
     ISprite.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/08_the_sprite_class/index.html  & https://docs.monogame.net/articles/tutorials/building_2d_games/07_optimizing_texture_rendering/index.html \
     TextureAtlas.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/07_optimizing_texture_rendering/index.html & https://docs.monogame.net/articles/tutorials/building_2d_games/09_the_animatedsprite_class/index.html \

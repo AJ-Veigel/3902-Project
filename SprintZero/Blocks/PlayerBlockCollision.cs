@@ -24,7 +24,7 @@ namespace SprintZero.PBCollision
             blocks.Add(block);
     }
 
-   // Console.WriteLine($"Blocks checked: {blocks.Count}");
+    Console.WriteLine($"Blocks checked: {blocks.Count}");
 
     CollisionSide theSide;
     bool standingOnBlock = false;
@@ -39,7 +39,7 @@ namespace SprintZero.PBCollision
         if (marioRect.Intersects(blockRect))
         {
             theSide = getCollisionSide(marioRect, blockRect);
-          //  Console.WriteLine($"[Collision Debug] mario collided with block at {blockRect.Location} on {theSide} side");
+           Console.WriteLine($"[Collision Debug] mario collided with block at {blockRect.Location} on {theSide} side");
             block.onCollision(mario, theSide);
 
             if (theSide == CollisionSide.Top)

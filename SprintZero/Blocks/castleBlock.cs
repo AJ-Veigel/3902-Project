@@ -24,8 +24,5 @@ public class CastleBlock : IBlock
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, SCALE, SpriteEffects.None, 0f);
 
     }
-    public void onCollision(IMario mario, CollisionSide theSide)
-    {
-
-    }
+   //To-do: end game animation 
 }
