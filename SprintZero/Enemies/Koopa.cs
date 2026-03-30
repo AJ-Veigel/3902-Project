@@ -13,11 +13,13 @@ public class Koopa : IEnemy
 	private static TextureRegion[] blue;
 
 
-	private const float WALK_TIME = 0.25f;
+	private const float WALK_TIME = 0.25f; // in seconds
 	private const float CLOSE_AWAKEN_TIME = 3.0f;
 	private const float AWAKEN_TIME = 5.0f;
 
-	private const float WALK_SPEED = 192.0f;
+	private const float GRAVITY = 384.0f;
+
+	private const float WALK_SPEED = 192.0f; // In per second scale
 	private const float SHELL_SPEED = 384.0f;
 	public enum KoopaType { Green, Red, Blue };
 	public Vector2 position { get; set; }
@@ -152,12 +154,14 @@ public class Koopa : IEnemy
 
 	public void Update(GameTime gameTime)
 	{
-		float timeSeconds = (float) gameTime.ElapsedGameTime.TotalSeconds;
-        this.KoopaTimer -= timeSeconds;
+		float timeSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+		this.KoopaTimer -= timeSeconds;
 		HandleTimer(); // Handles timed events.
 
 		// Try move.
-		this.VelocityY += 0.25f * timeSeconds; // I made up this gravity.
+		if (!onGround) {
+			this.VelocityY += GRAVITY * timeSeconds;
+		}
 		this.position += new Vector2(this.VelocityX, this.VelocityY) * timeSeconds;
 
 		this.updateCollider();
