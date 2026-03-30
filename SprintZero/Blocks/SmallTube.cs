@@ -8,41 +8,44 @@ using System;
 public class smallTube : IBlock
 {
 
+     private const float SCALE = 4f;
     private TextureRegion sprite;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
+    
+    public bool GetCollidable() => true;
     public smallTube(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(800, 650);
-        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
-    }
-    public void Update(GameTime gameTime) { }
 
-    public Boolean GetCollidable()
-    {
-        return true;
+        location = new Vector2(800, 650);
+
+    
+        Collider = new Rectangle(
+            (int)location.X,
+            (int)location.Y,
+            (int)(sprite.Width * SCALE),
+            (int)(sprite.Height * SCALE)
+        );
     }
-  public void onCollision(IMario mario, CollisionSide theSide)
-{
-    if (theSide == CollisionSide.Top)
+
+
+    public void Update(GameTime gameTime)
     {
-          
-       // Console.WriteLine($"[Collision Debug] Mario landed on SmallTube at {Collider.Location}");
+        UpdateCollider();
     }
-    else if (theSide == CollisionSide.Left)
+private void UpdateCollider()
     {
-        mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
+          Collider = new Rectangle(
+            (int)location.X,
+            (int)location.Y,
+            (int)(sprite.Width * SCALE),
+            (int)(sprite.Height * SCALE));
     }
-    else if (theSide == CollisionSide.Right)
-    {
-        mario.location = new Vector2(Collider.Right, mario.location.Y);
-    }
-}
     public void Draw(SpriteBatch spriteBatch)
     {
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
 
     }
-  
+
 }

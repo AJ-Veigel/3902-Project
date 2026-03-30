@@ -1,5 +1,6 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
 "C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Font/File.spritefont","C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Font/File.xnb","FontDescriptionProcessor","SpriteFontContent",2065,37914,0.5331511
+"C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/bigblock-definition.xml","C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\Content\bin\DesktopGL\Content\Images/bigblock-definition.xml","CopyItem","File",360,360,0.0035884
 "C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/block-definition.xml","C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\Content\bin\DesktopGL\Content\Images/block-definition.xml","CopyItem","File",1494,1494,0.0041988
 "C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/goombasprites.png","C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/goombasprites.xnb","TextureProcessor","Texture2DContent",653,9365,0.0094374
 "C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/items.png","C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/items.xnb","TextureProcessor","Texture2DContent",1882,118645,0.0159989

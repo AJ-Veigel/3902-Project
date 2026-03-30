@@ -2,7 +2,7 @@
     <Texture>Images/bigblock</Texture>
 
     <Regions>
-        <Region name="tube" x="614" y="46" width="31" height="31"/>
+        <Region name="tube" x="614" y="46" width="34" height="31"/>
         <Region name="castle" x="400" y="510" width="149" height ="179"/>
         <Region name="flag" x="255" y="46" width="28" height="170"/>
     </Regions>

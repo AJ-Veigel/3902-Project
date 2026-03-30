@@ -24,7 +24,7 @@ public class FlagMove : IBlock
         flagSprite.Scale = new Vector2(SCALE);
         flagSprite.Pause();
 
-        location = new Vector2(500, 50); // starting location
+        location = new Vector2(500, 50); 
         bottomY = 300f;
 
         UpdateCollider();
