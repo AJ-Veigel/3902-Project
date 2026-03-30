@@ -98,7 +98,7 @@ public class questionMarkHit : IBlock
         {
             collsionTime = false;
         }
-        if (!isHit && collsionTime)
+        if (isHit && collsionTime)
         {
             if (side == CollisionSide.Left)
             {

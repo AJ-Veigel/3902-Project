@@ -20,7 +20,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Font/File.spritefont
 
-
 #begin Images/atlas-definition.xml.xml
 /copy:Images/atlas-definition.xml.xml;Images/atlas-definition.xml
 
@@ -137,4 +136,10 @@
 
 #begin Images/SmallMario-definition.xml
 /copy:Images/SmallMario-definition.xml
+
+#begin Music/bump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/bump.wav
 
