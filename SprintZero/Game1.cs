@@ -83,16 +83,13 @@ public class Game1 : Core
         blocks = new List<IBlock>
          {
         //   new ground(ground), //done 
-        // new questionMarkHit(questionBlockHit), 
+     //   new questionMarkHit(questionBlockHit,Content), // semi-done: just need to add items to the question mark hit
         //   new smallTube(smallTube),  //done
-       //       new CastleBlock(castle),
-      //      new FlagMove(flagMove), 
+       //       new CastleBlock(castle), // need to add end game animation 
+          new FlagMove(flagMove,Content), 
        // new MediumTube(mediumTube), //done
-         new AboveGroundBreak(aboveGroundBreak,Content) //done
+     //    new AboveGroundBreak(aboveGroundBreak,Content) //done
          };
-
-
-
 
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
         flower = itemTexture.CreateAnimatedSprite("flower");
