@@ -138,7 +138,7 @@ public class Game1 : Core
         goombaTexture = TextureAtlas.FromFile(Content, "images/goomba-definition.xml");
 
 
-        Koopa.loadTextures(Content);
+        Koopa.LoadTextures(Content);
 
         enemies = new List<IEnemy>
 

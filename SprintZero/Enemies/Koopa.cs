@@ -34,7 +34,7 @@ public class Koopa : IEnemy
 	public float VelocityX { get; set; }
 	public float VelocityY { get; set; }
 
-	public static void loadTextures(ContentManager content)
+	public static void LoadTextures(ContentManager content)
 	{
 		TextureAtlas atlas = TextureAtlas.FromFile(content, "Images/koopa-definition.xml");
 		const int StateCount = 5;
@@ -75,7 +75,7 @@ public class Koopa : IEnemy
 		FacingLeft = !FacingLeft;
 	}
 
-	private void updateCollider()
+	private void UpdateCollider()
 	{
 		bool isShell = false;
 
@@ -164,7 +164,7 @@ public class Koopa : IEnemy
 		}
 		this.position += new Vector2(this.VelocityX, this.VelocityY) * timeSeconds;
 
-		this.updateCollider();
+		this.UpdateCollider();
 
 		if (onGround)
 		{
