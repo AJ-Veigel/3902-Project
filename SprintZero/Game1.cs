@@ -172,7 +172,6 @@ public class Game1 : Core
         backgroundMusic = Content.Load<Song>("Music/Background");
         MediaPlayer.IsRepeating = true;
         MediaPlayer.Volume = 0.5f;
-        
         MediaPlayer.Play(backgroundMusic);
 
         base.LoadContent();
@@ -556,5 +555,9 @@ public class Game1 : Core
     public void Reset()
     {
         Initialize();
+    }
+    public void play()
+    {
+        MediaPlayer.Play(backgroundMusic);
     }
 }
