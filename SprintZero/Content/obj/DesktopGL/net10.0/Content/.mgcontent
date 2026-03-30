@@ -12,6 +12,7 @@
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/misc-2.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/misc-3.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png</File>
+    <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Music/bump.wav</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
@@ -22,5 +23,6 @@
     <File>Images/BigBlock2.png</File>
     <File>Images/bigblock.png</File>
     <File>Images/Blocks.png</File>
+    <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

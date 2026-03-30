@@ -14,6 +14,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using System;
 using System.Linq;
+using Microsoft.Xna.Framework.Audio;
 
 namespace SprintZero;
 
@@ -25,6 +26,7 @@ public class Game1 : Core
 
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
+    private SoundEffect blockSong;
     private List<IController> controllers;
     private List<ICollidable> items;
     private List<IBlock> blocks;
@@ -77,15 +79,16 @@ public class Game1 : Core
         flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
 
 
+
         blocks = new List<IBlock>
          {
         //   new ground(ground), //done 
-           new questionMarkHit(questionBlockHit), 
-           new smallTube(smallTube),  //done
+        // new questionMarkHit(questionBlockHit), 
+        //   new smallTube(smallTube),  //done
        //       new CastleBlock(castle),
       //      new FlagMove(flagMove), 
        // new MediumTube(mediumTube), //done
-     //    new AboveGroundBreak(aboveGroundBreak) //done
+         new AboveGroundBreak(aboveGroundBreak,Content) //done
          };
 
 
