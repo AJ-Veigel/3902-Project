@@ -15,6 +15,7 @@ using MonoGame.Extended.ViewportAdapters;
 using System;
 using System.Linq;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace SprintZero;
 
@@ -26,7 +27,8 @@ public class Game1 : Core
 
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
-    private SoundEffect blockSong;
+   
+    private Song backgroundMusic; 
     private List<IController> controllers;
     private List<ICollidable> items;
     private List<IBlock> blocks;
@@ -166,8 +168,15 @@ public class Game1 : Core
         level.Populate(map1);
         maps.Add(map1);
 
+        //Can move this into the same class as our map if wanted to or just leave it here
+        backgroundMusic = Content.Load<Song>("Music/Background");
+        MediaPlayer.IsRepeating = true;
+        MediaPlayer.Volume = 0.5f;
+        
+        MediaPlayer.Play(backgroundMusic);
 
         base.LoadContent();
+   
     }
 
     protected override void Update(GameTime gameTime)
