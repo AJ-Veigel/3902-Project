@@ -143,3 +143,9 @@
 /processorParam:Quality=Best
 /build:Music/bump.wav
 
+#begin Music/flagpole.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/flagpole.wav
+
