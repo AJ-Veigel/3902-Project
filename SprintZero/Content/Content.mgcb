@@ -137,6 +137,12 @@
 #begin Images/SmallMario-definition.xml
 /copy:Images/SmallMario-definition.xml
 
+#begin Music/Background.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Background.wav
+
 #begin Music/bump.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

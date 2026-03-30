@@ -1,4 +1,7 @@
+using System.ComponentModel;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using SprintZero;
 
 public class GameController
@@ -22,6 +25,10 @@ public class GameController
         if (currentState.IsKeyDown(Keys.R) && previousState.IsKeyUp(Keys.R))
         {
             game.Reset();
+
+        } if(currentState.IsKeyDown(Keys.M) && previousState.IsKeyUp(Keys.M))
+        {
+            MediaPlayer.Pause();
         }
     }
 }
