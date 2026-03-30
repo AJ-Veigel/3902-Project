@@ -18,14 +18,14 @@ public class smallTube : IBlock
     {
         sprite = region;
 
-        location = new Vector2(800, 650);
+        location = new Vector2(600, 700);
 
     
         Collider = new Rectangle(
             (int)location.X,
             (int)location.Y,
-            (int)(sprite.Width * SCALE),
-            (int)(sprite.Height * SCALE)
+            (int)sprite.Width ,
+            (int)sprite.Height
         );
     }
 

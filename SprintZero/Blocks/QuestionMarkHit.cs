@@ -27,7 +27,7 @@ public class questionMarkHit : IBlock
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.PauseFrame(0);
-        location = new Vector2(600, 800);
+        location = new Vector2(600, 500);
         startY = location.Y;
 
         Collider = new Rectangle(
@@ -40,7 +40,7 @@ public class questionMarkHit : IBlock
 
     public Boolean GetCollidable()
     {
-        return true;
+        return !movingUp;
     }
 
     public void Update(GameTime gameTime)
@@ -69,16 +69,15 @@ public class questionMarkHit : IBlock
                 location = new Vector2(location.X, startY);
                 movingDown = false;
 
-                sprite.PauseFrame(3);
+                sprite.PauseFrame(1);
             }
         }
 
         Collider = new Rectangle(
             (int)location.X,
             (int)location.Y,
-            (int)(sprite.Width * SCALE),
-            (int)(sprite.Height * SCALE)
-        );
+            (int)sprite.Width,
+            (int)sprite.Height);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -87,33 +86,37 @@ public class questionMarkHit : IBlock
     }
 
    
-   public void onCollision(IMario mario, CollisionSide side)
+    public void onCollision(IMario mario, CollisionSide side)
     {
+   //this if-statement allows mario to walk under the block
+    if (!isHit && side ==CollisionSide.Bottom){
+           isHit = true;
 
-    if (!isHit && side == CollisionSide.Bottom){
-            isHit = true;
-            movingUp = true;
-            sprite.Stop();
-            sprite.PauseFrame(3);
-            mario.Jumping = true;
-            mario.Jumping = true;
-    
-        }  else
+        } 
+        bool collsionTime = true;
+        if ((movingUp || movingDown) && side == CollisionSide.Bottom)
+        {
+            collsionTime = false;
+        }
+        if (!isHit && collsionTime)
         {
             if (side == CollisionSide.Left)
             {
-                mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
-            } else if (side == CollisionSide.Right)
+                mario.location = new Vector2(Collider.Left-mario.MarioCollider.Width, mario.location.Y);
+
+            } else if(side == CollisionSide.Right)
             {
-                mario.location = new Vector2(Collider.Right,mario.location.Y);
-    
+                mario.location = new Vector2(Collider.Right, mario.location.Y);
+
+            }else if (side == CollisionSide.Top)
+            {
+                bool stillOnBlock = mario.MarioCollider.Right > Collider.Left && mario.MarioCollider.Left < Collider.Right;
+                if (stillOnBlock)
+                {
+                    mario.LandOnBlock(location.Y);
                 }
-            else if (side == CollisionSide.Top)
-            {
-                mario.LandOnBlock(location.Y);
             }
         }
 
     }
-
 }

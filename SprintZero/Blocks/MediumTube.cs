@@ -17,7 +17,7 @@ public class MediumTube : IBlock
     {
         sprite = region;
 
-        location = new Vector2(800, 650);
+        location = new Vector2(0, 0);
 
     
         Collider = new Rectangle(
