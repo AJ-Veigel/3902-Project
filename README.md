@@ -29,4 +29,4 @@ Sprite reference links:
         Sprites used for this game are from Super Mario Bros created by Nintendo. The sprite sheets are allocated from https://www.mariouniverse.com/sprites-nes-smb/. 
 
 Music reference links:
-    Music was created by Nintendo. The music and sounds are sourced from https://sounds.spriters-resource.com/nes/supermariobros/asset/393915/ && 
+    Music was created by Nintendo. The music and sounds are sourced from https://sounds.spriters-resource.com/nes/supermariobros/asset/393915/ 

@@ -22,7 +22,7 @@ public class AboveGroundBreak : IBlock
     private bool movingUp = false;
     private bool movingDown = false;
     private float bounceHeight =20f; 
-    private float bounceSpeed = 4f;
+    private float bounceSpeed = 2f;
 
     public AboveGroundBreak(AnimatedSprite animated, ContentManager content)
     {
@@ -61,7 +61,7 @@ public class AboveGroundBreak : IBlock
         
         }
         
-        if (movingDown)
+         if (movingDown)
         {
             location = new Vector2(location.X, location.Y + bounceSpeed);
             if (location.Y >= startY)
@@ -103,7 +103,7 @@ public class AboveGroundBreak : IBlock
             {
                 if (side == CollisionSide.Left)
                 {
-                    mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width,mario.location.Y);
+                    mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
                 }
                 if (side == CollisionSide.Right)
                 {
