@@ -9,6 +9,7 @@ using SprintZero.Marios;
 
 public class FireMario : IMario
 {
+ public bool SlidingFlag { get; set; } = false;
     private SoundEffect jumpSound;
     private const float SCALE = 4f;
     private const float MOVE_SPEED = 4f;

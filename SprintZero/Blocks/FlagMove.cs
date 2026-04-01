@@ -21,6 +21,7 @@ public class FlagMove : IBlock
     public bool alreadyActived = false;
     private float bottomY;
 
+    public bool SlidingFlag { get; set; } = false;
     public FlagMove(AnimatedSprite sprite, ContentManager content)
     {
         flagSprite = sprite;
@@ -33,35 +34,37 @@ public class FlagMove : IBlock
         UpdateCollider();
     }
 
-    public void Update(GameTime gameTime)
+   public void Update(GameTime gameTime)
+{
+    if (marioSliding && slidingMario != null)
     {
-       
-        if (marioSliding && slidingMario != null)
+        // Slide Mario down
+        Vector2 newMarioPos = slidingMario.location;
+        newMarioPos.Y = Math.Min(newMarioPos.Y + marioSlideSpeed, bottomY - slidingMario.MarioCollider.Height);
+        slidingMario.location = newMarioPos;
 
-        {
-            Vector2 newMarioPos = slidingMario.location;
-            newMarioPos.Y = Math.Min(newMarioPos.Y + marioSlideSpeed, bottomY - slidingMario.MarioCollider.Height);
-            slidingMario.location = newMarioPos;
+        // Update collider and animation
+        slidingMario.MarioCollider = new Rectangle(
+            (int)slidingMario.location.X,
+            (int)slidingMario.location.Y,
+            slidingMario.MarioCollider.Width,
+            slidingMario.MarioCollider.Height
+        );
+        slidingMario.SlidingFlag = true; 
 
-            slidingMario.MarioCollider = new Rectangle(
-                (int)slidingMario.location.X,
-                (int)slidingMario.location.Y,
-                slidingMario.MarioCollider.Width,
-                slidingMario.MarioCollider.Height
-            );
-            if (slidingMario.location.Y >= bottomY - slidingMario.MarioCollider.Height)
-            {
-                slidingMario.EndFlagPole();
-                marioSliding = false;
-                slidingMario = null;
-               
-
-            }
         flagSprite.Update(gameTime);
-        }
 
-        UpdateCollider();
+        if (slidingMario.location.Y >= bottomY - slidingMario.MarioCollider.Height)
+        {
+            slidingMario.SlidingFlag = false; 
+            slidingMario.EndFlagPole();       
+            marioSliding = false;
+            slidingMario = null;
+        }
     }
+
+    UpdateCollider();
+}
 
     public void Draw(SpriteBatch spriteBatch)
     {
@@ -76,24 +79,27 @@ public class FlagMove : IBlock
             (int)flagSprite.Width,
             (int)flagSprite.Height);
     }
-
-    public void onCollision(IMario mario, CollisionSide theSide)
+public void onCollision(IMario mario, CollisionSide theSide)
+{
+    if (!marioSliding && mario.MarioCollider.Intersects(Collider))
     {
-        //Need to fix mario so that he will fall down with the flag and ensure that he only jumps on it once 
-        if (!marioSliding && mario.MarioCollider.Intersects(Collider))
-        {
-            marioSliding = true;
-            slidingMario = mario;
+        marioSliding = true;
+        slidingMario = mario;
 
-            flagSprite.Play();
-            flagSound.Play();
-            slidingMario.GrabFlagPole();
-            
-           
-            slidingMario.location = new Vector2(
-                location.X - slidingMario.MarioCollider.Width,
-                slidingMario.location.Y
-            );
-        }
+        flagSprite.Play();
+        flagSound.Play();
+        slidingMario.GrabFlagPole();
+
+        slidingMario.location = new Vector2(
+            location.X - slidingMario.MarioCollider.Width,
+            slidingMario.location.Y
+        );
+
+     
+        slidingMario.SlidingFlag = true;
+
+        
+        slidingMario.isOnGround = false;
     }
+}
 }

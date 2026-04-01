@@ -9,8 +9,6 @@ using SprintZero;
 public class Flower : ICollidable
 {
     private AnimatedSprite sprite;
-
-    private SoundEffect flowerSound;
     private Vector2 _location;
     public Vector2 location
     {
@@ -35,7 +33,6 @@ public class Flower : ICollidable
         startY = _location.Y;
         //Collider = new HitBox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
-        flowerSound = content.Load<SoundEffect>("Music/powerup");
     }
 
     public void Update(GameTime gameTime)
@@ -53,7 +50,6 @@ public class Flower : ICollidable
                 rising = false;
             }
         }
-        //Collider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
 

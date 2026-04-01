@@ -69,9 +69,7 @@ namespace SprintZero.PBCollision
             mario.isOnGround = true;
             mario.Falling = false;
             mario.Jumping = false;
-        }
-        else
-        {
+        }else{
 
             bool blockUnderMario = false;
             foreach (var b in blocks)
@@ -121,6 +119,4 @@ private static CollisionSide getCollisionSide(Rectangle mario, Rectangle block)
             return theSide;
         }
     }
-
-
 }
