@@ -1,5 +1,4 @@
 using System;
-using System.Net.Mime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -24,6 +23,7 @@ public class SmallMario : IMario
     public Boolean Crouching { get; set; }
     public Boolean Swimming { get; set; }
     public Boolean Moving { get; set; }
+    public  Boolean SlidingFlag {get;set;}
     private const float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
@@ -56,7 +56,7 @@ public class SmallMario : IMario
         jumpSound =  content.Load<SoundEffect>("Music/jumpsmall");
         deathSound = content.Load<SoundEffect>("Music/death");
     }
-    public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
+    public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos,ContentManager content)
     {
         Moving = false;
   
@@ -72,7 +72,9 @@ public class SmallMario : IMario
 
         marioSprites = new MarioSprite(smallMarioTexture, 0, location);
 
-       
+        jumpSound =  content.Load<SoundEffect>("Music/jumpsmall");
+        deathSound = content.Load<SoundEffect>("Music/death");
+
         MarioCollider = marioSprites.UpdateCollider();
 
         isOnGround = false;

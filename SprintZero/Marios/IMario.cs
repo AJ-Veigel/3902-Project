@@ -17,6 +17,7 @@ namespace SprintZero.Marios
         Boolean Swimming { get; set; }
         Boolean Crouching { get; set; }
         Boolean Falling { get; set; }
+        Boolean SlidingFlag {get;set;}
         void Move();
         void StopMove();
         void Jump();

@@ -30,7 +30,7 @@ public class BigMario : IMario
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private const float JUMP_POWER = -8f;
-
+ public bool SlidingFlag { get; set; } = false;
     public BigMario(TextureAtlas bigMarioTexture,ContentManager content)
     {
         Moving = false;

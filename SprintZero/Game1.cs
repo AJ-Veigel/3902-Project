@@ -16,6 +16,10 @@ using Microsoft.Xna.Framework.Media;
 using playerItemCollision;
 using EnemyPlayerCollision;
 using FireballCollisions;
+using Microsoft.Xna.Framework.Audio;
+using SoundManager;
+using Microsoft.Xna.Framework.Content;
+
 
 namespace SprintZero;
 
@@ -30,6 +34,7 @@ public class Game1 : Core
    private playerItemCollisions playerItemCollision;
    private FireballCollision fireballCollision;
     private Song backgroundMusic; 
+
     private List<IController> controllers;
     private List<ICollectable> items;
     private List<IBlock> blocks;
@@ -67,6 +72,7 @@ public class Game1 : Core
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
         camera = new OrthographicCamera(viewportAdapter);
         playerItemCollision = new playerItemCollisions();
+
         fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
     }
     protected override void LoadContent()
@@ -81,18 +87,18 @@ public class Game1 : Core
         bigBlockTexturePt2 = TextureAtlas.FromFile(Content, "images/BigBlocks2-definition.xml");
         mediumTube = bigBlockTexturePt2.GetRegion("mediumTube");
         flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
-
-
+      
+      Music.LoadContent(Content);
 
         blocks = new List<IBlock>
          {
-        //   new ground(ground), //done 
-       new questionMarkHit(questionBlockHit,Content), // semi-done: just need to add items to the question mark hit
+         //  new ground(ground,Content), //done 
+      // new questionMarkHit(questionBlockHit,Content), // semi-done: just need to add items to the question mark hit
         //   new smallTube(smallTube),  //done
        //       new CastleBlock(castle), // need to add end game animation 
-       //   new FlagMove(flagMove,Content), // need to add end game animation
-       // new MediumTube(mediumTube), //done
-     //    new AboveGroundBreak(aboveGroundBreak,Content) //done
+     //    new FlagMove(flagMove,Content), // need to add end game animation
+    //    new MediumTube(mediumTube), //done
+         new AboveGroundBreak(aboveGroundBreak) //done
          };
 
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
@@ -169,7 +175,7 @@ public class Game1 : Core
         level = new Level1(Content);
         level.Populate(map1);
         maps.Add(map1);
-
+      //   Music.music(Content);
         //Can move this into the same class as our map if wanted to or just leave it here
         backgroundMusic = Content.Load<Song>("Music/Background");
         MediaPlayer.IsRepeating = true;
@@ -327,7 +333,7 @@ public class Game1 : Core
         if (marioNumber == 0)
         {
             if (currentMarioNum > 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y + 64f);
-            currentMario = new SmallMario(smallMarioTexture, currentPosition);
+            currentMario = new SmallMario(smallMarioTexture, currentPosition,Content);
             currentMarioNum = marioNumber;
         }
         else if (marioNumber == 1)

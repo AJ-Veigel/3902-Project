@@ -10,8 +10,9 @@ To view different maps, left click in the top left corner of the screen.
 To view the different items, press 'u' or 'i'
 To view the different enemies, press 'o' or 'p'
 If you wish to reset the game, press 'r'
-If you wish to quit the game, press 'q' 
+If you wish to quit the game, press 'esc' 
 If you wish to pause the background music, press 'm'
+If you wish to unpause the background music, press 'n'
 
 Code reference links:
     Code from the MonoGameLibrary is written using MonoGame Tutorals. The exact breakdown is below. \

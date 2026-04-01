@@ -22,7 +22,7 @@ public class GameController
     }
     public void UpdateGame()
     {
-        if (currentState.IsKeyDown(Keys.Q) && previousState.IsKeyUp(Keys.Q))
+        if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
         {
             game.Exit();
         }
