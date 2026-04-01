@@ -6,7 +6,7 @@ using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Content;
 using SprintZero;
 
-public class Flower : ICollidable
+public class Flower : ICollectable
 {
     private AnimatedSprite sprite;
 

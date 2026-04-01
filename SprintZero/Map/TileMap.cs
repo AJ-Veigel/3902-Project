@@ -64,7 +64,6 @@ namespace SprintZero.Map
         }
         public void Draw(SpriteBatch batch, Rectangle cameraWorldBounds, int tileSize)
         {
-            // TODO: work with camera system to not draw every block ever.
             int leftTile = cameraWorldBounds.Left / tileSize - 2;
             int rightTile = cameraWorldBounds.Right / tileSize + 1;
             int topTile = cameraWorldBounds.Top / tileSize - 1;

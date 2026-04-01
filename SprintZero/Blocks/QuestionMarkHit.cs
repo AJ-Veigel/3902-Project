@@ -14,7 +14,7 @@ public class questionMarkHit : IBlock
 
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
-    private SoundEffect blockSound; 
+    private SoundEffect blockSound;
     private const float SCALE = 4f;
     private float startY;
     private float bounceHeight = 20f;
@@ -24,7 +24,7 @@ public class questionMarkHit : IBlock
     private bool movingUp = false;
     private bool movingDown = false;
 
-    public questionMarkHit(AnimatedSprite animated,ContentManager content)
+    public questionMarkHit(AnimatedSprite animated, ContentManager content)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
@@ -48,12 +48,14 @@ public class questionMarkHit : IBlock
                 location = new Vector2(location.X, location.Y - bounceSpeed);
                 if (location.Y <= startY - bounceHeight)
                 {
-                    movingUp= false;
+                    movingUp = false;
                     movingDown = true;
                     sprite.Play();
                 }
 
-            }   else if (movingDown) {
+            }
+            else if (movingDown)
+            {
                 location = new Vector2(location.X, startY);
                 if (location.Y >= startY)
                 {
@@ -61,13 +63,13 @@ public class questionMarkHit : IBlock
                     movingDown = false;
                     isHit = true;
                     sprite.PauseFrame(1);
-                    
+
                 }
-              
+
             }
-    }
+        }
         sprite.Update(gameTime);
-        Collider = new Rectangle((int)location.X,(int)location.Y,(int)sprite.Width,(int)sprite.Height);
+        Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -77,7 +79,7 @@ public class questionMarkHit : IBlock
 
     public void onCollision(IMario mario, CollisionSide side)
     {
-       
+
         if (!isHit)
         {
             if (side == CollisionSide.Bottom)
@@ -85,36 +87,39 @@ public class questionMarkHit : IBlock
                 isHit = true;
                 blockSound.Play();
                 movingUp = true;
-                movingDown = false;         
-            } else if (side == CollisionSide.Top)
+                movingDown = false;
+            }
+            else if (side == CollisionSide.Top)
             {
                 mario.LandOnBlock(location.Y);
             }
-             else if (side == CollisionSide.Left)
+            else if (side == CollisionSide.Left)
             {
-                mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width,mario.location.Y);
-            }  else if (side == CollisionSide.Right)
-            
-            {
-                mario.location = new Vector2(Collider.Right,mario.location.Y);
+                mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
             }
-            }
-             else if (isHit)
+            else if (side == CollisionSide.Right)
+
             {
-                if (side == CollisionSide.Top)
+                mario.location = new Vector2(Collider.Right, mario.location.Y);
+            }
+        }
+        else if (isHit)
+        {
+            if (side == CollisionSide.Top)
             {
                 mario.LandOnBlock(location.Y);
 
-            } 
-             if (side == CollisionSide.Left)
-            {
-                mario.location = new Vector2(Collider.Left -mario.MarioCollider.Width,mario.location.Y);
-            }  if (side == CollisionSide.Right)
-            {
-                mario.location = new Vector2(Collider.Right,mario.location.Y);
             }
+            if (side == CollisionSide.Left)
+            {
+                mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
+            }
+            if (side == CollisionSide.Right)
+            {
+                mario.location = new Vector2(Collider.Right, mario.location.Y);
             }
         }
-     
-    
+    }
+
+
 }

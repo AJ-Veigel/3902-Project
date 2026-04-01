@@ -67,10 +67,5 @@ namespace FireballCollisions
             }
         }
 
-        public void UpdateCurrentEnemy(int enemyIndex, IEnemy enemy)
-        {
-            currentEnemyCount = enemyIndex;
-            currentEnemy = enemy;
-        }
     }
 }

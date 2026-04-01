@@ -146,7 +146,7 @@ public class SmallMario : IMario
             jumpStartHeight = location.Y;
             isOnGround = false;
             marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-            jumpSound.Play();
+            jumpSound?.Play();
         }
     }
     public void Crouch()
@@ -200,14 +200,17 @@ public class SmallMario : IMario
 
     public void Update(GameTime gameTime)
     {
-       if (Jumping)
-{
-    yVelocity += GRAVITY;
-    location = new Vector2(location.X,location.Y+yVelocity);    marioSprites.SetLocation(location);
+        if (Jumping)
+        {
+            yVelocity += GRAVITY;
+            location = new Vector2(location.X, location.Y + yVelocity); marioSprites.SetLocation(location);
 
-    if (yVelocity > 0)
-        Falling = true;
-}
+            if (yVelocity > 0)
+            {
+                Falling = true;
+                Jumping = false;
+            }
+        }
 
         if (Falling)
         {

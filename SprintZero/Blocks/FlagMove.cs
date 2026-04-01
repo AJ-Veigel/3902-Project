@@ -57,7 +57,7 @@ public class FlagMove : IBlock
                
 
             }
-        flagSprite.Update(gameTime);
+            flagSprite.Update(gameTime);
         }
 
         UpdateCollider();

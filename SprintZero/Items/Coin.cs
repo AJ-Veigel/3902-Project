@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using SprintZero;
 
-public class Coin : ICollidable
+public class Coin : ICollectable
 {
     private AnimatedSprite sprite;
     private SoundEffect coinSound;

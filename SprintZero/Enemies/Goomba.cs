@@ -11,7 +11,7 @@ public class Goomba : IEnemy
     public Rectangle EnemyCollider { get; set; }
     public float VelocityX { get; set; } = 2f;
     public float VelocityY { get; set; } = 0f;
-    public bool onGround { get; set; } = true;
+    public bool onGround { get; set; } = false;
     private const float Gravity = 0.5f;
 
     private TextureRegion goombaRight1Sprite;

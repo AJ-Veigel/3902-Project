@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero;
 
-public class OneUp : ICollidable
+public class OneUp : ICollectable
 {
     private TextureRegion sprite;
     public Vector2 location { get; set; }

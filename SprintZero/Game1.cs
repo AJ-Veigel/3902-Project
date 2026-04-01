@@ -28,16 +28,15 @@ public class Game1 : Core
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
    private playerItemCollisions playerItemCollision;
-   private CheckEnemyCollisions CheckEnemyMarioCollisions;
    private FireballCollision fireballCollision;
     private Song backgroundMusic; 
     private List<IController> controllers;
-    private List<ICollidable> items;
+    private List<ICollectable> items;
     private List<IBlock> blocks;
     private List<IProjectile> projectiles;
     private List<IMario> marios;
     private List<IEnemy> enemies;
-    private ICollidable currentItem;
+    private ICollectable currentItem;
     private IBlock currentBlock;
     private IMario currentMario;
     private IEnemy currentEnemy;
@@ -68,7 +67,6 @@ public class Game1 : Core
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
         camera = new OrthographicCamera(viewportAdapter);
         playerItemCollision = new playerItemCollisions();
-        CheckEnemyMarioCollisions = new CheckEnemyCollisions();
         fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
     }
     protected override void LoadContent()
@@ -113,7 +111,7 @@ public class Game1 : Core
         // Fireballs will be added to the list as the user presses the shoot button.
         projectiles = new List<IProjectile>();
 
-        items = new List<ICollidable>
+        items = new List<ICollectable>
     {
         new Flower(flower,Content),
         new Coin(coin,Content),
@@ -213,7 +211,7 @@ public class Game1 : Core
         }
 
         currentEnemy.Update(gameTime);
-        CheckEnemyMarioCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
+        CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
 
 
         playerBlockCollision.checkBlockCollision(currentMario, blocks);
@@ -223,7 +221,7 @@ public class Game1 : Core
         );
 
         playerItemCollision.CheckCollisions(currentMario,currentItem,currentItemCount,currentMarioNum,SetMario);
-        CheckEnemyMarioCollisions.CheckEnemyMarioCollisions(currentEnemy,currentMario,Damage);
+        CheckEnemyCollisions.CheckEnemyMarioCollisions(currentEnemy,currentMario,Damage);
 
         // Camera
         if(currentMario.location.X > prevX)

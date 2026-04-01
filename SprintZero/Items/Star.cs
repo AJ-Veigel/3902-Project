@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero;
 
-public class Star : ICollidable
+public class Star : ICollectable
 {
     private AnimatedSprite sprite;
     public Vector2 location { get; set; }

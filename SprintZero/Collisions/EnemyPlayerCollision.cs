@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework;
 
 namespace EnemyPlayerCollision
 {
-    public class CheckEnemyCollisions
+    public static class CheckEnemyCollisions
     {
         // Handles enemy-Mario interactions
-        public void CheckEnemyMarioCollisions(IEnemy currentEnemy, IMario currentMario, Action Damage)
+        public static void CheckEnemyMarioCollisions(IEnemy currentEnemy, IMario currentMario, Action Damage)
         {
             if (currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) && !currentEnemy.Dead)
             {
@@ -27,7 +27,7 @@ namespace EnemyPlayerCollision
         }
 
   
-        public void CheckEnemyBlockCollisions(IEnemy currentEnemy, List<IBlock> blocks, TileMap map)
+        public static void CheckEnemyBlockCollisions(IEnemy currentEnemy, List<IBlock> blocks, TileMap map)
         {
             if (currentEnemy != null && !currentEnemy.Dead)
             {
