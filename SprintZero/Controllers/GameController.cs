@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Net.Mime;
 using Microsoft.Xna.Framework.Audio;
@@ -9,8 +10,7 @@ using SprintZero;
 public class GameController
 {
 
-    private Game1 game;
-    private Song backgroundMusic; 
+    private Game1 game; 
     private KeyboardState previousState, currentState;
 
     public GameController(KeyboardState prev, KeyboardState curr, Game1 game)
@@ -37,6 +37,7 @@ public class GameController
         if (currentState.IsKeyDown(Keys.N) && previousState.IsKeyUp(Keys.N))
         {
             game.play();
-        }
+        } 
+       
     }
 }

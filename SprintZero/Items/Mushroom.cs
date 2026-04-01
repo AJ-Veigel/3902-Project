@@ -19,7 +19,7 @@ public class Mushroom : ICollidable
     public Mushroom(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(300, 600);
+        location = new Vector2(300, 700);
         startY = location.Y;
         //Collider = new Rectangle((int)location.X, (int)location.Y, sprite.Width * (int)SCALE, sprite.Height * (int)SCALE);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));

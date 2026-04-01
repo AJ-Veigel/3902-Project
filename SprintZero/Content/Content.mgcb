@@ -137,6 +137,12 @@
 #begin Images/SmallMario-definition.xml
 /copy:Images/SmallMario-definition.xml
 
+#begin Music/1up.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/1up.wav
+
 #begin Music/Background.wav
 /importer:WavImporter
 /processor:SongProcessor
@@ -149,9 +155,63 @@
 /processorParam:Quality=Best
 /build:Music/bump.wav
 
+#begin Music/coin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/coin.wav
+
+#begin Music/death.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/death.wav
+
+#begin Music/fireball.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/fireball.wav
+
 #begin Music/flagpole.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Music/flagpole.wav
+
+#begin Music/gameover.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/gameover.wav
+
+#begin Music/item.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/item.wav
+
+#begin Music/jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/jump.wav
+
+#begin Music/jumpsmall.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/jumpsmall.wav
+
+#begin Music/pause.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/pause.wav
+
+#begin Music/powerup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/powerup.wav
 

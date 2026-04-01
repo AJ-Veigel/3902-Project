@@ -13,5 +13,6 @@ namespace SprintZero
         {
             return this.Collider.CollidesWith(this.location, other.Collider, other.location);
         }
+        
     }
 }

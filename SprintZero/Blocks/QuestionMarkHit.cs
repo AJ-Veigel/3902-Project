@@ -29,7 +29,7 @@ public class questionMarkHit : IBlock
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();
-        location = new Vector2(600, 702);
+        location = new Vector2(200, 200);
         startY = location.Y;
         blockSound = content.Load<SoundEffect>("Music/bump");
         Collider = new Rectangle(

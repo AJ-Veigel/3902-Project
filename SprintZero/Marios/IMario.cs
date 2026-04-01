@@ -31,5 +31,6 @@ namespace SprintZero.Marios
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
         void LandOnBlock(float blockTopY);
+    
     }
 }

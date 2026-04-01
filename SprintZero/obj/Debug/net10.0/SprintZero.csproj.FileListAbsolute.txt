@@ -241,3 +241,13 @@ C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\
 C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\flagpole.xnb
 C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\Background.ogg
 C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\Background.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\coin.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\death.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\pause.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\jump.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\jumpsmall.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\1up.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\fireball.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\gameover.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\item.xnb
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\powerup.xnb
