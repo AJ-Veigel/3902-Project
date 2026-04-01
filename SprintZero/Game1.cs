@@ -12,10 +12,10 @@ using SprintZero.PBCollision;
 using SprintZero.Map;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
-using System;
-using System.Linq;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using playerItemCollision;
+using EnemyPlayerCollision;
+using FireballCollisions;
 
 namespace SprintZero;
 
@@ -27,7 +27,9 @@ public class Game1 : Core
 
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
 
-   
+   private playerItemCollisions playerItemCollision;
+   private CheckEnemyCollisions CheckEnemyMarioCollisions;
+   private FireballCollision fireballCollision;
     private Song backgroundMusic; 
     private List<IController> controllers;
     private List<ICollidable> items;
@@ -35,7 +37,6 @@ public class Game1 : Core
     private List<IProjectile> projectiles;
     private List<IMario> marios;
     private List<IEnemy> enemies;
-
     private ICollidable currentItem;
     private IBlock currentBlock;
     private IMario currentMario;
@@ -66,6 +67,9 @@ public class Game1 : Core
         // Create camera with viewport adapter
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
         camera = new OrthographicCamera(viewportAdapter);
+        playerItemCollision = new playerItemCollisions();
+        CheckEnemyMarioCollisions = new CheckEnemyCollisions();
+        fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
     }
     protected override void LoadContent()
     {
@@ -85,10 +89,10 @@ public class Game1 : Core
         blocks = new List<IBlock>
          {
         //   new ground(ground), //done 
-     //   new questionMarkHit(questionBlockHit,Content), // semi-done: just need to add items to the question mark hit
+       new questionMarkHit(questionBlockHit,Content), // semi-done: just need to add items to the question mark hit
         //   new smallTube(smallTube),  //done
        //       new CastleBlock(castle), // need to add end game animation 
-          new FlagMove(flagMove,Content), 
+       //   new FlagMove(flagMove,Content), // need to add end game animation
        // new MediumTube(mediumTube), //done
      //    new AboveGroundBreak(aboveGroundBreak,Content) //done
          };
@@ -111,8 +115,8 @@ public class Game1 : Core
 
         items = new List<ICollidable>
     {
-        new Flower(flower),
-        new Coin(coin),
+        new Flower(flower,Content),
+        new Coin(coin,Content),
         new Star(star),
         new Mushroom(mushroom),
         new OneUp(oneup_mushroom)
@@ -129,9 +133,9 @@ public class Game1 : Core
 
         marios = new List<IMario>
     {
-        new SmallMario(smallMarioTexture),
-        new BigMario(bigMarioTexture),
-        new FireMario(fireMarioTexture)
+        new SmallMario(smallMarioTexture,Content),
+        new BigMario(bigMarioTexture,Content),
+        new FireMario(fireMarioTexture,Content)
     };
 
         goombaTexture = TextureAtlas.FromFile(Content, "images/goomba-definition.xml");
@@ -204,12 +208,12 @@ public class Game1 : Core
                     projectiles.RemoveAt(i);
                     continue;
                 }
-                collisionCheck(fb);
+                fireballCollision.collisionCheck(fb);
             }
         }
 
         currentEnemy.Update(gameTime);
-        CheckEnemyBlockCollisions(currentEnemy);
+        CheckEnemyMarioCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
 
 
         playerBlockCollision.checkBlockCollision(currentMario, blocks);
@@ -218,8 +222,8 @@ public class Game1 : Core
             map.getBlocksInRectangle(currentMario.MarioCollider)
         );
 
-        CheckCollisions();
-        CheckEnemyMarioCollisions();
+        playerItemCollision.CheckCollisions(currentMario,currentItem,currentItemCount,currentMarioNum,SetMario);
+        CheckEnemyMarioCollisions.CheckEnemyMarioCollisions(currentEnemy,currentMario,Damage);
 
         // Camera
         if(currentMario.location.X > prevX)
@@ -232,91 +236,6 @@ public class Game1 : Core
         base.Update(gameTime);
     }
 
-    public void CheckCollisions()
-    {
-        if (currentItem.RectCollider.Intersects(currentMario.MarioCollider))
-        {
-            // Checks to see if item is a fire flower and if mario is small or big
-            if (currentItemCount == 0 && currentMarioNum <= 1)
-            {
-                SetMario(2);
-            }
-            // Checks to see if the item is a mushroom and if mario is small
-            else if (currentItemCount == 3 && currentMarioNum == 0)
-            {
-                SetMario(1);
-            }
-        }
-    }
-
-    public void CheckEnemyMarioCollisions()
-    {
-        if (currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) && !currentEnemy.Dead)
-        {
-            if (currentMario.Falling && currentMario.MarioCollider.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
-            {
-                currentEnemy.Dead = true;
-            }
-            else
-            {
-                Damage();
-            }
-        }
-    }
-
-    public void CheckEnemyBlockCollisions(IEnemy enemy)
-    {
-        if (currentEnemy != null && !currentEnemy.Dead)
-        {
-
-            List<IBlock> nearbyBlocks = map.getBlocksInRectangle(currentEnemy.EnemyCollider);
-            nearbyBlocks.AddRange(blocks);
-
-            foreach (var block in nearbyBlocks)
-            {
-                Rectangle blockRect = block.Collider;
-                Rectangle enemyRect = currentEnemy.EnemyCollider;
-
-                if (enemyRect.Intersects(blockRect))
-                {
-                    float overlapX = Math.Min(enemyRect.Right, blockRect.Right) - Math.Max(enemyRect.Left, blockRect.Left);
-                    float overlapY = Math.Min(enemyRect.Bottom, blockRect.Bottom) - Math.Max(enemyRect.Top, blockRect.Top);
-
-
-                    //side collision
-                    if (overlapX < overlapY)
-                    {
-                        if (enemyRect.Center.X < blockRect.Center.X)
-                        {
-                            currentEnemy.position = new Vector2(currentEnemy.position.X - overlapX, currentEnemy.position.Y);
-                        }
-                        else
-                        {
-                            currentEnemy.position = new Vector2(currentEnemy.position.X + overlapX, currentEnemy.position.Y);
-                        }
-
-                        currentEnemy.ReverseDirection();
-                        //top/bottom collision
-                    }
-                    else
-                    {
-                        if (enemyRect.Center.Y < blockRect.Center.Y)
-                        {
-                            currentEnemy.position = new Vector2(currentEnemy.position.X, currentEnemy.position.Y - overlapY);
-                            currentEnemy.VelocityY = 0;
-                            currentEnemy.onGround = true;
-                        }
-                        else
-                        {
-                            currentEnemy.position = new Vector2(currentEnemy.position.X, currentEnemy.position.Y + overlapY);
-                            currentEnemy.VelocityY = 0;
-                        }
-                    }
-                }
-                currentEnemy.EnemyCollider = new Rectangle((int)currentEnemy.position.X, (int)currentEnemy.position.Y, enemyRect.Width, enemyRect.Height);
-            }
-        }
-    }
 
     protected override void Draw(GameTime gameTime)
     {
@@ -417,7 +336,7 @@ public class Game1 : Core
         {
             if (currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
             float velocity = currentMario.yVelocity;
-            currentMario = new BigMario(bigMarioTexture, currentPosition);
+            currentMario = new BigMario(bigMarioTexture, currentPosition, Content);
             currentMarioNum = marioNumber;
             currentMario.yVelocity = velocity;
             currentMario.Falling = true;
@@ -426,12 +345,12 @@ public class Game1 : Core
         {
             if (currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
             float velocity = currentMario.yVelocity;
-            currentMario = new FireMario(fireMarioTexture, currentPosition);
+            currentMario = new FireMario(fireMarioTexture, currentPosition,Content);
             currentMarioNum = marioNumber;
             currentMario.yVelocity = velocity;
             currentMario.Falling = true; 
         }
-        // currentMario.isOnGround = true;
+    
     }
     public void MarioJump()
     {
@@ -499,57 +418,6 @@ public class Game1 : Core
             currentLevel = 0;
         }
         // update function handles it from here.
-    }
-
-    public void collisionCheck(Fireball fb)
-    {
-        
-        for (int j = enemies.Count - 1; j >= 0; j--)
-        {
-            if (currentEnemyCount == j && !currentEnemy.Dead)
-            {
-                switch (enemies[j])
-                {
-                    case Goomba:
-                        if (fb.location.X < enemies[j].position.X + 16 &&
-                            fb.location.X + 8 > enemies[j].position.X &&
-                            fb.location.Y < enemies[j].position.Y + 16 &&
-                            fb.location.Y + 8 > enemies[j].position.Y)
-                        {
-                            // Goomba take damage
-                            enemies[j].Dead = true;
-                            fb.Pop();
-                        }
-                        break;
-                    case Koopa:
-                        if (fb.location.X < enemies[j].position.X + 16 &&
-                            fb.location.X + 8 > enemies[j].position.X &&
-                            fb.location.Y < enemies[j].position.Y + 24 &&
-                            fb.location.Y + 8 > enemies[j].position.Y)
-                        {
-                            // Koopa take damage
-                            enemies[j].Dead = true;
-                            fb.Pop();
-                        }
-                        break;
-                }
-            }
-        }
-        for (int k = blocks.Count - 1; k >= 0; k--)
-        {
-            switch (blocks[k])
-            {
-                case MediumTube:
-                    if (fb.location.X < blocks[k].location.X + 120 &&
-                        fb.location.X + 8 > blocks[k].location.X - 24 &&
-                        fb.location.Y < blocks[k].location.Y + 192 &&
-                        fb.location.Y + 8 > blocks[k].location.Y - 24)
-                    {
-                        fb.Pop(); 
-                    }
-                    break;
-            }
-        }
     }
 
     public void Reset()

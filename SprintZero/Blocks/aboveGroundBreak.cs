@@ -30,7 +30,7 @@ public class AboveGroundBreak : IBlock
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();
         blockSound = content.Load<SoundEffect>("Music/bump");
-        location = new Vector2(600, 500);
+        location = new Vector2(200, 200);
         startY = location.Y;
         velocity = Vector2.Zero;
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);

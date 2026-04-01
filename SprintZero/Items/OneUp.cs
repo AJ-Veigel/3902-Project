@@ -19,7 +19,7 @@ public class OneUp : ICollidable
     public OneUp(TextureRegion region)
     {
         sprite = region;
-        location = new Vector2(400, 600);
+        location = new Vector2(400, 700);
         startY = location.Y;
     }
     public void Update(GameTime gameTime)

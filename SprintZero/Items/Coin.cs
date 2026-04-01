@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using SprintZero;
 
 public class Coin : ICollidable
 {
     private AnimatedSprite sprite;
+    private SoundEffect coinSound;
     public Vector2 location { get; set; }
     public Hitbox Collider { get; set; }
     public Rectangle RectCollider { get; set; }
@@ -17,12 +20,14 @@ public class Coin : ICollidable
 
 
 
-    public Coin(AnimatedSprite animated)
+    public Coin(AnimatedSprite animated,ContentManager content)
     {
         sprite = animated;
         sprite.Scale = new Vector2(4f);
-        location = new Vector2(400, 600);
+        location = new Vector2(400, 700);
         startY = location.Y;
+        //update to play sound to happen during collision 
+        coinSound = content.Load<SoundEffect>("Music/coin");
     }
 
     public void Update(GameTime gameTime)

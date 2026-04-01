@@ -1,12 +1,15 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero.Marios;
 
 public class FireMario : IMario
 {
+    private SoundEffect jumpSound;
     private const float SCALE = 4f;
     private const float MOVE_SPEED = 4f;
     private const float GRAVITY = 0.2f;
@@ -39,7 +42,7 @@ public class FireMario : IMario
     private double throwTimerMs;
     private const double THROW_DURATION_MS = 180;
 
-    public FireMario(TextureAtlas fireMarioTexture)
+    public FireMario(TextureAtlas fireMarioTexture, ContentManager content)
     {
         Moving = false;
         // Defaults
@@ -58,9 +61,10 @@ public class FireMario : IMario
         MarioCollider = marioSprites.UpdateCollider();
 
         isOnGround = false;
+        jumpSound =  content.Load<SoundEffect>("Music/jumpsmall");
     }
 
-    public FireMario(TextureAtlas fireMarioTexture, Vector2 pos)
+    public FireMario(TextureAtlas fireMarioTexture, Vector2 pos,ContentManager content)
     {
         Moving = false;
         // Defaults
@@ -79,6 +83,7 @@ public class FireMario : IMario
         MarioCollider = marioSprites.UpdateCollider();
 
         isOnGround = false;
+        jumpSound =  content.Load<SoundEffect>("Music/jumpsmall");
     }
 
     public void Move()
@@ -159,15 +164,10 @@ public class FireMario : IMario
 
             // Update sprite
             marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
+            jumpSound.Play();
         }
     }
-    // if(Jumping || Falling)
-    //     return;
-    // jumpStartHeight = location.Y;
-    // Jumping = true;
-    // SetRegion(Direction ? jumpingRightSprite : jumpingLeftSprite);
-
-    public void GrabFlagPole()
+     public void GrabFlagPole()
     {
         Jumping = false;
         Falling = false;

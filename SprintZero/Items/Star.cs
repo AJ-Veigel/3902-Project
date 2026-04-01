@@ -22,7 +22,7 @@ public class Star : ICollidable
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
-        location = new Vector2(400, 600);
+        location = new Vector2(300, 700);
         startY = location.Y;
         //Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));

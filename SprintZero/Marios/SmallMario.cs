@@ -1,5 +1,8 @@
 using System;
+using System.Net.Mime;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero.Marios;
@@ -7,6 +10,7 @@ using SprintZero.Marios;
 public class SmallMario : IMario
 {
     private MarioSprite marioSprites;
+    private SoundEffect jumpSound, deathSound;
     public Vector2 location { get; set; }
     public Rectangle MarioCollider { get; set; }
     public float yVelocity { get; set; }
@@ -28,7 +32,7 @@ public class SmallMario : IMario
     private const float JUMP_POWER = -8f;
    
 
-    public SmallMario(TextureAtlas smallMarioTexture)
+    public SmallMario(TextureAtlas smallMarioTexture,ContentManager content)
     {
         Moving = false;
      
@@ -48,6 +52,9 @@ public class SmallMario : IMario
         MarioCollider = marioSprites.UpdateCollider();
 
         isOnGround = false;
+       
+        jumpSound =  content.Load<SoundEffect>("Music/jumpsmall");
+        deathSound = content.Load<SoundEffect>("Music/death");
     }
     public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos)
     {
@@ -139,6 +146,7 @@ public class SmallMario : IMario
             jumpStartHeight = location.Y;
             isOnGround = false;
             marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
+            jumpSound.Play();
         }
     }
     public void Crouch()
@@ -148,6 +156,7 @@ public class SmallMario : IMario
     public void Damage()
     {
         marioSprites.SetSprite("death");
+        deathSound.Play();
     }
     public void Fireball()
     {

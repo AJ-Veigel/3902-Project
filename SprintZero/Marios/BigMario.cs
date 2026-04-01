@@ -1,11 +1,14 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero.Marios;
 
 public class BigMario : IMario
 {
+    private SoundEffect jumpSound;
     public Vector2 location { get; set; }
     private MarioSprite marioSprites;
     public Rectangle MarioCollider { get; set; }
@@ -28,10 +31,10 @@ public class BigMario : IMario
     private const float GRAVITY = 0.2f;
     private const float JUMP_POWER = -8f;
 
-    public BigMario(TextureAtlas bigMarioTexture)
+    public BigMario(TextureAtlas bigMarioTexture,ContentManager content)
     {
         Moving = false;
-        // Defaults
+        
         location = new Vector2(300, 600);
         Direction = true;
 
@@ -43,12 +46,12 @@ public class BigMario : IMario
 
         marioSprites = new MarioSprite(bigMarioTexture, 1, location);
 
-        // Set Mario Collider
+       
         MarioCollider = marioSprites.UpdateCollider();
-
+        jumpSound =  content.Load<SoundEffect>("Music/jumpsmall");
         isOnGround = false;
     }
-    public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
+    public BigMario(TextureAtlas bigMarioTexture, Vector2 pos,ContentManager content)
     {
         Moving = false;
        
@@ -62,11 +65,10 @@ public class BigMario : IMario
         xVelocity = 0f;
 
         marioSprites = new MarioSprite(bigMarioTexture, 1, location);
-
-        // Set Mario Collider
         MarioCollider = marioSprites.UpdateCollider();
-
         isOnGround = false;
+        jumpSound =  content.Load<SoundEffect>("Music/jumpsmall");
+
     }
     public void Move()
     {
@@ -125,8 +127,10 @@ public class BigMario : IMario
 
             // Update sprite
             marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
+            
   
         }
+        jumpSound.Play();
     }
     public void Crouch()
     {
@@ -242,6 +246,4 @@ public class BigMario : IMario
     {
         marioSprites.Draw(spriteBatch);
     }
-
-
 }

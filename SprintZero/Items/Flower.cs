@@ -1,13 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Net.Mime;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
+using Microsoft.Xna.Framework.Content;
 using SprintZero;
 
 public class Flower : ICollidable
 {
     private AnimatedSprite sprite;
 
-
+    private SoundEffect flowerSound;
     private Vector2 _location;
     public Vector2 location
     {
@@ -24,14 +27,15 @@ public class Flower : ICollidable
 
     private bool rising = true;
 
-    public Flower(AnimatedSprite animated)
+    public Flower(AnimatedSprite animated,ContentManager content)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
-        _location = new Vector2(400, 600);
+        _location = new Vector2(400, 500);
         startY = _location.Y;
         //Collider = new HitBox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+        flowerSound = content.Load<SoundEffect>("Music/powerup");
     }
 
     public void Update(GameTime gameTime)
