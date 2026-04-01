@@ -5,7 +5,7 @@ namespace playerItemCollision;
 
 public class playerItemCollisions{
 
-    public void CheckCollisions(IMario mario, ICollidable item, int currentItemCount,int currentMarioNum,System.Action<int> setMario)
+    public void CheckCollisions(IMario mario, ICollidable item, int currentItemCount,int currentMarioNum, System.Action<int> setMario)
     {
         if (item.RectCollider.Intersects(mario.MarioCollider))
         {

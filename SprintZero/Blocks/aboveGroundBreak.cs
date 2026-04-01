@@ -5,12 +5,14 @@ using SprintZero.Marios;
 using SprintZero.blocks;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Audio;
+using SoundManager;
 
 
 public class AboveGroundBreak : IBlock
 {
-    private SoundEffect blockSound; 
+  
     private AnimatedSprite sprite;
+    private Music theSound;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
     private const float SCALE = 4f;
@@ -24,18 +26,16 @@ public class AboveGroundBreak : IBlock
     private float bounceHeight =20f; 
     private float bounceSpeed = 2f;
 
-    public AboveGroundBreak(AnimatedSprite animated, ContentManager content)
+    public AboveGroundBreak(AnimatedSprite animated)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();
-        blockSound = content.Load<SoundEffect>("Music/bump");
-        location = new Vector2(200, 200);
+        location = new Vector2(600, 600);
         startY = location.Y;
         velocity = Vector2.Zero;
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
-    
-
+        
     }
 
 
@@ -99,8 +99,7 @@ public class AboveGroundBreak : IBlock
         if(side == CollisionSide.Bottom && (mario is BigMario || mario is FireMario)){
             shouldBreak = true;
 
-        } else
-            {
+        } else{
                 if (side == CollisionSide.Left)
                 {
                     mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
@@ -116,7 +115,7 @@ public class AboveGroundBreak : IBlock
                 else if (side == CollisionSide.Bottom)
                 {
                     movingUp = true; 
-                    blockSound.Play();
+                    Music.blockSound.Play();
                     movingDown = false;
                   
                 }
@@ -125,7 +124,7 @@ public class AboveGroundBreak : IBlock
             {
                 isBroken = true;
                 playBreakingAnimation = true;
-                blockSound.Play();
+                Music.blockSound.Play();
                 mario.Jumping = true; 
                 mario.Falling = true;
             }
