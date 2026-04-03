@@ -62,6 +62,12 @@ namespace SprintZero.Map
 
             return list;
         }
+
+        public List<IBlock> getBlocksInRectangle(Rectangle rect, int tolerance)
+        {
+            rect.Inflate(tolerance, tolerance);
+            return this.getBlocksInRectangle(rect);
+        }
         public void Draw(SpriteBatch batch, Rectangle cameraWorldBounds, int tileSize)
         {
             int leftTile = cameraWorldBounds.Left / tileSize - 2;

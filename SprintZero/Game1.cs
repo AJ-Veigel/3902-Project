@@ -19,6 +19,7 @@ using FireballCollisions;
 using Microsoft.Xna.Framework.Audio;
 using SoundManager;
 using Microsoft.Xna.Framework.Content;
+using System.Linq;
 
 
 namespace SprintZero;
@@ -220,11 +221,17 @@ public class Game1 : Core
         CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
 
 
-        playerBlockCollision.checkBlockCollision(currentMario, blocks);
+        //playerBlockCollision.checkBlockCollision(currentMario, blocks);
+        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 16);
+
+        foreach (IBlock b in blocks) { // these extra blocks should be fit into TileMap somehow.
+            collidableBlocks.Add(b);
+        }
+
         playerBlockCollision.checkBlockCollision(
             currentMario,
-            map.getBlocksInRectangle(currentMario.MarioCollider)
-        );
+            collidableBlocks
+        ); // We should only call this method once per update.
 
         playerItemCollision.CheckCollisions(currentMario,currentItem,currentItemCount,currentMarioNum,SetMario);
         CheckEnemyCollisions.CheckEnemyMarioCollisions(currentEnemy,currentMario,Damage);

@@ -9,88 +9,76 @@ namespace SprintZero.PBCollision
 {
     public static class playerBlockCollision
     {
-   public static void checkBlockCollision(IMario mario, List<IBlock> allBlocks)
-{
-   
-    Rectangle mariowithExtraBound = mario.MarioCollider;
-    const int theBound = 16;
-    mariowithExtraBound.Inflate(theBound, theBound);
-
-    //this part is to ensure that mario is going to walk and not have a broken animation while walking on the ground
-    List<IBlock> blocks = new List<IBlock>();
-    foreach (var block in allBlocks)
-    {
-        if (block.Collider.Intersects(mariowithExtraBound))
-            blocks.Add(block);
-    }
-
-    Console.WriteLine($"Blocks checked: {blocks.Count}");
-
-    CollisionSide theSide;
-    bool standingOnBlock = false;
-    float highestBlockTop = float.MaxValue;
-    const int tolerance = 8;
-
-    foreach (IBlock block in blocks)
-    {
-        Rectangle marioRect = mario.MarioCollider;
-        Rectangle blockRect = block.Collider;
-
-        if (marioRect.Intersects(blockRect))
+        public static void checkBlockCollision(IMario mario, List<IBlock> allBlocks)
         {
-            theSide = getCollisionSide(marioRect, blockRect);
-           Console.WriteLine($"[Collision Debug] mario collided with block at {blockRect.Location} on {theSide} side");
-            block.onCollision(mario, theSide);
 
-            if (theSide == CollisionSide.Top)
+            Rectangle mariowithExtraBound = mario.MarioCollider;
+            const int theBound = 16;
+            mariowithExtraBound.Inflate(theBound, theBound);
+
+            //this part is to ensure that mario is going to walk and not have a broken animation while walking on the ground
+            List<IBlock> blocks = new List<IBlock>();
+            foreach (var block in allBlocks)
             {
-                standingOnBlock = true;
-                if (blockRect.Top < highestBlockTop)
-                    highestBlockTop = blockRect.Top;
+                if (block.Collider.Intersects(mariowithExtraBound)) 
+                    blocks.Add(block);
             }
-        }
 
-  
-        bool withinX = marioRect.Right > blockRect.Left && marioRect.Left < blockRect.Right;
-        bool nearTop = marioRect.Bottom >= blockRect.Top - tolerance && marioRect.Bottom <= blockRect.Top + tolerance;
+            Console.WriteLine($"Blocks checked: {blocks.Count}");
 
-        if (withinX && nearTop && mario.yVelocity >= 0)
-        {
-            standingOnBlock = true;
-            if (blockRect.Top < highestBlockTop)
-                highestBlockTop = blockRect.Top;
-        }
-
-        if (standingOnBlock)
-        {
-            if (!mario.isOnGround || mario.yVelocity > 0)
-                mario.LandOnBlock(highestBlockTop);
-
-            mario.isOnGround = true;
-            mario.Falling = false;
-            mario.Jumping = false;
-        }else{
-
+            CollisionSide theSide;
+            bool standingOnBlock = false;
             bool blockUnderMario = false;
-            foreach (var b in blocks)
+            float highestBlockTop = float.MaxValue;
+            const int tolerance = 8;
+
+            foreach (IBlock block in blocks)
             {
-                if (marioRect.Bottom >= b.Collider.Top - tolerance && marioRect.Bottom <= b.Collider.Top + tolerance &&
-                    marioRect.Right > b.Collider.Left && marioRect.Left < b.Collider.Right)
+                Rectangle marioRect = mario.MarioCollider;
+                Rectangle blockRect = block.Collider;
+
+                if (marioRect.Intersects(blockRect))
                 {
-                    blockUnderMario = true;
-                    break;
+                    theSide = getCollisionSide(marioRect, blockRect);
+                    Console.WriteLine($"[Collision Debug] mario collided with block at {blockRect.Location} on {theSide} side");
+                    block.onCollision(mario, theSide);
+
+                    if (theSide == CollisionSide.Top)
+                    {
+                        standingOnBlock = true;
+                        if (blockRect.Top < highestBlockTop)
+                            highestBlockTop = blockRect.Top;
+                    }
+                }
+
+
+                bool withinX = marioRect.Right > blockRect.Left && marioRect.Left < blockRect.Right;
+                bool nearTop = marioRect.Bottom >= blockRect.Top - tolerance && marioRect.Bottom <= blockRect.Top + tolerance;
+
+                if (withinX && nearTop && mario.yVelocity >= 0)
+                {
+                    standingOnBlock = true;
+                    if (blockRect.Top < highestBlockTop)
+                        highestBlockTop = blockRect.Top;
                 }
             }
 
-            if (!blockUnderMario && mario.yVelocity >= 0)
+            if (standingOnBlock)
+            {
+                if (!mario.isOnGround || mario.yVelocity > 0)
+                    mario.LandOnBlock(highestBlockTop);
+
+                mario.isOnGround = true;
+                mario.Falling = false;
+                mario.Jumping = false;
+            } 
+            else if (!blockUnderMario) 
             {
                 mario.isOnGround = false;
                 mario.Falling = true;
             }
         }
-    }
-}
-private static CollisionSide getCollisionSide(Rectangle mario, Rectangle block)
+        private static CollisionSide getCollisionSide(Rectangle mario, Rectangle block)
         {
             CollisionSide theSide;
             Rectangle overlap = Rectangle.Intersect(mario, block);
