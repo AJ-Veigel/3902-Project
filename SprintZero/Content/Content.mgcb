@@ -215,3 +215,6 @@
 /processorParam:Quality=Best
 /build:Music/powerup.wav
 
+#begin TileMaps/LevelOneBonus.xml
+/copy:TileMaps/LevelOneBonus.xml
+
