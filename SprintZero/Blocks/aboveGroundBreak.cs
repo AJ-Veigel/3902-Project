@@ -114,6 +114,7 @@ public class AboveGroundBreak : IBlock
                 }
                 else if (side == CollisionSide.Bottom)
                 {
+                    if (mario.yVelocity < 0) { mario.yVelocity = 0; }
                     movingUp = true; 
                     Music.blockSound.Play();
                     movingDown = false;
