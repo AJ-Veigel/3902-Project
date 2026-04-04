@@ -66,7 +66,7 @@ public class Flower : ICollectable
         if (RectCollider.Intersects(mario.MarioCollider))
         {
             Collected = true;
-            Music.itemSound.Play(); // plays the flower collection sound
+            Music.itemSound.Play(); 
             isCollected = true;
         }
     }
