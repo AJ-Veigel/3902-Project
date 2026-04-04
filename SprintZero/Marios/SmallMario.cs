@@ -29,8 +29,6 @@ public class SmallMario : IMario
     public Boolean Swimming { get; set; }
     public Boolean Moving { get; set; }
     public  Boolean SlidingFlag {get;set;}
-    private bool isDead =false;
-    private bool deathfalling = false;
     private const float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
@@ -164,13 +162,12 @@ public class SmallMario : IMario
     {
         marioSprites.SetSprite("death");
         Music.deathSound.Play();
-
         game.Reset();
 
     }
     public void Fireball()
     {
-
+        
     }
     public void GrabFlagPole()
     {

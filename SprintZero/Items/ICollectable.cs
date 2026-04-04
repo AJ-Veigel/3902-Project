@@ -8,6 +8,7 @@ namespace SprintZero
         Hitbox Collider { get; set; }
 
         Rectangle RectCollider { get; set; }
+        bool Collected {get;set;} 
 
         Hitbox.CollisionSide CollidesWith(ICollectable other)
         {

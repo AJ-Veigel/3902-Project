@@ -241,7 +241,17 @@ public class Game1 : Core
             prevX = currentMario.location.X;
         }
 
-
+        foreach (var item in items)
+        {
+            if (item is Coin coin)
+            {
+                coin.CheckCollisions(currentMario);
+            }
+            else if (item is Flower flower)
+            {
+                flower.CheckCollisions(currentMario);
+            }
+        }
         base.Update(gameTime);
     }
 

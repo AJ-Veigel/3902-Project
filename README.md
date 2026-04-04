@@ -31,3 +31,18 @@ Sprite reference links:
 
 Music reference links:
     Music was created by Nintendo. The music and sounds are sourced from https://sounds.spriters-resource.com/nes/supermariobros/asset/393915/ && https://youtu.be/L4PxvY2gjP0?si=QSvVBBe5VsaafvKW (converted to WAV file by: https://media.ytmp3.gg/youtube-to-wav-converter)
+
+
+This is currently a work in progress!
+Known issues: 
+   - During death animation, game will instantly restart rather than showing mario's death animation.
+   - The current way blocks are drawn, mario will also have collision at the block's position if they are all uncommented. 
+   - Fire Mario currently glides rather than walk. 
+
+Currently being worked on:
+    -Collision between blocks, items, and enemies.
+    -Maps
+    -Music
+    -HUD layout
+    -Game States
+    -Camera
