@@ -11,6 +11,7 @@ public class Star : ICollectable
     public Rectangle RectCollider { get; set; }
     private const float SCALE = 4f;
     private float horizontalSpeed = 2f;
+    public bool Collected {get;set;} =false;
     private float verticalSpeed = 0f;
     private float gravity = 0.3f;
     private float riseUp = 40f;

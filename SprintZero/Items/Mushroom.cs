@@ -13,6 +13,7 @@ public class Mushroom : ICollectable
     private float horizontalSpeed = 2f;
     private float verticalSpeed = 0f;
     private float gravity = 0.3f;
+    public bool Collected {get;set;} =false;
     private float riseUp = 40f;
     private float startY;
     private bool rising = true;

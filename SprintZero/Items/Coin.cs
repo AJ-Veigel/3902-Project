@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 using SprintZero;
 using SoundManager;
+using System.Runtime.CompilerServices;
+using SprintZero.Marios;
 
 public class Coin : ICollectable
 {
@@ -12,6 +12,7 @@ public class Coin : ICollectable
     public Vector2 location { get; set; }
     public Hitbox Collider { get; set; }
     public Rectangle RectCollider { get; set; }
+    public bool Collected {get;set;} =false;
     private float riseSpeed = 2f;
     private int rise = 40;
     private float startY;
@@ -36,7 +37,7 @@ public class Coin : ICollectable
             location = new Vector2(location.X, location.Y - riseSpeed);
             if (startY - location.Y >= rise)
             {
-                Music.coinSound.Play();
+           
                 rising = false;
             }
         }
@@ -46,13 +47,32 @@ public class Coin : ICollectable
             if (location.Y >= startY)
             {
                 location = new Vector2(location.X, startY);
-                Music.coinSound.Play();
                 rising = true;
             }
         }
+        RectCollider = new Rectangle((int)location.X, (int)location.Y,(int)sprite.Width,(int)sprite.Height);
+    }
+public bool CheckCollisions(IMario mario)
+    {
+       bool isCollected = false;
+       if (!Collected)
+        {
+            if(RectCollider.Intersects(mario.MarioCollider))
+            {
+                Collected= true;
+                Music.coinSound.Play();
+                isCollected = true;
+
+            }
+        } 
+    return isCollected;
+     
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        sprite.Draw(spriteBatch, location);
+       if (!Collected)
+        sprite.Draw(spriteBatch,location);
+        
+
     }
 }

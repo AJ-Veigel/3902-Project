@@ -6,6 +6,7 @@ using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Content;
 using SprintZero;
 using SoundManager;
+using SprintZero.Marios;
 
 public class Flower : ICollectable
 {
@@ -19,7 +20,7 @@ public class Flower : ICollectable
     public Hitbox Collider { get; set; }
     public Rectangle RectCollider { get; set; }
     private const float SCALE = 4f;
-
+    public bool Collected {get;set;} =false;
     private float startY;
     private float riseSpeed = 2f;
     private float riseHeight = 20f;
@@ -30,10 +31,11 @@ public class Flower : ICollectable
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
-        _location = new Vector2(400, 500);
+        _location = new Vector2(500, 600);
         startY = _location.Y;
         //Collider = new HitBox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
+
     }
 
     public void Update(GameTime gameTime)
@@ -49,14 +51,32 @@ public class Flower : ICollectable
             {
                 _location.Y = startY - riseHeight;
                 rising = false;
-                Music.itemSound.Play();
+               
             }
         }
         RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
+    
+    public bool CheckCollisions(IMario mario)
+{
+    bool isCollected = false;
+
+    if (!Collected)
+    {
+        if (RectCollider.Intersects(mario.MarioCollider))
+        {
+            Collected = true;
+            Music.itemSound.Play(); // plays the flower collection sound
+            isCollected = true;
+        }
+    }
+
+    return isCollected;
+}
 
     public void Draw(SpriteBatch spriteBatch)
     {
+        if(!Collected   )
         sprite.Draw(spriteBatch, _location);
     }
 }
