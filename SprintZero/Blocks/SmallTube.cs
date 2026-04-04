@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SprintZero.Marios;
-using System;
 
 public class smallTube : IBlock
 {
@@ -13,7 +12,6 @@ public class smallTube : IBlock
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
     
-    public bool GetCollidable() => true;
     public smallTube(TextureRegion region)
     {
         sprite = region;

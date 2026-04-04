@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero.Marios;
 using SprintZero.blocks;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Audio;
 using SoundManager;
 
 
@@ -12,7 +10,7 @@ public class AboveGroundBreak : IBlock
 {
   
     private AnimatedSprite sprite;
-    private Music theSound;
+
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
     private const float SCALE = 4f;
