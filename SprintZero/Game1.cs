@@ -118,8 +118,8 @@ public class Game1 : Core
 
         items = new List<ICollectable>
     {
-        new Flower(flower,Content),
-        new Coin(coin,Content),
+        new Flower(flower),
+        new Coin(coin),
         new Star(star),
         new Mushroom(mushroom),
         new OneUp(oneup_mushroom)
@@ -136,7 +136,7 @@ public class Game1 : Core
 
         marios = new List<IMario>
     {
-        new SmallMario(smallMarioTexture,Content),
+        new SmallMario(smallMarioTexture,Content,this),
         new BigMario(bigMarioTexture,Content),
         new FireMario(fireMarioTexture,Content)
     };
@@ -338,14 +338,14 @@ public class Game1 : Core
         if (marioNumber == 0)
         {
             if (currentMarioNum > 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y + 64f);
-            currentMario = new SmallMario(smallMarioTexture, currentPosition,Content);
+            currentMario = new SmallMario(smallMarioTexture, currentPosition,Content,this);
             currentMarioNum = marioNumber;
         }
         else if (marioNumber == 1)
         {
             if (currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
             float velocity = currentMario.yVelocity;
-            currentMario = new BigMario(bigMarioTexture, currentPosition, Content);
+            currentMario = new BigMario(bigMarioTexture, currentPosition);
             currentMarioNum = marioNumber;
             currentMario.yVelocity = velocity;
             currentMario.Falling = true;
@@ -431,8 +431,10 @@ public class Game1 : Core
 
     public void Reset()
     {
+         
         Initialize();
     }
+ 
     public void play()
     {
         MediaPlayer.Play(backgroundMusic);
