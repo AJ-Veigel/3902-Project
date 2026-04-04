@@ -16,10 +16,8 @@ using Microsoft.Xna.Framework.Media;
 using playerItemCollision;
 using EnemyPlayerCollision;
 using FireballCollisions;
-using Microsoft.Xna.Framework.Audio;
 using SoundManager;
-using Microsoft.Xna.Framework.Content;
-using System.Linq;
+
 
 
 namespace SprintZero;
@@ -93,13 +91,13 @@ public class Game1 : Core
 
         blocks = new List<IBlock>
          {
-         //  new ground(ground,Content), //done 
-      // new questionMarkHit(questionBlockHit,Content), // semi-done: just need to add items to the question mark hit
-        //   new smallTube(smallTube),  //done
-       //       new CastleBlock(castle), // need to add end game animation 
-     //    new FlagMove(flagMove,Content), // need to add end game animation
-    //    new MediumTube(mediumTube), //done
-         new AboveGroundBreak(aboveGroundBreak) //done
+         //  new ground(ground,Content), 
+       new questionMarkHit(questionBlockHit), 
+        //   new smallTube(smallTube),  
+       //       new CastleBlock(castle), 
+     //    new FlagMove(flagMove),
+    //    new MediumTube(mediumTube),
+    //     new AboveGroundBreak(aboveGroundBreak) 
          };
 
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");

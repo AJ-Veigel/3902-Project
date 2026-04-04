@@ -12,7 +12,7 @@ public class MediumTube : IBlock
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
     
-    public bool GetCollidable() => true;
+
     public MediumTube(TextureRegion region)
     {
         sprite = region;

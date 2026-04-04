@@ -6,12 +6,11 @@ namespace SoundManager;
 
 public class Music
 {
-    public static  SoundEffect itemSound, blockSound, jumpSmallSound,jumpBigSound,coinSound,deathSound,gameOver,oneupSound,fireballSound,flagpoleSound,pauseSound;
-    public static  Song background; 
+    public static  SoundEffect itemSound, blockSound, jumpSmallSound, jumpBigSound, coinSound, deathSound, gameOver, oneupSound, fireballSound,
+     flagpoleSound, pauseSound;
 
     public static void LoadContent(ContentManager content)
     {
-        background = content.Load<Song>("Music/Background");
         itemSound = content.Load<SoundEffect>("Music/item");
         blockSound = content.Load<SoundEffect>("Music/bump");
         jumpBigSound = content.Load<SoundEffect>("Music/jump");

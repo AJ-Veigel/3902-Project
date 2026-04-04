@@ -4,8 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SprintZero.Marios;
-using Microsoft.Xna.Framework.Content;
-
+using SoundManager;
 
 
 public class questionMarkHit : IBlock
@@ -14,7 +13,7 @@ public class questionMarkHit : IBlock
 
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
-    private SoundEffect blockSound;
+   
     private const float SCALE = 4f;
     private float startY;
     private float bounceHeight = 20f;
@@ -24,14 +23,14 @@ public class questionMarkHit : IBlock
     private bool movingUp = false;
     private bool movingDown = false;
 
-    public questionMarkHit(AnimatedSprite animated, ContentManager content)
+    public questionMarkHit(AnimatedSprite animated)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();
-        location = new Vector2(200, 200);
+        location = new Vector2(600, 500);
         startY = location.Y;
-        blockSound = content.Load<SoundEffect>("Music/bump");
+    
         Collider = new Rectangle(
             (int)location.X,
             (int)location.Y,
@@ -85,7 +84,7 @@ public class questionMarkHit : IBlock
             if (side == CollisionSide.Bottom)
             {
                 isHit = true;
-                blockSound.Play();
+                Music.blockSound.Play();
                 movingUp = true;
                 movingDown = false;
             }

@@ -5,7 +5,8 @@ using Microsoft.Xna.Framework.Content;
 using SprintZero.blocks;
 using SprintZero.Marios;
 using System;
-using Microsoft.Xna.Framework.Audio;
+using SoundManager;
+
 
 public class FlagMove : IBlock
 {
@@ -15,7 +16,7 @@ public class FlagMove : IBlock
 
     private bool marioSliding = false;
     private IMario slidingMario;
-    private SoundEffect flagSound;
+
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
     public bool alreadyActived = false;
@@ -27,7 +28,7 @@ public class FlagMove : IBlock
         flagSprite = sprite;
         flagSprite.Scale = new Vector2(SCALE);
         flagSprite.Pause();
-        flagSound = content.Load<SoundEffect>("Music/flagpole");
+  
         location = new Vector2(600, 70); 
         bottomY = 300f;
 
@@ -87,18 +88,13 @@ public void onCollision(IMario mario, CollisionSide theSide)
         slidingMario = mario;
 
         flagSprite.Play();
-        flagSound.Play();
+        Music.flagpoleSound.Play();
         slidingMario.GrabFlagPole();
-
         slidingMario.location = new Vector2(
             location.X - slidingMario.MarioCollider.Width,
             slidingMario.location.Y
         );
-
-     
         slidingMario.SlidingFlag = true;
-
-        
         slidingMario.isOnGround = false;
     }
 }
