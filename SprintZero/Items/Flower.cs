@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Content;
 using SprintZero;
+using SoundManager;
 
 public class Flower : ICollectable
 {
@@ -25,7 +26,7 @@ public class Flower : ICollectable
 
     private bool rising = true;
 
-    public Flower(AnimatedSprite animated,ContentManager content)
+    public Flower(AnimatedSprite animated)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
@@ -48,6 +49,7 @@ public class Flower : ICollectable
             {
                 _location.Y = startY - riseHeight;
                 rising = false;
+                Music.itemSound.Play();
             }
         }
         RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);

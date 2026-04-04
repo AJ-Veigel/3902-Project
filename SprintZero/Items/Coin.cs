@@ -4,11 +4,11 @@ using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using SprintZero;
+using SoundManager;
 
 public class Coin : ICollectable
 {
     private AnimatedSprite sprite;
-    private SoundEffect coinSound;
     public Vector2 location { get; set; }
     public Hitbox Collider { get; set; }
     public Rectangle RectCollider { get; set; }
@@ -20,14 +20,12 @@ public class Coin : ICollectable
 
 
 
-    public Coin(AnimatedSprite animated,ContentManager content)
+    public Coin(AnimatedSprite animated)
     {
         sprite = animated;
         sprite.Scale = new Vector2(4f);
         location = new Vector2(400, 700);
         startY = location.Y;
-        //update to play sound to happen during collision 
-        coinSound = content.Load<SoundEffect>("Music/coin");
     }
 
     public void Update(GameTime gameTime)
@@ -38,6 +36,7 @@ public class Coin : ICollectable
             location = new Vector2(location.X, location.Y - riseSpeed);
             if (startY - location.Y >= rise)
             {
+                Music.coinSound.Play();
                 rising = false;
             }
         }
@@ -47,6 +46,7 @@ public class Coin : ICollectable
             if (location.Y >= startY)
             {
                 location = new Vector2(location.X, startY);
+                Music.coinSound.Play();
                 rising = true;
             }
         }

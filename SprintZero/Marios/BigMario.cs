@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
+using SoundManager;
 using SprintZero.Marios;
 
 public class BigMario : IMario
 {
-    private SoundEffect jumpSound;
     public Vector2 location { get; set; }
     private MarioSprite marioSprites;
     public Rectangle MarioCollider { get; set; }
@@ -48,10 +48,10 @@ public class BigMario : IMario
 
        
         MarioCollider = marioSprites.UpdateCollider();
-        jumpSound =  content.Load<SoundEffect>("Music/jumpsmall");
+
         isOnGround = false;
     }
-    public BigMario(TextureAtlas bigMarioTexture, Vector2 pos,ContentManager content)
+    public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
     {
         Moving = false;
        
@@ -67,7 +67,7 @@ public class BigMario : IMario
         marioSprites = new MarioSprite(bigMarioTexture, 1, location);
         MarioCollider = marioSprites.UpdateCollider();
         isOnGround = false;
-        jumpSound =  content.Load<SoundEffect>("Music/jumpsmall");
+
 
     }
     public void Move()
@@ -130,7 +130,7 @@ public class BigMario : IMario
             
   
         }
-        jumpSound.Play();
+        Music.jumpBigSound.Play();
     }
     public void Crouch()
     {
