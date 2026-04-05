@@ -21,6 +21,8 @@ namespace SprintZero.Marios
         void Move();
         void StopMove();
         void Jump();
+
+        void Bounce();
         void Crouch();
         void Fireball();
         void Damage();

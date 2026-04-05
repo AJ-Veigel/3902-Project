@@ -151,6 +151,20 @@ public class SmallMario : IMario
             jumpSound?.Play();
         }
     }
+
+    public void Bounce()
+    {
+        yVelocity = -6f;
+
+        Jumping = true;
+        Falling = false;
+        isOnGround = false;
+        jumpStartHeight = location.Y;
+
+        marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
+
+        jumpSound.Play();
+    }
     public void Crouch()
     {
 

@@ -11,13 +11,12 @@ public class Koopa : IEnemy
 	private static TextureRegion[] green;
 	private static TextureRegion[] red;
 	private static TextureRegion[] blue;
-
-
-	private const float WALK_TIME = 0.25f; // in seconds
+    private const float WALK_TIME = 0.25f; // in seconds
 	private const float CLOSE_AWAKEN_TIME = 3.0f;
 	private const float AWAKEN_TIME = 5.0f;
 
 	private const float GRAVITY = 384.0f;
+
 
 	private const float WALK_SPEED = 192.0f; // In per second scale
 	private const float SHELL_SPEED = 384.0f;
@@ -27,14 +26,15 @@ public class Koopa : IEnemy
 	public bool onGround { get; set; }
 	private bool FacingLeft { get; set; }
 	private KoopaType Type { get; set; }
-	private enum KoopaStates { Walk1, Walk2, ShellStill, ShellStill2, ShellMoving }
-	private KoopaStates KoopaState { get; set; }
+	public enum KoopaStates { Walk1, Walk2, ShellStill, ShellStill2, ShellMoving }
+	public KoopaStates KoopaState { get; set; }
 	private float KoopaTimer { get; set; }
 	public Rectangle EnemyCollider { get; set; }
 	public float VelocityX { get; set; }
 	public float VelocityY { get; set; }
 
-	public static void LoadTextures(ContentManager content)
+   
+    public static void LoadTextures(ContentManager content)
 	{
 		TextureAtlas atlas = TextureAtlas.FromFile(content, "Images/koopa-definition.xml");
 		const int StateCount = 5;
@@ -73,7 +73,8 @@ public class Koopa : IEnemy
 	public void ReverseDirection()
 	{
 		FacingLeft = !FacingLeft;
-	}
+		VelocityX = -VelocityX;
+    }
 
 	private void UpdateCollider()
 	{
@@ -103,10 +104,35 @@ public class Koopa : IEnemy
 		}
 	}
 
-	public void Draw(SpriteBatch spriteBatch)
+    public void Stomped()
+    {
+        if (KoopaState == KoopaStates.Walk1 || KoopaState == KoopaStates.Walk2 || KoopaState == KoopaStates.ShellMoving)
+        {
+            KoopaState = KoopaStates.ShellStill;
+            VelocityX = 0;
+            KoopaTimer = AWAKEN_TIME; // Reset the timer to wake up
+
+			UpdateCollider();
+        }
+    }
+    public void Kicked(bool kickRight)
+    {
+        if (KoopaState == KoopaStates.ShellStill || KoopaState == KoopaStates.ShellStill2)
+        {
+            KoopaState = KoopaStates.ShellMoving;
+            FacingLeft = !kickRight;
+            VelocityX = kickRight ? SHELL_SPEED : -SHELL_SPEED;
+
+
+
+			UpdateCollider();
+        }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
 	{
 		float scaleX = FacingLeft ? 4.0f : -4.0f; // Normal scale if facing left, otherwise negative scale for facing right.
-		int offX = FacingLeft ? 0 : -16; // I suspect this is needed but idk for sure.
+		int offX = FacingLeft ? 0 : 64; // I suspect this is needed but idk for sure.
 		TextureRegion[] sprites = null;
 		if (Type == KoopaType.Green)
 		{
@@ -120,8 +146,11 @@ public class Koopa : IEnemy
 		{
 			sprites = blue;
 		}
+
 		TextureRegion texture = sprites[(int)KoopaState];
-		texture.Draw(spriteBatch, new Vector2(position.X + offX, position.Y), Color.White, 0.0f, new Vector2(0, 0), new Vector2(scaleX, 4.0f), SpriteEffects.None, 0.0f);
+        SpriteEffects effect = FacingLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally; //this is what I used to make Mario kicking it from both directions work;
+		//as it initially only worked when being kicked from the right. I had to change scaleX in the below line to "4.0," not sure how to make it work with scaleX right now
+        texture.Draw(spriteBatch, new Vector2(position.X + offX, position.Y), Color.White, 0.0f, new Vector2(0, 0), new Vector2(4.0f, 4.0f), SpriteEffects.None, 0.0f);
 	}
 
 	private void HandleTimer()
@@ -185,5 +214,9 @@ public class Koopa : IEnemy
 			this.VelocityY = 0;
 		}
 	}
+
+
+
+    
 }
 
