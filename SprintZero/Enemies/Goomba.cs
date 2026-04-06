@@ -12,7 +12,9 @@ public class Goomba : IEnemy
     public float VelocityX { get; set; } = 2f;
     public float VelocityY { get; set; } = 0f;
     public bool onGround { get; set; } = false;
+    public bool Despawn { get; set; }
     private const float Gravity = 0.5f;
+    private float deathTimer = 0f; 
 
     private TextureRegion goombaRight1Sprite;
     private TextureRegion goombaLeft1Sprite;
@@ -42,7 +44,7 @@ public class Goomba : IEnemy
     }
     public void Update(GameTime gameTime)
     {
-        if (currentSprite == null)
+        if (currentSprite == null && !Dead)
         {
             currentSprite = goombaRight1Sprite;
         }
@@ -82,9 +84,24 @@ public class Goomba : IEnemy
         }
         else
         {
-            currentSprite = goombaFlat1Sprite;
-            currentASprite = goombaHit1Sprite;
             EnemyCollider = new Rectangle(0, 0, 0, 0);
+            if (!Despawn)
+            {
+                deathTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (deathTimer < 1.0f)
+                {
+                    currentSprite = goombaFlat1Sprite;
+                    currentASprite = goombaHit1Sprite;
+                }
+                else
+                {
+                    Despawn = true;
+                    currentSprite = null;
+                    currentASprite = null;
+                }
+            }
+
         }
     }
     public void Draw(SpriteBatch spriteBatch)
@@ -95,6 +112,7 @@ public class Goomba : IEnemy
             spriteBatch.Draw(currentSprite.Texture, position, currentSprite.SourceRectangle, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0f);
 
         }
+        
         else if (currentASprite != null)
         {
 
