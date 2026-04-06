@@ -27,8 +27,8 @@ public class Koopa : IEnemy
 	public bool onGround { get; set; }
 	private bool FacingLeft { get; set; }
 	private KoopaType Type { get; set; }
-	private enum KoopaStates { Walk1, Walk2, ShellStill, ShellStill2, ShellMoving }
-	private KoopaStates KoopaState { get; set; }
+	public enum KoopaStates { Walk1, Walk2, ShellStill, ShellStill2, ShellMoving }
+	public KoopaStates KoopaState { get; set; }
 	private float KoopaTimer { get; set; }
 	public Rectangle EnemyCollider { get; set; }
 	public float VelocityX { get; set; }
@@ -50,12 +50,12 @@ public class Koopa : IEnemy
 		red[(int)KoopaStates.Walk2] = atlas.GetRegion("redWalk2");
 		red[(int)KoopaStates.ShellStill] = atlas.GetRegion("redShell1");
 		red[(int)KoopaStates.ShellStill2] = atlas.GetRegion("redShell2");
-		red[(int)KoopaStates.ShellMoving] = atlas.GetRegion("redShell1");
+		red[(int)KoopaStates.ShellMoving] = atlas.GetRegion("redShell2");
 		blue[(int)KoopaStates.Walk1] = atlas.GetRegion("blueWalk1");
 		blue[(int)KoopaStates.Walk2] = atlas.GetRegion("blueWalk2");
 		blue[(int)KoopaStates.ShellStill] = atlas.GetRegion("blueShell1");
 		blue[(int)KoopaStates.ShellStill2] = atlas.GetRegion("blueShell2");
-		blue[(int)KoopaStates.ShellMoving] = atlas.GetRegion("blueShell1");
+		blue[(int)KoopaStates.ShellMoving] = atlas.GetRegion("blueShell2");
 	}
 
 	public Koopa(KoopaType type = KoopaType.Green)
@@ -103,7 +103,30 @@ public class Koopa : IEnemy
 		}
 	}
 
-	public void Draw(SpriteBatch spriteBatch)
+    public void Stomped()
+    {
+        if (KoopaState == KoopaStates.Walk1 || KoopaState == KoopaStates.Walk2 || KoopaState == KoopaStates.ShellMoving)
+        {
+            KoopaState = KoopaStates.ShellStill;
+            VelocityX = 0;
+            KoopaTimer = AWAKEN_TIME; // Reset the timer to wake up
+
+            UpdateCollider();
+        }
+    }
+    public void Kicked(bool kickRight)
+    {
+        if (KoopaState == KoopaStates.ShellStill || KoopaState == KoopaStates.ShellStill2)
+        {
+            KoopaState = KoopaStates.ShellMoving;
+            FacingLeft = !kickRight;
+            VelocityX = kickRight ? SHELL_SPEED : -SHELL_SPEED;
+
+            UpdateCollider();
+        }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
 	{
 		SpriteEffects effect = FacingLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 		int offX = FacingLeft ? 0 : -16; // I suspect this is needed but idk for sure.

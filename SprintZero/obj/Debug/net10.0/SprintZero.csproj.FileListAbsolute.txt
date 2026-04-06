@@ -122,7 +122,6 @@ C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\Sprin
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.AssemblyInfoInputs.cache
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.AssemblyInfo.cs
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.csproj.CoreCompileInputs.cache
-C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.sourcelink.json
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.dll
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\refint\SprintZero.dll
 C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\obj\Debug\net10.0\SprintZero.pdb
@@ -266,3 +265,17 @@ C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net10.0\Content\Mu
 C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\pause.xnb
 C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\powerup.xnb
 C:\Users\adamt\source\repos\3902-Project\SprintZero\bin\Debug\net10.0\MonoGame.Extended.dll
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\1up.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\Background.ogg
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\Background.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\bump.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\coin.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\death.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\fireball.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\flagpole.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\gameover.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\item.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\jump.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\jumpsmall.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\pause.xnb
+C:\Users\thepi\Documents\VisualStudio\Project\SprintZero\bin\Debug\net10.0\Content\Music\powerup.xnb

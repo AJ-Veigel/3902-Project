@@ -17,16 +17,34 @@ namespace EnemyPlayerCollision
             {
                 if (currentMario.Falling && currentMario.MarioCollider.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
                 {
-                    currentEnemy.Dead = true;
+                    if (currentEnemy is Koopa koopa)
+                    {
+                        koopa.Stomped();
+                    }
+                    else
+                    {
+                        currentEnemy.Dead = true;
+                    }
+
+                    currentMario.Bounce();
+
                 }
                 else
                 {
-                    Damage();
+                    if (currentEnemy is Koopa koopa && koopa.KoopaState == Koopa.KoopaStates.ShellStill)
+                    {
+                        bool kickRight = currentMario.MarioCollider.Center.X < koopa.EnemyCollider.Center.X;
+                        koopa.Kicked(kickRight);
+                    }
+                    else
+                    {
+                        Damage();
+                    }
                 }
             }
         }
 
-  
+
         public static void CheckEnemyBlockCollisions(IEnemy currentEnemy, List<IBlock> blocks, TileMap map)
         {
             if (currentEnemy != null && !currentEnemy.Dead)

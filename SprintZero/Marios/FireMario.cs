@@ -169,7 +169,21 @@ public class FireMario : IMario
             Music.jumpBigSound.Play();
         }
     }
-   
+
+    public void Bounce()
+    {
+        yVelocity = -6f;
+
+        Jumping = true;
+        Falling = false;
+        isOnGround = false;
+        jumpStartHeight = location.Y;
+
+        marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
+
+        Music.jumpBigSound.Play();
+    }
+
     public void Crouch()
     {
         if (!Falling && !Jumping && !Swimming)
