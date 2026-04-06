@@ -45,7 +45,7 @@ public class Koopa : IEnemy
 		green[(int)KoopaStates.Walk2] = atlas.GetRegion("greenWalk2");
 		green[(int)KoopaStates.ShellStill] = atlas.GetRegion("greenShell1");
 		green[(int)KoopaStates.ShellStill2] = atlas.GetRegion("greenShell2");
-		green[(int)KoopaStates.ShellMoving] = atlas.GetRegion("greenShell1");
+		green[(int)KoopaStates.ShellMoving] = atlas.GetRegion("greenShell2");
 		red[(int)KoopaStates.Walk1] = atlas.GetRegion("redWalk1");
 		red[(int)KoopaStates.Walk2] = atlas.GetRegion("redWalk2");
 		red[(int)KoopaStates.ShellStill] = atlas.GetRegion("redShell1");
@@ -63,7 +63,7 @@ public class Koopa : IEnemy
 		Dead = false;
 		onGround = false;
 		position = new Vector2(600.0f, 660.0f);
-		FacingLeft = true;
+		FacingLeft = false;
 		KoopaState = KoopaStates.Walk1;
 		VelocityX = -WALK_SPEED;
 		KoopaTimer = WALK_TIME;
@@ -105,7 +105,7 @@ public class Koopa : IEnemy
 
 	public void Draw(SpriteBatch spriteBatch)
 	{
-		float scaleX = FacingLeft ? 4.0f : -4.0f; // Normal scale if facing left, otherwise negative scale for facing right.
+		SpriteEffects effect = FacingLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 		int offX = FacingLeft ? 0 : -16; // I suspect this is needed but idk for sure.
 		TextureRegion[] sprites = null;
 		if (Type == KoopaType.Green)
@@ -121,7 +121,7 @@ public class Koopa : IEnemy
 			sprites = blue;
 		}
 		TextureRegion texture = sprites[(int)KoopaState];
-		texture.Draw(spriteBatch, new Vector2(position.X + offX, position.Y), Color.White, 0.0f, new Vector2(0, 0), new Vector2(scaleX, 4.0f), SpriteEffects.None, 0.0f);
+		texture.Draw(spriteBatch, new Vector2(position.X + offX, position.Y), Color.White, 0.0f, new Vector2(0, 0), new Vector2(4.0f, 4.0f), effect, 0.0f);
 	}
 
 	private void HandleTimer()
