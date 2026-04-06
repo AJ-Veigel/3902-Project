@@ -63,7 +63,7 @@ public class Koopa : IEnemy
 		Dead = false;
 		onGround = false;
 		position = new Vector2(600.0f, 660.0f);
-		FacingLeft = false;
+		FacingLeft = true;
 		KoopaState = KoopaStates.Walk1;
 		VelocityX = -WALK_SPEED;
 		KoopaTimer = WALK_TIME;
@@ -121,6 +121,8 @@ public class Koopa : IEnemy
             KoopaState = KoopaStates.ShellMoving;
             FacingLeft = !kickRight;
             VelocityX = kickRight ? SHELL_SPEED : -SHELL_SPEED;
+
+            this.position += new Vector2(kickRight ? 8.0f : -8.0f, 0);
 
             UpdateCollider();
         }
