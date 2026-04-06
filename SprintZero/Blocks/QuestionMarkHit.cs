@@ -78,7 +78,7 @@ public class questionMarkHit : IBlock
 
     public void onCollision(IMario mario, CollisionSide side)
     {
-
+        if (side == CollisionSide.Bottom && mario.yVelocity < 0.0) { mario.yVelocity = 0; } // bump.
         if (!isHit)
         {
             if (side == CollisionSide.Bottom)
@@ -109,11 +109,11 @@ public class questionMarkHit : IBlock
                 mario.LandOnBlock(location.Y);
 
             }
-            if (side == CollisionSide.Left)
+            else if (side == CollisionSide.Left)
             {
                 mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
             }
-            if (side == CollisionSide.Right)
+            else if (side == CollisionSide.Right)
             {
                 mario.location = new Vector2(Collider.Right, mario.location.Y);
             }
