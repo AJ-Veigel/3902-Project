@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
+using SoundManager;
 using SprintZero;
+using SprintZero.Marios;
 
 public class Star : ICollectable
 {
@@ -51,11 +53,27 @@ public class Star : ICollectable
             verticalSpeed = 0f;
             location = new Vector2(location.X + horizontalSpeed, location.Y);
         }
-        //Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
+       
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
+    }
+
+public bool CheckCollisions(IMario mario)
+    {
+        bool isCollected = false;
+        if (!Collected)
+        {
+            if (RectCollider.Intersects(mario.MarioCollider))
+            {
+                Collected = true;
+                Music.oneupSound.Play();
+                isCollected = true;
+            }
+        }
+        return isCollected;
     }
     public void Draw(SpriteBatch spriteBatch)
     {
+        if(!Collected)
         sprite.Draw(spriteBatch, location);
     }
 
