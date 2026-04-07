@@ -46,6 +46,7 @@ namespace SprintZero.PBCollision
                     if (theSide == CollisionSide.Top)
                     {
                         standingOnBlock = true;
+                        blockUnderMario = true;
                         if (blockRect.Top < highestBlockTop)
                             highestBlockTop = blockRect.Top;
                     }
@@ -58,6 +59,7 @@ namespace SprintZero.PBCollision
                 if (withinX && nearTop && mario.yVelocity >= 0)
                 {
                     standingOnBlock = true;
+                    blockUnderMario = true;
                     if (blockRect.Top < highestBlockTop)
                         highestBlockTop = blockRect.Top;
                 }

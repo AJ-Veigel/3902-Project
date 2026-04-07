@@ -29,12 +29,12 @@ public class BigMario : IMario
     private float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
-    private const float JUMP_POWER = -8f;
- public bool SlidingFlag { get; set; } = false;
-    public BigMario(TextureAtlas bigMarioTexture,ContentManager content)
+    private const float JUMP_POWER = -12f;
+    public bool SlidingFlag { get; set; } = false;
+    public BigMario(TextureAtlas bigMarioTexture, ContentManager content)
     {
         Moving = false;
-        
+
         location = new Vector2(300, 600);
         Direction = true;
 
@@ -46,7 +46,7 @@ public class BigMario : IMario
 
         marioSprites = new MarioSprite(bigMarioTexture, 1, location);
 
-       
+
         MarioCollider = marioSprites.UpdateCollider();
 
         isOnGround = false;
@@ -54,7 +54,7 @@ public class BigMario : IMario
     public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
     {
         Moving = false;
-       
+
         location = pos;
         Direction = true;
 
@@ -127,8 +127,8 @@ public class BigMario : IMario
 
             // Update sprite
             marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-            
-  
+
+
         }
         Music.jumpBigSound.Play();
     }
@@ -213,7 +213,7 @@ public class BigMario : IMario
                 yVelocity += GRAVITY;
             location = new Vector2(location.X, location.Y + yVelocity);
             marioSprites.SetLocation(location);
-        
+
 
             if (isOnGround)
             {
@@ -237,9 +237,6 @@ public class BigMario : IMario
             yVelocity = 0f;
         }
 
-        MarioCollider = marioSprites.UpdateCollider();
-
-
         if ((Jumping || Falling) && !isOnGround)
         {
             if (Direction)
@@ -249,12 +246,8 @@ public class BigMario : IMario
         }
 
         marioSprites.Update(gameTime);
-
         MarioCollider = marioSprites.UpdateCollider();
 
-
-        marioSprites.Update(gameTime);
-        MarioCollider = marioSprites.UpdateCollider();
     }
     public void Draw(SpriteBatch spriteBatch)
     {
