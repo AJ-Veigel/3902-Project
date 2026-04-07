@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SprintZero.blocks;
+
 
 namespace SprintZero.Map
 {
@@ -88,6 +90,27 @@ namespace SprintZero.Map
                 }
             }
         }
+        public void Update(GameTime gametime, Rectangle cameraWorldBounds, int tileSize)
+        {
+            int leftTile = cameraWorldBounds.Left / tileSize - 2;
+            int rightTile = cameraWorldBounds.Right / tileSize + 1;
+            int topTile = cameraWorldBounds.Top / tileSize - 1;
+            int bottomTile = cameraWorldBounds.Bottom / tileSize + 1;
+
+            for (int x = leftTile; x <= rightTile; x++)
+            {
+                for (int y = topTile; y <= bottomTile; y++)
+                {
+                    Point tilePos = new Point(x, y);
+
+                    if (map.TryGetValue(tilePos, out IBlock block))
+                    {
+                        block.Update(gametime);
+                    }
+                }
+            }
+        }
+
         public List<IBlock> getAllBlocks()
         {
             return new List<IBlock>(map.Values);

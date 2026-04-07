@@ -23,12 +23,12 @@ public class questionMarkHit : IBlock
     private bool movingUp = false;
     private bool movingDown = false;
 
-    public questionMarkHit(AnimatedSprite animated)
+    public questionMarkHit(AnimatedSprite animated, Vector2 pos)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();
-        location = new Vector2(600, 500);
+        location = pos;
         startY = location.Y;
     
         Collider = new Rectangle(

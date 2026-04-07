@@ -9,9 +9,8 @@ namespace SprintZero.Map
     public interface ILevel
     {
         Color BGColor { get; set; }
-        void Populate(TileMap tileMap);
-
         List<IEnemy> GetEnemies();
+        void FromFile(TileMap tilemap);
     }
 
 }

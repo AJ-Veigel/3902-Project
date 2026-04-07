@@ -137,6 +137,12 @@
 #begin Images/SmallMario-definition.xml
 /copy:Images/SmallMario-definition.xml
 
+#begin LevelData/LevelOne.xml
+/copy:LevelData/LevelOne.xml
+
+#begin LevelData/LevelOneBonus.xml
+/copy:LevelData/LevelOneBonus.xml
+
 #begin Music/1up.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

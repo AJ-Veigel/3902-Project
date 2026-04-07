@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using MonoGame.Extended.Tiled;
 using MonoGameLibrary.Graphics;
-using SpriteZero.Enemies;
 using SprintZero.blocks;
+using SpriteZero.Enemies;
+using System.IO;
+using System.Xml;
+using System.Xml.Linq;
+using System;
 
 namespace SprintZero.Map
 {
@@ -20,10 +18,12 @@ namespace SprintZero.Map
         public Color BGColor { get; set; }
 
         private ContentManager content { get; set; }
+        private string filename;
 
-        public TestLevel(ContentManager content)
+        public TestLevel(ContentManager content, string filename)
         {
             this.BGColor = Color.AliceBlue;
+            this.filename = filename;
             this.content = content;
         }
         public List<IEnemy> GetEnemies()
@@ -48,6 +48,55 @@ namespace SprintZero.Map
                 {
                     if (x % 2 == 0 && x > 12 && x < 38 && y < 15) { continue; }
                     placeGroundAt(tileMap, ground, new Point(x, y));
+                }
+            }
+        }
+
+        public void FromFile(TileMap tilemap)
+        {
+            string filePath = Path.Combine(content.RootDirectory, filename);
+
+            using (Stream stream = TitleContainer.OpenStream(filePath))
+            {
+                using (XmlReader reader = XmlReader.Create(stream))
+                {
+                    XDocument doc = XDocument.Load(reader);
+                    XElement root = doc.Root;
+
+
+                    XElement tilesElement = root.Element("Blocks");
+
+                    // Split the value of the tiles data into rows by splitting on
+                    // the new line character
+                    string[] rows = tilesElement.Value.Trim().Split('\n', StringSplitOptions.RemoveEmptyEntries);
+
+                    // Split the value of the first row to determine the total number of columns
+                    int columnCount = rows[0].Split(" ", StringSplitOptions.RemoveEmptyEntries).Length;
+
+                    // Process each row
+                    for (int row = 0; row < rows.Length; row++)
+                    {
+                        // Split the row into individual columns
+                        string[] columns = rows[row].Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+                        // Process each column of the current row
+                        for (int column = 0; column < columnCount; column++)
+                        {
+
+                            Point p = new Point(row, column);
+                            Vector2 pos = new Vector2(row * 64, column * 64);
+
+                            // Get the tileset index for this location
+                            int tilesetIndex = int.Parse(columns[column]);
+
+                            //IBlock block = getBlockFromInt(tilesetIndex, pos);
+
+                            //addBlockAt(p, block);
+
+                            // Add that region to the tilemap at the row and column location
+                            //tilemap.SetTile(column, row, tilesetIndex);
+                        }
+                    }
                 }
             }
         }
