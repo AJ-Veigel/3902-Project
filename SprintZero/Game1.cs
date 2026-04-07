@@ -89,10 +89,12 @@ public class Game1 : Core
       
       Music.LoadContent(Content);
 
+        Vector2 blockPos = new Vector2(600, 500);
+
         blocks = new List<IBlock>
          {
          //  new ground(ground,Content), 
-       new questionMarkHit(questionBlockHit), 
+       new questionMarkHit(questionBlockHit, blockPos) 
         //   new smallTube(smallTube),  
        //       new CastleBlock(castle), 
      //    new FlagMove(flagMove),
@@ -166,14 +168,15 @@ public class Game1 : Core
         prevX = 0;
 
         currentLevel = 0;
-        var mapTest = new TileMap();
-        ILevel level = new TestLevel(Content);
-        level.Populate(mapTest);
-        maps.Add(mapTest);
-        var map1 = new TileMap();
-        level = new Level1(Content);
-        level.Populate(map1);
+        TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
+        TileMap map1 = new TileMap();
+        ILevel level = new LevelOne(Content, blockTextures, "LevelData/LevelOne.xml");
+        level.FromFile(map1);
         maps.Add(map1);
+        TileMap mapBonus = new TileMap();
+        level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml");
+        level.FromFile(mapBonus);
+        maps.Add(mapBonus);
       //   Music.music(Content);
         //Can move this into the same class as our map if wanted to or just leave it here
         backgroundMusic = Content.Load<Song>("Music/Background");
@@ -240,6 +243,16 @@ public class Game1 : Core
             camera.Position = new Vector2(currentMario.location.X - 560f, camera.Position.Y);
             prevX = currentMario.location.X;
         }
+
+
+        var visibleArea = camera.BoundingRectangle;
+        Rectangle cameraRect = new Rectangle(
+            (int)visibleArea.Left,
+            (int)visibleArea.Top,
+            (int)visibleArea.Width,
+            (int)visibleArea.Height
+        );
+        map.Update(gameTime, cameraRect, 64);
 
         foreach (var item in items)
         {

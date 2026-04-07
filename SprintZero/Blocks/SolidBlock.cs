@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SprintZero.Marios;
 
-public class Ground : IBlock
+public class SolidBlock : IBlock
 {
 
     private TextureRegion sprite;
@@ -12,7 +12,7 @@ public class Ground : IBlock
     public Rectangle Collider { get; set; }
     private const float SCALE = 4f;
   
-    public Ground(TextureRegion region, Vector2 pos)
+    public SolidBlock(TextureRegion region, Vector2 pos)
     {
         sprite = region;
         location = pos;

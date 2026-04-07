@@ -10,6 +10,7 @@
         <Region name = "questionBlock2" x="373" y="65" width="16" height="16"/>
         <Region name = "aboveGround" x="373" y="47" width="16" height="16"/>
         <Region name = "aboveGroundHit" x="432" y="47" width="8" height="8"/>
+		<Region name = "solidBlock" x="373" y="142" width="16" height="16"/>
     </Regions>
     <Animations>
     <Animation name = "hit-Question" delay="300">

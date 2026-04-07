@@ -18,17 +18,17 @@ namespace SprintZero.Map
 
         public MapManager(ILevel Level)
         {
-            this.map = new TileMap();
-            Level.Populate(this.map);
-            this.BGcolor = Level.BGColor;
-            this.enemies = new List<IEnemy>();
-            this.projectiles = new List<IProjectile>();
+            map = new TileMap();
+            Level.FromFile(map);
+            BGcolor = Level.BGColor;
+            enemies = new List<IEnemy>();
+            projectiles = new List<IProjectile>();
         }
 
         public void Update(GameTime dt)
         {
             // STUB
-            foreach (var enemy in this.enemies)
+            foreach (var enemy in enemies)
             {
                 enemy.Update(dt);
             }

@@ -11,17 +11,22 @@ using System;
 
 namespace SprintZero.Map
 {
-    public class Level1 : ILevel
+    public class LevelOne : ILevel
     {
         private const int TileSize = 64; // 64 in screen coordinates
 
         public Color BGColor { get; set; }
         private ContentManager content { get; set; }
+        private TextureAtlas blockTextures { get; set; }
         private string filename;
+        private TextureRegion ground, solid;
+        private AnimatedSprite qBlock, brick;
 
-        public Level1(ContentManager content, string filename)
+        public LevelOne(ContentManager content, TextureAtlas blockTextures, string filename)
         {
-            this.BGColor = Color.AliceBlue;
+            this.blockTextures = blockTextures;
+            LoadContent();
+            BGColor = Color.AliceBlue;
             this.filename = filename;
             this.content = content;
         }
@@ -37,10 +42,37 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
+        private static void placeBrickAt(TileMap map, AnimatedSprite brick, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new AboveGroundBreak(brick, location);
+            map.addBlockAt(tilePos, block);
+        }
+
+        private static void placeQBlockAt(TileMap map, AnimatedSprite qBlock, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new questionMarkHit(qBlock, location);
+            map.addBlockAt(tilePos, block);
+        }
+
+        private static void placeSolidAt(TileMap map, TextureRegion solid, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new SolidBlock(solid, location);
+            map.addBlockAt(tilePos, block);
+        }
+
+        public void LoadContent()
+        {
+            ground = blockTextures.GetRegion("ground");
+            brick = blockTextures.CreateAnimatedSprite("aboveGroundBreak");
+            qBlock = blockTextures.CreateAnimatedSprite("hit-Question");
+            solid = blockTextures.GetRegion("solidBlock");
+        }
+
         public void Populate(TileMap tileMap)
         {
-            TextureAtlas blocksTexture = TextureAtlas.FromFile(this.content, "images/block-definition.xml");
-            TextureRegion ground = blocksTexture.GetRegion("ground");
             for (int x = -200; x < 50; x++)
             {
                 placeGroundAt(tileMap, ground, new Point(x, 13));
@@ -83,23 +115,43 @@ namespace SprintZero.Map
                         for (int column = 0; column < columnCount; column++)
                         {
 
-                            Point p = new Point(row, column);
-                            Vector2 pos = new Vector2(row * 64, column * 64);
+                            Point p = new Point(column, row);
+                            Vector2 pos = new Vector2(column * 64, row * 64);
 
                             // Get the tileset index for this location
                             int tilesetIndex = int.Parse(columns[column]);
 
-                            //IBlock block = getBlockFromInt(tilesetIndex, pos);
-
-                            //addBlockAt(p, block);
-
-                            // Add that region to the tilemap at the row and column location
-                            //tilemap.SetTile(column, row, tilesetIndex);
+                            switch(tilesetIndex)
+                            {
+                                case 1:
+                                    {
+                                        placeGroundAt(tilemap, ground, p);
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        placeBrickAt(tilemap, brick, p);
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        placeSolidAt(tilemap, solid, p);
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        placeQBlockAt(tilemap, qBlock, p);
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        break;
+                                    }
+                            }
                         }
                     }
                 }
             }
         }
-
     }
 }
