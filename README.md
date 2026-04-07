@@ -25,6 +25,7 @@ Code reference links:
     IController.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html \
     KeyboardInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html \
     MouseInfo.cs -> https://docs.monogame.net/articles/tutorials/building_2d_games/11_input_management/index.html & https://docs.monogame.net/api/Microsoft.Xna.Framework.Input.Mouse.html 
+    Parsing and Reading from an xml -> https://docs.monogame.net/articles/tutorials/building_2d_games/13_working_with_tilemaps/index.html
     
 Sprite reference links:
         Sprites used for this game are from Super Mario Bros created by Nintendo. The sprite sheets are allocated from https://www.mariouniverse.com/sprites-nes-smb/. 
@@ -37,12 +38,15 @@ This is currently a work in progress!
 Known issues: 
    - During death animation, game will instantly restart rather than showing mario's death animation.
    - The current way blocks are drawn, mario will also have collision at the block's position if they are all uncommented. 
-   - Fire Mario currently glides rather than walk. 
+   - Fire Mario currently glides rather than walk.
+   - Fire balls do not interact with blocks and stays at a steady level
+   - When walking in the world the tubes do not interact, this is due to how they are currently added into the tilemap
+   - DO NOT CHANGE levels, although there is a bonus level implemented, pipes do not swap them, and when mario gets stuck inside the block it is very loud, so if you do swap only do it when muted or before you move too far
+   - when one block is updated, every block is updated in the tile map
 
 Currently being worked on:
-    -Collision between blocks, items, and enemies.
+    -Collision between blocks, items, projectiles, and enemies.
     -Maps
     -Music
     -HUD layout
     -Game States
-    -Camera
