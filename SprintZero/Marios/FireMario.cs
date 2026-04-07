@@ -15,7 +15,7 @@ public class FireMario : IMario
     private const float SCALE = 4f;
     private const float MOVE_SPEED = 4f;
     private const float GRAVITY = 0.2f;
-    private const float JUMP_POWER = -8f;
+    private const float JUMP_POWER = -12f;
     private float groundY;
     private float currentPlatformY;
 
@@ -131,19 +131,16 @@ public class FireMario : IMario
     }
     public void LandOnBlock(float blockTopY)
     {
-        Vector2 newPos = location;
-        newPos.Y = blockTopY - MarioCollider.Height;
-        location = newPos;
-        marioSprites.SetLocation(location);
-
-        jumpStartHeight = location.Y;
+        location = new Vector2(location.X, blockTopY - MarioCollider.Height);
+        isOnGround = true;
         Jumping = false;
         Falling = false;
-        isOnGround = true;
+        jumpStartHeight = location.Y;
 
         marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
 
         MarioCollider = marioSprites.UpdateCollider();
+
     }
     public void UpdateAirSpriteForDirection()
     {
@@ -241,46 +238,44 @@ public class FireMario : IMario
 
     public void Update(GameTime gameTime)
     {
-        Vector2 newlocation = location;
-
-        // Handle jumping and falling
-        if (Jumping || Falling)
+        if (Jumping && !Falling)
         {
-            if (!Falling)
-            {
-                yVelocity += GRAVITY;
-                // Move up
-                newlocation.Y += yVelocity;
+            yVelocity += GRAVITY;
+            location = new Vector2(location.X, location.Y + yVelocity);
+            marioSprites.SetLocation(location);
 
-                // Check if reached peak
-                if (yVelocity <= 0)
-                {
-                    Falling = true;
-                }
-            }
-            else
-            {
-                if (yVelocity <= -JUMP_POWER)
-                    yVelocity += GRAVITY;
-                // Move down
-                newlocation.Y += yVelocity;
-
-                // Stop falling when reaching the ground
-                if (isOnGround)
-                {
-                    yVelocity = 0f;
-                    newlocation.Y = currentPlatformY;
-                    Jumping = false;
-                    Falling = false;
-
-                    marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
-                }
-            }
-            UpdateAirSpriteForDirection();
+            if (yVelocity <= 0)
+                Falling = true;
         }
 
-        location = newlocation;
-        marioSprites.SetLocation(location);
+        if (Falling)
+        {
+            if (yVelocity <= -JUMP_POWER)
+                yVelocity += GRAVITY;
+            location = new Vector2(location.X, location.Y + yVelocity);
+            marioSprites.SetLocation(location);
+
+
+            if (isOnGround)
+            {
+                yVelocity = 0;
+                location = new Vector2(location.X, currentPlatformY);
+                Jumping = false;
+                Falling = false;
+
+                if (Direction)
+                    marioSprites.SetSprite("standRight");
+                else
+                    marioSprites.SetSprite("standLeft");
+            }
+        }
+
+        if (isOnGround)
+        {
+            if (!Moving) StopMove();
+            Falling = false;
+            yVelocity = 0f;
+        }
 
         // Update throwing timer
         if (throwing)

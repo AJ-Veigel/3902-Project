@@ -10,7 +10,7 @@
         <Region name = "questionBlock2" x="373" y="65" width="16" height="16"/>
         <Region name = "aboveGround" x="373" y="47" width="16" height="16"/>
         <Region name = "aboveGroundHit" x="432" y="47" width="8" height="8"/>
-        <Region name = "tubeTopLeft" x="614" y="46" width="32" height="32"/>
+        <Region name = "tubeTop" x="614" y="46" width="32" height="32"/>
         <Region name = "tubeMid" x="614" y="82" width="32" height="16"/>
         <Region name = "tubeLeft" x="573" y="102" width="32" height="32"/>
         <Region name = "tubeIntersect" x="614" y="102" width="32" height="32"/>
