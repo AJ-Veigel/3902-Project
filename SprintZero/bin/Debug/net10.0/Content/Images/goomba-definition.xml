@@ -3,13 +3,13 @@
 	<Regions>
 		<Region name ="goombaRight1" x="0" y="0" width="16" height="16"/>
 		<Region name ="goombaLeft1" x="16" y="0" width="16" height="16"/>
-		<Region name ="goombaFlat1" x="32" y="0" width="16" height="8"/>
+		<Region name ="goombaFlat1" x="32" y="0" width="16" height="16"/>
 		<Region name ="goombaRight2" x="48" y="0" width="16" height="16"/>
 		<Region name ="goombaLeft2" x="64" y="0" width="16" height="16"/>
-		<Region name ="goombaFlat2" x="80" y="0" width="16" height="8"/>
+		<Region name ="goombaFlat2" x="80" y="0" width="16" height="16"/>
 		<Region name ="goombaRight3" x="96" y="0" width="16" height="16"/>
 		<Region name ="goombaLeft3" x="112" y="0" width="16" height="16"/>
-		<Region name ="goombaFlat3" x="128" y="0" width="16" height="8"/>
+		<Region name ="goombaFlat3" x="128" y="0" width="16" height="16"/>
 	</Regions>
 	<Animations>
 		<Animation name="goombaWalk1" delay="100">
