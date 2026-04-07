@@ -19,7 +19,7 @@ namespace SprintZero.Map
         private ContentManager content { get; set; }
         private TextureAtlas blockTextures { get; set; }
         private string filename;
-        private TextureRegion ground, solid;
+        private TextureRegion ground, solid, tubeTop, tubeMid, tubeLeft, tubeInter;
         private AnimatedSprite qBlock, brick;
 
         public LevelOneBonus(ContentManager content, TextureAtlas blockTextures, string filename)
@@ -63,25 +63,44 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
+        private static void placeTubeTopAt(TileMap map, TextureRegion tube, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new TubeTop(tube, location);
+            map.addBlockAt(tilePos, block);
+        }
+
+        private static void placeTubeLeftAt(TileMap map, TextureRegion tube, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new TubeLeft(tube, location);
+            map.addBlockAt(tilePos, block);
+        }
+
+        private static void placeTubeMidAt(TileMap map, TextureRegion tube, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new TubeMid(tube, location);
+            map.addBlockAt(tilePos, block);
+        }
+
+        private static void placeTubeInterAt(TileMap map, TextureRegion tube, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new TubeIntersect(tube, location);
+            map.addBlockAt(tilePos, block);
+        }
+
         public void LoadContent()
         {
             ground = blockTextures.GetRegion("ground");
             brick = blockTextures.CreateAnimatedSprite("aboveGroundBreak");
             qBlock = blockTextures.CreateAnimatedSprite("hit-Question");
             solid = blockTextures.GetRegion("solidBlock");
-        }
-
-        public void Populate(TileMap tileMap)
-        {
-            for (int x = -200; x < 50; x++)
-            {
-                placeGroundAt(tileMap, ground, new Point(x, 13));
-            }
-
-            for (int x = 50; x < 100; x++)
-            {
-                placeGroundAt(tileMap, ground, new Point(x, x + -37));
-            }
+            tubeTop = blockTextures.GetRegion("tubeTop");
+            tubeLeft = blockTextures.GetRegion("tubeLeft");
+            tubeMid = blockTextures.GetRegion("tubeMid");
+            tubeInter = blockTextures.GetRegion("tubeIntersect");
         }
 
         public void FromFile(TileMap tilemap)
@@ -141,6 +160,26 @@ namespace SprintZero.Map
                                 case 4:
                                     {
                                         placeQBlockAt(tilemap, qBlock, p);
+                                        break;
+                                    }
+                                case 5:
+                                    {
+                                        placeTubeTopAt(tilemap, tubeTop, p);
+                                        break;
+                                    }
+                                case 6:
+                                    {
+                                        placeTubeMidAt(tilemap, tubeMid, p);
+                                        break;
+                                    }
+                                case 7:
+                                    {
+                                        placeTubeLeftAt(tilemap, tubeLeft, p);
+                                        break;
+                                    }
+                                case 8:
+                                    {
+                                        placeTubeInterAt(tilemap, tubeInter, p);
                                         break;
                                     }
                                 default:

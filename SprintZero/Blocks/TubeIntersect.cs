@@ -5,7 +5,7 @@ using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SprintZero.Marios;
 
-public class MediumTube : IBlock
+public class TubeIntersect : IBlock
 {
     private const float SCALE = 4f;
     private TextureRegion sprite;
@@ -13,11 +13,11 @@ public class MediumTube : IBlock
     public Rectangle Collider { get; set; }
 
 
-    public MediumTube(TextureRegion region)
+    public TubeIntersect(TextureRegion region, Vector2 pos)
     {
         sprite = region;
 
-        location = new Vector2(600, 700);
+        location = pos;
 
 
         Collider = new Rectangle(
