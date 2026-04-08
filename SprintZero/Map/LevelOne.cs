@@ -42,17 +42,18 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
-        private static void placeBrickAt(TileMap map, AnimatedSprite brick, Point tilePos)
+        private static void placeBrickAt(TileMap map, TextureAtlas agbTexture, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new AboveGroundBreak(brick, location);
+            AnimatedSprite newSprite = agbTexture.CreateAnimatedSprite("aboveGroundBreak");
+            IBlock block = new AboveGroundBreak(newSprite, location);
             map.addBlockAt(tilePos, block);
         }
 
-        private static void placeQBlockAt(TileMap map, TextureAtlas blockTextures, Point tilePos)
+        private static void placeQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            AnimatedSprite newSprite = blockTextures.CreateAnimatedSprite("hit-Question");
+            AnimatedSprite newSprite = hqTexture.CreateAnimatedSprite("hit-Question");
             IBlock block = new questionMarkHit(newSprite, location);
 
             map.addBlockAt(tilePos, block);
@@ -151,7 +152,7 @@ namespace SprintZero.Map
                                     }
                                 case 2:
                                     {
-                                        placeBrickAt(tilemap, brick, p);
+                                        placeBrickAt(tilemap, blockTextures, p);
                                         break;
                                     }
                                 case 3:
