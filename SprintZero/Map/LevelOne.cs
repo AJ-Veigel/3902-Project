@@ -49,10 +49,12 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
-        private static void placeQBlockAt(TileMap map, AnimatedSprite qBlock, Point tilePos)
+        private static void placeQBlockAt(TileMap map, TextureAtlas blockTextures, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new questionMarkHit(qBlock, location);
+            AnimatedSprite newSprite = blockTextures.CreateAnimatedSprite("hit-Question");
+            IBlock block = new questionMarkHit(newSprite, location);
+
             map.addBlockAt(tilePos, block);
         }
 
@@ -159,7 +161,7 @@ namespace SprintZero.Map
                                     }
                                 case 4:
                                     {
-                                        placeQBlockAt(tilemap, qBlock, p);
+                                        placeQBlockAt(tilemap, blockTextures, p);
                                         break;
                                     }
                                 case 5:

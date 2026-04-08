@@ -295,3 +295,5 @@ C:\Users\ajvei\Documents\GitHub\3902-Project\SprintZero\bin\Debug\net10.0\Conten
 C:\Users\ajvei\Documents\GitHub\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\pause.xnb
 C:\Users\ajvei\Documents\GitHub\3902-Project\SprintZero\bin\Debug\net10.0\Content\Music\powerup.xnb
 C:\Users\ajvei\Documents\GitHub\3902-Project\SprintZero\bin\Debug\net10.0\Content\LevelData\LevelOne.xml
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\LevelData\LevelOne.xml
+C:\Users\magan\Downloads\SMB1\3902-Project\SprintZero\bin\Debug\net10.0\Content\LevelData\LevelOneBonus.xml
