@@ -279,6 +279,13 @@ public class FireMario : IMario
             UpdateAirSpriteForDirection();
         }
 
+        if (isOnGround)
+        {
+            if (!Moving) StopMove();
+            Falling = false;
+            yVelocity = 0f;
+        }
+
         location = newlocation;
         marioSprites.SetLocation(location);
 
