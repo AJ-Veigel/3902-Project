@@ -8,20 +8,20 @@ using SoundManager;
 
 public class AboveGroundBreak : IBlock
 {
-  
+
     private AnimatedSprite sprite;
 
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
     private const float SCALE = 4f;
-    private float startY; 
+    private float startY;
     private Vector2 velocity;
     private float gravity = 0.5f;
     private bool isBroken = false;
     private bool playBreakingAnimation = false;
     private bool movingUp = false;
     private bool movingDown = false;
-    private float bounceHeight =20f; 
+    private float bounceHeight = 20f;
     private float bounceSpeed = 2f;
 
     public AboveGroundBreak(AnimatedSprite animated, Vector2 pos)
@@ -33,7 +33,7 @@ public class AboveGroundBreak : IBlock
         startY = location.Y;
         velocity = Vector2.Zero;
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
-        
+
     }
 
 
@@ -46,20 +46,20 @@ public class AboveGroundBreak : IBlock
             velocity.Y += gravity;
             location += velocity;
         }
-         else if (movingUp)
+        else if (movingUp)
         {
             location = new Vector2(location.X, location.Y - bounceSpeed);
-            if (location.Y <= startY- bounceHeight)
+            if (location.Y <= startY - bounceHeight)
             {
 
                 movingUp = false;
                 movingDown = true;
-                
+
             }
-        
+
         }
-        
-         if (movingDown)
+
+        if (movingDown)
         {
             location = new Vector2(location.X, location.Y + bounceSpeed);
             if (location.Y >= startY)
@@ -67,21 +67,21 @@ public class AboveGroundBreak : IBlock
                 location = new Vector2(location.X, startY);
                 movingDown = false;
                 sprite.PauseFrame(0);
-             
+
             }
-          
+
 
         }
         sprite.Update(gameTime);
-    if (!isBroken)
+        if (!isBroken)
         {
-            Collider = new Rectangle((int) location.X, (int)location.Y, (int) sprite.Width,(int)sprite.Height);
+            Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
         }
         else
         {
             Collider = Rectangle.Empty;
         }
-      
+
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -89,22 +89,25 @@ public class AboveGroundBreak : IBlock
         if (!isBroken)
             sprite.Draw(spriteBatch, location);
     }
-    
+
     public void onCollision(IMario mario, CollisionSide side)
     {
         bool shouldBreak = false;
-    if (!isBroken){
-        if(side == CollisionSide.Bottom && (mario is BigMario || mario is FireMario)){
-            shouldBreak = true;
-
-        } else{
+        if (!isBroken)
+        {
+            if (side == CollisionSide.Bottom && (mario is BigMario || mario is FireMario))
+            {
+                shouldBreak = true;
+            }
+            else
+            {
                 if (side == CollisionSide.Left)
                 {
                     mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
                 }
                 if (side == CollisionSide.Right)
                 {
-                    mario.location = new Vector2(Collider.Right,mario.location.Y);
+                    mario.location = new Vector2(Collider.Right, mario.location.Y);
                 }
                 else if (side == CollisionSide.Top)
                 {
@@ -113,10 +116,10 @@ public class AboveGroundBreak : IBlock
                 else if (side == CollisionSide.Bottom)
                 {
                     if (mario.yVelocity < 0) { mario.yVelocity = 0; }
-                    movingUp = true; 
+                    movingUp = true;
                     Music.blockSound.Play();
                     movingDown = false;
-                  
+
                 }
             }
             if (shouldBreak)
@@ -124,9 +127,9 @@ public class AboveGroundBreak : IBlock
                 isBroken = true;
                 playBreakingAnimation = true;
                 Music.blockSound.Play();
-                mario.Jumping = true; 
+                mario.Jumping = true;
                 mario.Falling = true;
             }
+        }
     }
-}
 }

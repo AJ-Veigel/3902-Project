@@ -13,7 +13,7 @@ public class questionMarkHit : IBlock
 
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
-   
+
     private const float SCALE = 4f;
     private float startY;
     private float bounceHeight = 20f;
@@ -30,7 +30,7 @@ public class questionMarkHit : IBlock
         sprite.Pause();
         location = pos;
         startY = location.Y;
-    
+
         Collider = new Rectangle(
             (int)location.X,
             (int)location.Y,
@@ -79,14 +79,15 @@ public class questionMarkHit : IBlock
     public void onCollision(IMario mario, CollisionSide side)
     {
         if (side == CollisionSide.Bottom && mario.yVelocity < 0.0) { mario.yVelocity = 0; } // bump.
-        if (!isHit)
-        {
-            if (side == CollisionSide.Bottom)
+        if (side == CollisionSide.Bottom)
             {
-                isHit = true;
-                Music.blockSound.Play();
-                movingUp = true;
-                movingDown = false;
+                if(!isHit)
+                {
+                    isHit = true;
+                    Music.blockSound.Play();
+                    movingUp = true;
+                    movingDown = false;
+                }
             }
             else if (side == CollisionSide.Top)
             {
@@ -97,27 +98,9 @@ public class questionMarkHit : IBlock
                 mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
             }
             else if (side == CollisionSide.Right)
-
             {
                 mario.location = new Vector2(Collider.Right, mario.location.Y);
             }
-        }
-        else if (isHit)
-        {
-            if (side == CollisionSide.Top)
-            {
-                mario.LandOnBlock(location.Y);
-
-            }
-            else if (side == CollisionSide.Left)
-            {
-                mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
-            }
-            else if (side == CollisionSide.Right)
-            {
-                mario.location = new Vector2(Collider.Right, mario.location.Y);
-            }
-        }
     }
 
 

@@ -34,7 +34,7 @@ public class SmallMario : IMario
     private const float GRAVITY = 0.2f;
     private float groundY;
     private float currentPlatformY;
-    private const float JUMP_POWER = -8f;
+    private const float JUMP_POWER = -11f;
    
 
     public SmallMario(TextureAtlas smallMarioTexture,ContentManager content,Game1 game)

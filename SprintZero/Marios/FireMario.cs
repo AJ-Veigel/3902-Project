@@ -15,7 +15,7 @@ public class FireMario : IMario
     private const float SCALE = 4f;
     private const float MOVE_SPEED = 4f;
     private const float GRAVITY = 0.2f;
-    private const float JUMP_POWER = -8f;
+    private const float JUMP_POWER = -11;
     private float groundY;
     private float currentPlatformY;
 
