@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
+using SoundManager;
 using SprintZero;
+using SprintZero.Marios;
 
 public class Mushroom : ICollectable
 {
@@ -22,7 +24,6 @@ public class Mushroom : ICollectable
         sprite = region;
         location = new Vector2(300, 700);
         startY = location.Y;
-        //Collider = new Rectangle((int)location.X, (int)location.Y, sprite.Width * (int)SCALE, sprite.Height * (int)SCALE);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
     public void Update(GameTime gameTime)
@@ -47,12 +48,25 @@ public class Mushroom : ICollectable
             verticalSpeed = 0f;
             location = new Vector2(location.X + horizontalSpeed, location.Y);
         }
-        //Collider = new Rectangle((int)location.X, (int)location.Y, sprite.Width * (int)SCALE, sprite.Height * (int)SCALE);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
-
+    public bool CheckCollisions(IMario mario)
+    {
+        bool isCollected = false;
+        if (!Collected)
+        {
+            if (RectCollider.Intersects(mario.MarioCollider))
+            {
+                Collected = true;
+                Music.oneupSound.Play();
+                isCollected = true;
+            }
+        }
+        return isCollected;
+    }
     public void Draw(SpriteBatch spriteBatch)
     {
+        if(!Collected)
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, SCALE, SpriteEffects.None, 0f);
     }
 }
