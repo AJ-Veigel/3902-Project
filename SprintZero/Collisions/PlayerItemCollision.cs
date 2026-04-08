@@ -1,4 +1,4 @@
-using SprintZero;
+using SprintZero.Items;
 using SprintZero.Marios;
 
 namespace playerItemCollision;

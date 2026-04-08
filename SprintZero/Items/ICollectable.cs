@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using SprintZero.Sprites;
 
-namespace SprintZero
+namespace SprintZero.Items
 {
     public interface ICollectable : ISprite
     {
@@ -12,7 +12,7 @@ namespace SprintZero
 
         Hitbox.CollisionSide CollidesWith(ICollectable other)
         {
-            return this.Collider.CollidesWith(this.location, other.Collider, other.location);
+            return Collider.CollidesWith(location, other.Collider, other.location);
         }
         
     }

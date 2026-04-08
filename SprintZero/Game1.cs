@@ -10,6 +10,7 @@ using SpriteZero.Sprites;
 using SprintZero.blocks;
 using SprintZero.PBCollision;
 using SprintZero.Map;
+using SprintZero.Items;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using Microsoft.Xna.Framework.Media;
@@ -221,9 +222,8 @@ public class Game1 : Core
         currentEnemy.Update(gameTime);
         CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
 
-
         //playerBlockCollision.checkBlockCollision(currentMario, blocks);
-        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 16);
+        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
 
         foreach (IBlock b in blocks) { // these extra blocks should be fit into TileMap somehow.
             collidableBlocks.Add(b);

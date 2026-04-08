@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework.Content;
+using SprintZero.Items;
 using SprintZero;
 using SoundManager;
 using SprintZero.Marios;

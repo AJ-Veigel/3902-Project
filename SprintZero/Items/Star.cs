@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SoundManager;
+using SprintZero.Items;
 using SprintZero;
 using SprintZero.Marios;
 
