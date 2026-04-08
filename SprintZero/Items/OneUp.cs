@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero;
+using SprintZero.Marios;
+using SoundManager;
 
 public class OneUp : ICollectable
 {
@@ -51,9 +53,24 @@ public class OneUp : ICollectable
             horizontalSpeed *= -1;
         }
     }
+    public bool CheckCollisions(IMario mario)
+    {
+        bool isCollected = false;
+        if (!Collected)
+        {
+            if (RectCollider.Intersects(mario.MarioCollider))
+            {
+                Collected = true;
+                Music.oneupSound.Play();
+                isCollected = true;
+            }
+        }
+        return isCollected;
+    }
 
     public void Draw(SpriteBatch spriteBatch)
     {
+        if(!Collected)
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
     }
 }
