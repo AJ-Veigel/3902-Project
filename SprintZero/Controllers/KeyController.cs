@@ -9,7 +9,7 @@ public class KeyController : IController
     private Game1 game;
     private KeyboardState previousState;
 
-    public KeyController(Game1 game, IMario mario)
+    public KeyController(Game1 game)
     {
         this.game = game;
         previousState = Keyboard.GetState();
