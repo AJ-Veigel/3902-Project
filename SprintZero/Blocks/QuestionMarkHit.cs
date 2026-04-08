@@ -78,7 +78,7 @@ public class questionMarkHit : IBlock
 
     public void onCollision(IMario mario, CollisionSide side)
     {
-        if (side == CollisionSide.Bottom && mario.yVelocity < 0.0) { mario.yVelocity = 0; } // bump.
+        if (side == CollisionSide.Bottom && mario.yVelocity < 0.0) { mario.yVelocity = 0; }
         if (side == CollisionSide.Bottom)
             {
                 if(!isHit)
