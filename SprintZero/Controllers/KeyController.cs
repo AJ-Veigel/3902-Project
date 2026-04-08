@@ -2,13 +2,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SprintZero;
 using SprintZero.Controllers;
+using SprintZero.Marios;
 
 public class KeyController : IController
 {
     private Game1 game;
     private KeyboardState previousState;
 
-    public KeyController(Game1 game)
+    public KeyController(Game1 game, IMario mario)
     {
         this.game = game;
         previousState = Keyboard.GetState();
