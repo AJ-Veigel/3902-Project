@@ -43,7 +43,7 @@ namespace SprintZero.PBCollision
                     Console.WriteLine($"[Collision Debug] mario collided with block at {blockRect.Location} on {theSide} side");
                     block.onCollision(mario, theSide);
 
-                    if (theSide == CollisionSide.Top)
+                    if (theSide == CollisionSide.Top && !mario.Jumping)
                     {
                         standingOnBlock = true;
                         if (blockRect.Top < highestBlockTop)
