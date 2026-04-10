@@ -46,6 +46,11 @@ public class Goomba : IEnemy
     {
         VelocityX = -VelocityX;
     }
+
+    public void CollideWithEnemy(IEnemy enemy)
+    {
+        
+    }
     public void Update(GameTime gameTime)
     {
         if (currentSprite == null && !Dead)

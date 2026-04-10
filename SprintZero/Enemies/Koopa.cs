@@ -145,6 +145,11 @@ public class Koopa : IEnemy
         }
     }
 
+	public void CollideWithEnemy(IEnemy enemy)
+	{
+		// Todo: implement koopa behavior on enemy collision
+	}
+
     public void Draw(SpriteBatch spriteBatch)
 	{
 		SpriteEffects effect = FacingLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
