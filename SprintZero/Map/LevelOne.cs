@@ -8,6 +8,8 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using System;
+using System.Net.NetworkInformation;
+using SprintZero.Items;
 
 namespace SprintZero.Map
 {
@@ -18,17 +20,21 @@ namespace SprintZero.Map
         public Color BGColor { get; set; }
         private ContentManager content { get; set; }
         private TextureAtlas blockTextures { get; set; }
+        private TextureAtlas itemTextures;
+        private List<ICollectable> items;
         private string filename;
         private TextureRegion ground, solid, tubeTop, tubeLeft, tubeMid, tubeInter;
         private AnimatedSprite qBlock, brick;
 
-        public LevelOne(ContentManager content, TextureAtlas blockTextures, string filename)
+        public LevelOne(ContentManager content, TextureAtlas blockTextures, TextureAtlas itemTextures, List<ICollectable> currItems, string filename)
         {
             this.blockTextures = blockTextures;
             LoadContent();
             BGColor = Color.AliceBlue;
             this.filename = filename;
             this.content = content;
+            items = currItems;
+            this.itemTextures = itemTextures;
         }
 
         public List<IEnemy> GetEnemies()
@@ -94,6 +100,13 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
+        private void placeItemQBlockAt(TileMap map, AnimatedSprite qBlock, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new questionMarkItem(qBlock, location, itemTextures, items);
+            map.addBlockAt(tilePos, block);
+        }
+
         public void LoadContent()
         {
             ground = blockTextures.GetRegion("ground");
@@ -143,7 +156,7 @@ namespace SprintZero.Map
                             // Get the tileset index for this location
                             int tilesetIndex = int.Parse(columns[column]);
 
-                            switch(tilesetIndex)
+                            switch (tilesetIndex)
                             {
                                 case 1:
                                     {
@@ -183,6 +196,11 @@ namespace SprintZero.Map
                                 case 8:
                                     {
                                         placeTubeInterAt(tilemap, tubeInter, p);
+                                        break;
+                                    }
+                                case 9:
+                                    {
+                                        placeItemQBlockAt(tilemap, qBlock, p);
                                         break;
                                     }
                                 default:

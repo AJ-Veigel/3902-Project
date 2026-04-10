@@ -7,14 +7,15 @@ using SprintZero.Marios;
 using SprintZero;
 using SprintZero.Items;
 using SoundManager;
+using System.Collections.Generic;
 
 
 
 public class questionMarkItem : IBlock
 {
     private AnimatedSprite sprite;
-    private int itemNum;
-
+    private TextureAtlas itemTexture;
+    private List<ICollectable> items;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
 
@@ -27,14 +28,15 @@ public class questionMarkItem : IBlock
     private bool movingUp = false;
     private bool movingDown = false;
 
-    public questionMarkItem(AnimatedSprite animated, Vector2 pos, int itemNumber)
+    public questionMarkItem(AnimatedSprite animated, Vector2 pos, TextureAtlas texture, List<ICollectable> currItems)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();
-        this.itemNum = itemNumber;
         location = pos;
         startY = location.Y;
+        itemTexture = texture;
+        items = currItems;
 
         Collider = new Rectangle(
             (int)location.X,
@@ -84,28 +86,36 @@ public class questionMarkItem : IBlock
     {
         if (side == CollisionSide.Bottom && mario.yVelocity < 0.0) { mario.yVelocity = 0; }
         if (side == CollisionSide.Bottom)
+        {
+            if (!isHit)
             {
-                if(!isHit)
+                isHit = true;
+                Music.blockSound.Play();
+                movingUp = true;
+                movingDown = false;
+                Vector2 aboveBlock = new Vector2(location.X, location.Y - 64);
+                if (mario.GetType() == typeof(SmallMario))
                 {
-                    isHit = true;
-                    Music.blockSound.Play();
-                    movingUp = true;
-                    movingDown = false;
-                    //SpawnItem.Spawn(location, itemNum);
+                    SpawnItem.SpawnMushroom(itemTexture, items, aboveBlock);
+                }
+                else if(mario.GetType() == typeof(BigMario) || mario.GetType() == typeof(FireMario))
+                {
+                    SpawnItem.SpawnFlower(itemTexture, items, aboveBlock);
                 }
             }
-            else if (side == CollisionSide.Top)
-            {
-                mario.LandOnBlock(location.Y);
-            }
-            else if (side == CollisionSide.Left)
-            {
-                mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
-            }
-            else if (side == CollisionSide.Right)
-            {
-                mario.location = new Vector2(Collider.Right, mario.location.Y);
-            }
+        }
+        else if (side == CollisionSide.Top)
+        {
+            mario.LandOnBlock(location.Y);
+        }
+        else if (side == CollisionSide.Left)
+        {
+            mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
+        }
+        else if (side == CollisionSide.Right)
+        {
+            mario.location = new Vector2(Collider.Right, mario.location.Y);
+        }
     }
 
 
