@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SprintZero.Collisions;
 
 namespace SpriteZero.Enemies
 {
@@ -13,6 +14,8 @@ namespace SpriteZero.Enemies
         Rectangle EnemyCollider { get; set; }
         float VelocityX { get; set; }
         float VelocityY { get; set; }
+
+        EnemyEnemyCollision.EnemyAction ActionState { get; }
 
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);

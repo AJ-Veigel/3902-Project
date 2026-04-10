@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
+using SprintZero.Collisions;
 using SpriteZero.Enemies;
 
 public class Koopa : IEnemy
@@ -34,6 +35,18 @@ public class Koopa : IEnemy
 	public Rectangle EnemyCollider { get; set; }
 	public float VelocityX { get; set; }
 	public float VelocityY { get; set; }
+
+	public EnemyEnemyCollision.EnemyAction ActionState
+	{
+		get
+		{
+			if (KoopaState == KoopaStates.ShellMoving)
+			{
+				return EnemyEnemyCollision.EnemyAction.Kill;
+			}
+			return EnemyEnemyCollision.EnemyAction.Bounce;
+		}
+	}
 
 	public static void LoadTextures(ContentManager content)
 	{
