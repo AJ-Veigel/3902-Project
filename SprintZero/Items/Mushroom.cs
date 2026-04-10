@@ -27,6 +27,13 @@ public class Mushroom : ICollectable
         startY = location.Y;
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
+    public Mushroom(TextureRegion region, Vector2 pos)
+    {
+        sprite = region;
+        location = pos;
+        startY = location.Y;
+        RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
+    }
     public void Update(GameTime gameTime)
     {
         if (rising)

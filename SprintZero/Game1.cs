@@ -36,7 +36,7 @@ public class Game1 : Core
     private Song backgroundMusic; 
 
     private List<IController> controllers;
-    private List<ICollectable> items;
+    private List<ICollectable> items, currentItems;
     private List<IBlock> blocks;
     private List<IProjectile> projectiles;
     private List<IMario> marios;
@@ -168,10 +168,12 @@ public class Game1 : Core
         currentEnemy = enemies[currentEnemyCount];
         prevX = 0;
 
+        currentItems = new List<ICollectable>();
+
         currentLevel = 0;
         TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         TileMap map1 = new TileMap();
-        ILevel level = new LevelOne(Content, blockTextures, "LevelData/LevelOne.xml");
+        ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml");
         level.FromFile(map1);
         maps.Add(map1);
         TileMap mapBonus = new TileMap();
@@ -203,6 +205,11 @@ public class Game1 : Core
 
 
         currentBlock.Update(gameTime);
+
+        foreach(ICollectable item in currentItems)
+        {
+            item.Update(gameTime);
+        }
         currentItem.Update(gameTime);
 
         for (int i = projectiles.Count - 1; i >= 0; i--)
@@ -234,7 +241,7 @@ public class Game1 : Core
             collidableBlocks
         ); // We should only call this method once per update.
 
-        playerItemCollision.CheckCollisions(currentMario,currentItem,currentItemCount,currentMarioNum,SetMario);
+        playerItemCollision.CheckCollisions(currentMario,currentItems,currentMarioNum,SetMario);
         CheckEnemyCollisions.CheckEnemyMarioCollisions(currentEnemy,currentMario,Damage);
 
         // Camera
@@ -254,7 +261,7 @@ public class Game1 : Core
         );
         map.Update(gameTime, cameraRect, 64);
 
-        foreach (var item in items)
+        foreach (var item in currentItems)
         {
             if (item is Coin coin)
             {
@@ -263,6 +270,10 @@ public class Game1 : Core
             else if (item is Flower flower)
             {
                 flower.CheckCollisions(currentMario);
+            }
+            else if (item is Mushroom mushroom)
+            {
+                mushroom.CheckCollisions(currentMario);
             }
         }
         base.Update(gameTime);
@@ -277,6 +288,10 @@ public class Game1 : Core
         currentBlock.Draw(SpriteBatch);
         currentItem.Draw(SpriteBatch);
         currentMario.Draw(SpriteBatch);
+        foreach(ICollectable item in currentItems)
+        {
+            item.Draw(SpriteBatch);
+        }
         foreach (var p in projectiles)
             p.Draw(SpriteBatch);
         currentEnemy.Draw(SpriteBatch);
