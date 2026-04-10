@@ -148,6 +148,21 @@ public class Koopa : IEnemy
 	public void CollideWithEnemy(IEnemy enemy)
 	{
 		// Todo: implement koopa behavior on enemy collision
+		switch (enemy.ActionState)
+		{
+			case EnemyEnemyCollision.EnemyAction.None: // i dont think this should ever happen. idk.
+				break;
+			case EnemyEnemyCollision.EnemyAction.Bounce:
+				if (KoopaState == KoopaStates.Walk1 || KoopaState == KoopaStates.Walk2)
+				{
+					this.ReverseDirection();
+				}
+				// Otherwise ignore other enemy: they die or bounce on their own.
+                break;
+            case EnemyEnemyCollision.EnemyAction.Kill:
+				this.Dead = true;
+                break;
+        }
 	}
 
     public void Draw(SpriteBatch spriteBatch)
