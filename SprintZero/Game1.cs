@@ -19,8 +19,6 @@ using EnemyPlayerCollision;
 using FireballCollisions;
 using SoundManager;
 
-
-
 namespace SprintZero;
 
 public class Game1 : Core
@@ -56,9 +54,13 @@ public class Game1 : Core
     private const float cooldownForDamage = 1.0f;
     private bool canTakeDamage = true; 
     private float cooldownTimer = 0f;
+
     public Game1() : base("SMB1", 1920, 1080, false) { }
+
+
     protected override void Initialize()
     {
+        
         controllers = new List<IController>
         {
             new KeyController(this),
@@ -470,7 +472,8 @@ public class Game1 : Core
         {
             SetMario(1);
         }  
-        } 
+        }
+       
     }
 
     public void toggleMap(int roomNumber)
@@ -488,7 +491,10 @@ public class Game1 : Core
          
         Initialize();
     }
- 
+    public void UpdateGamePlay(GameTime gameTime){}
+    public void DrawGameplay(){}
+    public void UpdatePause(GameTime gameTime){}
+    public void DrawPauseScreen(){}
     public void play()
     {
         MediaPlayer.Play(backgroundMusic);

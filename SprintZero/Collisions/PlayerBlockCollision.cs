@@ -16,15 +16,12 @@ namespace SprintZero.PBCollision
             const int theBound = 16;
             mariowithExtraBound.Inflate(theBound, theBound);
 
-            //this part is to ensure that mario is going to walk and not have a broken animation while walking on the ground
             List<IBlock> blocks = new List<IBlock>();
             foreach (var block in allBlocks)
             {
                 if (block.Collider.Intersects(mariowithExtraBound)) 
                     blocks.Add(block);
             }
-
-            Console.WriteLine($"Blocks checked: {blocks.Count}");
 
             CollisionSide theSide;
             bool standingOnBlock = false;
