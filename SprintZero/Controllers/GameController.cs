@@ -37,7 +37,14 @@ public class GameController
         if (currentState.IsKeyDown(Keys.N) && previousState.IsKeyUp(Keys.N))
         {
             game.play();
-        } 
+        }
        
+
+    }
+    public void Update()
+    {
+        previousState = currentState;
+        currentState = Keyboard.GetState();
+        UpdateGame();
     }
 }
