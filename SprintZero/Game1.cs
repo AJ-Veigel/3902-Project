@@ -53,7 +53,9 @@ public class Game1 : Core
     private Rectangle Bounds;
     private OrthographicCamera camera;
     private float prevX;
-
+    private const float cooldownForDamage = 1.0f;
+    private bool canTakeDamage = true; 
+    private float cooldownTimer = 0f;
     public Game1() : base("SMB1", 1920, 1080, false) { }
     protected override void Initialize()
     {
@@ -276,6 +278,14 @@ public class Game1 : Core
                 mushroom.CheckCollisions(currentMario);
             }
         }
+        if (!canTakeDamage)
+        {
+            cooldownTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (cooldownTimer <= 0)
+            {
+                canTakeDamage = true;
+            }
+        }
         base.Update(gameTime);
     }
 
@@ -443,9 +453,14 @@ public class Game1 : Core
     }
     public void Damage()
     {
-        if (currentMarioNum == 0)
+        if (canTakeDamage)
+        {
+            canTakeDamage = false;
+            cooldownTimer = cooldownForDamage;
+           if (currentMarioNum == 0)
         {
             currentMario.Damage();
+            
         }
         else if (currentMarioNum == 1)
         {
@@ -454,7 +469,8 @@ public class Game1 : Core
         else if (currentMarioNum == 2)
         {
             SetMario(1);
-        }
+        }  
+        } 
     }
 
     public void toggleMap(int roomNumber)
