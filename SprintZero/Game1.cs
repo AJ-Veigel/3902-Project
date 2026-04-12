@@ -17,6 +17,7 @@ using playerItemCollision;
 using EnemyPlayerCollision;
 using FireballCollisions;
 using SoundManager;
+using System.Security.Cryptography;
 
 
 
@@ -72,7 +73,7 @@ public class Game1 : Core
         camera = new OrthographicCamera(viewportAdapter);
         playerItemCollision = new playerItemCollisions();
 
-        fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
+        // fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
     }
     protected override void LoadContent()
     {
@@ -204,19 +205,6 @@ public class Game1 : Core
         currentBlock.Update(gameTime);
         currentItem.Update(gameTime);
 
-        for (int i = projectiles.Count - 1; i >= 0; i--)
-        {
-            projectiles[i].Update(gameTime);
-            if (projectiles[i] is Fireball fb)
-            {
-                if (!fb.IsActive)
-                {
-                    projectiles.RemoveAt(i);
-                    continue;
-                }
-                fireballCollision.collisionCheck(fb);
-            }
-        }
 
         currentEnemy.Update(gameTime);
         CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
@@ -224,6 +212,18 @@ public class Game1 : Core
 
         //playerBlockCollision.checkBlockCollision(currentMario, blocks);
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 16);
+        for (int i = projectiles.Count -1; i >= 0; i--)
+        {
+            Fireball currentFireball = (Fireball)projectiles[i];
+            currentFireball.Update(gameTime);
+            List<IBlock> fireballCollidableBlocks = map.getBlocksInRectangle(currentFireball.FireballCollider, 8);
+            FireballCollision.checkFireballBlockCollision(currentFireball, fireballCollidableBlocks);
+            FireballCollision.checkFireballEnemyCollision(currentFireball, enemies);
+            if (!currentFireball.IsActive)
+            {
+                projectiles.RemoveAt(i);
+            }
+        }
 
         foreach (IBlock b in blocks) { // these extra blocks should be fit into TileMap somehow.
             collidableBlocks.Add(b);

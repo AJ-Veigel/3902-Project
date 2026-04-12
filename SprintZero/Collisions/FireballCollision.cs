@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SprintZero.blocks;
 using SpriteZero.Enemies;
 
@@ -6,66 +7,48 @@ namespace FireballCollisions
 {
     public class FireballCollision
     {
-        private List<IEnemy> enemies;
-        private int currentEnemyCount;
-        private IEnemy currentEnemy;
-        private List<IBlock> blocks;
-
-        public FireballCollision(List<IEnemy> enemies, int currentEnemyCount, IEnemy currentEnemy, List<IBlock> blocks)
+        public static void checkFireballBlockCollision(Fireball currentFireball, List<IBlock> blocks) 
         {
-            this.enemies = enemies;
-            this.currentEnemyCount = currentEnemyCount;
-            this.currentEnemy = currentEnemy;
-            this.blocks = blocks;
-        }
-
-        public void collisionCheck(Fireball fb)
-        {
-            for (int j = enemies.Count - 1; j >= 0; j--)
+            foreach (IBlock block in blocks)
             {
-                if (currentEnemyCount == j && !currentEnemy.Dead)
+                if (currentFireball.FireballCollider.Intersects(block.Collider))
                 {
-                    switch (enemies[j])
+                    int overlapX = Math.Min(currentFireball.FireballCollider.Right, block.Collider.Right)
+                    - Math.Max(currentFireball.FireballCollider.Left, block.Collider.Left);
+                    int overlapY = Math.Min(currentFireball.FireballCollider.Bottom, block.Collider.Bottom)
+                    - Math.Max(currentFireball.FireballCollider.Top, block.Collider.Top);
+
+                    // Fireball only pops if it hits side of block, continue bouncing otherwise.
+                    if (overlapX < overlapY) 
                     {
-                        case Goomba:
-                            if (fb.location.X < enemies[j].position.X + 16 &&
-                                fb.location.X + 8 > enemies[j].position.X &&
-                                fb.location.Y < enemies[j].position.Y + 16 &&
-                                fb.location.Y + 8 > enemies[j].position.Y)
-                            {
-                                enemies[j].Dead = true;
-                                fb.Pop();
-                            }
-                            break;
-                        case Koopa:
-                            if (fb.location.X < enemies[j].position.X + 16 &&
-                                fb.location.X + 8 > enemies[j].position.X &&
-                                fb.location.Y < enemies[j].position.Y + 24 &&
-                                fb.location.Y + 8 > enemies[j].position.Y)
-                            {
-                                enemies[j].Dead = true;
-                                fb.Pop();
-                            }
-                            break;
+                        currentFireball.Pop();
                     }
-                }
-            }
-
-
-            for (int k = blocks.Count - 1; k >= 0; k--)
-            {
-                if (blocks[k] is MediumTube)
-                {
-                    if (fb.location.X < blocks[k].location.X + 120 &&
-                        fb.location.X + 8 > blocks[k].location.X - 24 &&
-                        fb.location.Y < blocks[k].location.Y + 192 &&
-                        fb.location.Y + 8 > blocks[k].location.Y - 24)
+                    else
                     {
-                        fb.Pop();
+                        bool hitFromAbove = currentFireball.FireballCollider.Center.Y < block.Collider.Center.Y;
+                        if (hitFromAbove)
+                            currentFireball.Bounce(block.Collider.Top);
+                        else
+                            currentFireball.Pop();
                     }
                 }
             }
         }
-
+        
+        // I think it would make most sense to check the fireball against every enemy on the map, because
+        // There will never be a time where there are so many enemies loaded that it would lag the game,
+        // Or really alter the games performance in any way, since we are planning on loading the enemies
+        // Into the list as the player progresses through the levels.
+        public static void checkFireballEnemyCollision(Fireball currentFireball, List<IEnemy> enemies) 
+        {
+            foreach (IEnemy enemy in enemies)
+            {
+                if (currentFireball.FireballCollider.Intersects(enemy.EnemyCollider))
+                {
+                    enemy.Dead = true;
+                    currentFireball.Pop();
+                }
+            }
+        }
     }
 }

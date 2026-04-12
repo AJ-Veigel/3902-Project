@@ -29,6 +29,8 @@ public class Fireball : IProjectile
 
     public bool IsActive { get; private set; } = true;
     public bool Direction { get; }
+    public Rectangle FireballCollider { get; set; }
+    private const float SCALE = 4f;
     public Fireball(AnimatedSprite fireballRolling, AnimatedSprite fireballPop, Vector2 location, bool Direction)
     {
         rolling = fireballRolling;
@@ -36,9 +38,16 @@ public class Fireball : IProjectile
         this.location = location;
         this.Direction = Direction;
         velocity = new Vector2(Direction ? X_SPEED : -X_SPEED, 0f);
+        FireballCollider = new Rectangle((int)location.X, (int)location.Y, 8 * (int)SCALE, 8 * (int)SCALE); 
     }
 
 
+    public void Bounce(float blockTop)
+    {
+        location = new Vector2(location.X, blockTop - 16f * SCALE); // snap above block
+        velocity.Y = BOUNCE_VELOCITY;
+        bounceCount++;
+    }
 
     public void Draw(SpriteBatch spriteBatch)
     {
@@ -64,7 +73,7 @@ public class Fireball : IProjectile
         velocity = Vector2.Zero;
     }
 
-
+    
 
     public void Update(GameTime gameTime)
     {
@@ -80,16 +89,6 @@ public class Fireball : IProjectile
 
             // update rolling animation
             rolling.Update(gameTime);
-
-            // example ground bounce (replace with real collision later)
-            float groundY = 750f;             // ground
-            float fireballHeight = 16f * 4f;  // base height * scale 
-            if (location.Y + fireballHeight >= groundY)
-            {
-                location = new Vector2(location.X, groundY - fireballHeight);
-                velocity.Y = BOUNCE_VELOCITY;
-                bounceCount++;
-            }
         }
         else // Popped
         {
@@ -100,5 +99,6 @@ public class Fireball : IProjectile
                 IsActive = false; // remove from manager list
         }
         if (bounceCount > MAX_BOUNCE) { Pop(); }
+        FireballCollider = new Rectangle((int)location.X, (int)location.Y, 8 * (int)SCALE, 8 * (int)SCALE); 
     }
 }
