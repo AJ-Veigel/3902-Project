@@ -24,7 +24,6 @@ public class GameController
         if (currentState.IsKeyDown(Keys.R) && previousState.IsKeyUp(Keys.R))
             game.Reset();
 
-     
         if (currentState.IsKeyDown(Keys.N) && previousState.IsKeyUp(Keys.N))
             game.play();
 
@@ -34,8 +33,7 @@ public class GameController
 
         if (currentState.IsKeyDown(Keys.D6) && previousState.IsKeyUp(Keys.D6))
             game.UnpauseGame();
-
-       
+            
         if (currentState.IsKeyDown(Keys.M) && previousState.IsKeyUp(Keys.M))
             MediaPlayer.Pause();
     }
