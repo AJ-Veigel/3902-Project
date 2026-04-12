@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
@@ -19,20 +19,21 @@ using EnemyPlayerCollision;
 using FireballCollisions;
 using SoundManager;
 
+
 namespace SprintZero;
 
 public class Game1 : Core
 {
+ 
 
     private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture;
     private TextureRegion ground, smallTube, castle, mushroom, mediumTube, oneup_mushroom;
 
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
-
    private playerItemCollisions playerItemCollision;
    private FireballCollision fireballCollision;
     private Song backgroundMusic; 
-
+    private SpriteFont font;
     private List<IController> controllers;
     private List<ICollectable> items, currentItems;
     private List<IBlock> blocks;
@@ -54,6 +55,9 @@ public class Game1 : Core
     private const float cooldownForDamage = 1.0f;
     private bool canTakeDamage = true; 
     private float cooldownTimer = 0f;
+    
+    public bool IsPaused {get;set;} = false;
+    private Texture2D pauseTexture;
 
     public Game1() : base("SMB1", 1920, 1080, false) { }
 
@@ -68,7 +72,6 @@ public class Game1 : Core
         };
 
         Bounds = new Rectangle(0, 0, 1920, 1080);
-
         maps = new List<TileMap>();
 
         base.Initialize();
@@ -81,6 +84,7 @@ public class Game1 : Core
     }
     protected override void LoadContent()
     {
+      
         blocksTexture = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         ground = blocksTexture.GetRegion("ground");
         questionBlockHit = blocksTexture.CreateAnimatedSprite("hit-Question");
@@ -93,7 +97,7 @@ public class Game1 : Core
         flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
       
       Music.LoadContent(Content);
-
+      
         Vector2 blockPos = new Vector2(600, 500);
 
         blocks = new List<IBlock>
@@ -184,24 +188,29 @@ public class Game1 : Core
         level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml");
         level.FromFile(mapBonus);
         maps.Add(mapBonus);
-      //   Music.music(Content);
-        //Can move this into the same class as our map if wanted to or just leave it here
         backgroundMusic = Content.Load<Song>("Music/Background");
         MediaPlayer.IsRepeating = true;
         MediaPlayer.Volume = 0.5f;
         MediaPlayer.Play(backgroundMusic);
-
+        pauseTexture = Content.Load<Texture2D>("Images/Pause");
         base.LoadContent();
    
     }
 
     protected override void Update(GameTime gameTime)
     {
+        
         foreach (IController controller in controllers)
         {
             controller.Update(gameTime);
         }
-
+    
+     if (IsPaused)
+        {
+            base.Update(gameTime);
+            return;
+        }
+            
         map = maps[currentLevel];
 
 
@@ -233,7 +242,6 @@ public class Game1 : Core
         currentEnemy.Update(gameTime);
         CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
 
-        //playerBlockCollision.checkBlockCollision(currentMario, blocks);
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
 
         foreach (IBlock b in blocks) { // these extra blocks should be fit into TileMap somehow.
@@ -288,7 +296,8 @@ public class Game1 : Core
                 canTakeDamage = true;
             }
         }
-        base.Update(gameTime);
+       
+    base.Update(gameTime);
     }
 
 
@@ -316,8 +325,17 @@ public class Game1 : Core
         );
         map.Draw(SpriteBatch, cameraRect, 64);
         SpriteBatch.End();
+     if (IsPaused)
+    {
+    SpriteBatch.Begin();
+    SpriteBatch.Draw(pauseTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
+    SpriteBatch.End();
+    }
+      
+        
         base.Draw(gameTime);
     }
+    
 
     private void SpawnFireball()
     {
@@ -413,15 +431,18 @@ public class Game1 : Core
     }
     public void MarioJump()
     {
+         if (IsPaused) return;
         currentMario.Jump(); 
     }
     public void MarioCrouch()
     {
+         if (IsPaused) return;
         currentMario.Crouching = true;
         currentMario.Crouch();
     }
     public void MarioUncrouch()
     {
+         if (IsPaused) return;
         currentMario.Crouching = false;
         currentMario.Crouch();
     }
@@ -429,32 +450,37 @@ public class Game1 : Core
     {
         if (currentMarioNum == 2)
         {
+             if (IsPaused) return;
             currentMario.Fireball();
             SpawnFireball();
         }
     }
     public void MarioRight()
     {
+        if (IsPaused) return;
         currentMario.Direction = true;
         currentMario.Move();
     }
     public void MarioLeft()
     {
+         if (IsPaused) return;
         currentMario.Direction = false;
         currentMario.Move();
     }
     public void StopMarioRight()
     {
+         if (IsPaused) return;
         currentMario.Direction = true;
         currentMario.StopMove();
     }
     public void StopMarioLeft()
-    {
+    { if (IsPaused) return;
         currentMario.Direction = false;
         currentMario.StopMove();
     }
     public void Damage()
     {
+         if (IsPaused) return;
         if (canTakeDamage)
         {
             canTakeDamage = false;
@@ -475,6 +501,16 @@ public class Game1 : Core
         }
        
     }
+    public void PauseGame()
+    {
+        IsPaused = true;
+        MediaPlayer.Pause();
+    }
+    public void UnpauseGame()
+    {
+        IsPaused = false;
+        MediaPlayer.Resume();
+    }
 
     public void toggleMap(int roomNumber)
     {
@@ -485,18 +521,15 @@ public class Game1 : Core
         }
         // update function handles it from here.
     }
-
+    
     public void Reset()
     {
          
         Initialize();
     }
-    public void UpdateGamePlay(GameTime gameTime){}
-    public void DrawGameplay(){}
-    public void UpdatePause(GameTime gameTime){}
-    public void DrawPauseScreen(){}
     public void play()
     {
         MediaPlayer.Play(backgroundMusic);
     }
+  
 }
