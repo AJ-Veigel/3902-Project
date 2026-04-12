@@ -33,7 +33,6 @@ public class Game1 : Core
    private playerItemCollisions playerItemCollision;
    private FireballCollision fireballCollision;
     private Song backgroundMusic; 
-    private SpriteFont font;
     private List<IController> controllers;
     private List<ICollectable> items, currentItems;
     private List<IBlock> blocks;
@@ -328,7 +327,7 @@ public class Game1 : Core
      if (IsPaused)
     {
     SpriteBatch.Begin();
-    SpriteBatch.Draw(pauseTexture, new Rectangle(0, 0, 1920, 1080), Color.White);
+    SpriteBatch.Draw(pauseTexture, new Rectangle(0, 0, 200, 200), Color.White);
     SpriteBatch.End();
     }
       
