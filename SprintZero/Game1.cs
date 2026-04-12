@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
@@ -10,6 +10,7 @@ using SpriteZero.Sprites;
 using SprintZero.blocks;
 using SprintZero.PBCollision;
 using SprintZero.Map;
+using SprintZero.Items;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using Microsoft.Xna.Framework.Media;
@@ -20,23 +21,21 @@ using SoundManager;
 using System.Security.Cryptography;
 
 
-
 namespace SprintZero;
 
 public class Game1 : Core
 {
+ 
 
     private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture;
     private TextureRegion ground, smallTube, castle, mushroom, mediumTube, oneup_mushroom;
 
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
-
    private playerItemCollisions playerItemCollision;
    private FireballCollision fireballCollision;
     private Song backgroundMusic; 
-
     private List<IController> controllers;
-    private List<ICollectable> items;
+    private List<ICollectable> items, currentItems;
     private List<IBlock> blocks;
     private List<IProjectile> projectiles;
     private List<IMario> marios;
@@ -53,10 +52,19 @@ public class Game1 : Core
     private Rectangle Bounds;
     private OrthographicCamera camera;
     private float prevX;
+    private const float cooldownForDamage = 1.0f;
+    private bool canTakeDamage = true; 
+    private float cooldownTimer = 0f;
+    
+    public bool IsPaused {get;set;} = false;
+    private Texture2D pauseTexture;
 
     public Game1() : base("SMB1", 1920, 1080, false) { }
+
+
     protected override void Initialize()
     {
+        
         controllers = new List<IController>
         {
             new KeyController(this),
@@ -64,7 +72,6 @@ public class Game1 : Core
         };
 
         Bounds = new Rectangle(0, 0, 1920, 1080);
-
         maps = new List<TileMap>();
 
         base.Initialize();
@@ -77,6 +84,7 @@ public class Game1 : Core
     }
     protected override void LoadContent()
     {
+      
         blocksTexture = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         ground = blocksTexture.GetRegion("ground");
         questionBlockHit = blocksTexture.CreateAnimatedSprite("hit-Question");
@@ -89,7 +97,7 @@ public class Game1 : Core
         flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
       
       Music.LoadContent(Content);
-
+      
         Vector2 blockPos = new Vector2(600, 500);
 
         blocks = new List<IBlock>
@@ -168,34 +176,41 @@ public class Game1 : Core
         currentEnemy = enemies[currentEnemyCount];
         prevX = 0;
 
+        currentItems = new List<ICollectable>();
+
         currentLevel = 0;
         TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         TileMap map1 = new TileMap();
-        ILevel level = new LevelOne(Content, blockTextures, "LevelData/LevelOne.xml");
+        ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml");
         level.FromFile(map1);
         maps.Add(map1);
         TileMap mapBonus = new TileMap();
         level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml");
         level.FromFile(mapBonus);
         maps.Add(mapBonus);
-      //   Music.music(Content);
-        //Can move this into the same class as our map if wanted to or just leave it here
         backgroundMusic = Content.Load<Song>("Music/Background");
         MediaPlayer.IsRepeating = true;
         MediaPlayer.Volume = 0.5f;
         MediaPlayer.Play(backgroundMusic);
-
+        pauseTexture = Content.Load<Texture2D>("Images/Pause");
         base.LoadContent();
    
     }
 
     protected override void Update(GameTime gameTime)
     {
+        
         foreach (IController controller in controllers)
         {
             controller.Update(gameTime);
         }
-
+    
+     if (IsPaused)
+        {
+            base.Update(gameTime);
+            return;
+        }
+            
         map = maps[currentLevel];
 
 
@@ -203,12 +218,18 @@ public class Game1 : Core
 
 
         currentBlock.Update(gameTime);
+
+        foreach(ICollectable item in currentItems)
+        {
+            item.Update(gameTime);
+        }
         currentItem.Update(gameTime);
 
 
         currentEnemy.Update(gameTime);
         CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
 
+<<<<<<< HEAD
 
         //playerBlockCollision.checkBlockCollision(currentMario, blocks);
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 16);
@@ -224,6 +245,9 @@ public class Game1 : Core
                 projectiles.RemoveAt(i);
             }
         }
+=======
+        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
+>>>>>>> af2154955e98797a76fff9d1f82e83a3f896b343
 
         foreach (IBlock b in blocks) { // these extra blocks should be fit into TileMap somehow.
             collidableBlocks.Add(b);
@@ -234,7 +258,7 @@ public class Game1 : Core
             collidableBlocks
         ); // We should only call this method once per update.
 
-        playerItemCollision.CheckCollisions(currentMario,currentItem,currentItemCount,currentMarioNum,SetMario);
+        playerItemCollision.CheckCollisions(currentMario,currentItems,currentMarioNum,SetMario);
         CheckEnemyCollisions.CheckEnemyMarioCollisions(currentEnemy,currentMario,Damage);
 
         // Camera
@@ -254,7 +278,7 @@ public class Game1 : Core
         );
         map.Update(gameTime, cameraRect, 64);
 
-        foreach (var item in items)
+        foreach (var item in currentItems)
         {
             if (item is Coin coin)
             {
@@ -264,8 +288,21 @@ public class Game1 : Core
             {
                 flower.CheckCollisions(currentMario);
             }
+            else if (item is Mushroom mushroom)
+            {
+                mushroom.CheckCollisions(currentMario);
+            }
         }
-        base.Update(gameTime);
+        if (!canTakeDamage)
+        {
+            cooldownTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (cooldownTimer <= 0)
+            {
+                canTakeDamage = true;
+            }
+        }
+       
+    base.Update(gameTime);
     }
 
 
@@ -277,6 +314,10 @@ public class Game1 : Core
         currentBlock.Draw(SpriteBatch);
         currentItem.Draw(SpriteBatch);
         currentMario.Draw(SpriteBatch);
+        foreach(ICollectable item in currentItems)
+        {
+            item.Draw(SpriteBatch);
+        }
         foreach (var p in projectiles)
             p.Draw(SpriteBatch);
         currentEnemy.Draw(SpriteBatch);
@@ -289,8 +330,17 @@ public class Game1 : Core
         );
         map.Draw(SpriteBatch, cameraRect, 64);
         SpriteBatch.End();
+     if (IsPaused)
+    {
+    SpriteBatch.Begin();
+    SpriteBatch.Draw(pauseTexture, new Rectangle(0, 0, 200, 200), Color.White);
+    SpriteBatch.End();
+    }
+      
+        
         base.Draw(gameTime);
     }
+    
 
     private void SpawnFireball()
     {
@@ -386,15 +436,18 @@ public class Game1 : Core
     }
     public void MarioJump()
     {
+         if (IsPaused) return;
         currentMario.Jump(); 
     }
     public void MarioCrouch()
     {
+         if (IsPaused) return;
         currentMario.Crouching = true;
         currentMario.Crouch();
     }
     public void MarioUncrouch()
     {
+         if (IsPaused) return;
         currentMario.Crouching = false;
         currentMario.Crouch();
     }
@@ -402,35 +455,45 @@ public class Game1 : Core
     {
         if (currentMarioNum == 2)
         {
+             if (IsPaused) return;
             currentMario.Fireball();
             SpawnFireball();
         }
     }
     public void MarioRight()
     {
+        if (IsPaused) return;
         currentMario.Direction = true;
         currentMario.Move();
     }
     public void MarioLeft()
     {
+         if (IsPaused) return;
         currentMario.Direction = false;
         currentMario.Move();
     }
     public void StopMarioRight()
     {
+         if (IsPaused) return;
         currentMario.Direction = true;
         currentMario.StopMove();
     }
     public void StopMarioLeft()
-    {
+    { if (IsPaused) return;
         currentMario.Direction = false;
         currentMario.StopMove();
     }
     public void Damage()
     {
-        if (currentMarioNum == 0)
+         if (IsPaused) return;
+        if (canTakeDamage)
+        {
+            canTakeDamage = false;
+            cooldownTimer = cooldownForDamage;
+           if (currentMarioNum == 0)
         {
             currentMario.Damage();
+            
         }
         else if (currentMarioNum == 1)
         {
@@ -439,7 +502,19 @@ public class Game1 : Core
         else if (currentMarioNum == 2)
         {
             SetMario(1);
+        }  
         }
+       
+    }
+    public void PauseGame()
+    {
+        IsPaused = true;
+        MediaPlayer.Pause();
+    }
+    public void UnpauseGame()
+    {
+        IsPaused = false;
+        MediaPlayer.Resume();
     }
 
     public void toggleMap(int roomNumber)
@@ -451,15 +526,15 @@ public class Game1 : Core
         }
         // update function handles it from here.
     }
-
+    
     public void Reset()
     {
          
         Initialize();
     }
- 
     public void play()
     {
         MediaPlayer.Play(backgroundMusic);
     }
+  
 }

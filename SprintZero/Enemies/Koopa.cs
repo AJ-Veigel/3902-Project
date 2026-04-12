@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
+using SprintZero.Collisions;
 using SpriteZero.Enemies;
 
 public class Koopa : IEnemy
@@ -34,6 +35,18 @@ public class Koopa : IEnemy
 	public Rectangle EnemyCollider { get; set; }
 	public float VelocityX { get; set; }
 	public float VelocityY { get; set; }
+
+	public EnemyEnemyCollision.EnemyAction ActionState
+	{
+		get
+		{
+			if (KoopaState == KoopaStates.ShellMoving)
+			{
+				return EnemyEnemyCollision.EnemyAction.Kill;
+			}
+			return EnemyEnemyCollision.EnemyAction.Bounce;
+		}
+	}
 
 	public static void LoadTextures(ContentManager content)
 	{
@@ -131,6 +144,26 @@ public class Koopa : IEnemy
             UpdateCollider();
         }
     }
+
+	public void CollideWithEnemy(IEnemy enemy)
+	{
+		// Todo: implement koopa behavior on enemy collision
+		switch (enemy.ActionState)
+		{
+			case EnemyEnemyCollision.EnemyAction.None: // i dont think this should ever happen. idk.
+				break;
+			case EnemyEnemyCollision.EnemyAction.Bounce:
+				if (KoopaState == KoopaStates.Walk1 || KoopaState == KoopaStates.Walk2)
+				{
+					this.ReverseDirection();
+				}
+				// Otherwise ignore other enemy: they die or bounce on their own.
+                break;
+            case EnemyEnemyCollision.EnemyAction.Kill:
+				this.Dead = true;
+                break;
+        }
+	}
 
     public void Draw(SpriteBatch spriteBatch)
 	{

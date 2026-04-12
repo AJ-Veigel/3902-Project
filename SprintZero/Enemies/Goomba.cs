@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
+using SprintZero.Collisions;
 using SpriteZero.Enemies;
 
 public class Goomba : IEnemy
@@ -13,6 +14,9 @@ public class Goomba : IEnemy
     public float VelocityY { get; set; } = 0f;
     public bool onGround { get; set; } = false;
     public bool Despawn { get; set; }
+
+    public EnemyEnemyCollision.EnemyAction ActionState { get => EnemyEnemyCollision.EnemyAction.Bounce; }
+
     private const float Gravity = 0.5f;
     private float deathTimer = 0f; 
 
@@ -41,6 +45,11 @@ public class Goomba : IEnemy
     public void ReverseDirection()
     {
         VelocityX = -VelocityX;
+    }
+
+    public void CollideWithEnemy(IEnemy enemy)
+    {
+        
     }
     public void Update(GameTime gameTime)
     {

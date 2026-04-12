@@ -134,6 +134,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/NES - Super Mario Bros. - Miscellaneous - Item and Brick Blocks.png;Images/Blocks.png
 
+#begin Images/Pause-4-12-2026.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Pause-4-12-2026.png;Images/Pause.png
+
 #begin Images/SmallMario-definition.xml
 /copy:Images/SmallMario-definition.xml
 

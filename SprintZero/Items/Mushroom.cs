@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SoundManager;
+using SprintZero.Items;
 using SprintZero;
 using SprintZero.Marios;
 
@@ -23,6 +24,13 @@ public class Mushroom : ICollectable
     {
         sprite = region;
         location = new Vector2(300, 700);
+        startY = location.Y;
+        RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
+    }
+    public Mushroom(TextureRegion region, Vector2 pos)
+    {
+        sprite = region;
+        location = pos;
         startY = location.Y;
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
