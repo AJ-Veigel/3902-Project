@@ -13,6 +13,8 @@ If you wish to reset the game, press 'r'
 If you wish to quit the game, press 'esc' 
 If you wish to pause the background music, press 'm'
 If you wish to unpause the background music, press 'n'
+If you wish to pause the game, press '5'
+If you wish to unpause the gaem, press '6'
 
 Code reference links:
     Code from the MonoGameLibrary is written using MonoGame Tutorals. The exact breakdown is below. \
@@ -43,6 +45,7 @@ Known issues:
    - When walking in the world the tubes do not interact, this is due to how they are currently added into the tilemap
    - DO NOT CHANGE levels, although there is a bonus level implemented, pipes do not swap them, and when mario gets stuck inside the block it is very loud, so if you do swap only do it when muted or before you move too far
    - when one block is updated, every block is updated in the tile map
+   - Pause button taking up the whole screen
 
 Currently being worked on:
     -Collision between blocks, items, projectiles, and enemies.
