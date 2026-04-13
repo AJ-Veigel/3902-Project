@@ -29,7 +29,31 @@ public class Goomba : IEnemy
     private AnimatedSprite currentASprite;
 
 
-    public bool Dead { get; set; }
+    public bool isStomped { get; set; } = false;
+
+    private bool isDead = false;
+    public bool Dead
+    {
+        get { return isDead; }
+        set
+        {
+            if (value && !isDead)
+            {
+                isDead = true;
+                EnemyCollider = new Rectangle(0, 0, 0, 0); 
+
+                if (!isStomped)
+                {
+                    VelocityX = 0;
+                    VelocityY = -10f;
+                }
+            }
+            else if (!value)
+            {
+                isDead = false;
+            }
+        }
+    }
 
     public Goomba(TextureAtlas goombaTexture)
     {
@@ -41,7 +65,17 @@ public class Goomba : IEnemy
         position = new Vector2(600, 650);
         EnemyCollider = new Rectangle((int)position.X, (int)position.Y, goombaRight1Sprite.SourceRectangle.Width * (int)SCALE, goombaRight1Sprite.SourceRectangle.Height * (int)SCALE);
     }
-
+    public void Stomped()
+    {
+        if (!isStomped)
+        {
+            isStomped = true;
+            Dead = true;
+            VelocityX = 0;
+            VelocityY = 0;
+            EnemyCollider = new Rectangle(0, 0, 0, 0);
+        }
+    }
     public void ReverseDirection()
     {
         VelocityX = -VelocityX;
@@ -49,18 +83,55 @@ public class Goomba : IEnemy
 
     public void CollideWithEnemy(IEnemy enemy)
     {
-        
+        switch (enemy.ActionState)
+        {
+            case EnemyEnemyCollision.EnemyAction.Bounce:
+                this.ReverseDirection();
+                break;
+            case EnemyEnemyCollision.EnemyAction.Kill:
+                this.Dead = true;
+                break;
+        }
     }
     public void Update(GameTime gameTime)
     {
-        if (currentSprite == null && !Dead)
+        if (currentSprite == null && !Dead && !isStomped)
         {
             currentSprite = goombaRight1Sprite;
         }
 
         animationTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        if (!Dead)
+        if (isStomped)
+        {
+            if (!Despawn)
+            {
+                deathTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (deathTimer < 1.0f)
+                {
+                    currentSprite = goombaFlat1Sprite;
+                    currentASprite = goombaHit1Sprite;
+                }
+                else
+                {
+                    Despawn = true;
+                    currentSprite = null;
+                    currentASprite = null;
+                }
+            }
+        }
+        else if (Dead)
+        {
+            VelocityY += Gravity;
+            position = new Vector2(position.X, position.Y + VelocityY);
+
+            if (position.Y > 800f) //arbitrary value for despawn
+            {
+                Despawn = true;
+            }
+        }
+        else
         {
             if (!onGround)
             {
@@ -89,45 +160,21 @@ public class Goomba : IEnemy
                 }
             }
             currentASprite = goombaWalk1Sprite;
-
-        }
-        else
-        {
-            EnemyCollider = new Rectangle(0, 0, 0, 0);
-            if (!Despawn)
-            {
-                deathTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-                if (deathTimer < 1.0f)
-                {
-                    currentSprite = goombaFlat1Sprite;
-                    currentASprite = goombaHit1Sprite;
-                }
-                else
-                {
-                    Despawn = true;
-                    currentSprite = null;
-                    currentASprite = null;
-                }
-            }
-
         }
     }
     public void Draw(SpriteBatch spriteBatch)
     {
+        if (Despawn) return;
+
+        SpriteEffects effect = (Dead && !isStomped) ? SpriteEffects.FlipVertically : SpriteEffects.None;
+
         if (currentSprite != null)
         {
-
-            spriteBatch.Draw(currentSprite.Texture, position, currentSprite.SourceRectangle, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0f);
-
+            spriteBatch.Draw(currentSprite.Texture, position, currentSprite.SourceRectangle, Color.White, 0f, Vector2.Zero, 4f, effect, 0f);
         }
-        
         else if (currentASprite != null)
         {
-
             currentASprite.Draw(spriteBatch, position);
-
         }
     }
-
 }

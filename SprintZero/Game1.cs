@@ -229,7 +229,7 @@ public class Game1 : Core
         currentEnemy.Update(gameTime);
         CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
 
-<<<<<<< HEAD
+
 
         //playerBlockCollision.checkBlockCollision(currentMario, blocks);
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 16);
@@ -245,9 +245,10 @@ public class Game1 : Core
                 projectiles.RemoveAt(i);
             }
         }
-=======
-        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
->>>>>>> af2154955e98797a76fff9d1f82e83a3f896b343
+
+
+        collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
+
 
         foreach (IBlock b in blocks) { // these extra blocks should be fit into TileMap somehow.
             collidableBlocks.Add(b);
