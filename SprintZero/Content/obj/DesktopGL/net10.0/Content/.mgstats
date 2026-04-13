@@ -1,5 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Font/File.spritefont","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Font/File.xnb","FontDescriptionProcessor","SpriteFontContent",2065,37913,0.169436
+"C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Font/File.spritefont","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Font/File.xnb","FontDescriptionProcessor","SpriteFontContent",2065,37913,0.1690019
 "C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/goombasprites.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/goombasprites.xnb","TextureProcessor","Texture2DContent",653,9365,0.0100344
 "C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/items.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/items.xnb","TextureProcessor","Texture2DContent",1882,118645,0.0099762
 "C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Images/koopaSprites.png","C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Images/koopaSprites.xnb","TextureProcessor","Texture2DContent",1203,18517,0.003035
