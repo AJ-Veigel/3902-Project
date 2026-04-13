@@ -92,7 +92,6 @@ public class Fireball : IProjectile
 <<<<<<< HEAD
 =======
 
-
             // example ground bounce (replace with real collision later)
             float groundY = 870f;             // ground
             float fireballHeight = 16f * 4f;  // base height * scale 
@@ -102,8 +101,7 @@ public class Fireball : IProjectile
                 velocity.Y = BOUNCE_VELOCITY;
                 bounceCount++;
             }
-
->>>>>>> origin/main
+>>>>>>> af2154955e98797a76fff9d1f82e83a3f896b343
         }
         else // Popped
         {
