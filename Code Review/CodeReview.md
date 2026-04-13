@@ -74,3 +74,12 @@ Name of the .cs file being reviewed: Level1.cs
 Author of the .cs file being reviewed: AJ & Alex
 Specific comments on code quality: 40 mins 
      The code quality is very good. Everything makes sense logically to be included.  A hypothetical change to make here would be clean up the code. Get rid of the commented out code if no longer needed. Since we are nearing the end of the course, you could get rid of the comments since we know how everything works now. The naming convention looks fine. The only note here is you may want to double check all the variable ensuring the naming convention all match each other. For example, you have filename rather than fileName.  I also have notices that this.BGColor = Color.AliceBlue is not actually affecting our background color. If we want to switch the color to AliceBlue, I believe the change needs to be made in game1 rather than this file. However, Alice blue is closer to a bright blue-white color, rather than the color we have now. 
+
+ Author of the code review: Adam Novak
+ Date of the code review: 4/13/2026
+ Sprint number: 4
+ Name of the .cs file being reviewed: QuestionMarkItem.cs
+ Author of the .cs file being reviewed: AJ
+ Number of minutes taken to complete the review: 20
+ Specific Comments on what is readable and what is not:
+ -The code quality is generally good; everything does make logical sense. There are a lot of else if branches in the conditional statement in the OnCollision method; a helper method /could/ be written to make OnCollision shorter, but I believe that it's fine as it is for the moment. The item blocks work as intended; mushrooms and fire flowers appear upon contact with the bottom of the item blocks, and they enter an inert state after they are hit. 
