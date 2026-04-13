@@ -18,7 +18,7 @@ public class DebugController
     {
         UpdateMarioDebug(previousState, currentState, game);
         UpdateItemDebug(previousState, currentState, game);
-        UpdateEnemyDebug(previousState, currentState, game);
+        //UpdateEnemyDebug(previousState, currentState, game);
     }
 
     public static void UpdateMarioDebug(KeyboardState previousState, KeyboardState currentState, Game1 game)
@@ -79,7 +79,7 @@ public class DebugController
     }
 
 
-    public static void UpdateEnemyDebug(KeyboardState previousState, KeyboardState currentState, Game1 game)
+    /*public static void UpdateEnemyDebug(KeyboardState previousState, KeyboardState currentState, Game1 game)
     {
         // Change to "Spawn Enemy"
         if (currentState.IsKeyDown(Keys.O) && previousState.IsKeyUp(Keys.O))
@@ -92,5 +92,5 @@ public class DebugController
         {
             game.nextEnemy();
         }
-    }
+    } */
 }

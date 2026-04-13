@@ -6,20 +6,28 @@ using SprintZero.blocks;
 using SprintZero.Map;
 using Microsoft.Xna.Framework;
 
-namespace EnemyPlayerCollision
+namespace EnemyCollisions
 {
     public static class CheckEnemyCollisions
     {
-        // Handles enemy-Mario interactions
         public static void CheckEnemyMarioCollisions(IEnemy currentEnemy, IMario currentMario, Action Damage)
         {
-            if (currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) && !currentEnemy.Dead)
+            if (currentEnemy == null || currentEnemy.Dead || !currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider))
+                return;
+
+            Rectangle mRect = currentMario.MarioCollider;
+            Rectangle eRect = currentEnemy.EnemyCollider;
+
+
+            bool isAbove = mRect.Bottom <= eRect.Center.Y + 16;
+
+            if (isAbove)
             {
-                if (currentMario.Falling && currentMario.MarioCollider.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
+                if (currentMario.yVelocity > 0) //using currentMario.Falling caused the koopa shell to automatically kick out 
                 {
                     if (currentEnemy is Koopa koopa && (koopa.KoopaState == Koopa.KoopaStates.ShellStill || koopa.KoopaState == Koopa.KoopaStates.ShellStill2))
                     {
-                        bool kickRight = currentMario.MarioCollider.Center.X < koopa.EnemyCollider.Center.X;
+                        bool kickRight = mRect.Center.X < eRect.Center.X;
                         koopa.Kicked(kickRight);
                     }
                     else
@@ -29,20 +37,21 @@ namespace EnemyPlayerCollision
 
                     currentMario.Bounce();
                 }
+            }
+            else
+            {
+                if (currentEnemy is Koopa koopa && (koopa.KoopaState == Koopa.KoopaStates.ShellStill || koopa.KoopaState == Koopa.KoopaStates.ShellStill2))
+                {
+                    bool kickRight = mRect.Center.X < eRect.Center.X;
+                    koopa.Kicked(kickRight);
+                }
                 else
                 {
-                    if (currentEnemy is Koopa koopa && (koopa.KoopaState == Koopa.KoopaStates.ShellStill || koopa.KoopaState == Koopa.KoopaStates.ShellStill2))
-                    {
-                        bool kickRight = currentMario.MarioCollider.Center.X < koopa.EnemyCollider.Center.X;
-                        koopa.Kicked(kickRight);
-                    }
-                    else
-                    {
-                        Damage();
-                    }
+                    Damage();
                 }
             }
         }
+
 
 
         public static void CheckEnemyBlockCollisions(IEnemy currentEnemy, List<IBlock> blocks, TileMap map)
