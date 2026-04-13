@@ -26,20 +26,26 @@ namespace SprintZero.Map
         private TextureRegion ground, solid, tubeTop, tubeLeft, tubeMid, tubeInter;
         private AnimatedSprite qBlock, brick;
 
+
+        public List<IEnemy> spawnedEnemies;
+
+        private TextureAtlas goombaTexture;
         public LevelOne(ContentManager content, TextureAtlas blockTextures, TextureAtlas itemTextures, List<ICollectable> currItems, string filename)
         {
+            this.content = content;
             this.blockTextures = blockTextures;
+            this.spawnedEnemies = new List<IEnemy>();
             LoadContent();
             BGColor = Color.AliceBlue;
             this.filename = filename;
-            this.content = content;
+
             items = currItems;
             this.itemTextures = itemTextures;
         }
 
         public List<IEnemy> GetEnemies()
         {
-            return new List<IEnemy>(); // Return empty list, for now.
+            return spawnedEnemies;
         }
         private static void placeGroundAt(TileMap map, TextureRegion ground, Point tilePos)
         {
@@ -117,6 +123,7 @@ namespace SprintZero.Map
             tubeLeft = blockTextures.GetRegion("tubeLeft");
             tubeMid = blockTextures.GetRegion("tubeMid");
             tubeInter = blockTextures.GetRegion("tubeIntersect");
+            goombaTexture = TextureAtlas.FromFile(this.content, "images/goomba-definition.xml");
         }
 
         public void FromFile(TileMap tilemap)
@@ -201,6 +208,20 @@ namespace SprintZero.Map
                                 case 9:
                                     {
                                         placeItemQBlockAt(tilemap, qBlock, p);
+                                        break;
+                                    }
+                                case 12:
+                                    {
+                                        Goomba goomba = new Goomba(goombaTexture);
+                                        goomba.position = pos;
+                                        spawnedEnemies.Add(goomba);
+                                        break;
+                                    }
+                                case 13:
+                                    {
+                                        Koopa koopa = new Koopa(Koopa.KoopaType.Green);
+                                        koopa.position = pos;
+                                        spawnedEnemies.Add(koopa);
                                         break;
                                     }
                                 default:
