@@ -11,27 +11,25 @@ public class OneUp : ICollectable
     private TextureRegion sprite;
     public Vector2 location { get; set; }
     public Rectangle RectCollider { get; set; }
+    private const float Gravity = 0.3f;
+    private const float SCALE = 4f;
     public float VelocityX { get; set; }
     public float VelocityY { get; set; }
     public bool Collected {get;set;} =false;
     public bool onGround { get; set; }
-    private float gravity = 0.3f;
-    private float riseUp = 40f;
-    private float startY;
-    private bool rising = true;
+    public bool Collidable { get; set; } = false;
+    private float spawnTimer = 0f;
 
     public OneUp(TextureRegion region)
     {
         sprite = region;
         location = new Vector2(400, 700);
-        startY = location.Y;
     }
 
     public OneUp(TextureRegion region, Vector2 pos)
     {
         sprite = region;
         location = pos;
-        startY = location.Y;
     }
     public void ReverseDirection()
     {
@@ -39,31 +37,21 @@ public class OneUp : ICollectable
     }
     public void Update(GameTime gameTime)
     {
-        if (rising)
+        spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        if(spawnTimer > 0.5f)
         {
-            location = new Vector2(location.X, location.Y - 1f);
-            if (startY - location.Y >= riseUp)
-            {
-                rising = false;
-                VelocityY = 0f;
-            }
+            Collidable = true;
+        }
+        if (!onGround)
+        {
+            VelocityY = MathHelper.Clamp(VelocityY + Gravity, -10f, 12f);
         }
         else
         {
-            VelocityY += gravity;
-            location = new Vector2(location.X, location.Y + VelocityY);
-        }
-        if (location.Y >= 500)
-        {
-            location = new Vector2(location.X, 500);
             VelocityY = 0f;
-            location = new Vector2(location.X + VelocityX, location.Y);
         }
-        //Change 1000 to viewport length
-        if (location.X >= 1000 | location.X <= 0)
-        {
-            VelocityX *= -1;
-        }
+        location = new Vector2(location.X + VelocityX, location.Y);
+        RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
     public bool CheckCollisions(IMario mario)
     {

@@ -44,10 +44,6 @@ namespace ItemCollisions
                         Music.itemSound.Play();
                     }
                 }
-                else
-                {
-
-                }
             }
         }
 
@@ -62,17 +58,17 @@ namespace ItemCollisions
                 foreach (var block in nearbyBlocks)
                 {
                     Rectangle blockRect = block.Collider;
-                    Rectangle enemyRect = currentItem.RectCollider;
+                    Rectangle itemRect = currentItem.RectCollider;
 
-                    if (enemyRect.Intersects(blockRect))
+                    if (itemRect.Intersects(blockRect) && currentItem.Collidable)
                     {
-                        float overlapX = Math.Min(enemyRect.Right, blockRect.Right) - Math.Max(enemyRect.Left, blockRect.Left);
-                        float overlapY = Math.Min(enemyRect.Bottom, blockRect.Bottom) - Math.Max(enemyRect.Top, blockRect.Top);
+                        float overlapX = Math.Min(itemRect.Right, blockRect.Right) - Math.Max(itemRect.Left, blockRect.Left);
+                        float overlapY = Math.Min(itemRect.Bottom, blockRect.Bottom) - Math.Max(itemRect.Top, blockRect.Top);
 
                         // Side collision
                         if (overlapX < overlapY)
                         {
-                            if (enemyRect.Center.X < blockRect.Center.X)
+                            if (itemRect.Center.X < blockRect.Center.X)
                                 currentItem.location = new Vector2(currentItem.location.X - overlapX, currentItem.location.Y);
                             else
                                 currentItem.location = new Vector2(currentItem.location.X + overlapX, currentItem.location.Y);
@@ -82,7 +78,7 @@ namespace ItemCollisions
                         // Top/bottom collision
                         else
                         {
-                            if (enemyRect.Center.Y < blockRect.Center.Y)
+                            if (itemRect.Center.Y < blockRect.Center.Y)
                             {
                                 currentItem.location = new Vector2(currentItem.location.X, currentItem.location.Y - overlapY);
                                 currentItem.VelocityY = 0;
@@ -99,8 +95,8 @@ namespace ItemCollisions
                     currentItem.RectCollider = new Rectangle(
                         (int)currentItem.location.X,
                         (int)currentItem.location.Y,
-                        enemyRect.Width,
-                        enemyRect.Height
+                        itemRect.Width,
+                        itemRect.Height
                     );
                 }
             }

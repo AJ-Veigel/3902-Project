@@ -16,18 +16,15 @@ public class Star : ICollectable
     private const float SCALE = 4f;
     public bool Collected { get; set; } = false;
     public bool onGround { get; set; }
-    private float gravity = 0.3f;
-    private float riseUp = 40f;
-    private float startY;
-    private bool rising = true;
-    private float groundLevel = 500f;
+    private float Gravity = 0.3f;
+    public bool Collidable { get; set; } = false;
+    private float spawnTimer = 0f;
 
     public Star(AnimatedSprite animated)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         location = new Vector2(300, 700);
-        startY = location.Y;
         //Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
     }
@@ -37,7 +34,6 @@ public class Star : ICollectable
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         location = pos;
-        startY = location.Y;
         //Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
     }
@@ -48,27 +44,20 @@ public class Star : ICollectable
     public void Update(GameTime gameTime)
     {
         sprite.Update(gameTime);
-        if (rising)
+        spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        if (spawnTimer > 0.5f)
         {
-            location = new Vector2(location.X, location.Y - 1f);
-            if (startY - location.Y >= riseUp)
-            {
-                rising = false;
-                VelocityY = 0f;
-            }
+            Collidable = true;
+        }
+        if (!onGround)
+        {
+            VelocityY = MathHelper.Clamp(VelocityY + Gravity, -10f, 12f);
         }
         else
         {
-            VelocityY += gravity;
-            location = new Vector2(location.X, location.Y + VelocityY);
-        }
-        if (location.Y >= groundLevel)
-        {
-            location = new Vector2(location.X, groundLevel);
             VelocityY = 0f;
-            location = new Vector2(location.X + VelocityX, location.Y);
         }
-
+        location = new Vector2(location.X + VelocityX, location.Y);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
     }
 

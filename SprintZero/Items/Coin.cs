@@ -15,6 +15,7 @@ public class Coin : ICollectable
     public float VelocityY { get; set; }
     public bool Collected { get; set; } = false;
     public bool onGround { get; set; }
+    public bool Collidable { get; set; } = true;
 
     public Coin(AnimatedSprite animated)
     {
