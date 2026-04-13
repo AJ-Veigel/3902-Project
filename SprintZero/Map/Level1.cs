@@ -21,7 +21,7 @@ namespace SprintZero.Map
 
         public Level1(ContentManager content, string filename)
         {
-            this.BGColor = Color.AliceBlue;
+               this.BGColor = Color.AliceBlue;
             this.filename = filename;
             this.content = content;
         }

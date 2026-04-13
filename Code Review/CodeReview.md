@@ -56,3 +56,21 @@
 •	Specific comments on code readability : The code has many different variables which are all easy enough to discern, with each collision having a specific side that it deals with denoted by CollisionSide.Top etc.
 •	A hypothetical change to make is eventually we plan to update the collision detection from rectangle to the hitbox class, but since the overwhelming majority of collisions are with rectangles right now it should be fine.
      Another Hypothetical change to make is to increase the cases for the collision sides, as currently each block HAS to have a collision side rather than having a "none" collision side which would have no collision detection, which could help in later cases in which mario does not collide with a block, it would default to the collisionside bottom which would lead to false positives and collisions when there should not be.
+//Sprint 4 Reviews
+ 
+ Author of the code review: Madison Gysan
+ Date of the code review: 4/13/2026
+ Sprint number: 4
+ Name of the .cs file being reviewed: Fireball.cs 
+ Author of the .cs file being reviewed: Sam & Adam 
+ Number of minutes taken to complete the review: 20 mins
+ Specific Comments on what is readable and what is not:
+ -The code is very readable. Comments can probably deleted in the future as we already know must of the functionality. Check to see if there any way you could bring down the number of lines used to initializing variables. For example, could combine a few to be like private con float X_SPEED = 6f, GRAVITY = 0.5F, BOUNCE_VELOCITY = -6F; Besides that everything looks good! 
+
+Author of the code review: Madison Gysan
+Date of the code review: 4/13/2026
+Sprint number: 4
+Name of the .cs file being reviewed: Level1.cs
+Author of the .cs file being reviewed: AJ & Alex
+Specific comments on code quality: 40 mins 
+     The code quality is very good. Everything makes sense logically to be included.  A hypothetical change to make here would be clean up the code. Get rid of the commented out code if no longer needed. Since we are nearing the end of the course, you could get rid of the comments since we know how everything works now. The naming convention looks fine. The only note here is you may want to double check all the variable ensuring the naming convention all match each other. For example, you have filename rather than fileName.  I also have notices that this.BGColor = Color.AliceBlue is not actually affecting our background color. If we want to switch the color to AliceBlue, I believe the change needs to be made in game1 rather than this file. However, Alice blue is closer to a bright blue-white color, rather than the color we have now. 
