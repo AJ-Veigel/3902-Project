@@ -9,6 +9,19 @@ namespace SprintZero.PBCollision
 {
     public static class playerBlockCollision
     {
+
+        public static void checkCameraCollision(IMario mario, Rectangle bounds)
+        {
+            if (mario.location.X < bounds.Left)
+            {
+                int diff = (int)mario.location.X - bounds.Left;
+                mario.location = new Vector2(bounds.Left, mario.location.Y);
+                if (mario.xVelocity < 0)
+                {
+                    mario.xVelocity = 0.0f;
+                }
+            }
+        }
         public static void checkBlockCollision(IMario mario, List<IBlock> allBlocks)
         {
 

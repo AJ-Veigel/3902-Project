@@ -49,7 +49,7 @@ namespace EnemyPlayerCollision
         {
             if (currentEnemy != null && !currentEnemy.Dead)
             {
-                List<IBlock> nearbyBlocks = map.getBlocksInRectangle(currentEnemy.EnemyCollider);
+                List<IBlock> nearbyBlocks = map.getBlocksInRectangle(currentEnemy.EnemyCollider, 64);
                 nearbyBlocks.AddRange(blocks);
 
                 foreach (var block in nearbyBlocks)

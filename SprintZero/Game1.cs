@@ -232,14 +232,11 @@ public class Game1 : Core
         CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, enemyCollidableBlocks, map);
 
 
-
-        //playerBlockCollision.checkBlockCollision(currentMario, blocks);
-        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
         for (int i = projectiles.Count -1; i >= 0; i--)
         {
             Fireball currentFireball = (Fireball)projectiles[i];
             currentFireball.Update(gameTime);
-            List<IBlock> fireballCollidableBlocks = map.getBlocksInRectangle(currentFireball.FireballCollider, 8);
+            List<IBlock> fireballCollidableBlocks = map.getBlocksInRectangle(currentFireball.FireballCollider, 64);
             FireballCollision.checkFireballBlockCollision(currentFireball, fireballCollidableBlocks);
             FireballCollision.checkFireballEnemyCollision(currentFireball, enemies);
             if (!currentFireball.IsActive)
@@ -249,7 +246,7 @@ public class Game1 : Core
         }
 
 
-        collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
+        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
 
 
         foreach (IBlock b in blocks) { // these extra blocks should be fit into TileMap somehow.
@@ -279,6 +276,9 @@ public class Game1 : Core
             (int)visibleArea.Width,
             (int)visibleArea.Height
         );
+
+        playerBlockCollision.checkCameraCollision(currentMario, cameraRect);
+
         map.Update(gameTime, cameraRect, 64);
 
         foreach (var item in currentItems)
