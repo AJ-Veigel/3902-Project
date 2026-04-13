@@ -91,14 +91,11 @@ public class Fireball : IProjectile
             rolling.Update(gameTime);
 
 
-            // example ground bounce (replace with real collision later)
-            float groundY = 870f;             // ground
-            float fireballHeight = 16f * 4f;  // base height * scale 
-            if (location.Y + fireballHeight >= groundY)
+            float popY = 1000.0f;
+
+            if (location.Y > popY)
             {
-                location = new Vector2(location.X, groundY - fireballHeight);
-                velocity.Y = BOUNCE_VELOCITY;
-                bounceCount++;
+                Pop();
             }
 
         }
