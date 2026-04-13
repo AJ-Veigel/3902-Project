@@ -20,6 +20,8 @@ namespace SpriteZero.Enemies
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
         void ReverseDirection();
+        void Stomped();
+
 
         void CollideWithEnemy(IEnemy enemy);
     }

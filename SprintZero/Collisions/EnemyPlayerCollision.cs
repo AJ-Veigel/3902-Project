@@ -17,15 +17,7 @@ namespace EnemyPlayerCollision
             {
                 if (currentMario.Falling && currentMario.MarioCollider.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
                 {
-                    if (currentEnemy is Koopa koopa)
-                    {
-                        koopa.Stomped();
-                    }
-                    else
-                    {
-                        currentEnemy.Dead = true;
-                    }
-
+                    currentEnemy.Stomped();
                     currentMario.Bounce();
 
                 }
