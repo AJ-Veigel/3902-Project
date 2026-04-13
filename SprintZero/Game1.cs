@@ -310,7 +310,7 @@ public class Game1 : Core
     protected override void Draw(GameTime gameTime)
     {
 
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.AliceBlue);
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetViewMatrix());
         currentBlock.Draw(SpriteBatch);
         currentItem.Draw(SpriteBatch);
