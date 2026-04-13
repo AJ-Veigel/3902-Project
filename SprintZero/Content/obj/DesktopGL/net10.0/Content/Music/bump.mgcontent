@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Music/bump.wav</SourceFile>
-  <SourceTime>2026-04-12T01:40:05.1003058-04:00</SourceTime>
-  <DestFile>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Music/bump.xnb</DestFile>
-  <DestTime>2026-04-12T01:41:20.6206411-04:00</DestTime>
+  <SourceFile>C:/Users/ajvei/Documents/GitHub/3902-Project/SprintZero/Content/Music/bump.wav</SourceFile>
+  <SourceTime>2026-03-30T12:43:48.5292831-04:00</SourceTime>
+  <DestFile>C:/Users/ajvei/Documents/GitHub/3902-Project/SprintZero/Content/bin/DesktopGL/Content/Music/bump.xnb</DestFile>
+  <DestTime>2026-04-12T21:58:16.5389406-04:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2025-10-20T10:25:32-04:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>

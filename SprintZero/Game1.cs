@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Media;
 using playerItemCollision;
 using EnemyPlayerCollision;
 using FireballCollisions;
+using ItemCollisions;
 using SoundManager;
 using System.Security.Cryptography;
 
@@ -227,12 +228,12 @@ public class Game1 : Core
 
 
         currentEnemy.Update(gameTime);
-        CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
+        List<IBlock> enemyCollidableBlocks = map.getBlocksInRectangle(currentEnemy.EnemyCollider, 96);
+        CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, enemyCollidableBlocks, map);
 
-<<<<<<< HEAD
 
         //playerBlockCollision.checkBlockCollision(currentMario, blocks);
-        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 16);
+        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
         for (int i = projectiles.Count -1; i >= 0; i--)
         {
             Fireball currentFireball = (Fireball)projectiles[i];
@@ -245,9 +246,6 @@ public class Game1 : Core
                 projectiles.RemoveAt(i);
             }
         }
-=======
-        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
->>>>>>> af2154955e98797a76fff9d1f82e83a3f896b343
 
         foreach (IBlock b in blocks) { // these extra blocks should be fit into TileMap somehow.
             collidableBlocks.Add(b);
@@ -280,18 +278,9 @@ public class Game1 : Core
 
         foreach (var item in currentItems)
         {
-            if (item is Coin coin)
-            {
-                coin.CheckCollisions(currentMario);
-            }
-            else if (item is Flower flower)
-            {
-                flower.CheckCollisions(currentMario);
-            }
-            else if (item is Mushroom mushroom)
-            {
-                mushroom.CheckCollisions(currentMario);
-            }
+            List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
+            ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
+            ItemCollision.CheckItemMarioCollisions(item, currentMario);
         }
         if (!canTakeDamage)
         {

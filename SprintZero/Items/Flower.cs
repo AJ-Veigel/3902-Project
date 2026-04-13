@@ -18,15 +18,17 @@ public class Flower : ICollectable
         get { return _location; }
         set { _location = value; }
     }
-    public Hitbox Collider { get; set; }
     public Rectangle RectCollider { get; set; }
+    public float VelocityX { get; set; }
+    public float VelocityY { get; set; }
     private const float SCALE = 4f;
     public bool Collected { get; set; } = false;
+    public bool onGround { get; set; }
     private float startY;
     private float riseSpeed = 2f;
     private float riseHeight = 20f;
 
-    private bool rising = true;
+    private bool rising = false;
 
     public Flower(AnimatedSprite animated)
     {
@@ -36,7 +38,6 @@ public class Flower : ICollectable
         startY = _location.Y;
         //Collider = new HitBox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
-
     }
 
     public Flower(AnimatedSprite animated, Vector2 pos)
@@ -49,24 +50,14 @@ public class Flower : ICollectable
         RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
 
     }
+    public void ReverseDirection()
+    {
+        VelocityX = -VelocityX;
+    }
 
     public void Update(GameTime gameTime)
     {
         sprite.Update(gameTime);
-
-        if (rising)
-        {
-
-            _location.Y -= riseSpeed;
-
-            if (_location.Y <= startY - riseHeight)
-            {
-                _location.Y = startY - riseHeight;
-                rising = false;
-
-            }
-        }
-        RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
 
     public bool CheckCollisions(IMario mario)
