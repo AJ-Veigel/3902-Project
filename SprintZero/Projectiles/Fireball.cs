@@ -89,7 +89,8 @@ public class Fireball : IProjectile
 
             // update rolling animation
             rolling.Update(gameTime);
-
+<<<<<<< HEAD
+=======
 
             float popY = 1000.0f;
 
@@ -97,7 +98,7 @@ public class Fireball : IProjectile
             {
                 Pop();
             }
-
+>>>>>>> af2154955e98797a76fff9d1f82e83a3f896b343
         }
         else // Popped
         {

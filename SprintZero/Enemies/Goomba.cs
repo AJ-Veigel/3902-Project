@@ -10,7 +10,7 @@ public class Goomba : IEnemy
     private const float SCALE = 4f;
     private float animationTimer = 0f;
     public Rectangle EnemyCollider { get; set; }
-    public float VelocityX { get; set; } = 2f;
+    public float VelocityX { get; set; } = -2f;
     public float VelocityY { get; set; } = 0f;
     public bool onGround { get; set; } = false;
     public bool Despawn { get; set; }

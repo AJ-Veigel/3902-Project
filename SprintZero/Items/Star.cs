@@ -10,12 +10,12 @@ public class Star : ICollectable
 {
     private AnimatedSprite sprite;
     public Vector2 location { get; set; }
-    public Hitbox Collider { get; set; }
     public Rectangle RectCollider { get; set; }
+    public float VelocityX { get; set; }
+    public float VelocityY { get; set; }
     private const float SCALE = 4f;
-    private float horizontalSpeed = 2f;
-    public bool Collected {get;set;} =false;
-    private float verticalSpeed = 0f;
+    public bool Collected { get; set; } = false;
+    public bool onGround { get; set; }
     private float gravity = 0.3f;
     private float riseUp = 40f;
     private float startY;
@@ -31,6 +31,20 @@ public class Star : ICollectable
         //Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
     }
+
+    public Star(AnimatedSprite animated, Vector2 pos)
+    {
+        sprite = animated;
+        sprite.Scale = new Vector2(SCALE);
+        location = pos;
+        startY = location.Y;
+        //Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
+        RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
+    }
+    public void ReverseDirection()
+    {
+        VelocityX = -VelocityX;
+    }
     public void Update(GameTime gameTime)
     {
         sprite.Update(gameTime);
@@ -40,25 +54,25 @@ public class Star : ICollectable
             if (startY - location.Y >= riseUp)
             {
                 rising = false;
-                verticalSpeed = 0f;
+                VelocityY = 0f;
             }
         }
         else
         {
-            verticalSpeed += gravity;
-            location = new Vector2(location.X, location.Y + verticalSpeed);
+            VelocityY += gravity;
+            location = new Vector2(location.X, location.Y + VelocityY);
         }
         if (location.Y >= groundLevel)
         {
             location = new Vector2(location.X, groundLevel);
-            verticalSpeed = 0f;
-            location = new Vector2(location.X + horizontalSpeed, location.Y);
+            VelocityY = 0f;
+            location = new Vector2(location.X + VelocityX, location.Y);
         }
-       
+
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
     }
 
-public bool CheckCollisions(IMario mario)
+    public bool CheckCollisions(IMario mario)
     {
         bool isCollected = false;
         if (!Collected)
@@ -74,8 +88,8 @@ public bool CheckCollisions(IMario mario)
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        if(!Collected)
-        sprite.Draw(spriteBatch, location);
+        if (!Collected)
+            sprite.Draw(spriteBatch, location);
     }
 
 }

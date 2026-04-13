@@ -5,6 +5,7 @@ using SoundManager;
 using SprintZero.Items;
 using SprintZero;
 using SprintZero.Marios;
+using System.Dynamic;
 
 public class Mushroom : ICollectable
 {
@@ -12,11 +13,12 @@ public class Mushroom : ICollectable
     public Vector2 location { get; set; }
     public Hitbox Collider { get; set; }
     public Rectangle RectCollider { get; set; }
+    public float VelocityX { get; set; }
+    public float VelocityY { get; set; }
+    public bool onGround { get; set; }
     private const float SCALE = 4f;
-    private float horizontalSpeed = 2f;
-    private float verticalSpeed = 0f;
     private float gravity = 0.3f;
-    public bool Collected {get;set;} =false;
+    public bool Collected { get; set; } = false;
     private float riseUp = 40f;
     private float startY;
     private bool rising = true;
@@ -26,6 +28,7 @@ public class Mushroom : ICollectable
         location = new Vector2(300, 700);
         startY = location.Y;
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
+        VelocityX = 2f;
     }
     public Mushroom(TextureRegion region, Vector2 pos)
     {
@@ -33,6 +36,12 @@ public class Mushroom : ICollectable
         location = pos;
         startY = location.Y;
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
+        VelocityX = 2f;
+    }
+
+    public void ReverseDirection()
+    {
+        VelocityX = -VelocityX;
     }
     public void Update(GameTime gameTime)
     {
@@ -42,19 +51,19 @@ public class Mushroom : ICollectable
             if (startY - location.Y >= riseUp)
             {
                 rising = false;
-                verticalSpeed = 0f;
+                VelocityY = 0f;
             }
         }
         else
         {
-            verticalSpeed += gravity;
-            location = new Vector2(location.X, location.Y + verticalSpeed);
+            VelocityY += gravity;
+            location = new Vector2(location.X, location.Y + VelocityY);
         }
         if (location.Y >= 500)
         {
             location = new Vector2(location.X, 500);
-            verticalSpeed = 0f;
-            location = new Vector2(location.X + horizontalSpeed, location.Y);
+            VelocityY = 0f;
+            location = new Vector2(location.X + VelocityX, location.Y);
         }
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
@@ -74,7 +83,7 @@ public class Mushroom : ICollectable
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        if(!Collected)
-        sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, SCALE, SpriteEffects.None, 0f);
+        if (!Collected)
+            sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, SCALE, SpriteEffects.None, 0f);
     }
 }
