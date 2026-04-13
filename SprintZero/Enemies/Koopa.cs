@@ -20,7 +20,7 @@ public class Koopa : IEnemy
 
 	private const float GRAVITY = 384.0f;
 
-	private const float WALK_SPEED = 192.0f; // In per second scale
+	private const float WALK_SPEED = 75.0f; // In per second scale
 	private const float SHELL_SPEED = 384.0f;
 	public enum KoopaType { Green, Red, Blue };
 	public Vector2 position { get; set; }
@@ -104,10 +104,8 @@ public class Koopa : IEnemy
 	public void ReverseDirection()
 	{
 		FacingLeft = !FacingLeft;
-		if(isShell)
-		{
-			VelocityX = -VelocityX;
-		}
+		VelocityX = -VelocityX;
+		
 	}
 
 	private void UpdateCollider()
@@ -248,7 +246,7 @@ public class Koopa : IEnemy
 			VelocityY += GRAVITY * timeSeconds;
 			position += new Vector2(VelocityX, VelocityY) * timeSeconds;
 
-			if (position.Y > 800) //value is arbitrary for despawn
+			if (position.Y > 2000f) //value is arbitrary for despawn
             {
 				Despawn = true;
 			}

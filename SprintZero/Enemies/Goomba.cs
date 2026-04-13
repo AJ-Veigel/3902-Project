@@ -10,7 +10,7 @@ public class Goomba : IEnemy
     private const float SCALE = 4f;
     private float animationTimer = 0f;
     public Rectangle EnemyCollider { get; set; }
-    public float VelocityX { get; set; } = 2f;
+    public float VelocityX { get; set; } = -1f;
     public float VelocityY { get; set; } = 0f;
     public bool onGround { get; set; } = false;
     public bool Despawn { get; set; }
@@ -126,7 +126,7 @@ public class Goomba : IEnemy
             VelocityY += Gravity;
             position = new Vector2(position.X, position.Y + VelocityY);
 
-            if (position.Y > 800f) //arbitrary value for despawn
+            if (position.Y > 2000f) //arbitrary value for despawn
             {
                 Despawn = true;
             }
@@ -160,6 +160,8 @@ public class Goomba : IEnemy
                 }
             }
             currentASprite = goombaWalk1Sprite;
+
+            onGround = false;
         }
     }
     public void Draw(SpriteBatch spriteBatch)

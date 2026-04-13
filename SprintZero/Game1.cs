@@ -1,23 +1,24 @@
-using System.Collections.Generic;
+using EnemyCollisions;
+using FireballCollisions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGameLibrary;
-using MonoGameLibrary.Graphics;
-using SprintZero.Controllers;
-using SpriteZero.Enemies;
-using SprintZero.Marios;
-using SpriteZero.Sprites;
-using SprintZero.blocks;
-using SprintZero.PBCollision;
-using SprintZero.Map;
-using SprintZero.Items;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
-using Microsoft.Xna.Framework.Media;
+using MonoGameLibrary;
+using MonoGameLibrary.Graphics;
 using playerItemCollision;
-using EnemyPlayerCollision;
-using FireballCollisions;
 using SoundManager;
+using SprintZero.blocks;
+using SprintZero.Collisions;
+using SprintZero.Controllers;
+using SprintZero.Items;
+using SprintZero.Map;
+using SprintZero.Marios;
+using SprintZero.PBCollision;
+using SpriteZero.Enemies;
+using SpriteZero.Sprites;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 
@@ -40,6 +41,7 @@ public class Game1 : Core
     private List<IProjectile> projectiles;
     private List<IMario> marios;
     private List<IEnemy> enemies;
+    private List<IEnemy> unspawnedEnemies;
     private ICollectable currentItem;
     private IBlock currentBlock;
     private IMario currentMario;
@@ -157,23 +159,12 @@ public class Game1 : Core
 
         Koopa.LoadTextures(Content);
 
-        enemies = new List<IEnemy>
-
-        {
-            new Goomba(goombaTexture),
-            new Koopa(),
-            new Koopa(Koopa.KoopaType.Red),
-            new Koopa(Koopa.KoopaType.Blue)
-        };
-
         currentBlockCount = 0;
         currentItemCount = 0;
         currentBlock = blocks[currentBlockCount];
         currentItem = items[currentItemCount];
         currentMario = marios[0];
         currentMarioNum = 0;
-        currentEnemyCount = 0;
-        currentEnemy = enemies[currentEnemyCount];
         prevX = 0;
 
         currentItems = new List<ICollectable>();
@@ -183,6 +174,9 @@ public class Game1 : Core
         TileMap map1 = new TileMap();
         ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml");
         level.FromFile(map1);
+        unspawnedEnemies = level.GetEnemies();
+        enemies = new List<IEnemy>();
+        currentEnemyCount = 0;
         maps.Add(map1);
         TileMap mapBonus = new TileMap();
         level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml");
@@ -226,18 +220,21 @@ public class Game1 : Core
         currentItem.Update(gameTime);
 
 
-        currentEnemy.Update(gameTime);
-        CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, blocks, map);
+        foreach (IEnemy enemy in enemies)
+        {
+            enemy.Update(gameTime);
+            CheckEnemyCollisions.CheckEnemyBlockCollisions(enemy, blocks, map);
+            CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage);
+        }
 
 
 
-        //playerBlockCollision.checkBlockCollision(currentMario, blocks);
-        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 16);
+
         for (int i = projectiles.Count -1; i >= 0; i--)
         {
             Fireball currentFireball = (Fireball)projectiles[i];
             currentFireball.Update(gameTime);
-            List<IBlock> fireballCollidableBlocks = map.getBlocksInRectangle(currentFireball.FireballCollider, 8);
+            List<IBlock> fireballCollidableBlocks = map.getBlocksInRectangle(currentFireball.FireballCollider, 64);
             FireballCollision.checkFireballBlockCollision(currentFireball, fireballCollidableBlocks);
             FireballCollision.checkFireballEnemyCollision(currentFireball, enemies);
             if (!currentFireball.IsActive)
@@ -247,8 +244,7 @@ public class Game1 : Core
         }
 
 
-        collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
-
+        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 16);
 
         foreach (IBlock b in blocks) { // these extra blocks should be fit into TileMap somehow.
             collidableBlocks.Add(b);
@@ -260,7 +256,6 @@ public class Game1 : Core
         ); // We should only call this method once per update.
 
         playerItemCollision.CheckCollisions(currentMario,currentItems,currentMarioNum,SetMario);
-        CheckEnemyCollisions.CheckEnemyMarioCollisions(currentEnemy,currentMario,Damage);
 
         // Camera
         if(currentMario.location.X > prevX)
@@ -278,6 +273,33 @@ public class Game1 : Core
             (int)visibleArea.Height
         );
         map.Update(gameTime, cameraRect, 64);
+
+        playerBlockCollision.checkCameraCollision(currentMario, cameraRect);
+
+        float cameraRightEdge = visibleArea.Right;
+
+        for (int i = unspawnedEnemies.Count - 1; i>=0; i--)
+        {
+            IEnemy sleepingEnemy = unspawnedEnemies[i];
+            if(cameraRightEdge > sleepingEnemy.position.X)
+            {
+                enemies.Add(sleepingEnemy);
+                unspawnedEnemies.RemoveAt(i);
+            }
+        }
+
+        for (int i = enemies.Count - 1; i >= 0; i--)
+        {
+            IEnemy activeEnemy = enemies[i];
+
+            activeEnemy.Update(gameTime);
+            CheckEnemyCollisions.CheckEnemyBlockCollisions(activeEnemy, blocks, map);
+            CheckEnemyCollisions.CheckEnemyMarioCollisions(activeEnemy, currentMario, Damage);
+
+            if (activeEnemy is Goomba goomba && goomba.Despawn) enemies.RemoveAt(i);
+            else if (activeEnemy is Koopa koopa && koopa.Despawn) enemies.RemoveAt(i);
+        }
+        EnemyEnemyCollision.CheckEnemyEnemyCollisions(enemies);
 
         foreach (var item in currentItems)
         {
@@ -321,7 +343,10 @@ public class Game1 : Core
         }
         foreach (var p in projectiles)
             p.Draw(SpriteBatch);
-        currentEnemy.Draw(SpriteBatch);
+        foreach (IEnemy enemy in enemies)
+        {
+            enemy.Draw(SpriteBatch);
+        }
         var visibleArea = camera.BoundingRectangle;
         Rectangle cameraRect = new Rectangle(
             (int)visibleArea.Left,
@@ -389,22 +414,6 @@ public class Game1 : Core
         currentItem = items[currentItemCount];
     }
 
-    public void nextEnemy()
-    {
-        currentEnemyCount = (currentEnemyCount + 1) % enemies.Count;
-        enemies[currentEnemyCount].Dead = false;
-        currentEnemy = enemies[currentEnemyCount];
-    }
-    public void previousEnemy()
-    {
-        currentEnemyCount--;
-        if (currentEnemyCount < 0)
-        {
-            currentEnemyCount = enemies.Count - 1;
-        }
-        enemies[currentEnemyCount].Dead = false;
-        currentEnemy = enemies[currentEnemyCount];
-    }
     public void SetMario(int marioNumber)
     {
         Vector2 currentPosition = currentMario.location;
