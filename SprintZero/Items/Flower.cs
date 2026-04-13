@@ -24,18 +24,14 @@ public class Flower : ICollectable
     private const float SCALE = 4f;
     public bool Collected { get; set; } = false;
     public bool onGround { get; set; }
-    private float startY;
-    private float riseSpeed = 2f;
-    private float riseHeight = 20f;
-
-    private bool rising = false;
+    public bool Collidable { get; set; } = false;
+    private float spawnTimer = 0f;
 
     public Flower(AnimatedSprite animated)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         _location = new Vector2(500, 600);
-        startY = _location.Y;
         //Collider = new HitBox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
     }
@@ -45,7 +41,6 @@ public class Flower : ICollectable
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         _location = pos;
-        startY = _location.Y;
         //Collider = new HitBox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
 
@@ -58,6 +53,11 @@ public class Flower : ICollectable
     public void Update(GameTime gameTime)
     {
         sprite.Update(gameTime);
+        spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        if(spawnTimer > 0.5f)
+        {
+            Collidable = true;
+        }
     }
 
     public bool CheckCollisions(IMario mario)
