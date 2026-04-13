@@ -83,3 +83,23 @@ Specific comments on code quality: 40 mins
  Number of minutes taken to complete the review: 20
  Specific Comments on what is readable and what is not:
  -The code quality is generally good; everything does make logical sense. There are a lot of else if branches in the conditional statement in the OnCollision method; a helper method /could/ be written to make OnCollision shorter, but I believe that it's fine as it is for the moment. The item blocks work as intended; mushrooms and fire flowers appear upon contact with the bottom of the item blocks, and they enter an inert state after they are hit. 
+
+ Author of the code review: Sam Bixel
+Date of the code review: 4/13
+Sprint number: 4
+Name of the .cs file being reviewed: TileMap.cs
+Author of the .cs file being reviewed: AJ & Alex
+Number of minutes taken to complete the review: 25
+Specific comments on what is readable and what is not:
+     The code is generally very readable and easy to follow. The class has a clear purpose, which is storing and accessing blocks by tile position, and the method names make it obvious what each method does. Methods like addBlockAt, removeBlockAt, getBlockAt, and getAllBlocks are straightforward and easy to understand. The looping structure in getBlocksInRectangle, Draw, and Update is also readable because it is consistent and uses descriptive variable names like leftTile, rightTile, topTile, and bottomTile. I don't think there is really anything to complain about in terms of readability of this file, it is straightforward and easy to follow everywhere.
+
+Author of the code review: Sam Bixel
+Date of the code review: 4/13
+Sprint number: 4
+Name of the .cs file being reviewed: QuestionMarkHit.cs
+Author of the .cs file being reviewed: AJ & Madison
+Specific comments on code quality:
+     The code quality is good overall and the class is pretty easy to understand. It keeps the main behavior of the hit question mark block in one place, including the bounce, sprite updates, and collision handling. The variables like isHit, movingUp, and movingDown make it clear what state the block is in. One thing that could be improved is replacing numbers like 20f, 3f, and 0.0 with named constants so the code is easier to adjust later.
+
+A hypothetical change to make to the game related to file being reviewed and how the current implementation could or could not easily support that change
+     A hypothetical change that would switch up the flow of classic Mario would be making the question mark block reset after some amount of time so it could be hit again later. The current implementation would not support that very easily, because once isHit becomes true, the block stays in that state and pauses on the final frame. To support that change the class would need extra logic for a timer and a way to switch the block back to its unused state.
