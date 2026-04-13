@@ -24,8 +24,24 @@ public class Koopa : IEnemy
 	private const float SHELL_SPEED = 384.0f;
 	public enum KoopaType { Green, Red, Blue };
 	public Vector2 position { get; set; }
-	public bool Dead { get; set; }
-	public bool onGround { get; set; }
+	private bool isDead = false;
+	public bool Dead {
+		get { return isDead; }
+		set
+		{
+			if(value && !isDead)
+			{
+				isDead = true;
+				KoopaState = KoopaStates.ShellStill; 
+				VelocityX = 0;
+				VelocityY = -GRAVITY * 0.5f;
+				EnemyCollider = new Rectangle(0, 0, 0, 0);
+            }
+		}
+	}
+
+	public bool Despawn { get; set; }
+    public bool onGround { get; set; }
 	private bool FacingLeft { get; set; }
 	private bool isShell { get; set; }
 	private KoopaType Type { get; set; }
@@ -126,7 +142,7 @@ public class Koopa : IEnemy
         {
             KoopaState = KoopaStates.ShellStill;
             VelocityX = 0;
-            KoopaTimer = AWAKEN_TIME; // Reset the timer to wake up
+            KoopaTimer = AWAKEN_TIME;
 
             UpdateCollider();
         }
@@ -167,7 +183,14 @@ public class Koopa : IEnemy
 
     public void Draw(SpriteBatch spriteBatch)
 	{
+		if(Despawn) return;
+
 		SpriteEffects effect = FacingLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+		if (Dead)
+		{
+			effect |= SpriteEffects.FlipVertically;
+        }
 		int offX = FacingLeft ? 0 : -16; // I suspect this is needed but idk for sure.
 		TextureRegion[] sprites;
 		if (Type == KoopaType.Green)
@@ -219,6 +242,18 @@ public class Koopa : IEnemy
 		float timeSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 		KoopaTimer -= timeSeconds;
 		HandleTimer(); // Handles timed events.
+
+		if (Dead)
+		{
+			VelocityY += GRAVITY * timeSeconds;
+			position += new Vector2(VelocityX, VelocityY) * timeSeconds;
+
+			if (position.Y > 800) //value is arbitrary for despawn
+            {
+				Despawn = true;
+			}
+			return;
+        }
 
 		// Try move.
 		if (!onGround) {

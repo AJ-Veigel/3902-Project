@@ -17,21 +17,21 @@ namespace EnemyPlayerCollision
             {
                 if (currentMario.Falling && currentMario.MarioCollider.Bottom <= currentEnemy.EnemyCollider.Center.Y + 10)
                 {
-                    if (currentEnemy is Koopa koopa)
+                    if (currentEnemy is Koopa koopa && (koopa.KoopaState == Koopa.KoopaStates.ShellStill || koopa.KoopaState == Koopa.KoopaStates.ShellStill2))
                     {
-                        koopa.Stomped();
+                        bool kickRight = currentMario.MarioCollider.Center.X < koopa.EnemyCollider.Center.X;
+                        koopa.Kicked(kickRight);
                     }
                     else
                     {
-                        currentEnemy.Dead = true;
+                        currentEnemy.Stomped();
                     }
 
                     currentMario.Bounce();
-
                 }
                 else
                 {
-                    if (currentEnemy is Koopa koopa && koopa.KoopaState == Koopa.KoopaStates.ShellStill)
+                    if (currentEnemy is Koopa koopa && (koopa.KoopaState == Koopa.KoopaStates.ShellStill || koopa.KoopaState == Koopa.KoopaStates.ShellStill2))
                     {
                         bool kickRight = currentMario.MarioCollider.Center.X < koopa.EnemyCollider.Center.X;
                         koopa.Kicked(kickRight);

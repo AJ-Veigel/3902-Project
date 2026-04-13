@@ -232,6 +232,7 @@ public class Game1 : Core
         CheckEnemyCollisions.CheckEnemyBlockCollisions(currentEnemy, enemyCollidableBlocks, map);
 
 
+
         //playerBlockCollision.checkBlockCollision(currentMario, blocks);
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
         for (int i = projectiles.Count -1; i >= 0; i--)
@@ -246,6 +247,10 @@ public class Game1 : Core
                 projectiles.RemoveAt(i);
             }
         }
+
+
+        collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
+
 
         foreach (IBlock b in blocks) { // these extra blocks should be fit into TileMap somehow.
             collidableBlocks.Add(b);
