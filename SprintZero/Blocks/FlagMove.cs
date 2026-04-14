@@ -23,14 +23,14 @@ public class FlagMove : IBlock
     private float bottomY;
 
     public bool SlidingFlag { get; set; } = false;
-    public FlagMove(AnimatedSprite sprite, ContentManager content)
+    public FlagMove(AnimatedSprite sprite, Vector2 location)
     {
         flagSprite = sprite;
         flagSprite.Scale = new Vector2(SCALE);
         flagSprite.Pause();
   
-        location = new Vector2(600, 70); 
-        bottomY = 300f;
+        this.location = location; 
+        bottomY = location.Y + 300f;
 
         UpdateCollider();
     }
@@ -82,20 +82,19 @@ public class FlagMove : IBlock
     }
 public void onCollision(IMario mario, CollisionSide theSide)
 {
-    if (!marioSliding && mario.MarioCollider.Intersects(Collider))
-    {
-        marioSliding = true;
-        slidingMario = mario;
-
-        flagSprite.Play();
-        Music.flagpoleSound.Play();
-        slidingMario.GrabFlagPole();
-        slidingMario.location = new Vector2(
-            location.X - slidingMario.MarioCollider.Width,
-            slidingMario.location.Y
-        );
-        slidingMario.SlidingFlag = true;
-        slidingMario.isOnGround = false;
-    }
+    if (marioSliding || alreadyActived)
+    return;
+    bool validHit = theSide == CollisionSide.Top || theSide == CollisionSide.Right;
+    if (validHit)
+        {
+            alreadyActived = true;
+            marioSliding= true;
+            slidingMario = mario;
+            flagSprite.Play();
+            Music.flagpoleSound.Play();
+            slidingMario.location = new Vector2(location.X-slidingMario.MarioCollider.Width,slidingMario.location.Y);
+            slidingMario.SlidingFlag = true;
+            slidingMario.isOnGround = false;
+        }
 }
 }

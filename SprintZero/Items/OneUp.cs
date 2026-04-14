@@ -35,7 +35,7 @@ public class OneUp : ICollectable
     {
         VelocityX = -VelocityX;
     }
-    public void Update(GameTime gameTime)
+    public void Update(GameTime gameTime )
     {
         spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if(spawnTimer > 0.5f)
