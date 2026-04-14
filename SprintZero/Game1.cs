@@ -17,6 +17,8 @@ using Microsoft.Xna.Framework.Media;
 using playerItemCollision;
 using FireballCollisions;
 using ItemCollisions;
+using EnemyCollisions;
+using SprintZero.Collisions;
 using SoundManager;
 
 
@@ -31,12 +33,14 @@ public class Game1 : Core
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
     private playerItemCollisions playerItemCollision;
     private Song backgroundMusic;
+    private SpriteFont font1;
     private List<IController> controllers;
     private List<ICollectable> items, currentItems;
     private List<IBlock> blocks;
     private List<IProjectile> projectiles;
     private List<IMario> marios;
     private List<IEnemy> enemies;
+    private List<IEnemy> unspawnedEnemies;
     private ICollectable currentItem;
     private IBlock currentBlock;
     private IMario currentMario;
@@ -95,6 +99,8 @@ public class Game1 : Core
         flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
 
         Music.LoadContent(Content);
+
+        font1 = Content.Load<SpriteFont>("Font/File");
 
         Vector2 blockPos = new Vector2(600, 500);
 
@@ -186,6 +192,9 @@ public class Game1 : Core
         TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         TileMap map1 = new TileMap();
         ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml");
+        unspawnedEnemies = level.GetEnemies();
+        enemies = new List<IEnemy>();
+        currentEnemyCount = 0;
         level.FromFile(map1);
         maps.Add(map1);
         TileMap mapBonus = new TileMap();
@@ -227,14 +236,17 @@ public class Game1 : Core
 
         foreach (ICollectable item in currentItems)
         {
-            item.Update(gameTime);
+            item.Update(gameTime, coinCount, marioScore);
         }
         currentItem.Update(gameTime);
 
 
-        currentEnemy.Update(gameTime);
-        List<IBlock> enemyCollidableBlocks = map.getBlocksInRectangle(currentEnemy.EnemyCollider, 96);
-
+        foreach (IEnemy enemy in enemies)
+        {
+            enemy.Update(gameTime);
+            CheckEnemyCollisions.CheckEnemyBlockCollisions(enemy, blocks, map);
+            CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage);
+        }
 
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {
@@ -285,11 +297,36 @@ public class Game1 : Core
 
         map.Update(gameTime, cameraRect, 64);
 
+        float cameraRightEdge = visibleArea.Right;
+
+        for (int i = unspawnedEnemies.Count - 1; i>=0; i--)
+        {
+            IEnemy sleepingEnemy = unspawnedEnemies[i];
+            if(cameraRightEdge > sleepingEnemy.position.X)
+            {
+                enemies.Add(sleepingEnemy);
+                unspawnedEnemies.RemoveAt(i);
+            }
+        }
+
+        for (int i = enemies.Count - 1; i >= 0; i--)
+        {
+            IEnemy activeEnemy = enemies[i];
+
+            activeEnemy.Update(gameTime);
+            CheckEnemyCollisions.CheckEnemyBlockCollisions(activeEnemy, blocks, map);
+            CheckEnemyCollisions.CheckEnemyMarioCollisions(activeEnemy, currentMario, Damage);
+
+            if (activeEnemy is Goomba goomba && goomba.Despawn) enemies.RemoveAt(i);
+            else if (activeEnemy is Koopa koopa && koopa.Despawn) enemies.RemoveAt(i);
+        }
+        EnemyEnemyCollision.CheckEnemyEnemyCollisions(enemies);
+
         foreach (var item in currentItems)
         {
             List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
             ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
-            ItemCollision.CheckItemMarioCollisions(item, currentMario);
+            ItemCollision.CheckItemMarioCollisions(item, currentMario, coinCount, livesCount);
         }
         if (!canTakeDamage)
         {
@@ -318,7 +355,10 @@ public class Game1 : Core
         }
         foreach (var p in projectiles)
             p.Draw(SpriteBatch);
-        currentEnemy.Draw(SpriteBatch);
+        foreach (IEnemy enemy in enemies)
+        {
+            enemy.Draw(SpriteBatch);
+        }
         var visibleArea = camera.BoundingRectangle;
         Rectangle cameraRect = new Rectangle(
             (int)visibleArea.Left,
@@ -334,6 +374,11 @@ public class Game1 : Core
             SpriteBatch.Draw(pauseTexture, new Rectangle(0, 0, 200, 200), Color.White);
             SpriteBatch.End();
         }
+        string HUD = "MARIO            WORLD   TIME\n" + marioScore + "   Ox" + coinCount + "     " + worldNumber + "-" + levelNumber + "     " + gameTimer;
+        Vector2 HUDpos = new Vector2(0, 0);
+        SpriteBatch.Begin();
+        SpriteBatch.DrawString(font1, HUD, HUDpos, Color.White);
+        SpriteBatch.End();
 
 
         base.Draw(gameTime);
@@ -386,22 +431,6 @@ public class Game1 : Core
         currentItem = items[currentItemCount];
     }
 
-    public void nextEnemy()
-    {
-        currentEnemyCount = (currentEnemyCount + 1) % enemies.Count;
-        enemies[currentEnemyCount].Dead = false;
-        currentEnemy = enemies[currentEnemyCount];
-    }
-    public void previousEnemy()
-    {
-        currentEnemyCount--;
-        if (currentEnemyCount < 0)
-        {
-            currentEnemyCount = enemies.Count - 1;
-        }
-        enemies[currentEnemyCount].Dead = false;
-        currentEnemy = enemies[currentEnemyCount];
-    }
     public void SetMario(int marioNumber)
     {
         Vector2 currentPosition = currentMario.location;
