@@ -11,10 +11,10 @@ public class CastleBlock : IBlock
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
     private const float SCALE = 4f;
-    public CastleBlock(TextureRegion region)
+    public CastleBlock(TextureRegion region, Vector2 location)
     {
         sprite = region;
-        location = new Vector2(800, 30);
+        this.location = location;
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
     }
     public void Update(GameTime gameTime) { }
@@ -24,5 +24,4 @@ public class CastleBlock : IBlock
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, SCALE, SpriteEffects.None, 0f);
 
     }
-   //To-do: end game animation 
 }

@@ -11,6 +11,7 @@ namespace SprintZero.Map
         Color BGColor { get; set; }
         List<IEnemy> GetEnemies();
         void FromFile(TileMap tilemap);
+    
     }
 
 }

@@ -14,6 +14,7 @@ namespace SprintZero.Items
         bool onGround { get; set; }
         bool Collidable { get; set; }
         void ReverseDirection();
+          
         public void Update(GameTime gameTime, int coins, int score);
     }
 }

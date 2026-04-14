@@ -14,7 +14,7 @@ using SprintZero.Items;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using Microsoft.Xna.Framework.Media;
-using playerItemCollision;
+//using playerItemCollision;
 using FireballCollisions;
 using ItemCollisions;
 using EnemyCollisions;
@@ -80,7 +80,7 @@ public class Game1 : Core
         // Create camera with viewport adapter
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
         camera = new OrthographicCamera(viewportAdapter);
-        playerItemCollision = new playerItemCollisions();
+      playerItemCollision = new playerItemCollisions();
 
         // fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
     }
@@ -191,7 +191,7 @@ public class Game1 : Core
         currentLevel = 0;
         TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         TileMap map1 = new TileMap();
-        ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml");
+        ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml",bigBlockTexturePt2,bigBlockTexture);
         unspawnedEnemies = level.GetEnemies();
         enemies = new List<IEnemy>();
         currentEnemyCount = 0;
@@ -236,7 +236,8 @@ public class Game1 : Core
 
         foreach (ICollectable item in currentItems)
         {
-            item.Update(gameTime, coinCount, marioScore);
+            item.Update(gameTime);
+           item.Update(gameTime, coinCount, marioScore);
         }
         currentItem.Update(gameTime);
 

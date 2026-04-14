@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -21,24 +22,28 @@ namespace SprintZero.Map
         private ContentManager content { get; set; }
         private TextureAtlas blockTextures { get; set; }
         private TextureAtlas itemTextures;
+        private TextureAtlas bigBlockTexture;
+        private AnimatedSprite flagMove;
+        private TextureAtlas bigBlockTexturePt2;
         private List<ICollectable> items;
         private string filename;
-        private TextureRegion ground, solid, tubeTop, tubeLeft, tubeMid, tubeInter;
+        private TextureRegion ground, solid, tubeTop, tubeLeft, tubeMid, tubeInter,castle;
         private AnimatedSprite qBlock, brick;
 
 
         public List<IEnemy> spawnedEnemies;
 
         private TextureAtlas goombaTexture;
-        public LevelOne(ContentManager content, TextureAtlas blockTextures, TextureAtlas itemTextures, List<ICollectable> currItems, string filename)
+        public LevelOne(ContentManager content, TextureAtlas blockTextures, TextureAtlas itemTextures, List<ICollectable> currItems, string filename, TextureAtlas bigBlockTexturePt2, TextureAtlas bigBlockTexture)
         {
             this.content = content;
             this.blockTextures = blockTextures;
+            this.bigBlockTexturePt2 = bigBlockTexturePt2;
             this.spawnedEnemies = new List<IEnemy>();
+            this.bigBlockTexture = bigBlockTexture;
             LoadContent();
             BGColor = Color.AliceBlue;
             this.filename = filename;
-
             items = currItems;
             this.itemTextures = itemTextures;
         }
@@ -112,6 +117,20 @@ namespace SprintZero.Map
             IBlock block = new questionMarkItem(qBlock, location, itemTextures, items);
             map.addBlockAt(tilePos, block);
         }
+        private static void placeFlagAt(TileMap map, TextureAtlas flagTexture, Point tilePos)
+    {
+    Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+    AnimatedSprite sprite = flagTexture.CreateAnimatedSprite("flagMove");
+    IBlock block = new FlagMove(sprite, location);
+    map.addBlockAt(tilePos, block);
+    }   
+private static void placeCastleAt(TileMap map, TextureRegion castle, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new CastleBlock(castle, location);
+            map.addBlockAt(tilePos, block);
+        }
+
 
         public void LoadContent()
         {
@@ -124,7 +143,10 @@ namespace SprintZero.Map
             tubeMid = blockTextures.GetRegion("tubeMid");
             tubeInter = blockTextures.GetRegion("tubeIntersect");
             goombaTexture = TextureAtlas.FromFile(this.content, "images/goomba-definition.xml");
+            flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
+            castle = bigBlockTexture.GetRegion("castle");
         }
+    
 
         public void FromFile(TileMap tilemap)
         {
@@ -224,6 +246,17 @@ namespace SprintZero.Map
                                         spawnedEnemies.Add(koopa);
                                         break;
                                     }
+                                    case 14:
+                                    {
+                                        placeFlagAt(tilemap,bigBlockTexturePt2,p);
+                                        break;
+                                    }
+                                    case 15:
+                                    {
+                                        placeCastleAt(tilemap, castle,p);
+                                        break;
+                                    }
+                                   
                                 default:
                                     {
                                         break;
