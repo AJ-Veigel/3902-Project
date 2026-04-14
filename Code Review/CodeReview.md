@@ -118,3 +118,14 @@ Specific comments on code quality:
 Hypothetical change:
 	A possible change to make to the game would be adding a new kind of block or decoration. This file would pretty easily support that change, as there could just be another ID
 	read by the code.
+
+Author of the code review: AJ Veigel
+Date of the code review: 4/13/2026
+Sprint number: 4
+Name of the .cs file being reviewed: EnemyEnemyCollision
+Author of the .cs file being reviewed: Adam Novak
+Number of minutes taken: 20
+Specific comments on code quality:
+	The code overall is easy to understand what it is supposed to do, it checks over every single enemy in the list passed to it. It makes it so that each time an enemy collides with another enemy it will reverse its direction.
+Hypothetical change:
+	A possible change would be to somehow lessen the stress on the check collisions method as it has two nested for loops. This could be done with either a helper method, or another check for the enemies around it.
