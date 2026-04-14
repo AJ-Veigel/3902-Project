@@ -14,7 +14,7 @@ using SprintZero.Items;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using Microsoft.Xna.Framework.Media;
-//using playerItemCollision;
+using playerItemCollision;
 using FireballCollisions;
 using ItemCollisions;
 using EnemyCollisions;

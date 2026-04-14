@@ -53,6 +53,25 @@ public class OneUp : ICollectable
         location = new Vector2(location.X + VelocityX, location.Y);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
+
+    public void Update(GameTime gameTime , int coins, int score)
+    {
+        spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        if(spawnTimer > 0.5f)
+        {
+            Collidable = true;
+        }
+        if (!onGround)
+        {
+            VelocityY = MathHelper.Clamp(VelocityY + Gravity, -10f, 12f);
+        }
+        else
+        {
+            VelocityY = 0f;
+        }
+        location = new Vector2(location.X + VelocityX, location.Y);
+        RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
+    }
     public bool CheckCollisions(IMario mario)
     {
         bool isCollected = false;
