@@ -9,15 +9,16 @@ namespace SprintZero.Marios
 
         Vector2 location { get; set; }
         Rectangle MarioCollider { get; set; }
-        Boolean Direction { get; set; }
-        Boolean Jumping { get; set; }
+        bool Direction { get; set; }
+        bool Jumping { get; set; }
         float jumpStartHeight { get; set; }
-        Boolean isOnGround { get; set; }
-        Boolean Sprinting { get; set; }
-        Boolean Swimming { get; set; }
-        Boolean Crouching { get; set; }
-        Boolean Falling { get; set; }
-        Boolean SlidingFlag {get;set;}
+        bool isOnGround { get; set; }
+        bool Sprinting { get; set; }
+        bool Swimming { get; set; }
+        bool Crouching { get; set; }
+        bool Falling { get; set; }
+        bool SlidingFlag { get; set; }
+        bool Invincible { get; set; }
 
         void Bounce();
         void Move();
@@ -34,6 +35,6 @@ namespace SprintZero.Marios
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
         void LandOnBlock(float blockTopY);
-    
+
     }
 }

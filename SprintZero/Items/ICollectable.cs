@@ -12,6 +12,7 @@ namespace SprintZero.Items
         float VelocityY { get; set; }
         bool Collected { get; set; }
         bool onGround { get; set; }
+        bool Collidable { get; set; }
         void ReverseDirection();
         public void Update(GameTime gameTime, int coins, int score);
     }

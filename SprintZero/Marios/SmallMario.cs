@@ -13,39 +13,41 @@ using SprintZero.Marios;
 public class SmallMario : IMario
 {
     private MarioSprite marioSprites;
-  
+
     public Vector2 location { get; set; }
     private Game1 game;
     public Rectangle MarioCollider { get; set; }
     public float yVelocity { get; set; }
     public float xVelocity { get; set; }
     public float jumpStartHeight { get; set; }
-    public Boolean Jumping { get; set; }
-    public Boolean Falling { get; set; }
-    public Boolean isOnGround { get; set; }
-    public Boolean Direction { get; set; }
-    public Boolean Sprinting { get; set; }
-    public Boolean Crouching { get; set; }
-    public Boolean Swimming { get; set; }
-    public Boolean Moving { get; set; }
-    public  Boolean SlidingFlag {get;set;}
+    public bool Jumping { get; set; }
+    public bool Falling { get; set; }
+    public bool isOnGround { get; set; }
+    public bool Direction { get; set; }
+    public bool Sprinting { get; set; }
+    public bool Crouching { get; set; }
+    public bool Swimming { get; set; }
+    public bool Moving { get; set; }
+    public bool SlidingFlag { get; set; }
+    public bool Invincible { get; set; } = true;
+    private float invincibilityTimer = 0f;
     private const float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private float groundY;
     private float currentPlatformY;
     private const float JUMP_POWER = -11f;
-   
 
-    public SmallMario(TextureAtlas smallMarioTexture,ContentManager content,Game1 game)
+
+    public SmallMario(TextureAtlas smallMarioTexture, ContentManager content, Game1 game)
     {
         Moving = false;
-     
+
         location = new Vector2(300, 664);
         groundY = location.Y;
         currentPlatformY = groundY;
 
-        
+
         jumpStartHeight = location.Y;
 
         yVelocity = 0f;
@@ -53,17 +55,17 @@ public class SmallMario : IMario
 
         marioSprites = new MarioSprite(smallMarioTexture, 0, location);
 
-       
+
         MarioCollider = marioSprites.UpdateCollider();
 
         isOnGround = false;
-       this.game = game;
+        this.game = game;
 
     }
-    public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos,ContentManager content,Game1 game)
+    public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos, ContentManager content, Game1 game)
     {
         Moving = false;
-  
+
         location = pos;
 
         groundY = location.Y;
@@ -150,7 +152,7 @@ public class SmallMario : IMario
             jumpStartHeight = location.Y;
             isOnGround = false;
             marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-            
+
         }
         Music.jumpSmallSound.Play();
     }
@@ -176,12 +178,10 @@ public class SmallMario : IMario
     {
         marioSprites.SetSprite("death");
         Music.deathSound.Play();
-        game.Reset();
-
     }
     public void Fireball()
     {
-        
+
     }
     public void GrabFlagPole()
     {
@@ -205,7 +205,7 @@ public class SmallMario : IMario
 
         isOnGround = true;
     }
-  public void LandOnBlock(float blockTopY)
+    public void LandOnBlock(float blockTopY)
     {
         location = new Vector2(location.X, blockTopY - MarioCollider.Height);
         isOnGround = true;
@@ -221,6 +221,13 @@ public class SmallMario : IMario
 
     public void Update(GameTime gameTime)
     {
+        invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        if(invincibilityTimer > 1)
+        {
+            Invincible = false;
+        }
+
         if (Jumping)
         {
             yVelocity += GRAVITY;
