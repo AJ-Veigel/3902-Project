@@ -12,7 +12,7 @@ namespace EnemyCollisions
     {
         public static void CheckEnemyMarioCollisions(IEnemy currentEnemy, IMario currentMario, Action Damage)
         {
-            if (currentEnemy == null || currentEnemy.Dead || !currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider))
+            if (currentEnemy == null || currentEnemy.Dead || !currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) || currentMario.Invincible)
                 return;
 
             Rectangle mRect = currentMario.MarioCollider;

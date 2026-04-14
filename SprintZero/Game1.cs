@@ -265,7 +265,7 @@ public class Game1 : Core
             (int)visibleArea.Width,
             (int)visibleArea.Height
         );
-        
+
         map.Update(gameTime, cameraRect, 64);
 
         playerBlockCollision.checkCameraCollision(currentMario, cameraRect);
@@ -498,7 +498,7 @@ public class Game1 : Core
             if (currentMarioNum == 0)
             {
                 currentMario.Damage();
-
+                Reset();
             }
             else if (currentMarioNum == 1)
             {
