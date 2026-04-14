@@ -56,6 +56,7 @@
 •	Specific comments on code readability : The code has many different variables which are all easy enough to discern, with each collision having a specific side that it deals with denoted by CollisionSide.Top etc.
 •	A hypothetical change to make is eventually we plan to update the collision detection from rectangle to the hitbox class, but since the overwhelming majority of collisions are with rectangles right now it should be fine.
      Another Hypothetical change to make is to increase the cases for the collision sides, as currently each block HAS to have a collision side rather than having a "none" collision side which would have no collision detection, which could help in later cases in which mario does not collide with a block, it would default to the collisionside bottom which would lead to false positives and collisions when there should not be.
+     
 //Sprint 4 Reviews
  
  Author of the code review: Madison Gysan
@@ -103,3 +104,17 @@ Specific comments on code quality:
 
 A hypothetical change to make to the game related to file being reviewed and how the current implementation could or could not easily support that change
      A hypothetical change that would switch up the flow of classic Mario would be making the question mark block reset after some amount of time so it could be hit again later. The current implementation would not support that very easily, because once isHit becomes true, the block stays in that state and pauses on the final frame. To support that change the class would need extra logic for a timer and a way to switch the block back to its unused state.
+
+Author of the code review: Alex Hall
+Date of the code review: 4/13/2026
+Sprint number: 4
+Name of the .cs file being reviewed: LevelOne.cs
+Author of the .cs file being reviewed: AJ
+Number of minutes taken: 20
+Specific comments on code quality:
+	The code overall is relatively understandable. There does seem to be a lot of repetition in the placeBlockAt methods, which could maybe be fixed by putting the duplicated code around the switch case.
+	The switch case itself is pretty easy to read, though it may be more readable to use an enum with the IDs, which would be helpful when adding more IDs in the future or editing the
+	XML file with the map.
+Hypothetical change:
+	A possible change to make to the game would be adding a new kind of block or decoration. This file would pretty easily support that change, as there could just be another ID
+	read by the code.
