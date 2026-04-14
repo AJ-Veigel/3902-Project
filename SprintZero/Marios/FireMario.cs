@@ -30,17 +30,19 @@ public class FireMario : IMario
     public Rectangle MarioCollider { get; set; }
 
     // State flags 
-    public Boolean Jumping { get; set; }
-    public Boolean Falling { get; set; }
-    public Boolean Direction { get; set; } = true;
-    public Boolean Sprinting { get; set; }
-    public Boolean Crouching { get; set; }
-    public Boolean Swimming { get; set; }
-    public Boolean Moving { get; set; }
-    public Boolean isOnGround { get; set; } = true;
+    public bool Jumping { get; set; }
+    public bool Falling { get; set; }
+    public bool Direction { get; set; } = true;
+    public bool Sprinting { get; set; }
+    public bool Crouching { get; set; }
+    public bool Swimming { get; set; }
+    public bool Moving { get; set; }
+    public bool isOnGround { get; set; } = true;
+    public bool Invincible { get; set; } = true;
+    private float invincibilityTimer = 0f;
 
     // Throw Timer
-    private Boolean throwing;
+    private bool throwing;
     private double throwTimerMs;
     private const double THROW_DURATION_MS = 180;
 
@@ -241,6 +243,13 @@ public class FireMario : IMario
 
     public void Update(GameTime gameTime)
     {
+        invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        if(invincibilityTimer > 1)
+        {
+            Invincible = false;
+        }
+        
         Vector2 newlocation = location;
 
         // Handle jumping and falling

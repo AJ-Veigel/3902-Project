@@ -17,15 +17,17 @@ public class BigMario : IMario
     public float jumpStartHeight { get; set; }
     private float groundY;
     private float currentPlatformY;
-    public Boolean Jumping { get; set; }
-    public Boolean isOnGround { get; set; }
-    public Boolean Falling { get; set; }
+    public bool Jumping { get; set; }
+    public bool isOnGround { get; set; }
+    public bool Falling { get; set; }
     // If direction is True, mario is facing right, if direction is false, mario is facing left
-    public Boolean Direction { get; set; }
-    public Boolean Sprinting { get; set; }
-    public Boolean Crouching { get; set; }
-    public Boolean Swimming { get; set; }
-    public Boolean Moving { get; set; }
+    public bool Direction { get; set; }
+    public bool Sprinting { get; set; }
+    public bool Crouching { get; set; }
+    public bool Swimming { get; set; }
+    public bool Moving { get; set; }
+    public bool Invincible { get; set; } = true;
+    private float invincibilityTimer = 0f;
     private float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
@@ -197,6 +199,13 @@ public class BigMario : IMario
 
     public void Update(GameTime gameTime)
     {
+        invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        if(invincibilityTimer > 1)
+        {
+            Invincible = false;
+        }
+        
         if (Jumping && !Falling)
         {
             yVelocity += GRAVITY;
