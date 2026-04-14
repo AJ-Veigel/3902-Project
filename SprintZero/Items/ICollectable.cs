@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Data;
+using System.Runtime.CompilerServices;
+using Microsoft.Xna.Framework;
 using SprintZero.Sprites;
 
 namespace SprintZero.Items
@@ -12,5 +14,6 @@ namespace SprintZero.Items
         bool onGround { get; set; }
         bool Collidable { get; set; }
         void ReverseDirection();
+        public void Update(GameTime gameTime, int coins, int score);
     }
 }

@@ -5,6 +5,8 @@ using SprintZero.Items;
 using SprintZero;
 using SoundManager;
 using SprintZero.Marios;
+using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 
 public class Coin : ICollectable
 {
@@ -34,6 +36,12 @@ public class Coin : ICollectable
     public void Update(GameTime gameTime)
     {
         sprite.Update(gameTime);
+    }
+    public void Update(GameTime gameTime, int coins, int score)
+    {
+        sprite.Update(gameTime);
+        coins++;
+        score += 100;
     }
     public void ReverseDirection()
     {

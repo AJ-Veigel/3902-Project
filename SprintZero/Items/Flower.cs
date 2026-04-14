@@ -60,6 +60,12 @@ public class Flower : ICollectable
         }
     }
 
+    public void Update(GameTime gameTime, int coins, int score)
+    {
+        sprite.Update(gameTime);
+        score += 400;
+    }
+
     public bool CheckCollisions(IMario mario)
     {
         bool isCollected = false;

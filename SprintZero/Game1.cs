@@ -1,24 +1,25 @@
-using EnemyCollisions;
-using FireballCollisions;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
-using MonoGame.Extended;
-using MonoGame.Extended.ViewportAdapters;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
-using SoundManager;
-using SprintZero.blocks;
-using SprintZero.Collisions;
 using SprintZero.Controllers;
-using SprintZero.Items;
-using SprintZero.Map;
-using SprintZero.Marios;
-using SprintZero.PBCollision;
 using SpriteZero.Enemies;
+using SprintZero.Marios;
 using SpriteZero.Sprites;
-using System.Collections.Generic;
-using System.Security.Cryptography;
+using SprintZero.blocks;
+using SprintZero.PBCollision;
+using SprintZero.Map;
+using SprintZero.Items;
+using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
+using Microsoft.Xna.Framework.Media;
+using playerItemCollision;
+using FireballCollisions;
+using ItemCollisions;
+using EnemyCollisions;
+using SprintZero.Collisions;
+using SoundManager;
 
 
 namespace SprintZero;
@@ -26,12 +27,13 @@ namespace SprintZero;
 public class Game1 : Core
 {
 
-
     private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture;
     private TextureRegion ground, smallTube, castle, mushroom, mediumTube, oneup_mushroom;
 
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
+    private playerItemCollisions playerItemCollision;
     private Song backgroundMusic;
+    private SpriteFont font1;
     private List<IController> controllers;
     private List<ICollectable> items, currentItems;
     private List<IBlock> blocks;
@@ -42,11 +44,13 @@ public class Game1 : Core
     private ICollectable currentItem;
     private IBlock currentBlock;
     private IMario currentMario;
+    private IEnemy currentEnemy;
 
     private List<TileMap> maps; // Temporary!
     private TileMap map; // Current map.
 
-    private int currentBlockCount, currentItemCount, currentMarioNum, currentLevel;
+    private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount, currentLevel;
+    private int coinCount, livesCount, worldNumber, levelNumber, gameTimer, marioScore;
     private Rectangle Bounds;
     private OrthographicCamera camera;
     private float prevX;
@@ -76,6 +80,7 @@ public class Game1 : Core
         // Create camera with viewport adapter
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
         camera = new OrthographicCamera(viewportAdapter);
+        playerItemCollision = new playerItemCollisions();
 
         // fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
     }
@@ -94,6 +99,8 @@ public class Game1 : Core
         flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
 
         Music.LoadContent(Content);
+
+        font1 = Content.Load<SpriteFont>("Font/File");
 
         Vector2 blockPos = new Vector2(600, 500);
 
@@ -154,13 +161,30 @@ public class Game1 : Core
 
         Koopa.LoadTextures(Content);
 
+        enemies = new List<IEnemy>
+
+        {
+            new Goomba(goombaTexture),
+            new Koopa(),
+            new Koopa(Koopa.KoopaType.Red),
+            new Koopa(Koopa.KoopaType.Blue)
+        };
+
         currentBlockCount = 0;
         currentItemCount = 0;
         currentBlock = blocks[currentBlockCount];
         currentItem = items[currentItemCount];
         currentMario = marios[0];
         currentMarioNum = 0;
+        currentEnemyCount = 0;
+        currentEnemy = enemies[currentEnemyCount];
         prevX = 0;
+        marioScore = 0;
+        coinCount = 0;
+        livesCount = 3;
+        worldNumber = 1;
+        levelNumber = 1;
+        gameTimer = 400;
 
         currentItems = new List<ICollectable>();
 
@@ -168,9 +192,10 @@ public class Game1 : Core
         TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         TileMap map1 = new TileMap();
         ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml");
-        level.FromFile(map1);
         unspawnedEnemies = level.GetEnemies();
         enemies = new List<IEnemy>();
+        currentEnemyCount = 0;
+        level.FromFile(map1);
         maps.Add(map1);
         TileMap mapBonus = new TileMap();
         level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml");
@@ -187,6 +212,8 @@ public class Game1 : Core
 
     protected override void Update(GameTime gameTime)
     {
+
+        gameTimer -= (int)gameTime.ElapsedGameTime.TotalSeconds;
 
         foreach (IController controller in controllers)
         {
@@ -209,7 +236,7 @@ public class Game1 : Core
 
         foreach (ICollectable item in currentItems)
         {
-            item.Update(gameTime);
+            item.Update(gameTime, coinCount, marioScore);
         }
         currentItem.Update(gameTime);
 
@@ -220,9 +247,6 @@ public class Game1 : Core
             CheckEnemyCollisions.CheckEnemyBlockCollisions(enemy, blocks, map);
             CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage);
         }
-
-
-
 
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {
@@ -238,7 +262,8 @@ public class Game1 : Core
         }
 
 
-        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 16);
+        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
+
 
         foreach (IBlock b in blocks)
         { // these extra blocks should be fit into TileMap somehow.
@@ -249,6 +274,8 @@ public class Game1 : Core
             currentMario,
             collidableBlocks
         ); // We should only call this method once per update.
+
+        playerItemCollision.CheckCollisions(currentMario, currentItems, currentMarioNum, SetMario);
 
         // Camera
         if (currentMario.location.X > prevX)
@@ -266,16 +293,16 @@ public class Game1 : Core
             (int)visibleArea.Height
         );
 
-        map.Update(gameTime, cameraRect, 64);
-
         playerBlockCollision.checkCameraCollision(currentMario, cameraRect);
+
+        map.Update(gameTime, cameraRect, 64);
 
         float cameraRightEdge = visibleArea.Right;
 
-        for (int i = unspawnedEnemies.Count - 1; i >= 0; i--)
+        for (int i = unspawnedEnemies.Count - 1; i>=0; i--)
         {
             IEnemy sleepingEnemy = unspawnedEnemies[i];
-            if (cameraRightEdge > sleepingEnemy.position.X)
+            if(cameraRightEdge > sleepingEnemy.position.X)
             {
                 enemies.Add(sleepingEnemy);
                 unspawnedEnemies.RemoveAt(i);
@@ -297,18 +324,9 @@ public class Game1 : Core
 
         foreach (var item in currentItems)
         {
-            if (item is Coin coin)
-            {
-                coin.CheckCollisions(currentMario);
-            }
-            else if (item is Flower flower)
-            {
-                flower.CheckCollisions(currentMario);
-            }
-            else if (item is Mushroom mushroom)
-            {
-                mushroom.CheckCollisions(currentMario);
-            }
+            List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
+            ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
+            ItemCollision.CheckItemMarioCollisions(item, currentMario, coinCount, livesCount);
         }
         if (!canTakeDamage)
         {
@@ -356,6 +374,11 @@ public class Game1 : Core
             SpriteBatch.Draw(pauseTexture, new Rectangle(0, 0, 200, 200), Color.White);
             SpriteBatch.End();
         }
+        string HUD = "MARIO            WORLD   TIME\n" + marioScore + "   Ox" + coinCount + "     " + worldNumber + "-" + levelNumber + "     " + gameTimer;
+        Vector2 HUDpos = new Vector2(0, 0);
+        SpriteBatch.Begin();
+        SpriteBatch.DrawString(font1, HUD, HUDpos, Color.White);
+        SpriteBatch.End();
 
 
         base.Draw(gameTime);
@@ -498,7 +521,7 @@ public class Game1 : Core
             if (currentMarioNum == 0)
             {
                 currentMario.Damage();
-                Reset();
+
             }
             else if (currentMarioNum == 1)
             {

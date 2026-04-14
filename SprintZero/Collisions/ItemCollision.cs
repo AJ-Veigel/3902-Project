@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using SprintZero.blocks;
 using SprintZero.Map;
 using Microsoft.Xna.Framework;
+using SprintZero;
 
 namespace ItemCollisions
 {
     public static class ItemCollision
     {
         // Handles enemy-Mario interactions
-        public static void CheckItemMarioCollisions(ICollectable currentItem, IMario currentMario)
+        public static void CheckItemMarioCollisions(ICollectable currentItem, IMario currentMario, int coinCount, int livesCount)
         {
             if (currentItem.RectCollider.Intersects(currentMario.MarioCollider) && !currentItem.Collected)
             {
@@ -32,11 +33,13 @@ namespace ItemCollisions
                     {
                         coin.Collected = true;
                         Music.itemSound.Play();
+                        coinCount++;
                     }
                     else if(currentItem is OneUp oneUp)
                     {
                         oneUp.Collected = true;
                         Music.itemSound.Play();
+                        livesCount++;
                     }
                     else if(currentItem is Star star)
                     {
