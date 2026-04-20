@@ -33,6 +33,7 @@ public class BigMario : IMario
     private const float GRAVITY = 0.2f;
     private const float JUMP_POWER = -11f;
  public bool SlidingFlag { get; set; } = false;
+  public bool AutoWalking {get;set;} =false;
     public BigMario(TextureAtlas bigMarioTexture,ContentManager content)
     {
         Moving = false;
@@ -187,15 +188,22 @@ public class BigMario : IMario
             marioSprites.SetAnimatedSprite("flagpoleLeft");
         }
     }
-    public void EndFlagPole()
-    {
-        if (Direction)
-            marioSprites.SetSprite("standRight");
-        else
-            marioSprites.SetSprite("standLeft");
+public void EndFlagPole()
+{
+    SlidingFlag = false;
+    AutoWalking = true;
 
-        isOnGround = true;
-    }
+    isOnGround = true;
+    Jumping = false;
+    Falling = false;
+
+    yVelocity = 0f;
+    xVelocity = 2f;
+
+    location = new Vector2(location.X, currentPlatformY);
+
+    marioSprites.SetAnimatedSprite("moveRight");
+}
 
     public void Update(GameTime gameTime)
     {
@@ -205,6 +213,45 @@ public class BigMario : IMario
         {
             Invincible = false;
         }
+     if (SlidingFlag)
+{
+    float slideSpeed = 2f;
+
+    xVelocity = 0;
+    location = new Vector2(location.X, location.Y + slideSpeed);
+    marioSprites.SetLocation(location);
+
+    
+    marioSprites.SetAnimatedSprite(
+        Direction ? "flagpoleRight" : "flagpoleLeft"
+    );
+
+    marioSprites.Update(gameTime);
+    MarioCollider = marioSprites.UpdateCollider();
+    return;
+}
+        if (AutoWalking)
+{
+    float castleX = 400f; 
+
+    xVelocity = 2f;
+    yVelocity = 0;
+
+    location = new Vector2(location.X + xVelocity, location.Y);
+
+    marioSprites.SetAnimatedSprite("moveRight");
+    marioSprites.SetLocation(location);
+
+    if (location.X >= castleX)
+    {
+        AutoWalking = false;
+        xVelocity = 0;
+        marioSprites.SetSprite("standRight");
+    }
+
+    MarioCollider = marioSprites.UpdateCollider();
+    return; 
+}
         
         if (Jumping && !Falling)
         {

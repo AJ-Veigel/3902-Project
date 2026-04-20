@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using MonoGameLibrary.Graphics;
 using SoundManager;
 using SprintZero;
@@ -37,6 +38,7 @@ public class SmallMario : IMario
     private float groundY;
     private float currentPlatformY;
     private const float JUMP_POWER = -11f;
+    public bool AutoWalking {get;set;} =false;
 
 
     public SmallMario(TextureAtlas smallMarioTexture, ContentManager content, Game1 game)
@@ -142,6 +144,17 @@ public class SmallMario : IMario
             }
         }
     }
+    public void AutoWalk()
+    {
+        float castleX = 160f;
+        if (location.X >= castleX)
+        {
+            AutoWalking = false;
+            xVelocity = 0;
+            marioSprites.SetSprite("standRight");
+        }
+    }
+
     public void Jump()
     {
         if (isOnGround)
@@ -196,15 +209,20 @@ public class SmallMario : IMario
             marioSprites.SetAnimatedSprite("flagpoleLeft");
         }
     }
-    public void EndFlagPole()
-    {
-        if (Direction)
-            marioSprites.SetSprite("standRight");
-        else
-            marioSprites.SetSprite("standLeft");
+   public void EndFlagPole()
+{
+    AutoWalking = true;
 
-        isOnGround = true;
-    }
+    isOnGround = true;
+    Jumping = false;
+    Falling = false;
+
+    yVelocity = 0f;
+    xVelocity = 2f;
+
+   
+    SlidingFlag = false;
+}
     public void LandOnBlock(float blockTopY)
     {
         location = new Vector2(location.X, blockTopY - MarioCollider.Height);
@@ -221,13 +239,58 @@ public class SmallMario : IMario
 
     public void Update(GameTime gameTime)
     {
+        if (SlidingFlag)
+{
+    float slideSpeed = 2f;
+
+   
+    xVelocity = 0;
+
+   
+    location = new Vector2(location.X, location.Y + slideSpeed);
+
+    marioSprites.SetLocation(location);
+
+    // Stop at ground (adjust this value to your level)
+    float flagBottomY = 700f;
+
+    if (location.Y >= flagBottomY)
+    {
+        EndFlagPole();
+    }
+
+    MarioCollider = marioSprites.UpdateCollider();
+    return; // IMPORTANT: skip all normal physics
+}
+
         invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         if(invincibilityTimer > 1)
         {
             Invincible = false;
         }
+       if (AutoWalking)
+{
+    float castleX = 400f;
 
+    xVelocity = 2f;
+    yVelocity = 0;
+
+    location = new Vector2(location.X + xVelocity, location.Y);
+
+    marioSprites.SetAnimatedSprite("moveRight");
+    marioSprites.SetLocation(location); 
+
+    if (location.X >= castleX)
+    {
+        AutoWalking = false;
+        xVelocity = 0;
+        marioSprites.SetSprite("standRight");
+    }
+
+    MarioCollider = marioSprites.UpdateCollider();
+    return;
+}
         if (Jumping)
         {
             yVelocity += GRAVITY;

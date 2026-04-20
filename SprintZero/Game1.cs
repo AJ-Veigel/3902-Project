@@ -27,7 +27,7 @@ namespace SprintZero;
 public class Game1 : Core
 {
 
-    private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture;
+    private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture, flagPoleTexture;
     private TextureRegion ground, smallTube, castle, mushroom, mediumTube, oneup_mushroom;
 
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
@@ -86,7 +86,10 @@ public class Game1 : Core
     }
     protected override void LoadContent()
     {
-
+       flagPoleTexture = TextureAtlas.FromFile(Content, "Images/flag.xml");
+        TextureRegion flag = flagPoleTexture.GetRegion("flag");
+        TextureRegion poleTop = flagPoleTexture.GetRegion("poleTop");
+        TextureRegion poleMiddle = flagPoleTexture.GetRegion("poleMiddle");
         blocksTexture = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         ground = blocksTexture.GetRegion("ground");
         questionBlockHit = blocksTexture.CreateAnimatedSprite("hit-Question");

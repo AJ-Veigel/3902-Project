@@ -30,7 +30,7 @@ Code reference links:
     Parsing and Reading from an xml -> https://docs.monogame.net/articles/tutorials/building_2d_games/13_working_with_tilemaps/index.html
     
 Sprite reference links:
-        Sprites used for this game are from Super Mario Bros created by Nintendo. The sprite sheets are allocated from https://www.mariouniverse.com/sprites-nes-smb/.  
+        Sprites used for this game are from Super Mario Bros created by Nintendo. The sprite sheets are allocated from https://www.mariouniverse.com/sprites-nes-smb/ & https://www.pixilart.com/art/mario-flagpole-ce745d60b62b249.  
         The sprite for pause overlay is allocated from https://www.textstudio.com/logo/599/Pause.
 
 Music reference links:
