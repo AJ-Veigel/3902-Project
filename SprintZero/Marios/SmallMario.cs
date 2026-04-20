@@ -36,7 +36,7 @@ public class SmallMario : IMario
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private float groundY;
-    private float currentPlatformY;
+    public float currentPlatformY {get;set;}
     private const float JUMP_POWER = -11f;
     public bool AutoWalking {get;set;} =false;
 
@@ -251,8 +251,7 @@ public class SmallMario : IMario
 
     marioSprites.SetLocation(location);
 
-    // Stop at ground (adjust this value to your level)
-    float flagBottomY = 700f;
+    float flagBottomY = 600f;
 
     if (location.Y >= flagBottomY)
     {
@@ -260,7 +259,7 @@ public class SmallMario : IMario
     }
 
     MarioCollider = marioSprites.UpdateCollider();
-    return; // IMPORTANT: skip all normal physics
+    return; 
 }
 
         invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
