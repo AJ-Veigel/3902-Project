@@ -51,25 +51,9 @@ public class FlagMiddle : IBlock
 
         mario.SlidingFlag = true;
 
-        // START FLAG GRAB ANIMATION ONLY
+      
         mario.GrabFlagPole();
     }
 }
 }
-    // if (!mario.SlidingFlag && 
-    //     (side == CollisionSide.Left || side == CollisionSide.Right))
-    // {
-    //     float poleCenterX = location.X + Collider.Width / 2f;
 
-    //     mario.location = new Vector2(
-    //         poleCenterX - mario.MarioCollider.Width / 2f,
-    //         mario.location.Y
-    //     );
-
-
-    //     mario.xVelocity = 0;
-    //     mario.yVelocity = 0;
-
-    //     mario.SlidingFlag = true;
-    //     mario.GrabFlagPole();
-    // }

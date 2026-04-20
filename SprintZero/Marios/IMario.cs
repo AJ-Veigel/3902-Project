@@ -20,6 +20,7 @@ namespace SprintZero.Marios
         bool SlidingFlag { get; set; }
         bool Invincible { get; set; }
         bool AutoWalking{get;set;}
+    
 
         void Bounce();
         void Move();
@@ -32,6 +33,7 @@ namespace SprintZero.Marios
         void EndFlagPole();
         float yVelocity { get; set; }
         float xVelocity { get; set; }
+        float currentPlatformY {get;set;}
 
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
