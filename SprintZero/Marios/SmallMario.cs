@@ -24,6 +24,7 @@ public class SmallMario : IMario
     public bool Jumping { get; set; }
     public bool Falling { get; set; }
     public bool isOnGround { get; set; }
+
     public bool Direction { get; set; }
     public bool Sprinting { get; set; }
     public bool Crouching { get; set; }
@@ -36,7 +37,7 @@ public class SmallMario : IMario
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private float groundY;
-    private float currentPlatformY;
+     public float currentPlatformY {get;set;}
     private const float JUMP_POWER = -11f;
     public bool AutoWalking {get;set;} =false;
 
