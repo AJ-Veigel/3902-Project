@@ -16,7 +16,7 @@ public class BigMario : IMario
     public float xVelocity { get; set; }
     public float jumpStartHeight { get; set; }
     private float groundY;
-    private float currentPlatformY;
+    public float currentPlatformY {get;set;}
     public bool Jumping { get; set; }
     public bool isOnGround { get; set; }
     public bool Falling { get; set; }
@@ -34,6 +34,7 @@ public class BigMario : IMario
     private const float JUMP_POWER = -11f;
  public bool SlidingFlag { get; set; } = false;
   public bool AutoWalking {get;set;} =false;
+  public bool FinishedFlagSlide {get;set;} = false;
     public BigMario(TextureAtlas bigMarioTexture,ContentManager content)
     {
         Moving = false;
@@ -203,6 +204,7 @@ public void EndFlagPole()
     location = new Vector2(location.X, currentPlatformY);
 
     marioSprites.SetAnimatedSprite("moveRight");
+
 }
 
     public void Update(GameTime gameTime)
