@@ -35,51 +35,18 @@ namespace SprintZero.PBCollision
                 if (block.Collider.Intersects(mariowithExtraBound)) 
                     blocks.Add(block);
             }
-           if (mario.SlidingFlag)
+            if (mario.SlidingFlag)
 {
+
     foreach (var block in allBlocks)
-{
-    Rectangle blockRect = block.Collider;
-
-    // 🚫 IGNORE flag pieces
-    if (block is FlagMiddle || block is FlagBase)
     {
-        block.onCollision(mario, CollisionSide.None);
-        continue;
-    }
-
-
-    bool isAboveBlock =
-        mario.MarioCollider.Bottom <= blockRect.Top + 5;
-
-    bool fallingIntoBlock =
-        mario.MarioCollider.Bottom + 4 >= blockRect.Top;
-
-    bool withinX =
-        mario.MarioCollider.Right > blockRect.Left &&
-        mario.MarioCollider.Left < blockRect.Right;
-
-    if (isAboveBlock && fallingIntoBlock && withinX)
-    {
-        float groundY = blockRect.Top - mario.MarioCollider.Height;
-
-        mario.location = new Vector2(mario.location.X, groundY);
-        mario.currentPlatformY = groundY;
-
-        mario.EndFlagPole(); 
-
-        return;
-    }
-
-
-       
         if (block is FlagMiddle || block is FlagBase)
         {
             block.onCollision(mario, CollisionSide.None);
         }
     }
 
-    return;
+    return; 
 }
             CollisionSide theSide;
             bool standingOnBlock = false;
@@ -96,7 +63,6 @@ namespace SprintZero.PBCollision
                 {
                     theSide = getCollisionSide(marioRect, blockRect);
                     Console.WriteLine($"[Collision Debug] mario collided with block at {blockRect.Location} on {theSide} side");
-                    Console.WriteLine($"MarioBottom: {mario.MarioCollider.Bottom}, BlockTop: {blockRect.Top}");
                    if (block is FlagMove)
                     {
                         block.onCollision(mario,theSide);

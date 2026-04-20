@@ -9,8 +9,6 @@ public class FlagMiddle : IBlock
     private TextureRegion sprite;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
-    public float PoleBottomY => location.Y + Collider.Height;
-    public float PoleCenterX => location.X + Collider.Width / 2f;
 
       private const float SCALE = 2f;
 
@@ -34,24 +32,44 @@ public class FlagMiddle : IBlock
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.Zero, SCALE, SpriteEffects.None, 0f);
     }
 
-public void onCollision(IMario mario, CollisionSide side)
+
+   public void onCollision(IMario mario, CollisionSide side)
 {
-    if (!mario.SlidingFlag && 
-        (side == CollisionSide.Left || side ==CollisionSide.Right))
+    if (mario.SlidingFlag) return;
+
+    if (side == CollisionSide.Left || side == CollisionSide.Right)
     {
-        float poleCenterX = location.X + Collider.Width / 2f;
+        float poleCenterX = location.X + (Collider.Width / 2f);
 
         mario.location = new Vector2(
             poleCenterX - mario.MarioCollider.Width / 2f,
             mario.location.Y
         );
-        
 
         mario.xVelocity = 0;
         mario.yVelocity = 0;
 
         mario.SlidingFlag = true;
+
+        // START FLAG GRAB ANIMATION ONLY
         mario.GrabFlagPole();
     }
 }
 }
+    // if (!mario.SlidingFlag && 
+    //     (side == CollisionSide.Left || side == CollisionSide.Right))
+    // {
+    //     float poleCenterX = location.X + Collider.Width / 2f;
+
+    //     mario.location = new Vector2(
+    //         poleCenterX - mario.MarioCollider.Width / 2f,
+    //         mario.location.Y
+    //     );
+
+
+    //     mario.xVelocity = 0;
+    //     mario.yVelocity = 0;
+
+    //     mario.SlidingFlag = true;
+    //     mario.GrabFlagPole();
+    // }

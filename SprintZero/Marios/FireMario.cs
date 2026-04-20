@@ -17,7 +17,7 @@ public class FireMario : IMario
     private const float GRAVITY = 0.2f;
     private const float JUMP_POWER = -11;
     private float groundY;
-    public float currentPlatformY {get;set;}
+    private float currentPlatformY;
 
     public float jumpStartHeight { get; set; }
     public Vector2 velocity { get; set; }
