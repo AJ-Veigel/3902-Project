@@ -5,6 +5,7 @@
   <Config />
   <SourceFiles>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Font/File.spritefont</File>
+    <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/flag.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/goombasprites.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/items.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/koopaSprites.png</File>
@@ -28,6 +29,7 @@
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Music/powerup.wav</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

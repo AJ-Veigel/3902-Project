@@ -21,15 +21,15 @@ public class FlagMove : IBlock
     public Rectangle Collider { get; set; }
     public bool alreadyActived = false;
     private float bottomY;
-
+  
     public bool SlidingFlag { get; set; } = false;
     public FlagMove(AnimatedSprite sprite, Vector2 location)
     {
         flagSprite = sprite;
         flagSprite.Scale = new Vector2(SCALE);
         flagSprite.Pause();
-  
         this.location = location; 
+
         bottomY = location.Y + 300f;
 
         UpdateCollider();
@@ -39,7 +39,7 @@ public class FlagMove : IBlock
 {
     if (marioSliding && slidingMario != null)
     {
-        // Slide Mario down
+      
         Vector2 newMarioPos = slidingMario.location;
         newMarioPos.Y = Math.Min(newMarioPos.Y + marioSlideSpeed, bottomY - slidingMario.MarioCollider.Height);
         slidingMario.location = newMarioPos;
@@ -55,13 +55,14 @@ public class FlagMove : IBlock
 
         flagSprite.Update(gameTime);
 
-        if (slidingMario.location.Y >= bottomY - slidingMario.MarioCollider.Height)
-        {
-            slidingMario.SlidingFlag = false; 
-            slidingMario.EndFlagPole();       
-            marioSliding = false;
-            slidingMario = null;
-        }
+       if (slidingMario.location.Y >= bottomY - slidingMario.MarioCollider.Height)
+{
+    slidingMario.SlidingFlag = false;
+    slidingMario.EndFlagPole(); 
+
+    marioSliding = false;
+    slidingMario = null;
+}
     }
 
     UpdateCollider();
@@ -82,19 +83,31 @@ public class FlagMove : IBlock
     }
 public void onCollision(IMario mario, CollisionSide theSide)
 {
+    Console.WriteLine($"[FLAG] Collision detected! Side: {theSide}");
+
     if (marioSliding || alreadyActived)
-    return;
-    bool validHit = theSide == CollisionSide.Top || theSide == CollisionSide.Right;
+        return;
+
+    bool validHit = theSide == CollisionSide.Top|| theSide == CollisionSide.Left;
+
     if (validHit)
-        {
-            alreadyActived = true;
-            marioSliding= true;
-            slidingMario = mario;
-            flagSprite.Play();
-            Music.flagpoleSound.Play();
-            slidingMario.location = new Vector2(location.X-slidingMario.MarioCollider.Width,slidingMario.location.Y);
-            slidingMario.SlidingFlag = true;
-            slidingMario.isOnGround = false;
-        }
+    {
+        Console.WriteLine("[FLAG] Valid collision starting slide");
+
+        alreadyActived = true;
+        marioSliding = true;
+        slidingMario = mario;
+
+        flagSprite.Play();
+        Music.flagpoleSound.Play();
+
+        slidingMario.location = new Vector2(
+            location.X - slidingMario.MarioCollider.Width,
+            slidingMario.location.Y
+        );
+
+        slidingMario.SlidingFlag = true;
+        slidingMario.isOnGround = false;
+    }
 }
 }

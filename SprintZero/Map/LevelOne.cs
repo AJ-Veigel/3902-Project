@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using System;
 using System.Net.NetworkInformation;
 using SprintZero.Items;
+using MonoGame.Extended;
 
 namespace SprintZero.Map
 {
@@ -29,6 +30,8 @@ namespace SprintZero.Map
         private string filename;
         private TextureRegion ground, solid, tubeTop, tubeLeft, tubeMid, tubeInter,castle;
         private AnimatedSprite qBlock, brick;
+        private TextureAtlas flagpoleTexture;
+        private TextureRegion flagRegion,flag,poleTop,poleMiddle;
 
 
         public List<IEnemy> spawnedEnemies;
@@ -117,20 +120,38 @@ namespace SprintZero.Map
             IBlock block = new questionMarkItem(qBlock, location, itemTextures, items);
             map.addBlockAt(tilePos, block);
         }
-        private static void placeFlagAt(TileMap map, TextureAtlas flagTexture, Point tilePos)
+    //     private static void placeFlagAt(TileMap map, TextureAtlas flagTexture, Point tilePos)
+    // {
+    // Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+    // AnimatedSprite sprite = flagTexture.CreateAnimatedSprite("flagMove");
+    // IBlock block = new FlagMove(sprite, location);
+    // map.addBlockAt(tilePos, block);
+    // }   
+    private static void placeFlagAt(TileMap map, TextureRegion flag, Point tilepos)
+        {
+            Vector2 location = new Vector2(tilepos.X* TileSize, tilepos.Y*TileSize);
+            IBlock block = new Flag(flag,location);
+            map.addBlockAt(tilepos,block);
+        }
+        private static void placePoleTop(TileMap map, TextureRegion poleTop, Point tilePos)
     {
     Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-    AnimatedSprite sprite = flagTexture.CreateAnimatedSprite("flagMove");
-    IBlock block = new FlagMove(sprite, location);
+    IBlock block = new FlagTop(poleTop, location);
     map.addBlockAt(tilePos, block);
-    }   
-private static void placeCastleAt(TileMap map, TextureRegion castle, Point tilePos)
+    }
+    private static void placePoleMiddle(TileMap map, TextureRegion poleMid, Point tilePos)
+    {
+    Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+    IBlock block = new FlagMiddle(poleMid, location);
+    map.addBlockAt(tilePos, block);
+    }
+
+    private static void placeCastleAt(TileMap map, TextureRegion castle, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
             IBlock block = new CastleBlock(castle, location);
             map.addBlockAt(tilePos, block);
         }
-
 
         public void LoadContent()
         {
@@ -145,6 +166,11 @@ private static void placeCastleAt(TileMap map, TextureRegion castle, Point tileP
             goombaTexture = TextureAtlas.FromFile(this.content, "images/goomba-definition.xml");
             flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
             castle = bigBlockTexture.GetRegion("castle");
+            flagpoleTexture = TextureAtlas.FromFile(content,"Images/flag.xml");
+            flag = flagpoleTexture.GetRegion("flag");
+        poleTop = flagpoleTexture.GetRegion("poleTop");
+        poleMiddle = flagpoleTexture.GetRegion("poleMiddle");
+ 
         }
     
 
@@ -248,7 +274,7 @@ private static void placeCastleAt(TileMap map, TextureRegion castle, Point tileP
                                     }
                                     case 14:
                                     {
-                                        placeFlagAt(tilemap,bigBlockTexturePt2,p);
+                                        placeFlagAt(tilemap,flag,p);
                                         break;
                                     }
                                     case 15:
@@ -256,7 +282,18 @@ private static void placeCastleAt(TileMap map, TextureRegion castle, Point tileP
                                         placeCastleAt(tilemap, castle,p);
                                         break;
                                     }
-                                   
+                                    case 16:
+                                    {
+                                        placePoleTop(tilemap,poleTop,p);
+                                        break;
+                                    }
+                                    case 17:
+                                    {
+                                        placePoleMiddle(tilemap,poleMiddle,p);
+                                        break;
+                                    }
+                                 
+                                                                
                                 default:
                                     {
                                         break;

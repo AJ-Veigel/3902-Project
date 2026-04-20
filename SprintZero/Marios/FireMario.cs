@@ -45,6 +45,8 @@ public class FireMario : IMario
     private bool throwing;
     private double throwTimerMs;
     private const double THROW_DURATION_MS = 180;
+     public bool AutoWalking {get;set;} = false;
+
 
     public FireMario(TextureAtlas fireMarioTexture, ContentManager content)
     {
