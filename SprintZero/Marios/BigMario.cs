@@ -16,7 +16,7 @@ public class BigMario : IMario
     public float xVelocity { get; set; }
     public float jumpStartHeight { get; set; }
     private float groundY;
-    private float currentPlatformY;
+    public float currentPlatformY{get;set;}
     public bool Jumping { get; set; }
     public bool isOnGround { get; set; }
     public bool Falling { get; set; }

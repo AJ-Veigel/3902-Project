@@ -51,7 +51,7 @@ public class FlagMiddle : IBlock
 
         mario.SlidingFlag = true;
 
-      
+      mario.currentPlatformY = location.Y + Collider.Height;
         mario.GrabFlagPole();
     }
 }

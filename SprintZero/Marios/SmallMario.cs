@@ -39,7 +39,7 @@ public class SmallMario : IMario
     public float currentPlatformY {get;set;}
     private const float JUMP_POWER = -11f;
     public bool AutoWalking {get;set;} =false;
-
+    public bool WinState { get; set; } = false;
 
     public SmallMario(TextureAtlas smallMarioTexture, ContentManager content, Game1 game)
     {
@@ -196,32 +196,39 @@ public class SmallMario : IMario
     {
 
     }
-    public void GrabFlagPole()
-    {
-        Jumping = false;
-        Falling = false;
-        if (Direction)
-        {
-            marioSprites.SetAnimatedSprite("flagpoleRight");
-        }
-        else
-        {
-            marioSprites.SetAnimatedSprite("flagpoleLeft");
-        }
-    }
-   public void EndFlagPole()
+  public void GrabFlagPole()
 {
-    AutoWalking = true;
+    SlidingFlag = true;
 
-    isOnGround = true;
     Jumping = false;
     Falling = false;
+    isOnGround = false;
+
+    xVelocity = 0f;
+    yVelocity = 0f;
+
+    marioSprites.SetAnimatedSprite(Direction ? "flagpoleRight" : "flagpoleLeft");
+}
+public void EndFlagPole()
+{
+    SlidingFlag = false;
+
 
     yVelocity = 0f;
-    xVelocity = 2f;
+    xVelocity = 0f;
+    isOnGround = true;
+    Falling = false;
+    Jumping = false;
+
+    currentPlatformY = location.Y;
 
    
-    SlidingFlag = false;
+    location = new Vector2(location.X, currentPlatformY);
+    marioSprites.SetLocation(location);
+
+    AutoWalking = true;
+
+    marioSprites.SetAnimatedSprite("moveRight");
 }
     public void LandOnBlock(float blockTopY)
     {
@@ -239,27 +246,37 @@ public class SmallMario : IMario
 
     public void Update(GameTime gameTime)
     {
-        if (SlidingFlag)
+if (SlidingFlag)
 {
-    float slideSpeed = 2f;
+   float slideSpeed = 2.5f;
 
-   
-    xVelocity = 0;
+Vector2 nextPosition = new Vector2(location.X, location.Y + slideSpeed);
 
-   
-    location = new Vector2(location.X, location.Y + slideSpeed);
 
+Rectangle nextCollider = new Rectangle(
+    (int)nextPosition.X,
+    (int)nextPosition.Y,
+    MarioCollider.Width,
+    MarioCollider.Height
+);
+
+
+if (nextPosition.Y >= currentPlatformY)
+{
+    nextPosition.Y = currentPlatformY;
+    location = nextPosition;
     marioSprites.SetLocation(location);
 
-    float flagBottomY = 600f;
+    EndFlagPole();
+}
+else
+{
+    location = nextPosition;
+    marioSprites.SetLocation(location);
+}
 
-    if (location.Y >= flagBottomY)
-    {
-        EndFlagPole();
-    }
-
-    MarioCollider = marioSprites.UpdateCollider();
-    return; 
+MarioCollider = marioSprites.UpdateCollider();
+return;
 }
 
         invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -268,17 +285,15 @@ public class SmallMario : IMario
         {
             Invincible = false;
         }
-       if (AutoWalking)
+  if (AutoWalking)
 {
-    float castleX = 400f;
+    float castleX = 1000f;
 
     xVelocity = 2f;
-    yVelocity = 0;
-
     location = new Vector2(location.X + xVelocity, location.Y);
 
     marioSprites.SetAnimatedSprite("moveRight");
-    marioSprites.SetLocation(location); 
+    marioSprites.SetLocation(location);
 
     if (location.X >= castleX)
     {
