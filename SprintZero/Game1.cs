@@ -109,13 +109,12 @@ public class Game1 : Core
 
         blocks = new List<IBlock>
          {
-         //  new ground(ground,Content), 
-       new questionMarkHit(questionBlockHit, blockPos) 
+   //    new questionMarkHit(questionBlockHit, blockPos) 
         //   new smallTube(smallTube),  
        //       new CastleBlock(castle), 
-     //    new FlagMove(flagMove),
+     //    new FlagMove(flagMove,blockPos),
     //    new MediumTube(mediumTube),
-    //     new AboveGroundBreak(aboveGroundBreak) 
+         new AboveGroundBreak(aboveGroundBreak,blockPos) 
          };
 
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");

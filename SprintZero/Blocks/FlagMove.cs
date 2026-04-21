@@ -30,7 +30,7 @@ public class FlagMove : IBlock
         flagSprite.Pause();
         this.location = location; 
 
-        bottomY = location.Y + 300f;
+        bottomY = location.Y + 900f;
 
         UpdateCollider();
     }
