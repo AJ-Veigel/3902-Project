@@ -176,36 +176,36 @@ public class BigMario : IMario
     {
 
     }
-    public void GrabFlagPole()
-    {
-        Jumping = false;
-        Falling = true;
-        if (Direction)
-        {
-            marioSprites.SetAnimatedSprite("flagpoleRight");
-        }
-        else
-        {
-            marioSprites.SetAnimatedSprite("flagpoleLeft");
-        }
-    }
+ public void GrabFlagPole()
+{
+    SlidingFlag = true;
+
+    Jumping = false;
+    Falling = false;
+    isOnGround = false;
+
+    xVelocity = 0f;
+    yVelocity = 0f;
+
+    marioSprites.SetAnimatedSprite(Direction ? "flagpoleRight" : "flagpoleLeft");
+}
 public void EndFlagPole()
 {
     SlidingFlag = false;
     AutoWalking = true;
-
-    isOnGround = true;
-    Jumping = false;
-    Falling = false;
-
     yVelocity = 0f;
-    xVelocity = 2f;
+    xVelocity = 0f;
+    isOnGround = true;
+    Falling = false;
+    Jumping = false;
 
+    currentPlatformY = location.Y;
+
+   
     location = new Vector2(location.X, currentPlatformY);
-
+    marioSprites.SetLocation(location);
     marioSprites.SetAnimatedSprite("moveRight");
 }
-
     public void Update(GameTime gameTime)
     {
         invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -214,22 +214,28 @@ public void EndFlagPole()
         {
             Invincible = false;
         }
-     if (SlidingFlag)
+ 
+   if (SlidingFlag)
 {
-    float slideSpeed = 2f;
+   float slideSpeed = 2.5f;
 
-    xVelocity = 0;
-    location = new Vector2(location.X, location.Y + slideSpeed);
+Vector2 nextPosition = new Vector2(location.X, location.Y + slideSpeed);
+if (nextPosition.Y >= currentPlatformY)
+{
+    nextPosition.Y = currentPlatformY;
+    location = nextPosition;
     marioSprites.SetLocation(location);
 
-    
-    marioSprites.SetAnimatedSprite(
-        Direction ? "flagpoleRight" : "flagpoleLeft"
-    );
+    EndFlagPole();
+}
+else
+{
+    location = nextPosition;
+    marioSprites.SetLocation(location);
+}
 
-    marioSprites.Update(gameTime);
-    MarioCollider = marioSprites.UpdateCollider();
-    return;
+MarioCollider = marioSprites.UpdateCollider();
+return;
 }
         if (AutoWalking)
 {
