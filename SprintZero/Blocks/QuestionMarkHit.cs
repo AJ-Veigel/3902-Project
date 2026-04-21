@@ -5,16 +5,21 @@ using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SprintZero.Marios;
 using SoundManager;
+using System.Collections.Generic;
+using SprintZero.Items;
+using System;
 
 
 public class questionMarkHit : IBlock
 {
     private AnimatedSprite sprite;
+    private TextureAtlas itemTexture;
 
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
 
     private const float SCALE = 4f;
+    private List<ICollectable> items;
     private float startY;
     private float bounceHeight = 20f;
     private float bounceSpeed = 3f;
@@ -23,13 +28,16 @@ public class questionMarkHit : IBlock
     private bool movingUp = false;
     private bool movingDown = false;
 
-    public questionMarkHit(AnimatedSprite animated, Vector2 pos)
+    public questionMarkHit(AnimatedSprite animated, Vector2 pos,TextureAtlas texture,List<ICollectable>currItems)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
         sprite.Pause();
         location = pos;
         startY = location.Y;
+        itemTexture = texture;
+        items = currItems;
+        
 
         Collider = new Rectangle(
             (int)location.X,
@@ -87,6 +95,13 @@ public class questionMarkHit : IBlock
                     Music.blockSound.Play();
                     movingUp = true;
                     movingDown = false;
+                    Console.WriteLine(itemTexture == null ? "itemTexture NULL" : "itemTexture OK");
+Console.WriteLine(items == null ? "items NULL" : "items OK");
+                     Vector2 aboveBlock = new Vector2(location.X, location.Y - 64);
+                if (mario.GetType() == typeof(SmallMario) || mario.GetType() == typeof(BigMario) || mario.GetType() == typeof(FireMario))
+                {
+                    SpawnItem.SpawnCoin(itemTexture, items, aboveBlock);
+                }
                 }
             }
             else if (side == CollisionSide.Top)

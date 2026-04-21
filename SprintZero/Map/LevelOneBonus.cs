@@ -49,14 +49,14 @@ namespace SprintZero.Map
             IBlock block = new AboveGroundBreak(newSprite, location);
             map.addBlockAt(tilePos, block);
         }
-    private static void placeQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            AnimatedSprite newSprite = hqTexture.CreateAnimatedSprite("hit-Question");
-            IBlock block = new questionMarkHit(newSprite, location);
+    // private  void placeQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
+    //     {
+    //         Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+    //         AnimatedSprite newSprite = hqTexture.CreateAnimatedSprite("hit-Question");
+    //         IBlock block = new questionMarkHit(newSprite, location, itemTexture, );
 
-            map.addBlockAt(tilePos, block);
-        }
+    //         map.addBlockAt(tilePos, block);
+    //     }
 
         private static void placeSolidAt(TileMap map, TextureRegion solid, Point tilePos)
         {
@@ -159,11 +159,11 @@ namespace SprintZero.Map
                                         placeSolidAt(tilemap, solid, p);
                                         break;
                                     }
-                                case 4:
-                                    {
-                                        placeQBlockAt(tilemap, blockTextures, p);
-                                        break;
-                                    }
+                                // case 4:
+                                //     {
+                                //         placeQBlockAt(tilemap, blockTextures, p);
+                                //         break;
+                                //     }
                                 case 5:
                                     {
                                         placeTubeTopAt(tilemap, tubeTop, p);

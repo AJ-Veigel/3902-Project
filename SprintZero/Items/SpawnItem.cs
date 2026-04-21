@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using MonoGameLibrary.Graphics;
@@ -18,6 +19,12 @@ namespace SprintZero.Items
             AnimatedSprite flowerSprite = itemTexture.CreateAnimatedSprite("flower");
             ICollectable flower = new Flower(flowerSprite, location);
             items.Add(flower);
+        }
+        public static void SpawnCoin(TextureAtlas itemTexture, List<ICollectable> items, Vector2 location)
+        {
+            AnimatedSprite coinSprite = itemTexture.CreateAnimatedSprite("coin");
+            ICollectable coin = new Coin(coinSprite,location);
+            items.Add(coin);
         }
     }
 }

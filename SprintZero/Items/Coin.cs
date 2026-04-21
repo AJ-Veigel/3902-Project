@@ -18,7 +18,11 @@ public class Coin : ICollectable
     public bool Collected { get; set; } = false;
     public bool onGround { get; set; }
     public bool Collidable { get; set; } = true;
-
+    private float gravity = 0.4f;
+    private float bounceVelocity =-8f;
+    private float groundY;
+    private bool shouldLeave = false;
+    private bool endSound = false;
     public Coin(AnimatedSprite animated)
     {
         sprite = animated;
@@ -31,12 +35,35 @@ public class Coin : ICollectable
         sprite = animated;
         sprite.Scale = new Vector2(4f);
         location = pos;
+        groundY = pos.Y;
+        VelocityY = bounceVelocity;
     }
 
-    public void Update(GameTime gameTime)
+  public void Update(GameTime gameTime)
+{
+    sprite.Update(gameTime);
+    VelocityY += gravity;
+
+    location = new Vector2(location.X, location.Y + VelocityY);
+    if (location.Y >= groundY)
     {
-        sprite.Update(gameTime);
+        location = new Vector2(location.X, groundY);
+        VelocityY = 0;
+        if (!endSound)
+            {
+             Music.coinSound.Play();
+             endSound = true;   
+            }
+        shouldLeave=true;
     }
+
+    RectCollider = new Rectangle(
+        (int)location.X,
+        (int)location.Y,
+        (int)sprite.Width,
+        (int)sprite.Height
+    );
+}
     public void Update(GameTime gameTime, int coins, int score)
     {
         sprite.Update(gameTime);
@@ -65,7 +92,7 @@ public class Coin : ICollectable
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        if (!Collected)
+        if (!shouldLeave)
             sprite.Draw(spriteBatch, location);
     }
 }
