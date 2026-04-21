@@ -34,6 +34,7 @@ public class BigMario : IMario
     private const float JUMP_POWER = -11f;
  public bool SlidingFlag { get; set; } = false;
   public bool AutoWalking {get;set;} =false;
+  public bool WinState { get; set; } = false;
     public BigMario(TextureAtlas bigMarioTexture,ContentManager content)
     {
         Moving = false;

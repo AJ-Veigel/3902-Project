@@ -223,7 +223,7 @@ public class Game1 : Core
             controller.Update(gameTime);
         }
 
-        if (IsPaused)
+        if (IsPaused || currentMario.WinState)
         {
             base.Update(gameTime);
             return;
@@ -467,18 +467,18 @@ public class Game1 : Core
     }
     public void MarioJump()
     {
-        if (IsPaused) return;
+        if (IsPaused || currentMario.WinState) return;
         currentMario.Jump();
     }
     public void MarioCrouch()
     {
-        if (IsPaused) return;
+         if (IsPaused || currentMario.WinState) return;
         currentMario.Crouching = true;
         currentMario.Crouch();
     }
     public void MarioUncrouch()
     {
-        if (IsPaused) return;
+         if (IsPaused || currentMario.WinState) return;
         currentMario.Crouching = false;
         currentMario.Crouch();
     }
@@ -486,38 +486,38 @@ public class Game1 : Core
     {
         if (currentMarioNum == 2)
         {
-            if (IsPaused) return;
+            if (IsPaused || currentMario.WinState) return;
             currentMario.Fireball();
             SpawnFireball();
         }
     }
     public void MarioRight()
     {
-        if (IsPaused) return;
+        if (IsPaused || currentMario.WinState) return;
         currentMario.Direction = true;
         currentMario.Move();
     }
     public void MarioLeft()
     {
-        if (IsPaused) return;
+        if (IsPaused || currentMario.WinState) return;
         currentMario.Direction = false;
         currentMario.Move();
     }
     public void StopMarioRight()
     {
-        if (IsPaused) return;
+        if (IsPaused || currentMario.WinState) return;
         currentMario.Direction = true;
         currentMario.StopMove();
     }
     public void StopMarioLeft()
     {
-        if (IsPaused) return;
+    if (IsPaused || currentMario.WinState) return;
         currentMario.Direction = false;
         currentMario.StopMove();
     }
     public void Damage()
     {
-        if (IsPaused) return;
+        if (IsPaused || currentMario.WinState) return;
         if (canTakeDamage)
         {
             canTakeDamage = false;

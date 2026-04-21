@@ -35,19 +35,19 @@ namespace SprintZero.PBCollision
                 if (block.Collider.Intersects(mariowithExtraBound)) 
                     blocks.Add(block);
             }
-            if (mario.SlidingFlag)
-{
-
-    foreach (var block in allBlocks)
+    if (mario.SlidingFlag)
     {
-        if (block is FlagMiddle || block is FlagBase)
-        {
-            block.onCollision(mario, CollisionSide.None);
-        }
-    }
 
-    return; 
-}
+      foreach (var block in allBlocks)
+      {
+           if (block is FlagMiddle || block is FlagBase)
+           {
+            block.onCollision(mario, CollisionSide.None);
+           }
+      }
+
+      return; 
+    }
             CollisionSide theSide;
             bool standingOnBlock = false;
             bool blockUnderMario = false;
@@ -56,6 +56,14 @@ namespace SprintZero.PBCollision
 
             foreach (IBlock block in blocks)
             {
+                if (block is CastleBlock)
+                {
+                    mario.WinState = true;
+                    mario.xVelocity = 0f;
+                    mario.yVelocity = 0f;
+                    mario.StopMove();
+                    return;
+                }
                 Rectangle marioRect = mario.MarioCollider;
                 Rectangle blockRect = block.Collider;
 

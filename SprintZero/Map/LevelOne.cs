@@ -120,13 +120,6 @@ namespace SprintZero.Map
             IBlock block = new questionMarkItem(qBlock, location, itemTextures, items);
             map.addBlockAt(tilePos, block);
         }
-    //     private static void placeFlagAt(TileMap map, TextureAtlas flagTexture, Point tilePos)
-    // {
-    // Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-    // AnimatedSprite sprite = flagTexture.CreateAnimatedSprite("flagMove");
-    // IBlock block = new FlagMove(sprite, location);
-    // map.addBlockAt(tilePos, block);
-    // }   
     private static void placeFlagAt(TileMap map, TextureRegion flag, Point tilepos)
         {
             Vector2 location = new Vector2(tilepos.X* TileSize, tilepos.Y*TileSize);

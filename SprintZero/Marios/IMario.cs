@@ -20,6 +20,7 @@ namespace SprintZero.Marios
         bool SlidingFlag { get; set; }
         bool Invincible { get; set; }
         bool AutoWalking{get;set;}
+       bool WinState{get;set;}
     
 
         void Bounce();
