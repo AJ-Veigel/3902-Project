@@ -144,16 +144,6 @@ public class SmallMario : IMario
             }
         }
     }
-    public void AutoWalk()
-    {
-        float castleX = 160f;
-        if (location.X >= castleX)
-        {
-            AutoWalking = false;
-            xVelocity = 0;
-            marioSprites.SetSprite("standRight");
-        }
-    }
 
     public void Jump()
     {
@@ -212,8 +202,7 @@ public class SmallMario : IMario
 public void EndFlagPole()
 {
     SlidingFlag = false;
-
-
+    AutoWalking = true;
     yVelocity = 0f;
     xVelocity = 0f;
     isOnGround = true;
@@ -225,9 +214,6 @@ public void EndFlagPole()
    
     location = new Vector2(location.X, currentPlatformY);
     marioSprites.SetLocation(location);
-
-    AutoWalking = true;
-
     marioSprites.SetAnimatedSprite("moveRight");
 }
     public void LandOnBlock(float blockTopY)
@@ -251,16 +237,6 @@ if (SlidingFlag)
    float slideSpeed = 2.5f;
 
 Vector2 nextPosition = new Vector2(location.X, location.Y + slideSpeed);
-
-
-Rectangle nextCollider = new Rectangle(
-    (int)nextPosition.X,
-    (int)nextPosition.Y,
-    MarioCollider.Width,
-    MarioCollider.Height
-);
-
-
 if (nextPosition.Y >= currentPlatformY)
 {
     nextPosition.Y = currentPlatformY;
@@ -287,7 +263,7 @@ return;
         }
   if (AutoWalking)
 {
-    float castleX = 1000f;
+    float castleX = 100f;
 
     xVelocity = 2f;
     location = new Vector2(location.X + xVelocity, location.Y);
