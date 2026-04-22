@@ -38,15 +38,12 @@ public class Game1 : Core
     private List<IMario> marios;
     private List<IEnemy> enemies;
     private List<IEnemy> unspawnedEnemies;
-    private ICollectable currentItem;
-    private IBlock currentBlock;
     private IMario currentMario;
-    private IEnemy currentEnemy;
 
     private List<TileMap> maps; // Temporary!
     private TileMap map; // Current map.
 
-    private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount, currentLevel;
+    private int currentMarioNum, currentLevel;
     private int coinCount, livesCount, worldNumber, levelNumber, gameTimer, marioScore;
     private OrthographicCamera camera;
     private float prevX;
@@ -132,8 +129,6 @@ public class Game1 : Core
 
         currentMario = marios[0];
         currentMarioNum = 0;
-        currentEnemyCount = 0;
-        currentEnemy = enemies[currentEnemyCount];
         prevX = 0;
         marioScore = 0;
         coinCount = 0;
@@ -150,7 +145,6 @@ public class Game1 : Core
         ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml", bigBlockTexturePt2, bigBlockTexture);
         unspawnedEnemies = level.GetEnemies();
         enemies = new List<IEnemy>();
-        currentEnemyCount = 0;
         level.FromFile(map1);
         maps.Add(map1);
         TileMap mapBonus = new TileMap();
@@ -357,34 +351,6 @@ public class Game1 : Core
         pop.Scale = s;
 
         projectiles.Add(new Fireball(roll, pop, spawnPos, currentMario.Direction));
-    }
-    public void NextBlock()
-    {
-        currentBlockCount = (currentBlockCount + 1) % blocks.Count;
-        currentBlock = blocks[currentBlockCount];
-    }
-    public void PreviousBlock()
-    {
-        currentBlockCount--;
-        if (currentBlockCount < 0)
-        {
-            currentBlockCount = blocks.Count - 1;
-        }
-        currentBlock = blocks[currentBlockCount];
-    }
-    public void NextItem()
-    {
-        currentItemCount = (currentItemCount + 1) % items.Count;
-        currentItem = items[currentItemCount];
-    }
-    public void PreviousItem()
-    {
-        currentItemCount--;
-        if (currentItemCount < 0)
-        {
-            currentItemCount = items.Count - 1;
-        }
-        currentItem = items[currentItemCount];
     }
 
     public void SetMario(int marioNumber)

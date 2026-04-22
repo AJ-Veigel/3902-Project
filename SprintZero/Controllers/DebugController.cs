@@ -54,43 +54,10 @@ public class DebugController
     public static void UpdateItemDebug(KeyboardState previousState, KeyboardState currentState, Game1 game)
     {
 
-        if (currentState.IsKeyDown(Keys.T) && previousState.IsKeyUp(Keys.T))
-        {
-            game.PreviousBlock();
-        }
-
-
-        if (currentState.IsKeyDown(Keys.Y) && previousState.IsKeyUp(Keys.Y))
-        {
-            game.NextBlock();
-        }
-
-        // Change to "Spawn Item"
-        if (currentState.IsKeyDown(Keys.U) && previousState.IsKeyUp(Keys.U))
-        {
-            game.PreviousItem();
-        }
-
-        // Change to "Swap Item"
-        if (currentState.IsKeyDown(Keys.I) && previousState.IsKeyUp(Keys.I))
-        {
-            game.NextItem();
-        }
     }
 
-
-    /*public static void UpdateEnemyDebug(KeyboardState previousState, KeyboardState currentState, Game1 game)
+    public static void UpdateEnemyDebug(KeyboardState previousState, KeyboardState currentState, Game1 game)
     {
-        // Change to "Spawn Enemy"
-        if (currentState.IsKeyDown(Keys.O) && previousState.IsKeyUp(Keys.O))
-        {
-            game.previousEnemy();
-        }
 
-        // Change to "Swap Enemy"
-        if (currentState.IsKeyDown(Keys.P) && previousState.IsKeyUp(Keys.P))
-        {
-            game.nextEnemy();
-        }
-    } */
+    }
 }
