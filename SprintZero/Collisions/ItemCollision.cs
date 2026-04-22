@@ -12,12 +12,12 @@ namespace ItemCollisions
 {
     public static class ItemCollision
     {
-        // Handles enemy-Mario interactions
+
         public static void CheckItemMarioCollisions(ICollectable currentItem, IMario currentMario, int coinCount, int livesCount)
         {
             if (currentItem.RectCollider.Intersects(currentMario.MarioCollider) && !currentItem.Collected)
             {
-                if (currentMario.Falling && currentMario.MarioCollider.Bottom <= currentItem.RectCollider.Center.Y + 10)
+               if (currentItem.RectCollider.Intersects(currentMario.MarioCollider))
                 {
                     if (currentItem is Mushroom mushroom)
                     {

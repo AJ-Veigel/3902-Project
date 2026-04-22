@@ -164,6 +164,18 @@
 #begin Images/SmallMario-definition.xml
 /copy:Images/SmallMario-definition.xml
 
+#begin Images/You-Win-4-21-2026.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/You-Win-4-21-2026.png
+
 #begin LevelData/LevelOne.xml
 /copy:LevelData/LevelOne.xml
 
