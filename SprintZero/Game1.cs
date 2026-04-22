@@ -59,7 +59,7 @@ public class Game1 : Core
     private float cooldownTimer = 0f;
 
     public bool IsPaused { get; set; } = false;
-    private Texture2D pauseTexture;
+    private Texture2D pauseTexture, winTexture;
 
     public Game1() : base("SMB1", 1920, 1080, false) { }
 
@@ -208,6 +208,7 @@ public class Game1 : Core
         MediaPlayer.Volume = 0.5f;
         MediaPlayer.Play(backgroundMusic);
         pauseTexture = Content.Load<Texture2D>("Images/Pause");
+        winTexture = Content.Load<Texture2D>("Images/You-Win-4-21-2026");
         base.LoadContent();
 
     }
@@ -242,6 +243,9 @@ public class Game1 : Core
            item.Update(gameTime, coinCount, marioScore);
         }
         currentItem.Update(gameTime);
+        ItemBlockCollisions itemBlockCollisions = new ItemBlockCollisions();
+
+
 
 
         foreach (IEnemy enemy in enemies)
@@ -375,6 +379,12 @@ public class Game1 : Core
         {
             SpriteBatch.Begin();
             SpriteBatch.Draw(pauseTexture, new Rectangle(0, 0, 200, 200), Color.White);
+            SpriteBatch.End();
+        }
+        if (currentMario.WinState)
+        {
+            SpriteBatch.Begin();
+            SpriteBatch.Draw(winTexture,new Rectangle(100,100,400,200), Color.White);
             SpriteBatch.End();
         }
         string HUD = "MARIO            WORLD   TIME\n" + marioScore + "   Ox" + coinCount + "     " + worldNumber + "-" + levelNumber + "     " + gameTimer;
