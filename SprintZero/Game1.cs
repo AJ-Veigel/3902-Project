@@ -27,10 +27,7 @@ namespace SprintZero;
 public class Game1 : Core
 {
 
-    private TextureAtlas blocksTexture, bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture, flagPoleTexture;
-    private TextureRegion ground, smallTube, castle, mushroom, mediumTube, oneup_mushroom;
-
-    private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
+    private TextureAtlas bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture, flagPoleTexture;
     private playerItemCollisions playerItemCollision;
     private Song backgroundMusic;
     private SpriteFont font1;
@@ -51,7 +48,6 @@ public class Game1 : Core
 
     private int currentBlockCount, currentItemCount, currentMarioNum, currentEnemyCount, currentLevel;
     private int coinCount, livesCount, worldNumber, levelNumber, gameTimer, marioScore;
-    private Rectangle Bounds;
     private OrthographicCamera camera;
     private float prevX;
     private const float cooldownForDamage = 1.0f;
@@ -73,74 +69,36 @@ public class Game1 : Core
             new MouseController(this)
         };
 
-        Bounds = new Rectangle(0, 0, 1920, 1080);
         maps = new List<TileMap>();
 
         base.Initialize();
         // Create camera with viewport adapter
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
         camera = new OrthographicCamera(viewportAdapter);
-      playerItemCollision = new playerItemCollisions();
+        playerItemCollision = new playerItemCollisions();
 
         // fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
     }
     protected override void LoadContent()
     {
-       flagPoleTexture = TextureAtlas.FromFile(Content, "Images/flag.xml");
-        TextureRegion flag = flagPoleTexture.GetRegion("flag");
-        TextureRegion poleTop = flagPoleTexture.GetRegion("poleTop");
-        TextureRegion poleMiddle = flagPoleTexture.GetRegion("poleMiddle");
-        blocksTexture = TextureAtlas.FromFile(Content, "images/block-definition.xml");
-        ground = blocksTexture.GetRegion("ground");
-        questionBlockHit = blocksTexture.CreateAnimatedSprite("hit-Question");
+        flagPoleTexture = TextureAtlas.FromFile(Content, "Images/flag.xml");
         bigBlockTexture = TextureAtlas.FromFile(Content, "images/bigblock-definition.xml");
-        aboveGroundBreak = blocksTexture.CreateAnimatedSprite("aboveGroundBreak");
-        smallTube = bigBlockTexture.GetRegion("tube");
-        castle = bigBlockTexture.GetRegion("castle");
         bigBlockTexturePt2 = TextureAtlas.FromFile(Content, "images/BigBlocks2-definition.xml");
-        mediumTube = bigBlockTexturePt2.GetRegion("mediumTube");
-        flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
 
         Music.LoadContent(Content);
 
         font1 = Content.Load<SpriteFont>("Font/File");
 
-        Vector2 blockPos = new Vector2(600, 500);
-
-        blocks = new List<IBlock>
-         {
-   //    new questionMarkHit(questionBlockHit, blockPos) 
-        //   new smallTube(smallTube),  
-       //       new CastleBlock(castle), 
-     //    new FlagMove(flagMove,blockPos),
-    //    new MediumTube(mediumTube),
-         new AboveGroundBreak(aboveGroundBreak,blockPos) 
-         };
+        blocks = new List<IBlock> {};
 
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
-        flower = itemTexture.CreateAnimatedSprite("flower");
-        coin = itemTexture.CreateAnimatedSprite("coin");
-        star = itemTexture.CreateAnimatedSprite("star");
-        mushroom = itemTexture.GetRegion("mushroom");
-        oneup_mushroom = itemTexture.GetRegion("one_up");
 
         //Projectiles
         projectileTexture = TextureAtlas.FromFile(Content, "images/Fireball-definition.xml");
-        fireballRolling = projectileTexture.CreateAnimatedSprite("FireballRolling");
-        fireballPop = projectileTexture.CreateAnimatedSprite("FireballPop");
 
         // fireballs are dynamic objects, don't exist at load time. They are created when the player presses the fire button.
         // Fireballs will be added to the list as the user presses the shoot button.
         projectiles = new List<IProjectile>();
-
-        items = new List<ICollectable>
-    {
-        new Flower(flower),
-        new Coin(coin),
-        new Star(star),
-        new Mushroom(mushroom),
-        new OneUp(oneup_mushroom)
-    };
 
         // Small Mario
         smallMarioTexture = TextureAtlas.FromFile(Content, "images/SmallMario-definition.xml");
@@ -172,10 +130,6 @@ public class Game1 : Core
             new Koopa(Koopa.KoopaType.Blue)
         };
 
-        currentBlockCount = 0;
-        currentItemCount = 0;
-        currentBlock = blocks[currentBlockCount];
-        currentItem = items[currentItemCount];
         currentMario = marios[0];
         currentMarioNum = 0;
         currentEnemyCount = 0;
@@ -193,7 +147,7 @@ public class Game1 : Core
         currentLevel = 0;
         TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         TileMap map1 = new TileMap();
-        ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml",bigBlockTexturePt2,bigBlockTexture);
+        ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml", bigBlockTexturePt2, bigBlockTexture);
         unspawnedEnemies = level.GetEnemies();
         enemies = new List<IEnemy>();
         currentEnemyCount = 0;
@@ -231,22 +185,14 @@ public class Game1 : Core
 
         map = maps[currentLevel];
 
-
         currentMario.Update(gameTime);
-
-
-        currentBlock.Update(gameTime);
 
         foreach (ICollectable item in currentItems)
         {
             item.Update(gameTime);
-           item.Update(gameTime, coinCount, marioScore);
+            item.Update(gameTime, coinCount, marioScore);
         }
-        currentItem.Update(gameTime);
         ItemBlockCollisions itemBlockCollisions = new ItemBlockCollisions();
-
-
-
 
         foreach (IEnemy enemy in enemies)
         {
@@ -267,7 +213,6 @@ public class Game1 : Core
                 projectiles.RemoveAt(i);
             }
         }
-
 
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
 
@@ -306,10 +251,10 @@ public class Game1 : Core
 
         float cameraRightEdge = visibleArea.Right;
 
-        for (int i = unspawnedEnemies.Count - 1; i>=0; i--)
+        for (int i = unspawnedEnemies.Count - 1; i >= 0; i--)
         {
             IEnemy sleepingEnemy = unspawnedEnemies[i];
-            if(cameraRightEdge > sleepingEnemy.position.X)
+            if (cameraRightEdge > sleepingEnemy.position.X)
             {
                 enemies.Add(sleepingEnemy);
                 unspawnedEnemies.RemoveAt(i);
@@ -353,8 +298,6 @@ public class Game1 : Core
 
         GraphicsDevice.Clear(Color.CornflowerBlue);
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetViewMatrix());
-        currentBlock.Draw(SpriteBatch);
-        currentItem.Draw(SpriteBatch);
         currentMario.Draw(SpriteBatch);
         foreach (ICollectable item in currentItems)
         {
@@ -384,7 +327,7 @@ public class Game1 : Core
         if (currentMario.WinState)
         {
             SpriteBatch.Begin();
-            SpriteBatch.Draw(winTexture,new Rectangle(100,100,400,200), Color.White);
+            SpriteBatch.Draw(winTexture, new Rectangle(100, 100, 400, 200), Color.White);
             SpriteBatch.End();
         }
         string HUD = "MARIO            WORLD   TIME\n" + marioScore + "   Ox" + coinCount + "     " + worldNumber + "-" + levelNumber + "     " + gameTimer;
@@ -481,13 +424,13 @@ public class Game1 : Core
     }
     public void MarioCrouch()
     {
-         if (IsPaused || currentMario.WinState) return;
+        if (IsPaused || currentMario.WinState) return;
         currentMario.Crouching = true;
         currentMario.Crouch();
     }
     public void MarioUncrouch()
     {
-         if (IsPaused || currentMario.WinState) return;
+        if (IsPaused || currentMario.WinState) return;
         currentMario.Crouching = false;
         currentMario.Crouch();
     }
@@ -520,7 +463,7 @@ public class Game1 : Core
     }
     public void StopMarioLeft()
     {
-    if (IsPaused || currentMario.WinState) return;
+        if (IsPaused || currentMario.WinState) return;
         currentMario.Direction = false;
         currentMario.StopMove();
     }
