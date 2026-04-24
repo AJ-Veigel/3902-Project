@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
-using SprintZero.Collisions;
+using EnemyCollisions;
 using SpriteZero.Enemies;
 
 public class Goomba : IEnemy
@@ -15,7 +15,7 @@ public class Goomba : IEnemy
     public bool onGround { get; set; } = false;
     public bool Despawn { get; set; }
 
-    public EnemyEnemyCollision.EnemyAction ActionState { get => EnemyEnemyCollision.EnemyAction.Bounce; }
+    public CheckEnemyCollisions.EnemyAction ActionState { get => CheckEnemyCollisions.EnemyAction.Bounce; }
 
     private const float Gravity = 0.5f;
     private float deathTimer = 0f; 
@@ -85,10 +85,10 @@ public class Goomba : IEnemy
     {
         switch (enemy.ActionState)
         {
-            case EnemyEnemyCollision.EnemyAction.Bounce:
+            case CheckEnemyCollisions.EnemyAction.Bounce:
                 this.ReverseDirection();
                 break;
-            case EnemyEnemyCollision.EnemyAction.Kill:
+            case CheckEnemyCollisions.EnemyAction.Kill:
                 this.Dead = true;
                 break;
         }
