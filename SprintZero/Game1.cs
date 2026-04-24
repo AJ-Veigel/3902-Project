@@ -172,8 +172,10 @@ public class Game1 : Core
 
         foreach (ICollectable item in currentItems)
         {
+            List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
+            ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
+            ItemCollision.CheckItemMarioCollisions(item, currentMario, coinCount, livesCount);
             item.Update(gameTime);
-            item.Update(gameTime, coinCount, marioScore);
         }
 
         foreach (IEnemy enemy in enemies)
@@ -257,12 +259,7 @@ public class Game1 : Core
         }
         CheckEnemyCollisions.CheckEnemyEnemyCollisions(enemies);
 
-        foreach (var item in currentItems)
-        {
-            List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
-            ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
-            ItemCollision.CheckItemMarioCollisions(item, currentMario, coinCount, livesCount);
-        }
+        
         if (!canTakeDamage)
         {
             cooldownTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;

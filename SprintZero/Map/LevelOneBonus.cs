@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SpriteZero.Enemies;
+using SprintZero.Marios;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
@@ -105,6 +106,11 @@ namespace SprintZero.Map
             tubeInter = blockTextures.GetRegion("tubeIntersect");
         }
 
+        public void spawnMarioAt(IMario mario, Vector2 Pos)
+        {
+            mario.location = Pos;
+        }
+
         public void FromFile(TileMap tilemap)
         {
             string filePath = Path.Combine(content.RootDirectory, filename);
@@ -116,6 +122,10 @@ namespace SprintZero.Map
                     XDocument doc = XDocument.Load(reader);
                     XElement root = doc.Root;
 
+                    XElement pipeData = root.Element("PipeData");
+
+                    int pipeNum = int.Parse(pipeData.Attribute("pipeNum").Value);
+                    string pipeLevel = pipeData.Attribute("pipeLevel").Value;
 
                     XElement tilesElement = root.Element("Blocks");
 

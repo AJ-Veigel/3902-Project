@@ -9,6 +9,8 @@ public class TubeTop : IBlock
 {
     private const float SCALE = 4f;
     private TextureRegion sprite;
+    private string level;
+    private Vector2 marioSpawnPos;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
 
@@ -19,6 +21,24 @@ public class TubeTop : IBlock
 
         location = pos;
 
+
+        Collider = new Rectangle(
+            (int)location.X,
+            (int)location.Y,
+            (int)(sprite.Width * SCALE),
+            (int)(sprite.Height * SCALE)
+        );
+    }
+
+    public TubeTop(TextureRegion region, Vector2 pos, string pipeLevel, Vector2 MarioPos)
+    {
+        sprite = region;
+
+        location = pos;
+
+        marioSpawnPos = MarioPos;
+
+        level = pipeLevel;
 
         Collider = new Rectangle(
             (int)location.X,
@@ -61,6 +81,10 @@ public class TubeTop : IBlock
                 mario.xVelocity = 0;
                 break;
             case CollisionSide.Top:
+                if (mario.Crouching && !level.Equals(""))
+                {
+                    //Change Level Here with new Mario Position
+                }
                 break;
             case CollisionSide.Bottom:
                 if (mario.yVelocity > 0) { break; }
