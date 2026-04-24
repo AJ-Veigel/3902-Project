@@ -95,8 +95,9 @@ public class AboveGroundBreak : IBlock
         bool shouldBreak = false;
         if (!isBroken)
         {
-            if (side == CollisionSide.Bottom && (mario is BigMario || mario is FireMario))
+            if (side == CollisionSide.Bottom && (mario is BigMario || mario is FireMario) && mario.yVelocity <= 0.0f)
             {
+                mario.yVelocity = 0.0f;
                 shouldBreak = true;
             }
             else
