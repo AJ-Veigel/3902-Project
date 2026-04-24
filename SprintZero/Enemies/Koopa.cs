@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
-using SprintZero.Collisions;
+using EnemyCollisions;
 using SpriteZero.Enemies;
 
 public class Koopa : IEnemy
@@ -25,23 +25,24 @@ public class Koopa : IEnemy
 	public enum KoopaType { Green, Red, Blue };
 	public Vector2 position { get; set; }
 	private bool isDead = false;
-	public bool Dead {
+	public bool Dead
+	{
 		get { return isDead; }
 		set
 		{
-			if(value && !isDead)
+			if (value && !isDead)
 			{
 				isDead = true;
-				KoopaState = KoopaStates.ShellStill; 
+				KoopaState = KoopaStates.ShellStill;
 				VelocityX = 0;
 				VelocityY = -GRAVITY * 0.5f;
 				EnemyCollider = new Rectangle(0, 0, 0, 0);
-            }
+			}
 		}
 	}
 
 	public bool Despawn { get; set; }
-    public bool onGround { get; set; }
+	public bool onGround { get; set; }
 	private bool FacingLeft { get; set; }
 	private bool isShell { get; set; }
 	private KoopaType Type { get; set; }
@@ -52,15 +53,15 @@ public class Koopa : IEnemy
 	public float VelocityX { get; set; }
 	public float VelocityY { get; set; }
 
-	public EnemyEnemyCollision.EnemyAction ActionState
+	public CheckEnemyCollisions.EnemyAction ActionState
 	{
 		get
 		{
 			if (KoopaState == KoopaStates.ShellMoving)
 			{
-				return EnemyEnemyCollision.EnemyAction.Kill;
+				return CheckEnemyCollisions.EnemyAction.Kill;
 			}
-			return EnemyEnemyCollision.EnemyAction.Bounce;
+			return CheckEnemyCollisions.EnemyAction.Bounce;
 		}
 	}
 
@@ -105,7 +106,7 @@ public class Koopa : IEnemy
 	{
 		FacingLeft = !FacingLeft;
 		VelocityX = -VelocityX;
-		
+
 	}
 
 	private void UpdateCollider()
@@ -124,71 +125,71 @@ public class Koopa : IEnemy
 		Point point;
 		if (isShell)
 		{
-            point = new Point((int)position.X, (int)position.Y + 12*4);
+			point = new Point((int)position.X, (int)position.Y + 12 * 4);
 			EnemyCollider = new Rectangle(point, new Point(16 * 4, 12 * 4));
 		}
 		else
 		{
-            point = new Point((int)position.X, (int)position.Y);
-            EnemyCollider = new Rectangle(point, new Point(16 * 4, 24 * 4));
+			point = new Point((int)position.X, (int)position.Y);
+			EnemyCollider = new Rectangle(point, new Point(16 * 4, 24 * 4));
 		}
 	}
 
-    public void Stomped()
-    {
-        if (KoopaState == KoopaStates.Walk1 || KoopaState == KoopaStates.Walk2 || KoopaState == KoopaStates.ShellMoving)
-        {
-            KoopaState = KoopaStates.ShellStill;
-            VelocityX = 0;
-            KoopaTimer = AWAKEN_TIME;
+	public void Stomped()
+	{
+		if (KoopaState == KoopaStates.Walk1 || KoopaState == KoopaStates.Walk2 || KoopaState == KoopaStates.ShellMoving)
+		{
+			KoopaState = KoopaStates.ShellStill;
+			VelocityX = 0;
+			KoopaTimer = AWAKEN_TIME;
 
-            UpdateCollider();
-        }
-    }
-    public void Kicked(bool kickRight)
-    {
-        if (KoopaState == KoopaStates.ShellStill || KoopaState == KoopaStates.ShellStill2)
-        {
-            KoopaState = KoopaStates.ShellMoving;
-            FacingLeft = !kickRight;
-            VelocityX = kickRight ? SHELL_SPEED : -SHELL_SPEED;
+			UpdateCollider();
+		}
+	}
+	public void Kicked(bool kickRight)
+	{
+		if (KoopaState == KoopaStates.ShellStill || KoopaState == KoopaStates.ShellStill2)
+		{
+			KoopaState = KoopaStates.ShellMoving;
+			FacingLeft = !kickRight;
+			VelocityX = kickRight ? SHELL_SPEED : -SHELL_SPEED;
 
-            position += new Vector2(kickRight ? 8.0f : -8.0f, 0);
+			position += new Vector2(kickRight ? 8.0f : -8.0f, 0);
 
-            UpdateCollider();
-        }
-    }
+			UpdateCollider();
+		}
+	}
 
 	public void CollideWithEnemy(IEnemy enemy)
 	{
 		// Todo: implement koopa behavior on enemy collision
 		switch (enemy.ActionState)
 		{
-			case EnemyEnemyCollision.EnemyAction.None: // i dont think this should ever happen. idk.
+			case CheckEnemyCollisions.EnemyAction.None: // i dont think this should ever happen. idk.
 				break;
-			case EnemyEnemyCollision.EnemyAction.Bounce:
+			case CheckEnemyCollisions.EnemyAction.Bounce:
 				if (KoopaState == KoopaStates.Walk1 || KoopaState == KoopaStates.Walk2)
 				{
 					this.ReverseDirection();
 				}
 				// Otherwise ignore other enemy: they die or bounce on their own.
-                break;
-            case EnemyEnemyCollision.EnemyAction.Kill:
+				break;
+			case CheckEnemyCollisions.EnemyAction.Kill:
 				this.Dead = true;
-                break;
-        }
+				break;
+		}
 	}
 
-    public void Draw(SpriteBatch spriteBatch)
+	public void Draw(SpriteBatch spriteBatch)
 	{
-		if(Despawn) return;
+		if (Despawn) return;
 
 		SpriteEffects effect = FacingLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
 		if (Dead)
 		{
 			effect |= SpriteEffects.FlipVertically;
-        }
+		}
 		int offX = FacingLeft ? 0 : -16; // I suspect this is needed but idk for sure.
 		TextureRegion[] sprites;
 		if (Type == KoopaType.Green)
@@ -247,14 +248,15 @@ public class Koopa : IEnemy
 			position += new Vector2(VelocityX, VelocityY) * timeSeconds;
 
 			if (position.Y > 2000f) //value is arbitrary for despawn
-            {
+			{
 				Despawn = true;
 			}
 			return;
-        }
+		}
 
 		// Try move.
-		if (!onGround) {
+		if (!onGround)
+		{
 			VelocityY += GRAVITY * timeSeconds;
 		}
 		position += new Vector2(VelocityX, VelocityY) * timeSeconds;
@@ -265,7 +267,7 @@ public class Koopa : IEnemy
 		{
 			switch (KoopaState)
 			{
-                case KoopaStates.Walk1:
+				case KoopaStates.Walk1:
 				case KoopaStates.Walk2:
 					VelocityX = WALK_SPEED;
 					break;
@@ -275,7 +277,7 @@ public class Koopa : IEnemy
 				default:
 					VelocityX = 0;
 					break;
-            }
+			}
 			if (FacingLeft) { VelocityX = -VelocityX; }
 			VelocityY = 0;
 		}

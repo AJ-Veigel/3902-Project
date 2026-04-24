@@ -18,7 +18,6 @@ using playerItemCollision;
 using FireballCollisions;
 using ItemCollisions;
 using EnemyCollisions;
-using SprintZero.Collisions;
 using SoundManager;
 
 
@@ -118,14 +117,7 @@ public class Game1 : Core
 
         Koopa.LoadTextures(Content);
 
-        enemies = new List<IEnemy>
-
-        {
-            new Goomba(goombaTexture),
-            new Koopa(),
-            new Koopa(Koopa.KoopaType.Red),
-            new Koopa(Koopa.KoopaType.Blue)
-        };
+        enemies = new List<IEnemy>();
 
         currentMario = marios[0];
         currentMarioNum = 0;
@@ -186,7 +178,6 @@ public class Game1 : Core
             item.Update(gameTime);
             item.Update(gameTime, coinCount, marioScore);
         }
-        ItemBlockCollisions itemBlockCollisions = new ItemBlockCollisions();
 
         foreach (IEnemy enemy in enemies)
         {
@@ -266,7 +257,7 @@ public class Game1 : Core
             if (activeEnemy is Goomba goomba && goomba.Despawn) enemies.RemoveAt(i);
             else if (activeEnemy is Koopa koopa && koopa.Despawn) enemies.RemoveAt(i);
         }
-        EnemyEnemyCollision.CheckEnemyEnemyCollisions(enemies);
+        CheckEnemyCollisions.CheckEnemyEnemyCollisions(enemies);
 
         foreach (var item in currentItems)
         {
