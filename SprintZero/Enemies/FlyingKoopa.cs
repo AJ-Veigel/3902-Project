@@ -18,8 +18,10 @@ public class FlyingKoopa : IEnemy
 
 	private const float GRAVITY = 384.0f;
 
-	private const float WALK_SPEED = 75.0f; // In per second scale
-	private const float SHELL_SPEED = 384.0f;
+	private const float FLOAT_SPEED = 20.0f;
+
+	private float SineTimer = 0.0f;
+
 	public enum KoopaType { Green, Red, Blue };
 	public Vector2 position { get; set; }
 	private bool isDead = false;
@@ -60,17 +62,17 @@ public class FlyingKoopa : IEnemy
 
 	public static void LoadTextures(ContentManager content)
 	{
-		TextureAtlas atlas = TextureAtlas.FromFile(content, "Images/koopa-definition.xml");
-		const int StateCount = 5;
+		TextureAtlas atlas = TextureAtlas.FromFile(content, "Images/flying-koopa-definition.xml");
+		const int StateCount = 2;
 		green = new TextureRegion[StateCount];
 		red = new TextureRegion[StateCount];
 		blue = new TextureRegion[StateCount];
-		green[(int)KoopaStates.Flying1] = atlas.GetRegion("greenWalk1");
-		green[(int)KoopaStates.Flying2] = atlas.GetRegion("greenWalk2");
-		red[(int)KoopaStates.Flying1] = atlas.GetRegion("redWalk1");
-		red[(int)KoopaStates.Flying2] = atlas.GetRegion("redWalk2");
-		blue[(int)KoopaStates.Flying1] = atlas.GetRegion("blueWalk1");
-		blue[(int)KoopaStates.Flying2] = atlas.GetRegion("blueWalk2");
+		green[(int)KoopaStates.Flying1] = atlas.GetRegion("greenFly1");
+		green[(int)KoopaStates.Flying2] = atlas.GetRegion("greenFly2");
+		red[(int)KoopaStates.Flying1] = atlas.GetRegion("redFly1");
+		red[(int)KoopaStates.Flying2] = atlas.GetRegion("redFly2");
+		blue[(int)KoopaStates.Flying1] = atlas.GetRegion("blueFly1");
+		blue[(int)KoopaStates.Flying2] = atlas.GetRegion("blueFly2");
 	}
 
 	public FlyingKoopa(KoopaType type = KoopaType.Green)
@@ -102,12 +104,16 @@ public class FlyingKoopa : IEnemy
 	public void Stomped()
 	{
 		// TODO: spawn koopa.
+		ReplaceSelf();
 	}
 
+	private void ReplaceSelf() // Replace self with koopa of same color.
+	{
+		return;
+	}
 
 	public void CollideWithEnemy(IEnemy enemy)
 	{
-		// Todo: implement koopa behavior on enemy collision
 		switch (enemy.ActionState)
 		{
 			case CheckEnemyCollisions.EnemyAction.None: // i dont think this should ever happen. idk.
@@ -175,7 +181,10 @@ public class FlyingKoopa : IEnemy
 		KoopaTimer -= timeSeconds;
 		HandleTimer(); // Handles timed events.
 
-		// TODO: fill stuff in
+		SineTimer += FLOAT_SPEED * timeSeconds;
+		float dy = FLOAT_SPEED * MathF.Sin(SineTimer);
+		position = new Vector2(position.X, position.Y * dy);
+		UpdateCollider();
 	}
 }
 
