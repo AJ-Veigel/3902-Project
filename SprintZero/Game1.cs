@@ -32,7 +32,7 @@ public class Game1 : Core
 
     private AnimatedSprite questionBlockHit, flower, coin, star, flagMove, aboveGroundBreak, fireballRolling, fireballPop;
     private playerItemCollisions playerItemCollision;
-    private Song backgroundMusic;
+
     private SpriteFont font1;
     private List<IController> controllers;
     private List<ICollectable> items, currentItems;
@@ -203,10 +203,7 @@ public class Game1 : Core
         level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml");
         level.FromFile(mapBonus);
         maps.Add(mapBonus);
-        backgroundMusic = Content.Load<Song>("Music/Background");
-        MediaPlayer.IsRepeating = true;
-        MediaPlayer.Volume = 0.5f;
-        MediaPlayer.Play(backgroundMusic);
+        Music.PlayBackground();
         pauseTexture = Content.Load<Texture2D>("Images/Pause");
         winTexture = Content.Load<Texture2D>("Images/You-Win-4-21-2026");
         base.LoadContent();
@@ -270,6 +267,7 @@ public class Game1 : Core
 
 
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
+
 
 
         foreach (IBlock b in blocks)
@@ -550,12 +548,12 @@ public class Game1 : Core
     public void PauseGame()
     {
         IsPaused = true;
-        MediaPlayer.Pause();
+        Music.PauseMusic();
     }
     public void UnpauseGame()
     {
         IsPaused = false;
-        MediaPlayer.Resume();
+        Music.ResumeMusic();
     }
 
     public void toggleMap(int roomNumber)
@@ -575,7 +573,7 @@ public class Game1 : Core
     }
     public void play()
     {
-        MediaPlayer.Play(backgroundMusic);
+        Music.PlayBackground();
     }
 
 }
