@@ -17,6 +17,7 @@ namespace ItemCollisions
         public static void CheckItemMarioCollisions(ICollectable currentItem, IMario currentMario, Game1 game)
         {
           
+          System.Diagnostics.Debug.WriteLine("ItemCollision running: " + currentItem.GetType());
             if (currentItem.RectCollider.Intersects(currentMario.MarioCollider) && !currentItem.Collected)
             {
                if (currentItem.RectCollider.Intersects(currentMario.MarioCollider))
@@ -33,15 +34,18 @@ namespace ItemCollisions
                     }
                     else if(currentItem is Coin coin)
                     {
+                        System.Diagnostics.Debug.WriteLine("COIN HIT DETECTED");
                         coin.Collected = true;
-                        Music.itemSound.Play();
-                       game.coinCount++;
-                       game.marioScore +=100;
+                        Music.coinSound.Play();
+                        game.coinCount++;
+                        game.marioScore+=100;
+                        System.Diagnostics.Debug.WriteLine("Coin collected +100");
+            
                     }
                     else if(currentItem is OneUp oneUp)
                     {
                         oneUp.Collected = true;
-                        Music.itemSound.Play();
+                        Music.oneupSound.Play();
                         game.livesCount++;
                     }
                     else if(currentItem is Star star)
