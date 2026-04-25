@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SoundManager;
+using SprintZero;
 using SprintZero.Marios;
 
 public class FireMario : IMario
@@ -17,6 +18,7 @@ public class FireMario : IMario
     private const float GRAVITY = 0.2f;
     private const float JUMP_POWER = -11;
     private float groundY;
+    private Game1 game;
     public float currentPlatformY {get;set;}
 
     public float jumpStartHeight { get; set; }
@@ -49,12 +51,13 @@ public class FireMario : IMario
      public bool WinState { get; set; } = false;
 
 
-    public FireMario(TextureAtlas fireMarioTexture, ContentManager content)
+    public FireMario(TextureAtlas fireMarioTexture, ContentManager content, Game1 game)
     {
         Moving = false;
         // Defaults
         location = new Vector2(300, 600);
         Direction = true;
+        this.game = game;
 
         groundY = location.Y;
         currentPlatformY = groundY;
@@ -218,7 +221,7 @@ public class FireMario : IMario
 
     public void Damage()
     {
-
+        game.Damage();
     }
      public void GrabFlagPole()
 {

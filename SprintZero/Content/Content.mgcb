@@ -56,6 +56,18 @@
 #begin Images/flag.xml
 /copy:Images/flag.xml
 
+#begin Images/gameover.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/gameover.png
+
 #begin Images/goomba-definition.xml
 /copy:Images/goomba-definition.xml
 
@@ -229,6 +241,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Music/gameover.wav
+
+#begin Music/hurryup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/hurryup.wav
 
 #begin Music/item.wav
 /importer:WavImporter

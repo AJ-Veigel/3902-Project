@@ -6,6 +6,7 @@
   <SourceFiles>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Font/File.spritefont</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/flag.png</File>
+    <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/gameover.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/goombasprites.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/items.png</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Images/koopaSprites.png</File>
@@ -23,6 +24,7 @@
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Music/fireball.wav</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Music/flagpole.wav</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Music/gameover.wav</File>
+    <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Music/hurryup.wav</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Music/item.wav</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Music/jump.wav</File>
     <File>C:/Users/magan/Downloads/SMB1/3902-Project/SprintZero/Content/Music/jumpsmall.wav</File>
@@ -36,10 +38,12 @@
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File>Images/BigBlock2.png</File>
     <File>Images/bigblock.png</File>
     <File>Images/Blocks.png</File>
     <File>Images/Pause.png</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

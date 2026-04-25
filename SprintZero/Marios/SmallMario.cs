@@ -181,6 +181,7 @@ public class SmallMario : IMario
     {
         marioSprites.SetSprite("death");
         Music.deathSound.Play();
+        game.Damage();
     }
     public void Fireball()
     {
