@@ -193,9 +193,9 @@ private void TriggerGameOver()
         foreach (ICollectable item in currentItems)
         {
             item.Update(gameTime);
-            item.Update(gameTime, coinCount, marioScore);
+        
         }
-        currentItems.RemoveAll(i => i.Collected);
+       
 
         foreach (IEnemy enemy in enemies)
         {
@@ -283,7 +283,9 @@ private void TriggerGameOver()
             List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
             ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
             ItemCollision.CheckItemMarioCollisions(item, currentMario, this);
+            
         }
+  
         if (!canTakeDamage)
         {
             cooldownTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -522,6 +524,8 @@ private void TriggerGameOver()
 public void Reset()
 {
 hurryupPlayed = false;
+IsGameOver = false;
+IsPaused = false;
   Initialize();
 }
 private void ResetAfterDeath()

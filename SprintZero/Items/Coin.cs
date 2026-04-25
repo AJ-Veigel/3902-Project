@@ -7,6 +7,7 @@ using SoundManager;
 using SprintZero.Marios;
 using System.Runtime.Serialization;
 using System.Runtime.CompilerServices;
+using MonoGame.Extended;
 
 public class Coin : ICollectable
 {
@@ -23,6 +24,7 @@ public class Coin : ICollectable
     private float groundY;
     private bool shouldLeave = false;
     private bool endSound = false;
+
     public Coin(AnimatedSprite animated)
     {
         sprite = animated;
@@ -39,22 +41,28 @@ public class Coin : ICollectable
         VelocityY = bounceVelocity;
     }
 
-  public void Update(GameTime gameTime)
+ public void Update(GameTime gameTime)
 {
-    sprite.Update(gameTime);
-    VelocityY += gravity;
+    if (Collected)
+        return;
 
+    sprite.Update(gameTime);
+
+    VelocityY += gravity;
     location = new Vector2(location.X, location.Y + VelocityY);
+
     if (location.Y >= groundY)
     {
         location = new Vector2(location.X, groundY);
         VelocityY = 0;
+
         if (!endSound)
-            {
-             Music.coinSound.Play();
-             endSound = true;   
-            }
-        shouldLeave=true;
+        {
+            Music.coinSound.Play();
+            endSound = true;
+        }
+
+        shouldLeave = true;
     }
 
     RectCollider = new Rectangle(
@@ -67,32 +75,22 @@ public class Coin : ICollectable
     public void Update(GameTime gameTime, int coins, int score)
     {
         sprite.Update(gameTime);
-        coins++;
-        score += 100;
+     
     }
     public void ReverseDirection()
     {
         VelocityX = -VelocityX;
     }
-    public bool CheckCollisions(IMario mario)
-    {
-        bool isCollected = false;
-        if (!Collected)
-        {
-            if (RectCollider.Intersects(mario.MarioCollider))
-            {
-                Collected = true;
-                Music.coinSound.Play();
-                isCollected = true;
 
-            }
-        }
-        return isCollected;
-
-    }
-    public void Draw(SpriteBatch spriteBatch)
+   public void Draw(SpriteBatch spriteBatch)
+{
+    if (!Collected)
     {
-        if (!shouldLeave)
-            sprite.Draw(spriteBatch, location);
+        sprite.Draw(spriteBatch, location);
     }
+    else if (!shouldLeave)
+    {
+        sprite.Draw(spriteBatch, location);
+    }
+}
 }
