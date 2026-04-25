@@ -1,0 +1,21 @@
+
+<TextureAtlas>
+    <Texture>Images/misc-3</Texture>
+ 
+    <Regions>
+        <Region name="Hammer1"  x="487" y="942" width="16" height="8"/>
+        <Region name="Hammer2"  x="487" y="953" width="14" height="16"/>
+        <Region name="Hammer3"  x="485" y="971" width="19" height="8"/>
+        <Region name="Hammer4"  x="487" y="981" width="14" height="12"/>
+    </Regions>
+ 
+    <Animations>
+        <Animation name="HammerSpin" delay="120">
+            <Frame region="Hammer1"/>
+            <Frame region="Hammer2"/>
+            <Frame region="Hammer3"/>
+            <Frame region="Hammer4"/>
+        </Animation>
+    </Animations>
+ 
+</TextureAtlas>

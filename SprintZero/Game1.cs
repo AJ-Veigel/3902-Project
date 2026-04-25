@@ -18,7 +18,10 @@ using playerItemCollision;
 using FireballCollisions;
 using ItemCollisions;
 using EnemyCollisions;
+using HammerCollisions;
+using BowserFireballCollisions;
 using SoundManager;
+using System.Security.Cryptography;
 
 
 namespace SprintZero;
@@ -26,7 +29,7 @@ namespace SprintZero;
 public class Game1 : Core
 {
 
-    private TextureAtlas bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture, flagPoleTexture;
+    private TextureAtlas bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture, flagPoleTexture, hammerTexture, bowserFireballTexture;
     private playerItemCollisions playerItemCollision;
 
     private SpriteFont font1;
@@ -34,6 +37,8 @@ public class Game1 : Core
     private List<ICollectable> items, currentItems;
     private List<IBlock> blocks;
     private List<IProjectile> projectiles;
+    private List<Hammer> hammers;
+    private List<BowserFireball> bowserFireballs;
     private List<IMario> marios;
     private List<IEnemy> enemies;
     private List<IEnemy> unspawnedEnemies;
@@ -95,10 +100,14 @@ public class Game1 : Core
 
         //Projectiles
         projectileTexture = TextureAtlas.FromFile(Content, "images/Fireball-definition.xml");
+        hammerTexture = TextureAtlas.FromFile(Content, "Images/Hammer-definition.xml");
+        bowserFireballTexture = TextureAtlas.FromFile(Content, "Images/BowserFireball-definition.xml");
 
         // fireballs are dynamic objects, don't exist at load time. They are created when the player presses the fire button.
         // Fireballs will be added to the list as the user presses the shoot button.
         projectiles = new List<IProjectile>();
+        hammers = new List<Hammer>();
+        bowserFireballs = new List<BowserFireball>();
 
         // Small Mario
         smallMarioTexture = TextureAtlas.FromFile(Content, "images/SmallMario-definition.xml");
@@ -285,6 +294,25 @@ private void TriggerGameOver()
             ItemCollision.CheckItemMarioCollisions(item, currentMario, this);
             
         }
+        for (int i = hammers.Count - 1; i >= 0; i--)
+        {
+            Hammer h = hammers[i];
+            h.Update(gameTime);
+            h.CheckOffScreen(cameraRect);
+            HammerCollision.CheckHammerMarioCollision(h, currentMario, Damage);
+            if (!h.IsActive)
+                hammers.RemoveAt(i);
+        }
+
+        for (int i = bowserFireballs.Count - 1; i >= 0; i--)
+        {
+            BowserFireball b = bowserFireballs[i];
+            b.Update(gameTime);
+            b.CheckOffScreen(cameraRect);
+            BowserFireballCollision.CheckBowserFireballMarioCollision(b, currentMario, Damage);
+            if (!b.IsActive)
+                bowserFireballs.RemoveAt(i);
+        }
   
         if (!canTakeDamage)
         {
@@ -314,6 +342,14 @@ private void TriggerGameOver()
         foreach (IEnemy enemy in enemies)
         {
             enemy.Draw(SpriteBatch);
+        }
+        foreach (Hammer h in hammers)
+        {
+            h.Draw(SpriteBatch);
+        }
+        foreach (BowserFireball fireball in bowserFireballs)
+        {
+            fireball.Draw(SpriteBatch);
         }
         var visibleArea = camera.BoundingRectangle;
         Rectangle cameraRect = new Rectangle(
@@ -369,6 +405,24 @@ private void TriggerGameOver()
         pop.Scale = s;
 
         projectiles.Add(new Fireball(roll, pop, spawnPos, currentMario.Direction));
+    }
+
+    private void SpawnHammer(Vector2 bowserPosition, bool direction)
+    {
+        AnimatedSprite spin = hammerTexture.CreateAnimatedSprite("HammerSpin");
+        spin.Scale = new Vector2(4f, 4f);
+    
+        //  true : right | false : left 
+        hammers.Add(new Hammer(spin, bowserPosition, direction));
+    }
+
+    private void SpawnBowserFireball(Vector2 bowserPosition, bool direction)
+    {
+        AnimatedSprite fire = bowserFireballTexture.CreateAnimatedSprite("BowserFireball");
+        fire.Scale = new Vector2(4f, 4f);
+
+        //  true : right | false : left 
+        bowserFireballs.Add(new BowserFireball(fire, bowserPosition, direction));
     }
 
     public void SetMario(int marioNumber)
