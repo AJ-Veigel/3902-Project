@@ -1,32 +1,33 @@
 ﻿<TextureAtlas>
-    <Texture>Images/Blocks</Texture>
+    <Texture>Images/bigblock</Texture>
 
     <Regions>
-        <Region name="ground" x="260" y="109" width="30" height="19"/>
-        <Region name= "questionBlockColor1" x="80" y="109" width="16" height="19"/>
-        <Region name= "questionBlockColor2" x="96" y="109" width="16" height="19"/>
-        <Region name= "questionBlockColor3" x="112" y="109" width="16" height="19"/>
-        <Region name= "questionBlock1" x="80" y="110" width="16" height="18"/>
-        <Region name= "questionBlock2" x="240" y="110" width="16" height="18"/>
-        <Region name= "aboveGround" x="260" y="190" width="30" height="18"/>
-        <Region name="aboveGroundHit" x="304" y="190" width="16" height="18"/>
+        <Region name = "ground" x="373" y="124" width="16" height="16"/>
+        <Region name = "questionBlockColor1" x="372" y="160" width="16" height="16"/>
+        <Region name = "questionBlockColor2" x="390" y="160" width="16" height="16"/>
+        <Region name = "questionBlockColor3" x="408" y="160" width="16" height="16"/>
+        <Region name = "questionBlock1" x="372" y="160" width="16" height="16"/>
+        <Region name = "questionBlock2" x="373" y="65" width="16" height="16"/>
+        <Region name = "aboveGround" x="373" y="47" width="16" height="16"/>
+        <Region name = "aboveGroundHit" x="432" y="47" width="8" height="8"/>
+        <Region name = "tubeTopLeft" x="614" y="46" width="32" height="32"/>
+        <Region name = "tubeMid" x="614" y="82" width="32" height="16"/>
+        <Region name = "tubeLeft" x="573" y="102" width="32" height="32"/>
+        <Region name = "tubeIntersect" x="614" y="102" width="32" height="32"/>
+		<Region name = "solidBlock" x="373" y="142" width="16" height="16"/>
     </Regions>
     <Animations>
-        <Animation name="question-Block" delay="300">
-            <Frame region="questionBlockColor1"/>
-            <Frame region="questionBlockColor2"/>
-            <Frame region="questionBlockColor3"/>
-        </Animation>
     <Animation name = "hit-Question" delay="300">
       <Frame region ="questionBlock1"/>
       <Frame region ="questionBlock2"/>
+      
       </Animation>
       <Animation name = "aboveGroundBreak" delay ="300">
-        <Frame region ="aboveGround"/>
-        <Frame region ="aboveGroundHit"/>
-        <Frame region ="aboveGroundHit"/>
-        <Frame region ="aboveGroundHit"/>
-        <Frame region ="aboveGroundHit"/>
+        <Frame region = "aboveGround"/>
+        <Frame region = "aboveGroundHit"/>
+        <Frame region = "aboveGroundHit"/>
+        <Frame region = "aboveGroundHit"/>
+        <Frame region = "aboveGroundHit"/>
       </Animation>
     </Animations>
 </TextureAtlas>

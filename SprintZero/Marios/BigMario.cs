@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SoundManager;
+using SprintZero;
 using SprintZero.Marios;
 
 public class BigMario : IMario
@@ -17,6 +18,7 @@ public class BigMario : IMario
     public float jumpStartHeight { get; set; }
     private float groundY;
     public float currentPlatformY{get;set;}
+    private Game1 game;
     public bool Jumping { get; set; }
     public bool isOnGround { get; set; }
     public bool Falling { get; set; }
@@ -35,10 +37,10 @@ public class BigMario : IMario
  public bool SlidingFlag { get; set; } = false;
   public bool AutoWalking {get;set;} =false;
   public bool WinState { get; set; } = false;
-    public BigMario(TextureAtlas bigMarioTexture,ContentManager content)
+    public BigMario(TextureAtlas bigMarioTexture,ContentManager content, Game1 game)
     {
         Moving = false;
-        
+        this.game = game;
         location = new Vector2(300, 600);
         Direction = true;
 
@@ -170,7 +172,7 @@ public class BigMario : IMario
     }
     public void Damage()
     {
-
+        game.Damage();
     }
     public void Fireball()
     {

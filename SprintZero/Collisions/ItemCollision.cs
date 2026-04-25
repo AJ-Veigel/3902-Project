@@ -12,9 +12,11 @@ namespace ItemCollisions
 {
     public static class ItemCollision
     {
+        private  static Game1 game;
 
-        public static void CheckItemMarioCollisions(ICollectable currentItem, IMario currentMario, int coinCount, int livesCount)
+        public static void CheckItemMarioCollisions(ICollectable currentItem, IMario currentMario, Game1 game)
         {
+          
             if (currentItem.RectCollider.Intersects(currentMario.MarioCollider) && !currentItem.Collected)
             {
                if (currentItem.RectCollider.Intersects(currentMario.MarioCollider))
@@ -33,13 +35,14 @@ namespace ItemCollisions
                     {
                         coin.Collected = true;
                         Music.itemSound.Play();
-                        coinCount++;
+                       game.coinCount++;
+                       game.marioScore +=100;
                     }
                     else if(currentItem is OneUp oneUp)
                     {
                         oneUp.Collected = true;
                         Music.itemSound.Play();
-                        livesCount++;
+                        game.livesCount++;
                     }
                     else if(currentItem is Star star)
                     {
