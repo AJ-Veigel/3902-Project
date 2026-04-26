@@ -26,11 +26,13 @@ namespace ItemCollisions
                     {
                         mushroom.Collected = true;
                         Music.itemSound.Play();
+                        ScoreManager.CollectPowerUp(game);
                     }
                     else if(currentItem is Flower flower)
                     {
                         flower.Collected = true;
                         Music.itemSound.Play();
+                        ScoreManager.CollectPowerUp(game);
                     }
                     else if(currentItem is Coin coin)
                     {
@@ -38,8 +40,8 @@ namespace ItemCollisions
                         coin.Collected = true;
                         Music.coinSound.Play();
                         game.coinCount++;
-                        game.marioScore+=100;
-                        System.Diagnostics.Debug.WriteLine("Coin collected +100");
+                        ScoreManager.CollectCoin(game);
+                        System.Diagnostics.Debug.WriteLine("Coin collected +200");
             
                     }
                     else if(currentItem is OneUp oneUp)
@@ -52,6 +54,7 @@ namespace ItemCollisions
                     {
                         star.Collected = true;
                         Music.itemSound.Play();
+                        ScoreManager.CollectPowerUp(game);
                     }
                 }
             }
