@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using SprintZero.blocks;
 using SprintZero.Map;
 using Microsoft.Xna.Framework;
+using SprintZero;
 
 namespace EnemyCollisions
 {
     public static class CheckEnemyCollisions
     {
         public enum EnemyAction { None, Bounce, Kill }
-        public static void CheckEnemyMarioCollisions(IEnemy currentEnemy, IMario currentMario, Action Damage)
+        public static void CheckEnemyMarioCollisions(IEnemy currentEnemy, IMario currentMario, Action Damage, Game1 game)
         {
             if (currentEnemy == null || currentEnemy.Dead || !currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) || currentMario.Invincible)
                 return;
@@ -30,10 +31,12 @@ namespace EnemyCollisions
                     {
                         bool kickRight = mRect.Center.X < eRect.Center.X;
                         koopa.Kicked(kickRight);
+                        ScoreManager.KickShell(game);
                     }
                     else
                     {
                         currentEnemy.Stomped();
+                        ScoreManager.EnemyStomped(game);
                     }
 
                     currentMario.Bounce();
@@ -45,6 +48,7 @@ namespace EnemyCollisions
                 {
                     bool kickRight = mRect.Center.X < eRect.Center.X;
                     koopa.Kicked(kickRight);
+                    ScoreManager.KickShell(game);
                 }
                 else
                 {
@@ -53,7 +57,7 @@ namespace EnemyCollisions
             }
         }
 
-        public static void CheckEnemyEnemyCollisions(List<IEnemy> enemies)
+        public static void CheckEnemyEnemyCollisions(List<IEnemy> enemies, Game1 game)
         {
             for (int i = 0; i < enemies.Count; i++)
             {
@@ -88,8 +92,25 @@ namespace EnemyCollisions
                             otherEnemy.EnemyCollider = new Rectangle((int)otherEnemy.position.X, (int)otherEnemy.position.Y, rect2.Width, rect2.Height);
                         }
 
+                        //booleans for determining koopa shell kills
+                        bool thisKiller = thisEnemy.ActionState == EnemyAction.Kill;
+                        bool otherKiller = otherEnemy.ActionState == EnemyAction.Kill;
+                        bool thisAlive = !thisEnemy.Dead;
+                        bool otherAlive = !otherEnemy.Dead;
+
+
                         thisEnemy.CollideWithEnemy(otherEnemy);
                         otherEnemy.CollideWithEnemy(thisEnemy);
+
+                        //updates score for koopa shell kills
+                        if (thisKiller && otherAlive && otherEnemy.Dead)
+                        {
+                            ScoreManager.EnemyDefeatedByShell(game);
+                        }
+                        else if (otherKiller && thisAlive && thisEnemy.Dead)
+                        {
+                            ScoreManager.EnemyDefeatedByShell(game);
+                        }
                     }
                 }
             }

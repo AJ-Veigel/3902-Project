@@ -55,7 +55,7 @@ public class Game1 : Core
     private const float cooldownForDamage = 1.0f;
     private bool canTakeDamage = true;
     private float cooldownTimer = 0f;
-    private float gameTimer = 400f;
+    public float gameTimer = 400f;
 
     public bool IsPaused { get; set; } = false;
     private Texture2D pauseTexture, winTexture;
@@ -210,7 +210,7 @@ private void TriggerGameOver()
         {
             enemy.Update(gameTime);
             CheckEnemyCollisions.CheckEnemyBlockCollisions(enemy, blocks, map);
-            CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage);
+            CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage, this);
         }
 
         for (int i = projectiles.Count - 1; i >= 0; i--)
@@ -239,6 +239,12 @@ private void TriggerGameOver()
             currentMario,
             collidableBlocks
         ); // We should only call this method once per update.
+
+        //resets scoring stomp combo
+        if (!currentMario.Falling)
+        {
+            ScoreManager.ResetStompCombo();
+        }
 
         playerItemCollision.CheckCollisions(currentMario, currentItems, currentMarioNum, SetMario);
 
@@ -280,12 +286,12 @@ private void TriggerGameOver()
 
             activeEnemy.Update(gameTime);
             CheckEnemyCollisions.CheckEnemyBlockCollisions(activeEnemy, blocks, map);
-            CheckEnemyCollisions.CheckEnemyMarioCollisions(activeEnemy, currentMario, Damage);
+            CheckEnemyCollisions.CheckEnemyMarioCollisions(activeEnemy, currentMario, Damage, this);
 
             if (activeEnemy is Goomba goomba && goomba.Despawn) enemies.RemoveAt(i);
             else if (activeEnemy is Koopa koopa && koopa.Despawn) enemies.RemoveAt(i);
         }
-        CheckEnemyCollisions.CheckEnemyEnemyCollisions(enemies);
+        CheckEnemyCollisions.CheckEnemyEnemyCollisions(enemies, this);
 
         foreach (var item in currentItems)
         {
