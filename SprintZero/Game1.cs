@@ -120,15 +120,7 @@ public class Game1 : Core
         // Fire Mario
         fireMarioTexture = TextureAtlas.FromFile(Content, "Images/FireMario-definition.xml"); // or "images/..." depending on your output folder
 
-        marios = new List<IMario>
-    {
-        new SmallMario(smallMarioTexture,Content,this),
-        new BigMario(bigMarioTexture,Content,this),
-        new FireMario(fireMarioTexture,Content,this)
-    };
-
         goombaTexture = TextureAtlas.FromFile(Content, "images/goomba-definition.xml");
-
 
         Koopa.LoadTextures(Content);
 
@@ -136,20 +128,29 @@ public class Game1 : Core
 
         levelEnemies = new List<List<IEnemy>>();
 
-        currentMario = marios[0];
-        currentMarioNum = 0;
         prevX = 0;
         marioScore = 0;
         coinCount = 0;
         livesCount = 3;
         worldNumber = 1;
         levelNumber = 1;
-        gameTimer = 400;
 
         currentItems = new List<ICollectable>();
 
         currentLevel = 0;
         LoadMaps();
+        
+        marios = new List<IMario>
+        {
+            new SmallMario(smallMarioTexture, maps[currentLevel].getSpawn(), Content, this),
+            new BigMario(bigMarioTexture, Content, this),
+            new FireMario(fireMarioTexture, Content, this)
+        };
+        currentMario = marios[0];
+        currentMarioNum = 0;
+
+        map = maps[currentLevel];
+
         unspawnedEnemies = levelEnemies[currentLevel];
         pauseTexture = Content.Load<Texture2D>("Images/Pause");
         winTexture = Content.Load<Texture2D>("Images/You-Win-4-21-2026");
@@ -189,7 +190,7 @@ public class Game1 : Core
     }
     protected override void Update(GameTime gameTime)
     {
-        if (gameTimer < 100)
+        if (gameTimer < 100 && !hurryupPlayed)
         {
             Music.hurryUpSound.Play();
             hurryupPlayed = true;
@@ -225,8 +226,6 @@ public class Game1 : Core
 
         currentMario.Update(gameTime);
 
-        map = maps[currentLevel];
-
         map.Update(gameTime, cameraRect, 64);
 
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
@@ -238,12 +237,6 @@ public class Game1 : Core
             collidablePipes,
             this
         ); // We should only call this method once per update.
-
-        if (mapChange > 0)
-        {
-            prevX = 0;
-            return;
-        }
 
         foreach (ICollectable item in currentItems)
         {
@@ -272,7 +265,7 @@ public class Game1 : Core
         }
 
         // Camera
-        if (currentMario.location.X > prevX)
+        if (currentMario.location.X > prevX && currentMario.location.X > 560)
         {
             camera.Position = new Vector2((int)currentMario.location.X - 560f, (int)camera.Position.Y);
             prevX = currentMario.location.X;
@@ -601,6 +594,7 @@ public class Game1 : Core
         projectiles.Clear();
         maps.Clear();
         LoadMaps();
+        map = maps[currentLevel];
         // update function handles it from here.
     }
 
