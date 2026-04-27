@@ -187,9 +187,7 @@ namespace SprintZero.Map
 
                     XElement pipeElement = root.Element("PipeData");
 
-                    string pipeData = pipeElement.Value;
-
-                    string[] split = pipeData.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    string[] split = pipeElement.Value.Trim().Split('\n', StringSplitOptions.RemoveEmptyEntries);
                     int pipeNum = int.Parse(split[0]);
                     string pipeLevel = split[1];
                     int marioX = int.Parse(split[2]);

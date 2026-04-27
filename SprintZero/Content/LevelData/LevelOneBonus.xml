@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TileMap>
-  <PipeData>51 LevelOne 600 600</PipeData>
+  <PipeData>
+      51
+      LevelOneBonus
+      600
+      600
+  </PipeData>
   <Blocks>
       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06 00
       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06 00
