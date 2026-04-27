@@ -206,6 +206,9 @@
 /processorParam:TextureFormat=Color
 /build:Images/You-Win-4-21-2026.png
 
+#begin LevelData/LevelFour.xml
+/copy:LevelData/LevelFour.xml
+
 #begin LevelData/LevelOne.xml
 /copy:LevelData/LevelOne.xml
 
