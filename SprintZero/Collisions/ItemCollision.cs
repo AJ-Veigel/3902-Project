@@ -12,7 +12,6 @@ namespace ItemCollisions
 {
     public static class ItemCollision
     {
-        private  static Game1 game;
 
         public static void CheckItemMarioCollisions(ICollectable currentItem, IMario currentMario, Game1 game)
         {
@@ -25,12 +24,14 @@ namespace ItemCollisions
                     if (currentItem is Mushroom mushroom)
                     {
                         mushroom.Collected = true;
+                        if(game.currentMarioNum == 0) game.SetMario(1);
                         Music.itemSound.Play();
                         ScoreManager.CollectPowerUp(game);
                     }
                     else if(currentItem is Flower flower)
                     {
                         flower.Collected = true;
+                        if(game.currentMarioNum == 0) game.SetMario(2);
                         Music.itemSound.Play();
                         ScoreManager.CollectPowerUp(game);
                     }
@@ -42,7 +43,6 @@ namespace ItemCollisions
                         game.coinCount++;
                         ScoreManager.CollectCoin(game);
                         System.Diagnostics.Debug.WriteLine("Coin collected +200");
-            
                     }
                     else if(currentItem is OneUp oneUp)
                     {

@@ -14,7 +14,6 @@ using SprintZero.Items;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using Microsoft.Xna.Framework.Media;
-using playerItemCollision;
 using FireballCollisions;
 using ItemCollisions;
 using EnemyCollisions;
@@ -30,7 +29,6 @@ public class Game1 : Core
 {
 
     private TextureAtlas bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture, flagPoleTexture, hammerTexture, bowserFireballTexture;
-    private playerItemCollisions playerItemCollision;
 
     private SpriteFont font1;
     private List<IController> controllers;
@@ -48,7 +46,7 @@ public class Game1 : Core
     private List<TileMap> maps; // Temporary!
     private TileMap map; // Current map.
 
-    private int currentMarioNum, currentLevel;
+    public int currentMarioNum, currentLevel;
     public int coinCount, livesCount, worldNumber, levelNumber, marioScore;
     private OrthographicCamera camera;
     private float prevX;
@@ -79,7 +77,6 @@ public class Game1 : Core
         base.Initialize();
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
         camera = new OrthographicCamera(viewportAdapter);
-        playerItemCollision = new playerItemCollisions();
 
         // fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
     }
@@ -244,8 +241,6 @@ public class Game1 : Core
         {
             ScoreManager.ResetStompCombo();
         }
-
-        playerItemCollision.CheckCollisions(currentMario, currentItems, currentMarioNum, SetMario);
 
         // Camera
         if (currentMario.location.X > prevX)

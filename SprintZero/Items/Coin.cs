@@ -4,10 +4,6 @@ using MonoGameLibrary.Graphics;
 using SprintZero.Items;
 using SprintZero;
 using SoundManager;
-using SprintZero.Marios;
-using System.Runtime.Serialization;
-using System.Runtime.CompilerServices;
-using MonoGame.Extended;
 
 public class Coin : ICollectable
 {
@@ -20,9 +16,8 @@ public class Coin : ICollectable
     public bool onGround { get; set; }
     public bool Collidable { get; set; } = true;
     private float gravity = 0.4f;
-    private float bounceVelocity =-8f;
+    private float bounceVelocity = -8f;
     private float groundY;
-    private bool shouldLeave = false;
     private bool endSound = false;
 
     public Coin(AnimatedSprite animated)
@@ -41,56 +36,52 @@ public class Coin : ICollectable
         VelocityY = bounceVelocity;
     }
 
- public void Update(GameTime gameTime)
-{
-    if (Collected)
-        return;
-
-    sprite.Update(gameTime);
-
-    VelocityY += gravity;
-    location = new Vector2(location.X, location.Y + VelocityY);
-
-    if (location.Y >= groundY)
+    public void Update(GameTime gameTime)
     {
-        location = new Vector2(location.X, groundY);
-        VelocityY = 0;
+        if (Collected)
+            return;
 
-        if (!endSound)
+        sprite.Update(gameTime);
+
+        VelocityY += gravity;
+        location = new Vector2(location.X, location.Y + VelocityY);
+
+        if (location.Y >= groundY)
         {
-            Music.coinSound.Play();
-            endSound = true;
+            location = new Vector2(location.X, groundY);
+            VelocityY = 0;
+
+            if (!endSound)
+            {
+                Music.coinSound.Play();
+                endSound = true;
+            }
+
+            Collected = true;
         }
 
-        shouldLeave = true;
+        RectCollider = new Rectangle(
+            (int)location.X,
+            (int)location.Y,
+            (int)sprite.Width,
+            (int)sprite.Height
+        );
     }
-
-    RectCollider = new Rectangle(
-        (int)location.X,
-        (int)location.Y,
-        (int)sprite.Width,
-        (int)sprite.Height
-    );
-}
     public void Update(GameTime gameTime, int coins, int score)
     {
         sprite.Update(gameTime);
-     
+
     }
     public void ReverseDirection()
     {
         VelocityX = -VelocityX;
     }
 
-   public void Draw(SpriteBatch spriteBatch)
-{
-    if (!Collected)
+    public void Draw(SpriteBatch spriteBatch)
     {
-        sprite.Draw(spriteBatch, location);
+        if (!Collected)
+        {
+            sprite.Draw(spriteBatch, location);
+        }
     }
-    else if (!shouldLeave)
-    {
-        sprite.Draw(spriteBatch, location);
-    }
-}
 }
