@@ -30,6 +30,7 @@ public class OneUp : ICollectable
     {
         sprite = region;
         location = pos;
+        VelocityX = 2f;
     }
     public void ReverseDirection()
     {
@@ -37,6 +38,10 @@ public class OneUp : ICollectable
     }
     public void Update(GameTime gameTime )
     {
+
+        if (Collected) return;
+
+        onGround = false;
         spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if(spawnTimer > 0.5f)
         {
@@ -50,17 +55,19 @@ public class OneUp : ICollectable
         {
             VelocityY = 0f;
         }
-        location = new Vector2(location.X + VelocityX, location.Y);
+        location = new Vector2(location.X + VelocityX, location.Y + VelocityY);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
 
     public void Update(GameTime gameTime , int coins, int score)
     {
         spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if(spawnTimer > 0.5f)
+        if(spawnTimer < 0.5f)
         {
-            Collidable = true;
+            Collidable = false;
+            return;
         }
+        Collidable = true;
         if (!onGround)
         {
             VelocityY = MathHelper.Clamp(VelocityY + Gravity, -10f, 12f);
@@ -69,7 +76,7 @@ public class OneUp : ICollectable
         {
             VelocityY = 0f;
         }
-        location = new Vector2(location.X + VelocityX, location.Y);
+        location = new Vector2(location.X + VelocityX, location.Y + VelocityY);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width * SCALE), (int)(sprite.Height * SCALE));
     }
     public bool CheckCollisions(IMario mario)
@@ -89,7 +96,10 @@ public class OneUp : ICollectable
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        if(!Collected)
+        if (!Collected)
+        {
+            Vector2 lockedPos = new Vector2((int)location.X, (int)location.Y);
             sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
+        }
     }
 }

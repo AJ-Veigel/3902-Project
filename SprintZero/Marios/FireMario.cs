@@ -49,6 +49,8 @@ public class FireMario : IMario
     private const double THROW_DURATION_MS = 180;
      public bool AutoWalking {get;set;} = false;
      public bool WinState { get; set; } = false;
+    public bool IsStarPower { get; set; } = false;
+
 
 
     public FireMario(TextureAtlas fireMarioTexture, ContentManager content, Game1 game)
@@ -262,6 +264,12 @@ public void EndFlagPole()
             return new Vector2(location.X + offsetX, location.Y + offsetY);
         }
     }
+    public void BecomeInvincible()
+    {
+        Invincible = true;
+        IsStarPower = true;
+        invincibilityTimer = -10f;
+    }
 
     public void Update(GameTime gameTime)
     {
@@ -270,6 +278,12 @@ public void EndFlagPole()
         if(invincibilityTimer > 1)
         {
             Invincible = false;
+
+            if (IsStarPower)
+            {
+                IsStarPower = false;
+                Music.PlayBackground();
+            }
         }
         if (SlidingFlag)
 {

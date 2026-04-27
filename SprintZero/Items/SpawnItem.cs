@@ -26,5 +26,18 @@ namespace SprintZero.Items
             ICollectable coin = new Coin(coinSprite,location);
             items.Add(coin);
         }
+        public static void SpawnStar(TextureAtlas itemTexture, List<ICollectable> items, Vector2 location)
+        {
+            AnimatedSprite starSprite = itemTexture.CreateAnimatedSprite("star");
+            ICollectable star = new Star(starSprite, location);
+            items.Add(star);
+        }
+
+        public static void SpawnOneUp(TextureAtlas itemTexture, List<ICollectable> items, Vector2 location)
+        {
+            TextureRegion oneUpSprite = itemTexture.GetRegion("one_up");
+            ICollectable oneUp = new OneUp(oneUpSprite, location);
+            items.Add(oneUp);
+        }
     }
 }

@@ -27,6 +27,7 @@ public class Star : ICollectable
         location = new Vector2(300, 700);
         //Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
+        VelocityX = 2f;
     }
 
     public Star(AnimatedSprite animated, Vector2 pos)
@@ -43,43 +44,34 @@ public class Star : ICollectable
     }
     public void Update(GameTime gameTime)
     {
+        if (Collected) return;
+
+        onGround = false;
         sprite.Update(gameTime);
         spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if (spawnTimer > 0.5f)
+        if (spawnTimer < 0.5f)
         {
-            Collidable = true;
+            Collidable = false;
+            return;
         }
+
+        Collidable = true;
         if (!onGround)
         {
             VelocityY = MathHelper.Clamp(VelocityY + Gravity, -10f, 12f);
         }
         else
         {
-            VelocityY = 0f;
+            VelocityY = -6f;
         }
-        location = new Vector2(location.X + VelocityX, location.Y);
+        location = new Vector2(location.X + VelocityX, location.Y + VelocityY);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
     }
 
     public void Update(GameTime gameTime, int coins, int score)
     {
         sprite.Update(gameTime);
-        spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if (spawnTimer > 0.5f)
-        {
-            Collidable = true;
-        }
-        if (!onGround)
-        {
-            VelocityY = MathHelper.Clamp(VelocityY + Gravity, -10f, 12f);
-        }
-        else
-        {
-            VelocityY = 0f;
-        }
-        location = new Vector2(location.X + VelocityX, location.Y);
-        RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
-    }
+    } 
 
     public bool CheckCollisions(IMario mario)
     {
@@ -89,7 +81,8 @@ public class Star : ICollectable
             if (RectCollider.Intersects(mario.MarioCollider))
             {
                 Collected = true;
-                Music.oneupSound.Play();
+                Music.PlayStarMusic();
+                mario.BecomeInvincible();
                 isCollected = true;
             }
         }
@@ -98,7 +91,10 @@ public class Star : ICollectable
     public void Draw(SpriteBatch spriteBatch)
     {
         if (!Collected)
-            sprite.Draw(spriteBatch, location);
+        {
+            Vector2 lockedPos = new Vector2((int)location.X, (int)location.Y);
+            sprite.Draw(spriteBatch, lockedPos);
+        }
     }
 
 }

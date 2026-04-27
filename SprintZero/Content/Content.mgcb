@@ -299,3 +299,9 @@
 /processorParam:Quality=Best
 /build:Music/powerup.wav
 
+#begin Music/star.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/star.wav
+
