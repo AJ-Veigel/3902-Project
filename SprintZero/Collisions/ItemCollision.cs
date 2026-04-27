@@ -12,9 +12,12 @@ namespace ItemCollisions
 {
     public static class ItemCollision
     {
+        private  static Game1 game;
 
-        public static void CheckItemMarioCollisions(ICollectable currentItem, IMario currentMario, int coinCount, int livesCount)
+        public static void CheckItemMarioCollisions(ICollectable currentItem, IMario currentMario, Game1 game)
         {
+          
+          System.Diagnostics.Debug.WriteLine("ItemCollision running: " + currentItem.GetType());
             if (currentItem.RectCollider.Intersects(currentMario.MarioCollider) && !currentItem.Collected)
             {
                if (currentItem.RectCollider.Intersects(currentMario.MarioCollider))
@@ -23,28 +26,35 @@ namespace ItemCollisions
                     {
                         mushroom.Collected = true;
                         Music.itemSound.Play();
+                        ScoreManager.CollectPowerUp(game);
                     }
                     else if(currentItem is Flower flower)
                     {
                         flower.Collected = true;
                         Music.itemSound.Play();
+                        ScoreManager.CollectPowerUp(game);
                     }
                     else if(currentItem is Coin coin)
                     {
+                        System.Diagnostics.Debug.WriteLine("COIN HIT DETECTED");
                         coin.Collected = true;
-                        Music.itemSound.Play();
-                        coinCount++;
+                        Music.coinSound.Play();
+                        game.coinCount++;
+                        ScoreManager.CollectCoin(game);
+                        System.Diagnostics.Debug.WriteLine("Coin collected +200");
+            
                     }
                     else if(currentItem is OneUp oneUp)
                     {
                         oneUp.Collected = true;
-                        Music.itemSound.Play();
-                        livesCount++;
+                        Music.oneupSound.Play();
+                        game.livesCount++;
                     }
                     else if(currentItem is Star star)
                     {
                         star.Collected = true;
                         Music.itemSound.Play();
+                        ScoreManager.CollectPowerUp(game);
                     }
                 }
             }

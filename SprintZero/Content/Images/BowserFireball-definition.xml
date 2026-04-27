@@ -1,0 +1,16 @@
+
+<TextureAtlas>
+    <Texture>Images/misc-3</Texture>
+ 
+    <Regions>
+        <Region name="Fire1"  x="56" y="938" width="24" height="8"/>
+        <Region name="Fire2"  x="86" y="938" width="24" height="8"/>
+    </Regions>
+ 
+    <Animations>
+        <Animation name="BowserFireball" delay="240">
+            <Frame region="Fire1"/>
+            <Frame region="Fire2"/>
+        </Animation>
+    </Animations>
+</TextureAtlas>

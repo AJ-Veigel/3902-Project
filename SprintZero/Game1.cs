@@ -18,7 +18,10 @@ using playerItemCollision;
 using FireballCollisions;
 using ItemCollisions;
 using EnemyCollisions;
+using HammerCollisions;
+using BowserFireballCollisions;
 using SoundManager;
+using System.Security.Cryptography;
 
 
 namespace SprintZero;
@@ -26,7 +29,7 @@ namespace SprintZero;
 public class Game1 : Core
 {
 
-    private TextureAtlas bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture, flagPoleTexture;
+    private TextureAtlas bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture, flagPoleTexture, hammerTexture, bowserFireballTexture;
     private playerItemCollisions playerItemCollision;
 
     private SpriteFont font1;
@@ -34,24 +37,30 @@ public class Game1 : Core
     private List<ICollectable> items, currentItems;
     private List<IBlock> blocks;
     private List<IProjectile> projectiles;
+    private List<Hammer> hammers;
+    private List<BowserFireball> bowserFireballs;
     private List<IMario> marios;
     private List<IEnemy> enemies;
     private List<IEnemy> unspawnedEnemies;
     private IMario currentMario;
+    private bool hurryupPlayed = false;
 
     private List<TileMap> maps; // Temporary!
     private TileMap map; // Current map.
 
     private int currentMarioNum, currentLevel;
-    private int coinCount, livesCount, worldNumber, levelNumber, gameTimer, marioScore;
+    public int coinCount, livesCount, worldNumber, levelNumber, marioScore;
     private OrthographicCamera camera;
     private float prevX;
     private const float cooldownForDamage = 1.0f;
     private bool canTakeDamage = true;
     private float cooldownTimer = 0f;
+    public float gameTimer = 400f;
 
     public bool IsPaused { get; set; } = false;
     private Texture2D pauseTexture, winTexture;
+    public bool IsGameOver {get;set;} = false;
+    private Texture2D gameOverTexture;
 
     public Game1() : base("SMB1", 1920, 1080, false) { }
 
@@ -68,7 +77,6 @@ public class Game1 : Core
         maps = new List<TileMap>();
 
         base.Initialize();
-        // Create camera with viewport adapter
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
         camera = new OrthographicCamera(viewportAdapter);
         playerItemCollision = new playerItemCollisions();
@@ -77,6 +85,7 @@ public class Game1 : Core
     }
     protected override void LoadContent()
     {
+        gameOverTexture = Content.Load<Texture2D>("Images/gameover");
         flagPoleTexture = TextureAtlas.FromFile(Content, "Images/flag.xml");
         bigBlockTexture = TextureAtlas.FromFile(Content, "images/bigblock-definition.xml");
         bigBlockTexturePt2 = TextureAtlas.FromFile(Content, "images/BigBlocks2-definition.xml");
@@ -91,10 +100,14 @@ public class Game1 : Core
 
         //Projectiles
         projectileTexture = TextureAtlas.FromFile(Content, "images/Fireball-definition.xml");
+        hammerTexture = TextureAtlas.FromFile(Content, "Images/Hammer-definition.xml");
+        bowserFireballTexture = TextureAtlas.FromFile(Content, "Images/BowserFireball-definition.xml");
 
         // fireballs are dynamic objects, don't exist at load time. They are created when the player presses the fire button.
         // Fireballs will be added to the list as the user presses the shoot button.
         projectiles = new List<IProjectile>();
+        hammers = new List<Hammer>();
+        bowserFireballs = new List<BowserFireball>();
 
         // Small Mario
         smallMarioTexture = TextureAtlas.FromFile(Content, "images/SmallMario-definition.xml");
@@ -108,8 +121,8 @@ public class Game1 : Core
         marios = new List<IMario>
     {
         new SmallMario(smallMarioTexture,Content,this),
-        new BigMario(bigMarioTexture,Content),
-        new FireMario(fireMarioTexture,Content)
+        new BigMario(bigMarioTexture,Content,this),
+        new FireMario(fireMarioTexture,Content,this)
     };
 
         goombaTexture = TextureAtlas.FromFile(Content, "images/goomba-definition.xml");
@@ -149,18 +162,34 @@ public class Game1 : Core
         base.LoadContent();
 
     }
+private void TriggerGameOver()
+{
+    IsGameOver = true;
 
+    // Stop background music
+    Music.StopMusic();
+
+    // Play game over sound ONCE
+    Music.gameOver.Play();
+}
     protected override void Update(GameTime gameTime)
     {
-
-        gameTimer -= (int)gameTime.ElapsedGameTime.TotalSeconds;
+        hurryupPlayed = false;
+    if (!IsPaused && !currentMario.WinState && !IsGameOver){
+       gameTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+       if (gameTimer <=0 && !IsGameOver)
+        {
+            gameTimer =0;
+            TriggerGameOver();
+        }
+    }
 
         foreach (IController controller in controllers)
         {
             controller.Update(gameTime);
         }
 
-        if (IsPaused || currentMario.WinState)
+        if (IsPaused || currentMario.WinState || IsGameOver)
         {
             base.Update(gameTime);
             return;
@@ -172,17 +201,16 @@ public class Game1 : Core
 
         foreach (ICollectable item in currentItems)
         {
-            List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
-            ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
-            ItemCollision.CheckItemMarioCollisions(item, currentMario, coinCount, livesCount);
             item.Update(gameTime);
+        
         }
+       
 
         foreach (IEnemy enemy in enemies)
         {
             enemy.Update(gameTime);
             CheckEnemyCollisions.CheckEnemyBlockCollisions(enemy, blocks, map);
-            CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage);
+            CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage, this);
         }
 
         for (int i = projectiles.Count - 1; i >= 0; i--)
@@ -211,6 +239,12 @@ public class Game1 : Core
             currentMario,
             collidableBlocks
         ); // We should only call this method once per update.
+
+        //resets scoring stomp combo
+        if (!currentMario.Falling)
+        {
+            ScoreManager.ResetStompCombo();
+        }
 
         playerItemCollision.CheckCollisions(currentMario, currentItems, currentMarioNum, SetMario);
 
@@ -252,14 +286,40 @@ public class Game1 : Core
 
             activeEnemy.Update(gameTime);
             CheckEnemyCollisions.CheckEnemyBlockCollisions(activeEnemy, blocks, map);
-            CheckEnemyCollisions.CheckEnemyMarioCollisions(activeEnemy, currentMario, Damage);
+            CheckEnemyCollisions.CheckEnemyMarioCollisions(activeEnemy, currentMario, Damage, this);
 
             if (activeEnemy is Goomba goomba && goomba.Despawn) enemies.RemoveAt(i);
             else if (activeEnemy is Koopa koopa && koopa.Despawn) enemies.RemoveAt(i);
         }
-        CheckEnemyCollisions.CheckEnemyEnemyCollisions(enemies);
+        CheckEnemyCollisions.CheckEnemyEnemyCollisions(enemies, this);
 
-        
+        foreach (var item in currentItems)
+        {
+            List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
+            ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
+            ItemCollision.CheckItemMarioCollisions(item, currentMario, this);
+            
+        }
+        for (int i = hammers.Count - 1; i >= 0; i--)
+        {
+            Hammer h = hammers[i];
+            h.Update(gameTime);
+            h.CheckOffScreen(cameraRect);
+            HammerCollision.CheckHammerMarioCollision(h, currentMario, Damage);
+            if (!h.IsActive)
+                hammers.RemoveAt(i);
+        }
+
+        for (int i = bowserFireballs.Count - 1; i >= 0; i--)
+        {
+            BowserFireball b = bowserFireballs[i];
+            b.Update(gameTime);
+            b.CheckOffScreen(cameraRect);
+            BowserFireballCollision.CheckBowserFireballMarioCollision(b, currentMario, Damage);
+            if (!b.IsActive)
+                bowserFireballs.RemoveAt(i);
+        }
+  
         if (!canTakeDamage)
         {
             cooldownTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -289,6 +349,14 @@ public class Game1 : Core
         {
             enemy.Draw(SpriteBatch);
         }
+        foreach (Hammer h in hammers)
+        {
+            h.Draw(SpriteBatch);
+        }
+        foreach (BowserFireball fireball in bowserFireballs)
+        {
+            fireball.Draw(SpriteBatch);
+        }
         var visibleArea = camera.BoundingRectangle;
         Rectangle cameraRect = new Rectangle(
             (int)visibleArea.Left,
@@ -310,7 +378,13 @@ public class Game1 : Core
             SpriteBatch.Draw(winTexture, new Rectangle(100, 100, 400, 200), Color.White);
             SpriteBatch.End();
         }
-        string HUD = "MARIO            WORLD   TIME\n" + marioScore + "   Ox" + coinCount + "     " + worldNumber + "-" + levelNumber + "     " + gameTimer;
+        if (IsGameOver)
+        {
+            SpriteBatch.Begin();
+            SpriteBatch.Draw(gameOverTexture, new Rectangle(0,0,GraphicsDevice.Viewport.Width,GraphicsDevice.Viewport.Height),Color.White);
+            SpriteBatch.End();
+        }
+        string HUD = "MARIO            WORLD           TIME\n" + marioScore + "   Ox" + coinCount + "     " + worldNumber + "-" + levelNumber + "     " + gameTimer;
         Vector2 HUDpos = new Vector2(0, 0);
         SpriteBatch.Begin();
         SpriteBatch.DrawString(font1, HUD, HUDpos, Color.White);
@@ -337,6 +411,24 @@ public class Game1 : Core
         pop.Scale = s;
 
         projectiles.Add(new Fireball(roll, pop, spawnPos, currentMario.Direction));
+    }
+
+    private void SpawnHammer(Vector2 bowserPosition, bool direction)
+    {
+        AnimatedSprite spin = hammerTexture.CreateAnimatedSprite("HammerSpin");
+        spin.Scale = new Vector2(4f, 4f);
+    
+        //  true : right | false : left 
+        hammers.Add(new Hammer(spin, bowserPosition, direction));
+    }
+
+    private void SpawnBowserFireball(Vector2 bowserPosition, bool direction)
+    {
+        AnimatedSprite fire = bowserFireballTexture.CreateAnimatedSprite("BowserFireball");
+        fire.Scale = new Vector2(4f, 4f);
+
+        //  true : right | false : left 
+        bowserFireballs.Add(new BowserFireball(fire, bowserPosition, direction));
     }
 
     public void SetMario(int marioNumber)
@@ -367,6 +459,8 @@ public class Game1 : Core
             currentMario.yVelocity = velocity;
             currentMario.Falling = true;
         }
+        canTakeDamage = true;
+        cooldownTimer =0f;
 
     }
     public void MarioJump()
@@ -419,29 +513,53 @@ public class Game1 : Core
         currentMario.Direction = false;
         currentMario.StopMove();
     }
-    public void Damage()
+   public void Damage()
+{
+    if (IsPaused || currentMario.WinState || IsGameOver)
+        return;
+
+    if (!canTakeDamage)
+        return;
+
+    canTakeDamage = false;
+    cooldownTimer = cooldownForDamage;
+
+   
+    if (currentMarioNum == 2)
     {
-        if (IsPaused || currentMario.WinState) return;
-        if (canTakeDamage)
-        {
-            canTakeDamage = false;
-            cooldownTimer = cooldownForDamage;
-            if (currentMarioNum == 0)
-            {
-                currentMario.Damage();
-
-            }
-            else if (currentMarioNum == 1)
-            {
-                SetMario(0);
-            }
-            else if (currentMarioNum == 2)
-            {
-                SetMario(1);
-            }
-        }
-
+        SetMario(1);
+        return;
     }
+
+    if (currentMarioNum == 1)
+    {
+        SetMario(0);
+        return;
+    }
+
+  
+    if (currentMarioNum == 0)
+    {
+        livesCount--;
+
+        if (livesCount <= 0)
+        {
+            TriggerGameOver();
+            return;
+        } else
+            {
+                ResetAfterDeath();
+            }
+
+        ResetMarioPosition();
+    }
+}private void ResetMarioPosition()
+{
+    Vector2 spawn = new Vector2(300, 664);
+
+    currentMario = new SmallMario(smallMarioTexture, spawn, Content, this);
+    currentMarioNum = 0;
+}
     public void PauseGame()
     {
         IsPaused = true;
@@ -463,11 +581,28 @@ public class Game1 : Core
         // update function handles it from here.
     }
 
-    public void Reset()
-    {
+public void Reset()
+{
+hurryupPlayed = false;
+IsGameOver = false;
+IsPaused = false;
+  Initialize();
+}
+private void ResetAfterDeath()
+{
+    Vector2 spawn = new Vector2(300, 664);
 
-        Initialize();
-    }
+    currentMario = new SmallMario(smallMarioTexture, spawn, Content, this);
+    currentMarioNum = 0;
+
+
+    prevX = 0;
+
+    camera.Position = new Vector2(0, camera.Position.Y);
+
+    canTakeDamage = true;
+    cooldownTimer = 0f;
+}
     public void play()
     {
         Music.PlayBackground();

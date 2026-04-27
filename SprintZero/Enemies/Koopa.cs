@@ -162,7 +162,6 @@ public class Koopa : IEnemy
 
 	public void CollideWithEnemy(IEnemy enemy)
 	{
-		// Todo: implement koopa behavior on enemy collision
 		switch (enemy.ActionState)
 		{
 			case CheckEnemyCollisions.EnemyAction.None: // i dont think this should ever happen. idk.

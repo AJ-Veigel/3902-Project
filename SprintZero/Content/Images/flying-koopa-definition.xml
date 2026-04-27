@@ -1,0 +1,13 @@
+﻿<TextureAtlas>
+	<Texture>Images/koopaSprites</Texture>
+	<Regions>
+		<Region name ="greenFly1" x="0" y="0" width="16" height="24"/>
+		<Region name ="greenFly2" x="16" y="0" width="16" height="24"/>
+		<Region name ="redFly1" x="0" y="24" width="16" height="24"/>
+		<Region name ="redFly2" x="16" y="24" width="16" height="24"/>
+		<Region name ="blueFly1" x="0" y="48" width="16" height="24"/>
+		<Region name ="blueFly2" x="16" y="48" width="16" height="24"/>
+	</Regions>
+	<Animations>
+	</Animations>
+</TextureAtlas>
