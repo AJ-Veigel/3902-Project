@@ -130,17 +130,16 @@ namespace SprintZero.PBCollision
 
                 }
 
-                if (pipe.levelNum > 0)
-                {
-                    pipe.onCollision(mario, CollisionSide.Top, game);
-                    mapChange++;
-                }
-
+                bool aboveTubeTop = marioRect.Right < pipeRect.Right && marioRect.Left > pipeRect.Left;
                 bool withinX = marioRect.Right > pipeRect.Left && marioRect.Left < pipeRect.Right;
                 bool nearTop = marioRect.Bottom >= pipeRect.Top - tolerance && marioRect.Bottom <= pipeRect.Top + tolerance;
 
                 if (withinX && nearTop && mario.yVelocity >= 0)
                 {
+                    if(pipe is TubeTop && pipe.levelNum > 0 && aboveTubeTop)
+                    {
+                        pipe.onCollision(mario, CollisionSide.Top, game);
+                    }
                     standingOnBlock = true;
                     if (pipeRect.Top < highestBlockTop)
                         highestBlockTop = pipeRect.Top;
