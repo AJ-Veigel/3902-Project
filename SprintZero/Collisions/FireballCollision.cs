@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SprintZero.blocks;
+using SprintZero.Enemies;
 using SpriteZero.Enemies;
 
 namespace FireballCollisions
@@ -73,7 +74,15 @@ namespace FireballCollisions
             {
                 if (currentFireball.FireballCollider.Intersects(enemy.EnemyCollider))
                 {
-                    enemy.Dead = true;
+                    if (enemy is Bowser bowser)
+                    {
+                        bowser.TakeDamage();
+
+                    }
+                    else
+                    {
+                        enemy.Dead = true;
+                    }
                     currentFireball.Pop();
                 }
             }

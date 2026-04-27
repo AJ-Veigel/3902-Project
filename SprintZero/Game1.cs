@@ -42,7 +42,7 @@ public class Game1 : Core
     private List<IMario> marios;
     private List<IEnemy> enemies;
     private List<IEnemy> unspawnedEnemies;
-    private IMario currentMario;
+    public IMario currentMario;
     private bool hurryupPlayed = false;
 
     public List<TileMap> maps; // Temporary!
@@ -157,7 +157,7 @@ public class Game1 : Core
     {
         TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         TileMap map1 = new TileMap();
-        ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml", bigBlockTexturePt2, bigBlockTexture);
+        ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml", bigBlockTexturePt2, bigBlockTexture, this);
         unspawnedEnemies = level.GetEnemies();
         enemies = new List<IEnemy>();
         level.FromFile(map1);
@@ -419,7 +419,7 @@ public class Game1 : Core
         projectiles.Add(new Fireball(roll, pop, spawnPos, currentMario.Direction));
     }
 
-    private void SpawnHammer(Vector2 bowserPosition, bool direction)
+    public void SpawnHammer(Vector2 bowserPosition, bool direction)
     {
         AnimatedSprite spin = hammerTexture.CreateAnimatedSprite("HammerSpin");
         spin.Scale = new Vector2(4f, 4f);
@@ -428,7 +428,7 @@ public class Game1 : Core
         hammers.Add(new Hammer(spin, bowserPosition, direction));
     }
 
-    private void SpawnBowserFireball(Vector2 bowserPosition, bool direction)
+    public void SpawnBowserFireball(Vector2 bowserPosition, bool direction)
     {
         AnimatedSprite fire = bowserFireballTexture.CreateAnimatedSprite("BowserFireball");
         fire.Scale = new Vector2(4f, 4f);

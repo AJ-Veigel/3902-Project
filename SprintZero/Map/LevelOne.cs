@@ -14,6 +14,7 @@ using SprintZero.Items;
 using MonoGame.Extended;
 using System.Reflection.Metadata;
 using SprintZero.Marios;
+using SprintZero.Enemies;
 
 namespace SprintZero.Map
 {
@@ -39,13 +40,17 @@ namespace SprintZero.Map
         public List<IEnemy> spawnedEnemies;
 
         private TextureAtlas goombaTexture;
-        public LevelOne(ContentManager content, TextureAtlas blockTextures, TextureAtlas itemTextures, List<ICollectable> currItems, string filename, TextureAtlas bigBlockTexturePt2, TextureAtlas bigBlockTexture)
+        private TextureAtlas bowserTexture;
+        private Game1 game;
+
+        public LevelOne(ContentManager content, TextureAtlas blockTextures, TextureAtlas itemTextures, List<ICollectable> currItems, string filename, TextureAtlas bigBlockTexturePt2, TextureAtlas bigBlockTexture, Game1 game)
         {
             this.content = content;
             this.blockTextures = blockTextures;
             this.bigBlockTexturePt2 = bigBlockTexturePt2;
             this.spawnedEnemies = new List<IEnemy>();
             this.bigBlockTexture = bigBlockTexture;
+            this.game = game;
             LoadContent();
             BGColor = Color.AliceBlue;
             this.filename = filename;
@@ -166,6 +171,7 @@ namespace SprintZero.Map
             tubeMid = blockTextures.GetRegion("tubeMid");
             tubeInter = blockTextures.GetRegion("tubeIntersect");
             goombaTexture = TextureAtlas.FromFile(this.content, "images/goomba-definition.xml");
+            bowserTexture = TextureAtlas.FromFile(this.content, "images/bowser-definition.xml");
             flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
             castle = bigBlockTexture.GetRegion("castle");
             flagpoleTexture = TextureAtlas.FromFile(content, "Images/flag.xml");
@@ -297,6 +303,12 @@ namespace SprintZero.Map
                                 case 17:
                                     {
                                         placePoleMiddle(tilemap, poleMiddle, p);
+                                        break;
+                                    }
+                                case 18:
+                                    {
+                                        Bowser bowser = new Bowser(bowserTexture, goombaTexture, game, pos);
+                                        spawnedEnemies.Add(bowser);
                                         break;
                                     }
                                 default:
