@@ -42,6 +42,7 @@ public class Game1 : Core
     private List<IMario> marios;
     private List<IEnemy> enemies;
     private List<IEnemy> unspawnedEnemies;
+    private List<List<IEnemy>> levelEnemies;
     public IMario currentMario;
     private bool hurryupPlayed = false;
 
@@ -133,6 +134,8 @@ public class Game1 : Core
 
         enemies = new List<IEnemy>();
 
+        levelEnemies = new List<List<IEnemy>>();
+
         currentMario = marios[0];
         currentMarioNum = 0;
         prevX = 0;
@@ -147,6 +150,7 @@ public class Game1 : Core
 
         currentLevel = 0;
         LoadMaps();
+        unspawnedEnemies = levelEnemies[currentLevel];
         pauseTexture = Content.Load<Texture2D>("Images/Pause");
         winTexture = Content.Load<Texture2D>("Images/You-Win-4-21-2026");
         base.LoadContent();
@@ -158,16 +162,17 @@ public class Game1 : Core
         TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         TileMap map1 = new TileMap();
         ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml", bigBlockTexturePt2, bigBlockTexture, this);
-        unspawnedEnemies = level.GetEnemies();
-        enemies = new List<IEnemy>();
+        levelEnemies.Add(level.GetEnemies());
         level.FromFile(map1);
         maps.Add(map1);
         TileMap mapBonus = new TileMap();
         level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml", this);
+        levelEnemies.Add(level.GetEnemies());
         level.FromFile(mapBonus);
         maps.Add(mapBonus);
         TileMap finalLevel = new TileMap();
         level = new LevelFour(Content, oneDashFourtexture, itemTexture, currentItems, "LevelData/LevelFour.xml", this);
+        levelEnemies.Add(level.GetEnemies());
         level.FromFile(finalLevel);
         maps.Add(finalLevel);
         Music.PlayBackground();
@@ -540,35 +545,35 @@ public class Game1 : Core
             SetMario(1);
             return;
 
+        }
+        else if (currentMarioNum == 1)
+        {
+            SetMario(0);
+            return;
+        }
 
-            if (currentMarioNum == 1)
+
+        else if (currentMarioNum == 0)
+        {
+            livesCount--;
+
+            if (livesCount <= 0)
             {
-                SetMario(0);
+                TriggerGameOver();
                 return;
             }
-
-
-            if (currentMarioNum == 0)
+            else
             {
-                livesCount--;
-
-                if (livesCount <= 0)
-                {
-                    TriggerGameOver();
-                    return;
-                }
-                else
-                {
-                    ResetAfterDeath();
-                }
-
-                ResetMarioPosition();
+                ResetAfterDeath();
             }
+
+            ResetMarioPosition();
         }
     }
+
     private void ResetMarioPosition()
     {
-        Vector2 spawn = new Vector2(300, 664);
+        Vector2 spawn = maps[currentLevel].getSpawn();
 
         currentMario = new SmallMario(smallMarioTexture, spawn, Content, this);
         currentMarioNum = 0;
@@ -591,9 +596,10 @@ public class Game1 : Core
         {
             currentLevel = 0;
         }
-        enemies.Clear();
+        unspawnedEnemies = levelEnemies[roomNumber];
         currentItems.Clear();
         projectiles.Clear();
+        maps.Clear();
         LoadMaps();
         // update function handles it from here.
     }

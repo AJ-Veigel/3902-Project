@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +14,7 @@ namespace SprintZero.Map
     {
         private Dictionary<Point, IBlock> map;
         private Dictionary<Point, IPipe> pipeMap;
+        private Vector2 marioSpawnPos = new Vector2(600, 600);
 
         private List<IBlock> cachedBlockList = new List<IBlock>();
         private List<IPipe> cachedPipeList = new List<IPipe>();
@@ -46,6 +49,16 @@ namespace SprintZero.Map
         public IBlock getBlockAt(Point p)
         {
             return map[p];
+        }
+
+        public Vector2 getSpawn()
+        {
+            return marioSpawnPos;
+        }
+
+        public void setSpawn(Vector2 pos)
+        {
+            marioSpawnPos = pos;
         }
 
         public List<IBlock> getBlocksInRectangle(Rectangle rect)
