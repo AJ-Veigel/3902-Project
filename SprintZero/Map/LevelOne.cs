@@ -91,22 +91,22 @@ namespace SprintZero.Map
         private static void placeTubeTopAt(TileMap map, TextureRegion tube, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeTop(tube, location);
-            map.addBlockAt(tilePos, block);
+            IPipe block = new TubeTop(tube, location);
+            map.addPipeAt(tilePos, block);
         }
 
         private static void placeTubeTopAt(TileMap map, TextureRegion tube, Point tilePos, string pipeLevel, Vector2 MarioPos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeTop(tube, location, pipeLevel, MarioPos);
-            map.addBlockAt(tilePos, block);
+            IPipe block = new TubeTop(tube, location, pipeLevel, MarioPos, 1, false);
+            map.addPipeAt(tilePos, block);
         }
 
         private static void placeTubeLeftAt(TileMap map, TextureRegion tube, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeLeft(tube, location);
-            map.addBlockAt(tilePos, block);
+            IPipe block = new TubeLeft(tube, location);
+            map.addPipeAt(tilePos, block);
         }
 
         private static void placeTubeMidAt(TileMap map, TextureRegion tube, Point tilePos)

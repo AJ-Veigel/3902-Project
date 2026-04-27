@@ -21,6 +21,7 @@ using HammerCollisions;
 using BowserFireballCollisions;
 using SoundManager;
 using System.Security.Cryptography;
+using System.IO.Pipes;
 
 
 namespace SprintZero;
@@ -34,6 +35,7 @@ public class Game1 : Core
     private List<IController> controllers;
     private List<ICollectable> currentItems;
     private List<IBlock> blocks;
+    private List<IPipe> pipes;
     private List<IProjectile> projectiles;
     private List<Hammer> hammers;
     private List<BowserFireball> bowserFireballs;
@@ -43,7 +45,7 @@ public class Game1 : Core
     private IMario currentMario;
     private bool hurryupPlayed = false;
 
-    private List<TileMap> maps; // Temporary!
+    public List<TileMap> maps; // Temporary!
     private TileMap map; // Current map.
 
     public int currentMarioNum, currentLevel;
@@ -91,7 +93,8 @@ public class Game1 : Core
 
         font1 = Content.Load<SpriteFont>("Font/File");
 
-        blocks = new List<IBlock> { };
+        blocks = new List<IBlock> {};
+        pipes = new List<IPipe> {};
 
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
 
@@ -206,6 +209,7 @@ public class Game1 : Core
         {
             enemy.Update(gameTime);
             CheckEnemyCollisions.CheckEnemyBlockCollisions(enemy, blocks, map);
+            CheckEnemyCollisions.CheckEnemyPipeCollisions(enemy, pipes, map);
             CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage, this);
         }
 
@@ -214,7 +218,9 @@ public class Game1 : Core
             Fireball currentFireball = (Fireball)projectiles[i];
             currentFireball.Update(gameTime);
             List<IBlock> fireballCollidableBlocks = map.getBlocksInRectangle(currentFireball.FireballCollider, 64);
+            List<IPipe> fireballCollidablePipes = map.getPipesInRectangle(currentFireball.FireballCollider, 64);
             FireballCollision.checkFireballBlockCollision(currentFireball, fireballCollidableBlocks);
+            FireballCollision.checkFireballPipeCollision(currentFireball, fireballCollidablePipes);
             FireballCollision.checkFireballEnemyCollision(currentFireball, enemies);
             if (!currentFireball.IsActive)
             {
@@ -223,18 +229,15 @@ public class Game1 : Core
         }
 
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
-
-
-
-        foreach (IBlock b in blocks)
-        { // these extra blocks should be fit into TileMap somehow.
-            collidableBlocks.Add(b);
-        }
+        List<IPipe> collidablePipes = map.getPipesInRectangle(currentMario.MarioCollider, 96);
 
         playerBlockCollision.checkBlockCollision(
             currentMario,
-            collidableBlocks
+            collidableBlocks,
+            collidablePipes
         ); // We should only call this method once per update.
+
+        
 
         //resets scoring stomp combo
         if (!currentMario.Falling)
@@ -280,6 +283,7 @@ public class Game1 : Core
 
             activeEnemy.Update(gameTime);
             CheckEnemyCollisions.CheckEnemyBlockCollisions(activeEnemy, blocks, map);
+            CheckEnemyCollisions.CheckEnemyPipeCollisions(activeEnemy, pipes, map);
             CheckEnemyCollisions.CheckEnemyMarioCollisions(activeEnemy, currentMario, Damage, this);
 
             if (activeEnemy is Goomba goomba && goomba.Despawn) enemies.RemoveAt(i);
@@ -290,7 +294,9 @@ public class Game1 : Core
         foreach (var item in currentItems)
         {
             List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
+            List<IPipe> itemCollidablePipes = map.getPipesInRectangle(item.RectCollider, 96);
             ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
+            ItemCollision.CheckItemPipeCollisions(item, itemCollidablePipes, map);
             ItemCollision.CheckItemMarioCollisions(item, currentMario, this);
 
         }

@@ -6,12 +6,15 @@ using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SprintZero.Marios;
 using SprintZero.Map;
+using SprintZero;
 
-public class TubeTop : IBlock
+public class TubeTop : IPipe
 {
     private const float SCALE = 4f;
     private TextureRegion sprite;
     private string level;
+    private int levelNum;
+    private Boolean bonus;
     private Vector2 marioSpawnPos;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
@@ -32,7 +35,7 @@ public class TubeTop : IBlock
         );
     }
 
-    public TubeTop(TextureRegion region, Vector2 pos, string pipeLevel, Vector2 MarioPos)
+    public TubeTop(TextureRegion region, Vector2 pos, string pipeLevel, Vector2 MarioPos, int levelNum, Boolean bonus)
     {
         sprite = region;
 
@@ -41,6 +44,10 @@ public class TubeTop : IBlock
         marioSpawnPos = MarioPos;
 
         level = pipeLevel;
+
+        this.levelNum = levelNum;
+
+        this.bonus = bonus;
 
         Collider = new Rectangle(
             (int)location.X,
@@ -68,7 +75,34 @@ public class TubeTop : IBlock
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
 
     }
+
     public void onCollision(IMario mario, CollisionSide side)
+    {
+        switch (side)
+        {
+            case CollisionSide.Left:
+                if (mario.xVelocity < 0) { break; }
+                mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
+                mario.xVelocity = 0;
+                break;
+            case CollisionSide.Right:
+                if (mario.xVelocity > 0) { break; }
+                mario.location = new Vector2(Collider.Right, mario.location.Y);
+                mario.xVelocity = 0;
+                break;
+            case CollisionSide.Top:
+                break;
+            case CollisionSide.Bottom:
+                if (mario.yVelocity > 0) { break; }
+                mario.location = new Vector2(mario.location.X, Collider.Bottom);
+                mario.yVelocity = 0;
+                break;
+            default: throw new System.Exception("Invalid collision side for collision.");
+        }
+        return;
+    }
+
+    public void onCollision(IMario mario, CollisionSide side, Game1 game)
     {
         switch (side)
         {
@@ -85,7 +119,7 @@ public class TubeTop : IBlock
             case CollisionSide.Top:
                 if (mario.Crouching && !level.Equals(""))
                 {
-                    //Change Level Here with new Mario Position
+                    LevelManager.GoToBonusLevel(game, this);
                 }
                 break;
             case CollisionSide.Bottom:

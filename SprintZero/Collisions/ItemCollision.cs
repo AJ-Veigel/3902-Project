@@ -114,5 +114,59 @@ namespace ItemCollisions
                 }
             }
         }
+
+        public static void CheckItemPipeCollisions(ICollectable currentItem, List<IPipe> pipes, TileMap map)
+        {
+            if (currentItem != null)
+            {
+                List<IPipe> nearbyPipes = map.getPipesInRectangle(currentItem.RectCollider);
+                nearbyPipes.AddRange(pipes);
+
+                foreach (var Pipe in nearbyPipes)
+                {
+                    Rectangle PipeRect = Pipe.Collider;
+                    Rectangle itemRect = currentItem.RectCollider;
+
+                    if (itemRect.Intersects(PipeRect) && currentItem.Collidable)
+                    {
+                        float overlapX = Math.Min(itemRect.Right, PipeRect.Right) - Math.Max(itemRect.Left, PipeRect.Left);
+                        float overlapY = Math.Min(itemRect.Bottom, PipeRect.Bottom) - Math.Max(itemRect.Top, PipeRect.Top);
+
+                        // Side collision
+                        if (overlapX < overlapY)
+                        {
+                            if (itemRect.Center.X < PipeRect.Center.X)
+                                currentItem.location = new Vector2(currentItem.location.X - overlapX, currentItem.location.Y);
+                            else
+                                currentItem.location = new Vector2(currentItem.location.X + overlapX, currentItem.location.Y);
+
+                            currentItem.ReverseDirection();
+                        }
+                        // Top/bottom collision
+                        else
+                        {
+                            if (itemRect.Center.Y < PipeRect.Center.Y)
+                            {
+                                currentItem.location = new Vector2(currentItem.location.X, currentItem.location.Y - overlapY);
+                                currentItem.VelocityY = 0;
+                                currentItem.onGround = true;
+                            }
+                            else
+                            {
+                                currentItem.location = new Vector2(currentItem.location.X, currentItem.location.Y + overlapY);
+                                currentItem.VelocityY = 0;
+                            }
+                        }
+                    }
+
+                    currentItem.RectCollider = new Rectangle(
+                        (int)currentItem.location.X,
+                        (int)currentItem.location.Y,
+                        itemRect.Width,
+                        itemRect.Height
+                    );
+                }
+            }
+        }
     }
 }
