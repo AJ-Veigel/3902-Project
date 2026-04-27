@@ -199,6 +199,16 @@ namespace SprintZero.Map
                     int marioX = int.Parse(split[2]);
                     int marioY = int.Parse(split[3]);
 
+                    XElement marioSpawnElement = root.Element("MarioPos");
+
+                    split = marioSpawnElement.Value.Trim().Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    int marioSpawnX = int.Parse(split[0]);
+                    int marioSpawnY = int.Parse(split[1]);
+
+                    Vector2 marioSpawnPos = new Vector2(marioSpawnX, marioSpawnY);
+
+                    tilemap.setSpawn(marioSpawnPos);
+
                     XElement tilesElement = root.Element("Blocks");
 
                     // Split the value of the tiles data into rows by splitting on
@@ -315,8 +325,8 @@ namespace SprintZero.Map
                                     {
                                         if (tilesetIndex == pipeNum)
                                         {
-                                            Vector2 marioSpawnPos = new Vector2(marioX, marioY);
-                                            placeTubeTopAt(tilemap, tubeTop, p, pipeLevel, marioSpawnPos);
+                                            Vector2 marioPipePos = new Vector2(marioX, marioY);
+                                            placeTubeTopAt(tilemap, tubeTop, p, pipeLevel, marioPipePos);
                                         }
                                         break;
                                     }

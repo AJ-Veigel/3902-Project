@@ -26,15 +26,10 @@ namespace SprintZero.Map
         private ContentManager content { get; set; }
         private TextureAtlas blockTextures { get; set; }
         private TextureAtlas itemTextures;
-        private TextureAtlas bigBlockTexture;
-        private AnimatedSprite flagMove;
-        private TextureAtlas bigBlockTexturePt2;
         private List<ICollectable> items;
         private string filename;
         private TextureRegion brick, bridge, firebarBlock, chain;
         private AnimatedSprite qBlock, axe;
-        private TextureAtlas flagpoleTexture;
-        private TextureRegion flagRegion, flag, poleTop, poleMiddle;
 
 
         public List<IEnemy> spawnedEnemies;
@@ -133,7 +128,15 @@ namespace SprintZero.Map
                     XDocument doc = XDocument.Load(reader);
                     XElement root = doc.Root;
 
-                    XElement pipeElement = root.Element("PipeData");
+                    XElement marioSpawnElement = root.Element("MarioPos");
+
+                    string[] split = marioSpawnElement.Value.Trim().Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    int marioSpawnX = int.Parse(split[0]);
+                    int marioSpawnY = int.Parse(split[1]);
+
+                    Vector2 marioSpawnPos = new Vector2(marioSpawnX, marioSpawnY);
+
+                    tilemap.setSpawn(marioSpawnPos);
 
                     XElement tilesElement = root.Element("Blocks");
 
