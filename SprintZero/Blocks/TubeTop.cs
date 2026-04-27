@@ -12,10 +12,10 @@ public class TubeTop : IPipe
 {
     private const float SCALE = 4f;
     private TextureRegion sprite;
-    private string level;
-    private int levelNum;
-    private Boolean bonus;
-    private Vector2 marioSpawnPos;
+    private string level = "";
+    public int levelNum { get; set; }
+    public int bonus { get; set; }
+    public Vector2 marioSpawnPos { get; set; }
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
 
@@ -35,7 +35,7 @@ public class TubeTop : IPipe
         );
     }
 
-    public TubeTop(TextureRegion region, Vector2 pos, string pipeLevel, Vector2 MarioPos, int levelNum, Boolean bonus)
+    public TubeTop(TextureRegion region, Vector2 pos, string pipeLevel, Vector2 MarioPos, int levelNum, int bonus)
     {
         sprite = region;
 
@@ -119,7 +119,7 @@ public class TubeTop : IPipe
             case CollisionSide.Top:
                 if (mario.Crouching && !level.Equals(""))
                 {
-                    LevelManager.GoToBonusLevel(game, this);
+                    LevelManager.SwapLevel(game, this);
                 }
                 break;
             case CollisionSide.Bottom:

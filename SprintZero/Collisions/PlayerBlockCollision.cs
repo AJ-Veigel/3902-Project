@@ -4,6 +4,7 @@ using SprintZero.blocks;
 using SprintZero.Marios;
 
 using System;
+using System.IO.Pipelines;
 
 
 namespace SprintZero.PBCollision
@@ -28,12 +29,13 @@ namespace SprintZero.PBCollision
                 Damage();
             }
         }
-        public static void checkBlockCollision(IMario mario, List<IBlock> allBlocks, List<IPipe> allPipes)
+        public static void checkBlockCollision(IMario mario, List<IBlock> allBlocks, List<IPipe> allPipes, Game1 game)
         {
             Rectangle mariowithExtraBound = mario.MarioCollider;
             const int theBound = 16;
             mariowithExtraBound.Inflate(theBound, theBound);
             bool handleBySpecial = false;
+            bool handlePipe = false;
 
             List<IBlock> blocks = new List<IBlock>();
             List<IPipe> pipes = new List<IPipe>();
@@ -113,38 +115,33 @@ namespace SprintZero.PBCollision
                         highestBlockTop = blockRect.Top;
                 }
             }
-            foreach (IPipe block in pipes)
+            foreach (IPipe pipe in pipes)
             {
                 Rectangle marioRect = mario.MarioCollider;
-                Rectangle blockRect = block.Collider;
+                Rectangle pipeRect = pipe.Collider;
 
-                if (marioRect.Intersects(blockRect))
+                if (marioRect.Intersects(pipeRect))
                 {
-                    theSide = getCollisionSide(marioRect, blockRect);
-                    Console.WriteLine($"[Collision Debug] mario collided with block at {blockRect.Location} on {theSide} side");
+                    theSide = getCollisionSide(marioRect, pipeRect);
+                    Console.WriteLine($"[Collision Debug] mario collided with block at {pipeRect.Location} on {theSide} side");
 
-                    block.onCollision(mario, theSide);
+                    pipe.onCollision(mario, theSide, game);
 
-                    if (!handleBySpecial)
-                    {
-                        if (theSide == CollisionSide.Top && !mario.Jumping)
-                        {
-                            standingOnBlock = true;
-                            if (blockRect.Top < highestBlockTop)
-                                highestBlockTop = blockRect.Top;
-                        }
-                    }
                 }
 
+                if (pipe.levelNum > 0)
+                {
+                    pipe.onCollision(mario, CollisionSide.Top, game);
+                }
 
-                bool withinX = marioRect.Right > blockRect.Left && marioRect.Left < blockRect.Right;
-                bool nearTop = marioRect.Bottom >= blockRect.Top - tolerance && marioRect.Bottom <= blockRect.Top + tolerance;
+                bool withinX = marioRect.Right > pipeRect.Left && marioRect.Left < pipeRect.Right;
+                bool nearTop = marioRect.Bottom >= pipeRect.Top - tolerance && marioRect.Bottom <= pipeRect.Top + tolerance;
 
                 if (withinX && nearTop && mario.yVelocity >= 0)
                 {
                     standingOnBlock = true;
-                    if (blockRect.Top < highestBlockTop)
-                        highestBlockTop = blockRect.Top;
+                    if (pipeRect.Top < highestBlockTop)
+                        highestBlockTop = pipeRect.Top;
                 }
             }
             if (!handleBySpecial && !mario.SlidingFlag)

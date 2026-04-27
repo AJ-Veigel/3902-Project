@@ -83,7 +83,7 @@ namespace SprintZero.Map
         private static void placeTubeLeftAt(TileMap map, TextureRegion tube, Point tilePos, string pipeLevel, Vector2 marioSpawnPos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IPipe block = new TubeLeft(tube, location, pipeLevel, marioSpawnPos, 1, true);
+            IPipe block = new TubeLeft(tube, location, pipeLevel, marioSpawnPos, 1, 0);
             map.addPipeAt(tilePos, block);
         }
 

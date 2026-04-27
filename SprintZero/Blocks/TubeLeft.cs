@@ -13,10 +13,10 @@ public class TubeLeft : IPipe
     private TextureRegion sprite;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
-    private int levelNum;
-    private Boolean bonus;
-    string level;
-    Vector2 marioSpawnPos;
+    public int levelNum { get; set; }
+    public int bonus { get; set; }
+    string level = "";
+    public Vector2 marioSpawnPos { get; set; }
 
 
     public TubeLeft(TextureRegion region, Vector2 pos)
@@ -34,7 +34,7 @@ public class TubeLeft : IPipe
         );
     }
 
-    public TubeLeft(TextureRegion region, Vector2 pos, string pipeLevel, Vector2 MarioPos, int levelNum, Boolean bonus)
+    public TubeLeft(TextureRegion region, Vector2 pos, string pipeLevel, Vector2 MarioPos, int levelNum, int bonus)
     {
         sprite = region;
 
@@ -106,9 +106,9 @@ public class TubeLeft : IPipe
         {
             case CollisionSide.Left:
                 if (mario.xVelocity < 0) { break; }
-                if (mario.Crouching && !level.Equals(""))
+                if (mario.xVelocity > 0 && !level.Equals(""))
                 {
-                    LevelManager.GoToBonusLevel(game, this);
+                    LevelManager.SwapLevel(game, this);
                 }
                 break;
             case CollisionSide.Right:

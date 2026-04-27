@@ -98,7 +98,7 @@ namespace SprintZero.Map
         private static void placeTubeTopAt(TileMap map, TextureRegion tube, Point tilePos, string pipeLevel, Vector2 MarioPos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IPipe block = new TubeTop(tube, location, pipeLevel, MarioPos, 1, false);
+            IPipe block = new TubeTop(tube, location, pipeLevel, MarioPos, 1, 1);
             map.addPipeAt(tilePos, block);
         }
 
