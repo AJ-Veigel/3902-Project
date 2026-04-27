@@ -203,7 +203,7 @@ namespace SprintZero.Map
                                         if(tilesetIndex == pipeNum)
                                         {
                                             Vector2 marioSpawnPos = new Vector2(marioX, marioY);
-                                            placeTubeLeftAt(tilemap, tubeTop, p, pipeLevel, marioSpawnPos);
+                                            placeTubeLeftAt(tilemap, tubeLeft, p, pipeLevel, marioSpawnPos);
                                         }
                                         break;
                                     }

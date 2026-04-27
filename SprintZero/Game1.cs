@@ -205,7 +205,6 @@ public class Game1 : Core
             item.Update(gameTime);
         }
 
-
         foreach (IEnemy enemy in enemies)
         {
             enemy.Update(gameTime);

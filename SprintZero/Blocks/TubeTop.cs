@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SprintZero.Marios;
+using SprintZero.Map;
 
 public class TubeTop : IBlock
 {
@@ -67,7 +68,7 @@ public class TubeTop : IBlock
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
 
     }
-    public void onCollision(IMario mario, CollisionSide side)
+    public void onCollision(IMario mario, CollisionSide side, List<TileMap> maps)
     {
         switch (side)
         {
