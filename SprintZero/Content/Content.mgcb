@@ -35,6 +35,9 @@
 #begin Images/block-definition.xml
 /copy:Images/block-definition.xml
 
+#begin Images/BowserFireball-definition.xml
+/copy:Images/BowserFireball-definition.xml
+
 #begin Images/Fireball-definition.xml
 /copy:Images/Fireball-definition.xml
 
@@ -55,6 +58,21 @@
 
 #begin Images/flag.xml
 /copy:Images/flag.xml
+
+#begin Images/flying-koopa-definition.xml
+/copy:Images/flying-koopa-definition.xml
+
+#begin Images/flyingKoopaSprites.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/flyingKoopaSprites.png
 
 #begin Images/gameover.png
 /importer:TextureImporter
