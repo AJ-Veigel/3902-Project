@@ -79,7 +79,7 @@ namespace ItemCollisions
                         float overlapY = Math.Min(itemRect.Bottom, blockRect.Bottom) - Math.Max(itemRect.Top, blockRect.Top);
 
                         // Side collision
-                        if (overlapX < overlapY)
+                        if (overlapX < overlapY && overlapY > 12f)
                         {
                             if (itemRect.Center.X < blockRect.Center.X)
                                 currentItem.location = new Vector2(currentItem.location.X - overlapX, currentItem.location.Y);
@@ -91,15 +91,15 @@ namespace ItemCollisions
                         // Top/bottom collision
                         else
                         {
-                            if (itemRect.Center.Y < blockRect.Center.Y)
+                            if (currentItem.VelocityY >= 0)
                             {
-                                currentItem.location = new Vector2(currentItem.location.X, currentItem.location.Y - overlapY);
+                                currentItem.location = new Vector2(currentItem.location.X, blockRect.Top - itemRect.Height);
                                 currentItem.VelocityY = 0;
                                 currentItem.onGround = true;
                             }
                             else
                             {
-                                currentItem.location = new Vector2(currentItem.location.X, currentItem.location.Y + overlapY);
+                                currentItem.location = new Vector2(currentItem.location.X, blockRect.Bottom);
                                 currentItem.VelocityY = 0;
                             }
                         }
@@ -133,7 +133,7 @@ namespace ItemCollisions
                         float overlapY = Math.Min(itemRect.Bottom, PipeRect.Bottom) - Math.Max(itemRect.Top, PipeRect.Top);
 
                         // Side collision
-                        if (overlapX < overlapY)
+                        if (overlapX < overlapY && overlapY > 12f)
                         {
                             if (itemRect.Center.X < PipeRect.Center.X)
                                 currentItem.location = new Vector2(currentItem.location.X - overlapX, currentItem.location.Y);
@@ -145,15 +145,15 @@ namespace ItemCollisions
                         // Top/bottom collision
                         else
                         {
-                            if (itemRect.Center.Y < PipeRect.Center.Y)
+                            if (currentItem.VelocityY >= 0)
                             {
-                                currentItem.location = new Vector2(currentItem.location.X, currentItem.location.Y - overlapY);
+                                currentItem.location = new Vector2(currentItem.location.X, PipeRect.Top - itemRect.Height);
                                 currentItem.VelocityY = 0;
                                 currentItem.onGround = true;
                             }
                             else
                             {
-                                currentItem.location = new Vector2(currentItem.location.X, currentItem.location.Y + overlapY);
+                                currentItem.location = new Vector2(currentItem.location.X, PipeRect.Bottom);
                                 currentItem.VelocityY = 0;
                             }
                         }

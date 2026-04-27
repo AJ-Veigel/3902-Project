@@ -67,12 +67,17 @@ public class Mushroom : ICollectable
         // ✅ stop everything after collected
         if (Collected) return;
 
+        onGround = false;
+
         spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        if (spawnTimer > 0.75f)
+        if (spawnTimer < 0.5f)
         {
-            Collidable = true;
+            Collidable = false;
+            return;
         }
+
+        Collidable = true;
 
         // Gravity
         if (!onGround)
@@ -125,9 +130,10 @@ public class Mushroom : ICollectable
     {
         if (!Collected)
         {
+            Vector2 lockedPos = new Vector2((int)location.X, (int)location.Y);
             sprite.Draw(
                 spriteBatch,
-                location,
+                lockedPos,
                 Color.White,
                 0f,
                 Vector2.One,
