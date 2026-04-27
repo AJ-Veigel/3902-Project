@@ -68,7 +68,7 @@ public class TubeTop : IBlock
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
 
     }
-    public void onCollision(IMario mario, CollisionSide side, List<TileMap> maps)
+    public void onCollision(IMario mario, CollisionSide side)
     {
         switch (side)
         {

@@ -185,12 +185,15 @@ namespace SprintZero.Map
                     XDocument doc = XDocument.Load(reader);
                     XElement root = doc.Root;
 
-                    XElement pipeData = root.Element("PipeData");
+                    XElement pipeElement = root.Element("PipeData");
 
-                    int pipeNum = int.Parse(pipeData.Attribute("pipeNum").Value);
-                    string pipeLevel = pipeData.Attribute("pipeLevel").Value;
-                    int marioX = int.Parse(pipeData.Attribute("marioPosX").Value);
-                    int marioY = int.Parse(pipeData.Attribute("marioPosY").Value);
+                    string pipeData = pipeElement.Attribute("pipeData").Value;
+
+                    string[] split = pipeData.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    int pipeNum = int.Parse(split[0]);
+                    string pipeLevel = split[1];
+                    int marioX = int.Parse(split[2]);
+                    int marioY = int.Parse(split[3]);
 
                     XElement tilesElement = root.Element("Blocks");
 
@@ -300,7 +303,7 @@ namespace SprintZero.Map
                                     }
                                 default:
                                     {
-                                        if(tilesetIndex == pipeNum)
+                                        if (tilesetIndex == pipeNum)
                                         {
                                             Vector2 marioSpawnPos = new Vector2(marioX, marioY);
                                             placeTubeTopAt(tilemap, tubeTop, p, pipeLevel, marioSpawnPos);
