@@ -17,7 +17,7 @@ public class BigMario : IMario
     public float xVelocity { get; set; }
     public float jumpStartHeight { get; set; }
     private float groundY;
-    public float currentPlatformY{get;set;}
+    public float currentPlatformY { get; set; }
     private Game1 game;
     public bool Jumping { get; set; }
     public bool isOnGround { get; set; }
@@ -34,10 +34,10 @@ public class BigMario : IMario
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private const float JUMP_POWER = -11f;
- public bool SlidingFlag { get; set; } = false;
-  public bool AutoWalking {get;set;} =false;
-  public bool WinState { get; set; } = false;
-    public BigMario(TextureAtlas bigMarioTexture,ContentManager content, Game1 game)
+    public bool SlidingFlag { get; set; } = false;
+    public bool AutoWalking { get; set; } = false;
+    public bool WinState { get; set; } = false;
+    public BigMario(TextureAtlas bigMarioTexture, ContentManager content, Game1 game)
     {
         Moving = false;
         this.game = game;
@@ -52,7 +52,7 @@ public class BigMario : IMario
 
         marioSprites = new MarioSprite(bigMarioTexture, 1, location);
 
-       
+
         MarioCollider = marioSprites.UpdateCollider();
 
         isOnGround = false;
@@ -60,7 +60,7 @@ public class BigMario : IMario
     public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
     {
         Moving = false;
-       
+
         location = pos;
         Direction = true;
 
@@ -133,10 +133,9 @@ public class BigMario : IMario
 
             // Update sprite
             marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-            
-  
+
+            Music.jumpBigSound.Play();
         }
-        Music.jumpBigSound.Play();
     }
 
     public void Bounce()
@@ -178,90 +177,90 @@ public class BigMario : IMario
     {
 
     }
- public void GrabFlagPole()
-{
-    SlidingFlag = true;
+    public void GrabFlagPole()
+    {
+        SlidingFlag = true;
 
-    Jumping = false;
-    Falling = false;
-    isOnGround = false;
+        Jumping = false;
+        Falling = false;
+        isOnGround = false;
 
-    xVelocity = 0f;
-    yVelocity = 0f;
+        xVelocity = 0f;
+        yVelocity = 0f;
 
-    marioSprites.SetAnimatedSprite(Direction ? "flagpoleRight" : "flagpoleLeft");
-}
-public void EndFlagPole()
-{
-    SlidingFlag = false;
-    AutoWalking = true;
-    yVelocity = 0f;
-    xVelocity = 0f;
-    isOnGround = true;
-    Falling = false;
-    Jumping = false;
+        marioSprites.SetAnimatedSprite(Direction ? "flagpoleRight" : "flagpoleLeft");
+    }
+    public void EndFlagPole()
+    {
+        SlidingFlag = false;
+        AutoWalking = true;
+        yVelocity = 0f;
+        xVelocity = 0f;
+        isOnGround = true;
+        Falling = false;
+        Jumping = false;
 
-    currentPlatformY = location.Y;
+        currentPlatformY = location.Y;
 
-   
-    location = new Vector2(location.X, currentPlatformY);
-    marioSprites.SetLocation(location);
-    marioSprites.SetAnimatedSprite("moveRight");
-}
+
+        location = new Vector2(location.X, currentPlatformY);
+        marioSprites.SetLocation(location);
+        marioSprites.SetAnimatedSprite("moveRight");
+    }
     public void Update(GameTime gameTime)
     {
         invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        if(invincibilityTimer > 1)
+        if (invincibilityTimer > 1)
         {
             Invincible = false;
         }
- 
-   if (SlidingFlag)
-{
-   float slideSpeed = 2.5f;
 
-Vector2 nextPosition = new Vector2(location.X, location.Y + slideSpeed);
-if (nextPosition.Y >= currentPlatformY)
-{
-    nextPosition.Y = currentPlatformY;
-    location = nextPosition;
-    marioSprites.SetLocation(location);
+        if (SlidingFlag)
+        {
+            float slideSpeed = 2.5f;
 
-    EndFlagPole();
-}
-else
-{
-    location = nextPosition;
-    marioSprites.SetLocation(location);
-}
+            Vector2 nextPosition = new Vector2(location.X, location.Y + slideSpeed);
+            if (nextPosition.Y >= currentPlatformY)
+            {
+                nextPosition.Y = currentPlatformY;
+                location = nextPosition;
+                marioSprites.SetLocation(location);
 
-MarioCollider = marioSprites.UpdateCollider();
-return;
-}
+                EndFlagPole();
+            }
+            else
+            {
+                location = nextPosition;
+                marioSprites.SetLocation(location);
+            }
+
+            MarioCollider = marioSprites.UpdateCollider();
+            return;
+        }
         if (AutoWalking)
-{
-    float castleX = 400f; 
+        {
+            float castleX = 400f;
 
-    xVelocity = 2f;
-    yVelocity = 0;
+            xVelocity = 2f;
+            yVelocity = 0;
 
-    location = new Vector2(location.X + xVelocity, location.Y);
+            location = new Vector2(location.X + xVelocity, location.Y);
 
-    marioSprites.SetAnimatedSprite("moveRight");
-    marioSprites.SetLocation(location);
+            marioSprites.SetAnimatedSprite("moveRight");
+            marioSprites.SetLocation(location);
 
-    if (location.X >= castleX)
-    {
-        AutoWalking = false;
-        xVelocity = 0;
-        marioSprites.SetSprite("standRight");
-    }
+            if (location.X >= castleX)
+            {
+                AutoWalking = false;
+                xVelocity = 0;
+                marioSprites.SetSprite("standRight");
+            }
 
-    MarioCollider = marioSprites.UpdateCollider();
-    return; 
-}
-        
+            MarioCollider = marioSprites.UpdateCollider();
+            return;
+        }
+
         if (Jumping && !Falling)
         {
             yVelocity += GRAVITY;
@@ -278,7 +277,7 @@ return;
                 yVelocity += GRAVITY;
             location = new Vector2(location.X, location.Y + yVelocity);
             marioSprites.SetLocation(location);
-        
+
 
             if (isOnGround)
             {

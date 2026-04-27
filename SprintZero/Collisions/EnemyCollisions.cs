@@ -169,5 +169,59 @@ namespace EnemyCollisions
                 }
             }
         }
+
+        public static void CheckEnemyPipeCollisions(IEnemy currentEnemy, List<IPipe> pipes, TileMap map)
+        {
+            if (currentEnemy != null && !currentEnemy.Dead)
+            {
+                List<IPipe> nearbyPipes = map.getPipesInRectangle(currentEnemy.EnemyCollider, 64);
+                nearbyPipes.AddRange(pipes);
+
+                foreach (var pipe in nearbyPipes)
+                {
+                    Rectangle pipeRect = pipe.Collider;
+                    Rectangle enemyRect = currentEnemy.EnemyCollider;
+
+                    if (enemyRect.Intersects(pipeRect))
+                    {
+                        float overlapX = Math.Min(enemyRect.Right, pipeRect.Right) - Math.Max(enemyRect.Left, pipeRect.Left);
+                        float overlapY = Math.Min(enemyRect.Bottom, pipeRect.Bottom) - Math.Max(enemyRect.Top, pipeRect.Top);
+
+                        // Side collision
+                        if (overlapX < overlapY)
+                        {
+                            if (enemyRect.Center.X < pipeRect.Center.X)
+                                currentEnemy.position = new Vector2(currentEnemy.position.X - overlapX, currentEnemy.position.Y);
+                            else
+                                currentEnemy.position = new Vector2(currentEnemy.position.X + overlapX, currentEnemy.position.Y);
+
+                            currentEnemy.ReverseDirection();
+                        }
+                        // Top/bottom collision
+                        else
+                        {
+                            if (enemyRect.Center.Y < pipeRect.Center.Y)
+                            {
+                                currentEnemy.position = new Vector2(currentEnemy.position.X, currentEnemy.position.Y - overlapY);
+                                currentEnemy.VelocityY = 0;
+                                currentEnemy.onGround = true;
+                            }
+                            else
+                            {
+                                currentEnemy.position = new Vector2(currentEnemy.position.X, currentEnemy.position.Y + overlapY);
+                                currentEnemy.VelocityY = 0;
+                            }
+                        }
+                    }
+
+                    currentEnemy.EnemyCollider = new Rectangle(
+                        (int)currentEnemy.position.X,
+                        (int)currentEnemy.position.Y,
+                        enemyRect.Width,
+                        enemyRect.Height
+                    );
+                }
+            }
+        }
     }
 }

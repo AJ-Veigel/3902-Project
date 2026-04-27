@@ -34,6 +34,34 @@ namespace FireballCollisions
                 }
             }
         }
+
+        public static void checkFireballPipeCollision(Fireball currentFireball, List<IPipe> pipes) 
+        {
+            foreach (IPipe pipe in pipes)
+            {
+                if (currentFireball.FireballCollider.Intersects(pipe.Collider))
+                {
+                    int overlapX = Math.Min(currentFireball.FireballCollider.Right, pipe.Collider.Right)
+                    - Math.Max(currentFireball.FireballCollider.Left, pipe.Collider.Left);
+                    int overlapY = Math.Min(currentFireball.FireballCollider.Bottom, pipe.Collider.Bottom)
+                    - Math.Max(currentFireball.FireballCollider.Top, pipe.Collider.Top);
+
+                    // Fireball only pops if it hits side of pipe, continue bouncing otherwise.
+                    if (overlapX < overlapY) 
+                    {
+                        currentFireball.Pop();
+                    }
+                    else
+                    {
+                        bool hitFromAbove = currentFireball.FireballCollider.Center.Y < pipe.Collider.Center.Y;
+                        if (hitFromAbove)
+                            currentFireball.Bounce(pipe.Collider.Top);
+                        else
+                            currentFireball.Pop();
+                    }
+                }
+            }
+        }
         
         // I think it would make most sense to check the fireball against every enemy on the map, because
         // There will never be a time where there are so many enemies loaded that it would lag the game,

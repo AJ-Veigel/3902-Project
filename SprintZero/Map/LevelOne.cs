@@ -12,6 +12,8 @@ using System;
 using System.Net.NetworkInformation;
 using SprintZero.Items;
 using MonoGame.Extended;
+using System.Reflection.Metadata;
+using SprintZero.Marios;
 
 namespace SprintZero.Map
 {
@@ -28,10 +30,10 @@ namespace SprintZero.Map
         private TextureAtlas bigBlockTexturePt2;
         private List<ICollectable> items;
         private string filename;
-        private TextureRegion ground, solid, tubeTop, tubeLeft, tubeMid, tubeInter,castle;
+        private TextureRegion ground, solid, tubeTop, tubeLeft, tubeMid, tubeInter, castle;
         private AnimatedSprite qBlock, brick;
         private TextureAtlas flagpoleTexture;
-        private TextureRegion flagRegion,flag,poleTop,poleMiddle;
+        private TextureRegion flagRegion, flag, poleTop, poleMiddle;
 
 
         public List<IEnemy> spawnedEnemies;
@@ -70,11 +72,11 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
-        private  void placeQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
+        private void placeQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
             AnimatedSprite newSprite = hqTexture.CreateAnimatedSprite("hit-Question");
-            IBlock block = new questionMarkHit(newSprite, location,  itemTextures, items);
+            IBlock block = new questionMarkHit(newSprite, location, itemTextures, items);
 
             map.addBlockAt(tilePos, block);
         }
@@ -89,15 +91,22 @@ namespace SprintZero.Map
         private static void placeTubeTopAt(TileMap map, TextureRegion tube, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeTop(tube, location);
-            map.addBlockAt(tilePos, block);
+            IPipe block = new TubeTop(tube, location);
+            map.addPipeAt(tilePos, block);
+        }
+
+        private static void placeTubeTopAt(TileMap map, TextureRegion tube, Point tilePos, string pipeLevel, Vector2 MarioPos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IPipe block = new TubeTop(tube, location, pipeLevel, MarioPos, 1, 1);
+            map.addPipeAt(tilePos, block);
         }
 
         private static void placeTubeLeftAt(TileMap map, TextureRegion tube, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeLeft(tube, location);
-            map.addBlockAt(tilePos, block);
+            IPipe block = new TubeLeft(tube, location);
+            map.addPipeAt(tilePos, block);
         }
 
         private static void placeTubeMidAt(TileMap map, TextureRegion tube, Point tilePos)
@@ -120,26 +129,26 @@ namespace SprintZero.Map
             IBlock block = new questionMarkItem(qBlock, location, itemTextures, items);
             map.addBlockAt(tilePos, block);
         }
-    private static void placeFlagAt(TileMap map, TextureRegion flag, Point tilepos)
+        private static void placeFlagAt(TileMap map, TextureRegion flag, Point tilepos)
         {
-            Vector2 location = new Vector2(tilepos.X* TileSize, tilepos.Y*TileSize);
-            IBlock block = new Flag(flag,location);
-            map.addBlockAt(tilepos,block);
+            Vector2 location = new Vector2(tilepos.X * TileSize, tilepos.Y * TileSize);
+            IBlock block = new Flag(flag, location);
+            map.addBlockAt(tilepos, block);
         }
         private static void placePoleTop(TileMap map, TextureRegion poleTop, Point tilePos)
-    {
-    Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-    IBlock block = new FlagTop(poleTop, location);
-    map.addBlockAt(tilePos, block);
-    }
-    private static void placePoleMiddle(TileMap map, TextureRegion poleMid, Point tilePos)
-    {
-    Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-    IBlock block = new FlagMiddle(poleMid, location);
-    map.addBlockAt(tilePos, block);
-    }
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new FlagTop(poleTop, location);
+            map.addBlockAt(tilePos, block);
+        }
+        private static void placePoleMiddle(TileMap map, TextureRegion poleMid, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new FlagMiddle(poleMid, location);
+            map.addBlockAt(tilePos, block);
+        }
 
-    private static void placeCastleAt(TileMap map, TextureRegion castle, Point tilePos)
+        private static void placeCastleAt(TileMap map, TextureRegion castle, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
             IBlock block = new CastleBlock(castle, location);
@@ -159,13 +168,11 @@ namespace SprintZero.Map
             goombaTexture = TextureAtlas.FromFile(this.content, "images/goomba-definition.xml");
             flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
             castle = bigBlockTexture.GetRegion("castle");
-            flagpoleTexture = TextureAtlas.FromFile(content,"Images/flag.xml");
+            flagpoleTexture = TextureAtlas.FromFile(content, "Images/flag.xml");
             flag = flagpoleTexture.GetRegion("flag");
-        poleTop = flagpoleTexture.GetRegion("poleTop");
-        poleMiddle = flagpoleTexture.GetRegion("poleMiddle");
- 
+            poleTop = flagpoleTexture.GetRegion("poleTop");
+            poleMiddle = flagpoleTexture.GetRegion("poleMiddle");
         }
-    
 
         public void FromFile(TileMap tilemap)
         {
@@ -178,6 +185,13 @@ namespace SprintZero.Map
                     XDocument doc = XDocument.Load(reader);
                     XElement root = doc.Root;
 
+                    XElement pipeElement = root.Element("PipeData");
+
+                    string[] split = pipeElement.Value.Trim().Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    int pipeNum = int.Parse(split[0]);
+                    string pipeLevel = split[1];
+                    int marioX = int.Parse(split[2]);
+                    int marioY = int.Parse(split[3]);
 
                     XElement tilesElement = root.Element("Blocks");
 
@@ -265,30 +279,33 @@ namespace SprintZero.Map
                                         spawnedEnemies.Add(koopa);
                                         break;
                                     }
-                                    case 14:
+                                case 14:
                                     {
-                                        placeFlagAt(tilemap,flag,p);
+                                        placeFlagAt(tilemap, flag, p);
                                         break;
                                     }
-                                    case 15:
+                                case 15:
                                     {
-                                        placeCastleAt(tilemap, castle,p);
+                                        placeCastleAt(tilemap, castle, p);
                                         break;
                                     }
-                                    case 16:
+                                case 16:
                                     {
-                                        placePoleTop(tilemap,poleTop,p);
+                                        placePoleTop(tilemap, poleTop, p);
                                         break;
                                     }
-                                    case 17:
+                                case 17:
                                     {
-                                        placePoleMiddle(tilemap,poleMiddle,p);
+                                        placePoleMiddle(tilemap, poleMiddle, p);
                                         break;
                                     }
-                                 
-                                                                
                                 default:
                                     {
+                                        if (tilesetIndex == pipeNum)
+                                        {
+                                            Vector2 marioSpawnPos = new Vector2(marioX, marioY);
+                                            placeTubeTopAt(tilemap, tubeTop, p, pipeLevel, marioSpawnPos);
+                                        }
                                         break;
                                     }
                             }

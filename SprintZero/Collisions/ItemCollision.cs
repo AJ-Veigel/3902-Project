@@ -12,7 +12,6 @@ namespace ItemCollisions
 {
     public static class ItemCollision
     {
-        private  static Game1 game;
 
         public static void CheckItemMarioCollisions(ICollectable currentItem, IMario currentMario, Game1 game)
         {
@@ -25,12 +24,14 @@ namespace ItemCollisions
                     if (currentItem is Mushroom mushroom)
                     {
                         mushroom.Collected = true;
+                        if(game.currentMarioNum == 0) game.SetMario(1);
                         Music.itemSound.Play();
                         ScoreManager.CollectPowerUp(game);
                     }
                     else if(currentItem is Flower flower)
                     {
                         flower.Collected = true;
+                        if(game.currentMarioNum == 0) game.SetMario(2);
                         Music.itemSound.Play();
                         ScoreManager.CollectPowerUp(game);
                     }
@@ -42,7 +43,6 @@ namespace ItemCollisions
                         game.coinCount++;
                         ScoreManager.CollectCoin(game);
                         System.Diagnostics.Debug.WriteLine("Coin collected +200");
-            
                     }
                     else if(currentItem is OneUp oneUp)
                     {
@@ -92,6 +92,60 @@ namespace ItemCollisions
                         else
                         {
                             if (itemRect.Center.Y < blockRect.Center.Y)
+                            {
+                                currentItem.location = new Vector2(currentItem.location.X, currentItem.location.Y - overlapY);
+                                currentItem.VelocityY = 0;
+                                currentItem.onGround = true;
+                            }
+                            else
+                            {
+                                currentItem.location = new Vector2(currentItem.location.X, currentItem.location.Y + overlapY);
+                                currentItem.VelocityY = 0;
+                            }
+                        }
+                    }
+
+                    currentItem.RectCollider = new Rectangle(
+                        (int)currentItem.location.X,
+                        (int)currentItem.location.Y,
+                        itemRect.Width,
+                        itemRect.Height
+                    );
+                }
+            }
+        }
+
+        public static void CheckItemPipeCollisions(ICollectable currentItem, List<IPipe> pipes, TileMap map)
+        {
+            if (currentItem != null)
+            {
+                List<IPipe> nearbyPipes = map.getPipesInRectangle(currentItem.RectCollider);
+                nearbyPipes.AddRange(pipes);
+
+                foreach (var Pipe in nearbyPipes)
+                {
+                    Rectangle PipeRect = Pipe.Collider;
+                    Rectangle itemRect = currentItem.RectCollider;
+
+                    if (itemRect.Intersects(PipeRect) && currentItem.Collidable)
+                    {
+                        float overlapX = Math.Min(itemRect.Right, PipeRect.Right) - Math.Max(itemRect.Left, PipeRect.Left);
+                        float overlapY = Math.Min(itemRect.Bottom, PipeRect.Bottom) - Math.Max(itemRect.Top, PipeRect.Top);
+
+                        // Side collision
+                        if (overlapX < overlapY)
+                        {
+                            if (itemRect.Center.X < PipeRect.Center.X)
+                                currentItem.location = new Vector2(currentItem.location.X - overlapX, currentItem.location.Y);
+                            else
+                                currentItem.location = new Vector2(currentItem.location.X + overlapX, currentItem.location.Y);
+
+                            currentItem.ReverseDirection();
+                        }
+                        // Top/bottom collision
+                        else
+                        {
+                            if (itemRect.Center.Y < PipeRect.Center.Y)
                             {
                                 currentItem.location = new Vector2(currentItem.location.X, currentItem.location.Y - overlapY);
                                 currentItem.VelocityY = 0;

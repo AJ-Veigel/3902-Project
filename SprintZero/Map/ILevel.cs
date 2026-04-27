@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using SpriteZero.Enemies;
 using System.ComponentModel;
+using SprintZero.Marios;
 
 namespace SprintZero.Map
 {

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SpriteZero.Enemies;
+using SprintZero.Marios;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
@@ -68,15 +69,22 @@ namespace SprintZero.Map
         private static void placeTubeTopAt(TileMap map, TextureRegion tube, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeTop(tube, location);
-            map.addBlockAt(tilePos, block);
+            IPipe block = new TubeTop(tube, location);
+            map.addPipeAt(tilePos, block);
         }
 
         private static void placeTubeLeftAt(TileMap map, TextureRegion tube, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeLeft(tube, location);
-            map.addBlockAt(tilePos, block);
+            IPipe block = new TubeLeft(tube, location);
+            map.addPipeAt(tilePos, block);
+        }
+
+        private static void placeTubeLeftAt(TileMap map, TextureRegion tube, Point tilePos, string pipeLevel, Vector2 marioSpawnPos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IPipe block = new TubeLeft(tube, location, pipeLevel, marioSpawnPos, 1, 0);
+            map.addPipeAt(tilePos, block);
         }
 
         private static void placeTubeMidAt(TileMap map, TextureRegion tube, Point tilePos)
@@ -116,6 +124,13 @@ namespace SprintZero.Map
                     XDocument doc = XDocument.Load(reader);
                     XElement root = doc.Root;
 
+                    XElement pipeElement = root.Element("PipeData");
+
+                    string[] split = pipeElement.Value.Trim().Split('\n', StringSplitOptions.RemoveEmptyEntries);
+                    int pipeNum = int.Parse(split[0]);
+                    string pipeLevel = split[1];
+                    int marioX = int.Parse(split[2]);
+                    int marioY = int.Parse(split[3]);
 
                     XElement tilesElement = root.Element("Blocks");
 
@@ -186,6 +201,11 @@ namespace SprintZero.Map
                                     }
                                 default:
                                     {
+                                        if(tilesetIndex == pipeNum)
+                                        {
+                                            Vector2 marioSpawnPos = new Vector2(marioX, marioY);
+                                            placeTubeLeftAt(tilemap, tubeLeft, p, pipeLevel, marioSpawnPos);
+                                        }
                                         break;
                                     }
                             }
