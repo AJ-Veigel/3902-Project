@@ -4,6 +4,7 @@ using MonoGameLibrary.Graphics;
 using SprintZero.Marios;
 using SprintZero.blocks;
 using SoundManager;
+using SprintZero;
 
 
 public class AboveGroundBreak : IBlock
@@ -23,8 +24,9 @@ public class AboveGroundBreak : IBlock
     private bool movingDown = false;
     private float bounceHeight = 20f;
     private float bounceSpeed = 2f;
+    private Game1 game;
 
-    public AboveGroundBreak(AnimatedSprite animated, Vector2 pos)
+    public AboveGroundBreak(AnimatedSprite animated, Vector2 pos, Game1 game)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
@@ -33,6 +35,7 @@ public class AboveGroundBreak : IBlock
         startY = location.Y;
         velocity = Vector2.Zero;
         Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
+        this.game = game;
 
     }
 
@@ -130,6 +133,7 @@ public class AboveGroundBreak : IBlock
                 Music.blockSound.Play();
                 mario.Jumping = true;
                 mario.Falling = true;
+                if (game != null) ScoreManager.BreakBrick(game);
             }
         }
     }

@@ -133,7 +133,7 @@ namespace EnemyCollisions
                         float overlapX = Math.Min(enemyRect.Right, blockRect.Right) - Math.Max(enemyRect.Left, blockRect.Left);
                         float overlapY = Math.Min(enemyRect.Bottom, blockRect.Bottom) - Math.Max(enemyRect.Top, blockRect.Top);
 
-                        // Side collision
+                        //side collision
                         if (overlapX < overlapY)
                         {
                             if (enemyRect.Center.X < blockRect.Center.X)
@@ -143,7 +143,7 @@ namespace EnemyCollisions
 
                             currentEnemy.ReverseDirection();
                         }
-                        // Top/bottom collision
+                        //top/bottom collision
                         else
                         {
                             if (enemyRect.Center.Y < blockRect.Center.Y)

@@ -15,6 +15,7 @@ public class questionMarkHit : IBlock
 {
     private AnimatedSprite sprite;
     private TextureAtlas itemTexture;
+    private Game1 game;
 
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
@@ -29,7 +30,7 @@ public class questionMarkHit : IBlock
     private bool movingUp = false;
     private bool movingDown = false;
 
-    public questionMarkHit(AnimatedSprite animated, Vector2 pos, TextureAtlas texture, List<ICollectable> currItems)
+    public questionMarkHit(AnimatedSprite animated, Vector2 pos, TextureAtlas texture, List<ICollectable> currItems, Game1 game)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
@@ -38,6 +39,7 @@ public class questionMarkHit : IBlock
         startY = location.Y;
         itemTexture = texture;
         items = currItems;
+        this.game = game;
 
 
         Collider = new Rectangle(
@@ -101,7 +103,18 @@ public class questionMarkHit : IBlock
                 Vector2 aboveBlock = new Vector2(location.X, location.Y - 64);
                 if (mario.GetType() == typeof(SmallMario) || mario.GetType() == typeof(BigMario) || mario.GetType() == typeof(FireMario))
                 {
+
+                    int previousItemCount = items.Count;
                     SpawnItem.SpawnCoin(itemTexture, items, aboveBlock);
+
+                    if(items.Count > previousItemCount)
+                    {
+                        if (items[items.Count - 1] is Coin visualCoin)
+                        {
+                            visualCoin.game = this.game;
+                        }
+                    }
+
                 }
             }
         }

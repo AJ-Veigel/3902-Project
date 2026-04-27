@@ -163,7 +163,7 @@ public class Game1 : Core
         level.FromFile(map1);
         maps.Add(map1);
         TileMap mapBonus = new TileMap();
-        level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml");
+        level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml", this);
         level.FromFile(mapBonus);
         maps.Add(mapBonus);
         TileMap finalLevel = new TileMap();
@@ -245,17 +245,6 @@ public class Game1 : Core
             item.Update(gameTime);
         }
 
-        if (enemies.Count > 0)
-        {
-            foreach (IEnemy enemy in enemies)
-            {
-                enemy.Update(gameTime);
-                CheckEnemyCollisions.CheckEnemyBlockCollisions(enemy, blocks, map);
-                CheckEnemyCollisions.CheckEnemyPipeCollisions(enemy, pipes, map);
-                CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage, this);
-            }
-        }
-
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {
             Fireball currentFireball = (Fireball)projectiles[i];
@@ -280,7 +269,7 @@ public class Game1 : Core
         // Camera
         if (currentMario.location.X > prevX)
         {
-            camera.Position = new Vector2(currentMario.location.X - 560f, camera.Position.Y);
+            camera.Position = new Vector2((int)currentMario.location.X - 560f, (int)camera.Position.Y);
             prevX = currentMario.location.X;
         }
 
@@ -550,30 +539,31 @@ public class Game1 : Core
         {
             SetMario(1);
             return;
-        }
-
-        if (currentMarioNum == 1)
-        {
-            SetMario(0);
-            return;
-        }
 
 
-        if (currentMarioNum == 0)
-        {
-            livesCount--;
-
-            if (livesCount <= 0)
+            if (currentMarioNum == 1)
             {
-                TriggerGameOver();
+                SetMario(0);
                 return;
             }
-            else
-            {
-                ResetAfterDeath();
-            }
 
-            ResetMarioPosition();
+
+            if (currentMarioNum == 0)
+            {
+                livesCount--;
+
+                if (livesCount <= 0)
+                {
+                    TriggerGameOver();
+                    return;
+                }
+                else
+                {
+                    ResetAfterDeath();
+                }
+
+                ResetMarioPosition();
+            }
         }
     }
     private void ResetMarioPosition()

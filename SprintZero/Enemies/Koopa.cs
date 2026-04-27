@@ -18,10 +18,10 @@ public class Koopa : IEnemy
 	private const float CLOSE_AWAKEN_TIME = 3.0f;
 	private const float AWAKEN_TIME = 5.0f;
 
-	private const float GRAVITY = 384.0f;
+	private const float GRAVITY = 768.0f;
 
-	private const float WALK_SPEED = 75.0f; // In per second scale
-	private const float SHELL_SPEED = 384.0f;
+	private const float WALK_SPEED = 150.0f; // In per second scale
+	private const float SHELL_SPEED = 768.0f;
 	public enum KoopaType { Green, Red, Blue };
 	public Vector2 position { get; set; }
 	private bool isDead = false;
@@ -204,7 +204,8 @@ public class Koopa : IEnemy
 			sprites = blue;
 		}
 		TextureRegion texture = sprites[(int)KoopaState];
-		texture.Draw(spriteBatch, new Vector2(position.X + offX, position.Y), Color.White, 0.0f, new Vector2(0, 0), new Vector2(4.0f, 4.0f), effect, 0.0f);
+		Vector2 lockedPos = new Vector2((int)position.X, (int)position.Y);
+        texture.Draw(spriteBatch, lockedPos, Color.White, 0.0f, new Vector2(0, 0), new Vector2(4.0f, 4.0f), effect, 0.0f);
 	}
 
 	private void HandleTimer()
