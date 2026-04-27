@@ -14,7 +14,18 @@ namespace EnemyCollisions
         public enum EnemyAction { None, Bounce, Kill }
         public static void CheckEnemyMarioCollisions(IEnemy currentEnemy, IMario currentMario, Action Damage, Game1 game)
         {
-            if (currentEnemy == null || currentEnemy.Dead || !currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider) || currentMario.Invincible)
+            if (currentEnemy == null || currentEnemy.Dead || !currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider))
+                return;
+
+            if (currentMario.IsStarPower)
+            {
+                currentEnemy.Dead = true;
+                ScoreManager.EnemyStomped(game); 
+                SoundManager.Music.blockSound.Play();
+                return;
+            }
+
+            if (currentMario.Invincible)
                 return;
 
             Rectangle mRect = currentMario.MarioCollider;

@@ -31,6 +31,7 @@
     <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Music/jumpsmall.wav</File>
     <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Music/pause.wav</File>
     <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Music/powerup.wav</File>
+    <File>C:/Users/adamt/source/repos/3902-Project/SprintZero/Content/Music/star.wav</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
@@ -45,6 +46,7 @@
     <File>Images/bigblock.png</File>
     <File>Images/Blocks.png</File>
     <File>Images/Pause.png</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

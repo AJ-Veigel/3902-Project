@@ -40,7 +40,7 @@ public class SmallMario : IMario
     private const float JUMP_POWER = -11f;
     public bool AutoWalking { get; set; } = false;
     public bool WinState { get; set; } = false;
-
+    public bool IsStarPower { get; set; } = false;
     public SmallMario(TextureAtlas smallMarioTexture, ContentManager content, Game1 game)
     {
         Moving = false;
@@ -230,6 +230,12 @@ public class SmallMario : IMario
 
     }
 
+    public void BecomeInvincible()
+    {
+        Invincible = true;
+        IsStarPower = true;
+        invincibilityTimer = -10f;
+    }
     public void Update(GameTime gameTime)
     {
         if (SlidingFlag)
@@ -260,6 +266,11 @@ public class SmallMario : IMario
         if (invincibilityTimer > 1)
         {
             Invincible = false;
+            if (IsStarPower)
+            {
+                IsStarPower = false;
+                Music.PlayBackground();
+            }
         }
         if (AutoWalking)
         {

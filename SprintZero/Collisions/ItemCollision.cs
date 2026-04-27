@@ -53,7 +53,8 @@ namespace ItemCollisions
                     else if(currentItem is Star star)
                     {
                         star.Collected = true;
-                        Music.itemSound.Play();
+                        Music.PlayStarMusic();
+                        currentMario.BecomeInvincible();
                         ScoreManager.CollectPowerUp(game);
                     }
                 }

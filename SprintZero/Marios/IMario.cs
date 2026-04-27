@@ -21,7 +21,8 @@ namespace SprintZero.Marios
         bool Invincible { get; set; }
         bool AutoWalking{get;set;}
        bool WinState{get;set;}
-    
+        bool IsStarPower { get; set; }
+
 
         void Bounce();
         void Move();
@@ -32,6 +33,7 @@ namespace SprintZero.Marios
         void Damage();
         void GrabFlagPole();
         void EndFlagPole();
+        void BecomeInvincible();
         float yVelocity { get; set; }
         float xVelocity { get; set; }
         float currentPlatformY {get;set;}
