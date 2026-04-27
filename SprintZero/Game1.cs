@@ -392,7 +392,11 @@ public class Game1 : Core
             SpriteBatch.Draw(gameOverTexture, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             SpriteBatch.End();
         }
-        string HUD = "MARIO            WORLD           TIME\n" + marioScore + "   Ox" + coinCount + "     " + worldNumber + "-" + levelNumber + "     " + (int)gameTimer;
+        string score = marioScore.ToString("D6");
+        string coins = coinCount.ToString("D2");
+        int timeleft = (int)gameTimer;
+        string time = timeleft.ToString("D3");
+        string HUD = "MARIO              WORLD         TIME\n" + score + "   Ox" + coins + "       " + worldNumber + "-" + levelNumber + "              " + time;
         Vector2 HUDpos = new Vector2(0, 0);
         SpriteBatch.Begin();
         SpriteBatch.DrawString(font1, HUD, HUDpos, Color.White);
@@ -589,7 +593,7 @@ public class Game1 : Core
         {
             currentLevel = 0;
         }
-        unspawnedEnemies = levelEnemies[roomNumber];
+        unspawnedEnemies = levelEnemies[currentLevel];
         currentItems.Clear();
         projectiles.Clear();
         maps.Clear();
