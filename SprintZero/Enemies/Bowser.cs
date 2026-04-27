@@ -77,7 +77,7 @@ namespace SprintZero.Enemies
             grayGoombaSprite = goombaTexture.GetRegion("goombaRight3");
 
             currentSprite = mouthClosed1;
-            VelocityX = -1.5f;
+            VelocityX = -3.0f;
 
             EnemyCollider = new Rectangle((int)position.X, (int)position.Y,
                 (int)(currentSprite.SourceRectangle.Width * SCALE),
@@ -173,7 +173,7 @@ namespace SprintZero.Enemies
                 jumpTimer = 0f;
 
                 bool jumpBackwards = rng.Next(0, 2) == 0;
-                float jumpSpeed = 1.5f;
+                float jumpSpeed = 3.0f;
 
                 if (facingLeft)
                 {

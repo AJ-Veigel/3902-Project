@@ -10,7 +10,7 @@ public class Goomba : IEnemy
     private const float SCALE = 4f;
     private float animationTimer = 0f;
     public Rectangle EnemyCollider { get; set; }
-    public float VelocityX { get; set; } = -1f;
+    public float VelocityX { get; set; } = -2f;
     public float VelocityY { get; set; } = 0f;
     public bool onGround { get; set; } = false;
     public bool Despawn { get; set; }
@@ -170,13 +170,15 @@ public class Goomba : IEnemy
 
         SpriteEffects effect = (Dead && !isStomped) ? SpriteEffects.FlipVertically : SpriteEffects.None;
 
+        Vector2 lockedPos = new Vector2((int)position.X, (int)position.Y);
+
         if (currentSprite != null)
         {
-            spriteBatch.Draw(currentSprite.Texture, position, currentSprite.SourceRectangle, Color.White, 0f, Vector2.Zero, 4f, effect, 0f);
+            spriteBatch.Draw(currentSprite.Texture, lockedPos, currentSprite.SourceRectangle, Color.White, 0f, Vector2.Zero, 4f, effect, 0f);
         }
         else if (currentASprite != null)
         {
-            currentASprite.Draw(spriteBatch, position);
+            currentASprite.Draw(spriteBatch, lockedPos);
         }
     }
 }

@@ -8,6 +8,7 @@ using SoundManager;
 public class Coin : ICollectable
 {
     private AnimatedSprite sprite;
+    public Game1 game;
     public Vector2 location { get; set; }
     public Rectangle RectCollider { get; set; }
     public float VelocityX { get; set; }
@@ -19,12 +20,14 @@ public class Coin : ICollectable
     private float bounceVelocity = -8f;
     private float groundY;
     private bool endSound = false;
+    private bool IsPopUpCoin = false;
 
     public Coin(AnimatedSprite animated)
     {
         sprite = animated;
         sprite.Scale = new Vector2(4f);
         location = new Vector2(400, 700);
+        IsPopUpCoin = false;
     }
 
     public Coin(AnimatedSprite animated, Vector2 pos)
@@ -34,6 +37,9 @@ public class Coin : ICollectable
         location = pos;
         groundY = pos.Y;
         VelocityY = bounceVelocity;
+
+        IsPopUpCoin = true;
+        Collidable = false;
     }
 
     public void Update(GameTime gameTime)
@@ -43,29 +49,39 @@ public class Coin : ICollectable
 
         sprite.Update(gameTime);
 
-        VelocityY += gravity;
-        location = new Vector2(location.X, location.Y + VelocityY);
-
-        if (location.Y >= groundY)
+        if (IsPopUpCoin)
         {
-            location = new Vector2(location.X, groundY);
-            VelocityY = 0;
+            VelocityY += gravity;
+            location = new Vector2(location.X, location.Y + VelocityY);
 
-            if (!endSound)
+            if (location.Y >= groundY && VelocityY > 0)
             {
-                Music.coinSound.Play();
-                endSound = true;
+                location = new Vector2(location.X, groundY);
+                VelocityY = 0;
+
+                if (!endSound)
+                {
+                    Music.coinSound.Play();
+                    if(game != null)
+                    {
+                        ScoreManager.CollectCoin(game);
+                    }
+                    endSound = true;
+                }
+
+                Collected = true;
             }
 
-            Collected = true;
+            RectCollider = Rectangle.Empty;
+        } else
+        {
+            RectCollider = new Rectangle(
+                (int)location.X,
+                (int)location.Y,
+                (int)sprite.Width,
+                (int)sprite.Height
+                        );
         }
-
-        RectCollider = new Rectangle(
-            (int)location.X,
-            (int)location.Y,
-            (int)sprite.Width,
-            (int)sprite.Height
-        );
     }
     public void Update(GameTime gameTime, int coins, int score)
     {

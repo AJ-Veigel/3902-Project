@@ -13,6 +13,9 @@ namespace SprintZero.Map
         private Dictionary<Point, IBlock> map;
         private Dictionary<Point, IPipe> pipeMap;
 
+        private List<IBlock> cachedBlockList = new List<IBlock>();
+        private List<IPipe> cachedPipeList = new List<IPipe>();
+
         /*
          *  It would probably be more efficient to instead map to like, 4x4 tiles containing blocks, or something.
          *  Doesn't really matter though, there can only be so many blocks on screen at once, so this won't be a bottleneck.
@@ -47,8 +50,7 @@ namespace SprintZero.Map
 
         public List<IBlock> getBlocksInRectangle(Rectangle rect)
         {
-            var list = new List<IBlock>();
-
+            cachedBlockList.Clear();
             int tileSize = 64;
 
             int leftTile = rect.Left / tileSize;
@@ -64,17 +66,17 @@ namespace SprintZero.Map
 
                     if (map.ContainsKey(p))
                     {
-                        list.Add(map[p]);
+                        cachedBlockList.Add(map[p]);
                     }
                 }
             }
 
-            return list;
+            return cachedBlockList;
         }
 
         public List<IPipe> getPipesInRectangle(Rectangle rect)
         {
-            var list = new List<IPipe>();
+            cachedPipeList.Clear();
 
             int tileSize = 64;
 
@@ -91,12 +93,12 @@ namespace SprintZero.Map
 
                     if (pipeMap.ContainsKey(p))
                     {
-                        list.Add(pipeMap[p]);
+                        cachedPipeList.Add(pipeMap[p]);
                     }
                 }
             }
 
-            return list;
+            return cachedPipeList;
         }
 
         public List<IBlock> getBlocksInRectangle(Rectangle rect, int tolerance)

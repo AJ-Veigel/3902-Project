@@ -22,14 +22,16 @@ namespace SprintZero.Map
         private string filename;
         private TextureRegion ground, solid, tubeTop, tubeMid, tubeLeft, tubeInter;
         private AnimatedSprite qBlock, brick;
+        private Game1 game;
 
-        public LevelOneBonus(ContentManager content, TextureAtlas blockTextures, string filename)
+        public LevelOneBonus(ContentManager content, TextureAtlas blockTextures, string filename, Game1 game)
         {
             this.blockTextures = blockTextures;
             LoadContent();
             BGColor = Color.AliceBlue;
             this.filename = filename;
             this.content = content;
+            this.game = game;
         }
 
         public List<IEnemy> GetEnemies()
@@ -43,11 +45,11 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
-      private static void placeBrickAt(TileMap map, TextureAtlas agbTexture, Point tilePos)
+      private static void placeBrickAt(TileMap map, TextureAtlas agbTexture, Point tilePos, Game1 game)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
             AnimatedSprite newSprite = agbTexture.CreateAnimatedSprite("aboveGroundBreak");
-            IBlock block = new AboveGroundBreak(newSprite, location);
+            IBlock block = new AboveGroundBreak(newSprite, location, game);
             map.addBlockAt(tilePos, block);
         }
     // private  void placeQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
@@ -166,7 +168,7 @@ namespace SprintZero.Map
                                     }
                                 case 2:
                                     {
-                                        placeBrickAt(tilemap, blockTextures, p);
+                                        placeBrickAt(tilemap, blockTextures, p, game);
                                         break;
                                     }
                                 case 3:

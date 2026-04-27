@@ -71,7 +71,7 @@ namespace SprintZero.Map
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
             AnimatedSprite newSprite = hqTexture.CreateAnimatedSprite("hit-Question");
-            IBlock block = new questionMarkHit(newSprite, location, itemTextures, items);
+            IBlock block = new questionMarkHit(newSprite, location, itemTextures, items, game);
 
             map.addBlockAt(tilePos, block);
         }
