@@ -145,6 +145,16 @@ public class Game1 : Core
         currentItems = new List<ICollectable>();
 
         currentLevel = 0;
+        LoadMaps();
+        Music.PlayBackground();
+        pauseTexture = Content.Load<Texture2D>("Images/Pause");
+        winTexture = Content.Load<Texture2D>("Images/You-Win-4-21-2026");
+        base.LoadContent();
+
+    }
+
+    private void LoadMaps()
+    {
         TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
         TileMap map1 = new TileMap();
         ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml", bigBlockTexturePt2, bigBlockTexture);
@@ -156,11 +166,6 @@ public class Game1 : Core
         level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml");
         level.FromFile(mapBonus);
         maps.Add(mapBonus);
-        Music.PlayBackground();
-        pauseTexture = Content.Load<Texture2D>("Images/Pause");
-        winTexture = Content.Load<Texture2D>("Images/You-Win-4-21-2026");
-        base.LoadContent();
-
     }
     private void TriggerGameOver()
     {
@@ -234,7 +239,8 @@ public class Game1 : Core
         playerBlockCollision.checkBlockCollision(
             currentMario,
             collidableBlocks,
-            collidablePipes
+            collidablePipes,
+            this
         ); // We should only call this method once per update.
 
         
@@ -580,7 +586,16 @@ public class Game1 : Core
         {
             currentLevel = 0;
         }
+        enemies.Clear();
+        currentItems.Clear();
+        projectiles.Clear();
+        LoadMaps();
         // update function handles it from here.
+    }
+
+    public void spawnMarioAt(Vector2 pos)
+    {
+        currentMario.location = pos;
     }
 
     public void Reset()
