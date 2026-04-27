@@ -22,8 +22,8 @@ public class smallTube : IBlock
         Collider = new Rectangle(
             (int)location.X,
             (int)location.Y,
-            (int)sprite.Width ,
-            (int)sprite.Height
+            (int)(sprite.Width * SCALE),
+            (int)(sprite.Height * SCALE)
         );
     }
 
