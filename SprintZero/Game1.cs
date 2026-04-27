@@ -146,7 +146,6 @@ public class Game1 : Core
 
         currentLevel = 0;
         LoadMaps();
-        Music.PlayBackground();
         pauseTexture = Content.Load<Texture2D>("Images/Pause");
         winTexture = Content.Load<Texture2D>("Images/You-Win-4-21-2026");
         base.LoadContent();
@@ -166,6 +165,7 @@ public class Game1 : Core
         level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml");
         level.FromFile(mapBonus);
         maps.Add(mapBonus);
+        Music.PlayBackground();
     }
     private void TriggerGameOver()
     {
@@ -179,7 +179,11 @@ public class Game1 : Core
     }
     protected override void Update(GameTime gameTime)
     {
-        hurryupPlayed = false;
+        if(gameTimer < 100)
+        {
+            Music.hurryUpSound.Play();
+            hurryupPlayed = true;
+        }
         if (!IsPaused && !currentMario.WinState && !IsGameOver)
         {
             gameTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -236,14 +240,18 @@ public class Game1 : Core
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
         List<IPipe> collidablePipes = map.getPipesInRectangle(currentMario.MarioCollider, 96);
 
-        playerBlockCollision.checkBlockCollision(
+        int mapChange = playerBlockCollision.checkBlockCollision(
             currentMario,
             collidableBlocks,
             collidablePipes,
             this
         ); // We should only call this method once per update.
 
-        
+        if(mapChange > 0)
+        {
+            prevX = 0;
+            return;
+        }
 
         //resets scoring stomp combo
         if (!currentMario.Falling)
@@ -620,6 +628,14 @@ public class Game1 : Core
 
         canTakeDamage = true;
         cooldownTimer = 0f;
+
+        Music.StopMusic();
+        Music.deathSound.Play();
+
+        enemies.Clear();
+        currentItems.Clear();
+        projectiles.Clear();
+        LoadMaps();
     }
     public void play()
     {

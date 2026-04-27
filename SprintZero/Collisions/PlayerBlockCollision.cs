@@ -29,13 +29,14 @@ namespace SprintZero.PBCollision
                 Damage();
             }
         }
-        public static void checkBlockCollision(IMario mario, List<IBlock> allBlocks, List<IPipe> allPipes, Game1 game)
+        public static int checkBlockCollision(IMario mario, List<IBlock> allBlocks, List<IPipe> allPipes, Game1 game)
         {
+            int mapChange = 0;
             Rectangle mariowithExtraBound = mario.MarioCollider;
             const int theBound = 16;
             mariowithExtraBound.Inflate(theBound, theBound);
             bool handleBySpecial = false;
-            bool handlePipe = false;
+
 
             List<IBlock> blocks = new List<IBlock>();
             List<IPipe> pipes = new List<IPipe>();
@@ -60,7 +61,7 @@ namespace SprintZero.PBCollision
                     }
                 }
 
-                return;
+                return mapChange;
             }
             CollisionSide theSide;
             bool standingOnBlock = false;
@@ -75,7 +76,7 @@ namespace SprintZero.PBCollision
                     mario.xVelocity = 0f;
                     mario.yVelocity = 0f;
                     mario.StopMove();
-                    return;
+                    return mapChange;
                 }
                 Rectangle marioRect = mario.MarioCollider;
                 Rectangle blockRect = block.Collider;
@@ -132,6 +133,7 @@ namespace SprintZero.PBCollision
                 if (pipe.levelNum > 0)
                 {
                     pipe.onCollision(mario, CollisionSide.Top, game);
+                    mapChange++;
                 }
 
                 bool withinX = marioRect.Right > pipeRect.Left && marioRect.Left < pipeRect.Right;
@@ -161,6 +163,7 @@ namespace SprintZero.PBCollision
                     mario.Falling = true;
                 }
             }
+            return mapChange;
         }
 
         private static CollisionSide getCollisionSide(Rectangle mario, Rectangle block)
