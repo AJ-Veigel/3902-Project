@@ -1,5 +1,5 @@
 ﻿<TextureAtlas>
-	<Texture>Images/misc-3</Texture>
+	<Texture>Images/bigblock</Texture>
 	<Regions>
 		<Region name ="mouthOpen1" x="12" y="896" width="33" height="32"/>
 		<Region name ="mouthOpen2" x="52" y="896" width="33" height="32"/>
