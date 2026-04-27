@@ -31,7 +31,7 @@ namespace ItemCollisions
                     else if(currentItem is Flower flower)
                     {
                         flower.Collected = true;
-                        if(game.currentMarioNum == 0) game.SetMario(2);
+                        if(game.currentMarioNum == 1) game.SetMario(2);
                         Music.itemSound.Play();
                         ScoreManager.CollectPowerUp(game);
                     }
