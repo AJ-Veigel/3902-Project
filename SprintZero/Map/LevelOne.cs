@@ -128,10 +128,11 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
-        private void placeItemQBlockAt(TileMap map, AnimatedSprite qBlock, Point tilePos)
+        private void placeItemQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new questionMarkItem(qBlock, location, itemTextures, items);
+            AnimatedSprite newSprite = hqTexture.CreateAnimatedSprite("hit-Question");
+            IBlock block = new questionMarkItem(newSprite, location, itemTextures, items);
             map.addBlockAt(tilePos, block);
         }
         private static void placeFlagAt(TileMap map, TextureRegion flag, Point tilepos)
@@ -278,7 +279,7 @@ namespace SprintZero.Map
                                     }
                                 case 9:
                                     {
-                                        placeItemQBlockAt(tilemap, qBlock, p);
+                                        placeItemQBlockAt(tilemap, blockTextures, p);
                                         break;
                                     }
                                 case 12:
