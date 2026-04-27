@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TileMap>
-  <PipeData pipeNum = "51" pipeLevel = "LevelOne"></PipeData>
+  <PipeData pipeNum="51" pipeLevel="LevelOne" marioPosX="600" marioPosY="600"></PipeData>
   <Blocks>
       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06 00
       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06 00

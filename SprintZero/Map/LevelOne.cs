@@ -53,11 +53,6 @@ namespace SprintZero.Map
             this.itemTextures = itemTextures;
         }
 
-        public void spawnMarioAt(IMario mario, Vector2 Pos)
-        {
-            mario.location = Pos;
-        }
-
         public List<IEnemy> GetEnemies()
         {
             return spawnedEnemies;

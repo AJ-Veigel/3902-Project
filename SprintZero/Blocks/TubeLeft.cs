@@ -11,6 +11,8 @@ public class TubeLeft : IBlock
     private TextureRegion sprite;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
+    string level;
+    Vector2 marioSpawnPos;
 
 
     public TubeLeft(TextureRegion region, Vector2 pos)
@@ -28,6 +30,23 @@ public class TubeLeft : IBlock
         );
     }
 
+    public TubeLeft(TextureRegion region, Vector2 pos, string pipeLevel, Vector2 MarioPos)
+    {
+        sprite = region;
+
+        location = pos;
+
+        marioSpawnPos = MarioPos;
+
+        level = pipeLevel;
+
+        Collider = new Rectangle(
+            (int)location.X,
+            (int)location.Y,
+            (int)(sprite.Width * SCALE),
+            (int)(sprite.Height * SCALE)
+        );
+    }
 
     public void Update(GameTime gameTime)
     {

@@ -32,25 +32,24 @@ namespace SprintZero.PBCollision
             List<IBlock> blocks = new List<IBlock>();
             foreach (var block in allBlocks)
             {
-                if (block.Collider.Intersects(mariowithExtraBound)) 
+                if (block.Collider.Intersects(mariowithExtraBound))
                     blocks.Add(block);
             }
-    if (mario.SlidingFlag)
-    {
+            if (mario.SlidingFlag)
+            {
 
-      foreach (var block in allBlocks)
-      {
-           if (block is FlagMiddle || block is FlagBase)
-           {
-            block.onCollision(mario, CollisionSide.None);
-           }
-      }
+                foreach (var block in allBlocks)
+                {
+                    if (block is FlagMiddle || block is FlagBase)
+                    {
+                        block.onCollision(mario, CollisionSide.None);
+                    }
+                }
 
-      return; 
-    }
+                return;
+            }
             CollisionSide theSide;
             bool standingOnBlock = false;
-            bool blockUnderMario = false;
             float highestBlockTop = float.MaxValue;
             const int tolerance = 8;
 
@@ -71,22 +70,23 @@ namespace SprintZero.PBCollision
                 {
                     theSide = getCollisionSide(marioRect, blockRect);
                     Console.WriteLine($"[Collision Debug] mario collided with block at {blockRect.Location} on {theSide} side");
-                   if (block is FlagMove)
+                    if (block is FlagMove)
                     {
-                        block.onCollision(mario,theSide);
+                        block.onCollision(mario, theSide);
                         handleBySpecial = true;
                     }
                     else
                     {
-                        block.onCollision(mario,theSide);
+                        block.onCollision(mario, theSide);
                     }
-                    if (!handleBySpecial){
-                    if (theSide == CollisionSide.Top && !mario.Jumping)
+                    if (!handleBySpecial)
                     {
-                        standingOnBlock = true;
-                        if (blockRect.Top < highestBlockTop)
-                            highestBlockTop = blockRect.Top;
-                    }
+                        if (theSide == CollisionSide.Top && !mario.Jumping)
+                        {
+                            standingOnBlock = true;
+                            if (blockRect.Top < highestBlockTop)
+                                highestBlockTop = blockRect.Top;
+                        }
                     }
                 }
 
@@ -101,23 +101,23 @@ namespace SprintZero.PBCollision
                         highestBlockTop = blockRect.Top;
                 }
             }
-     if (!handleBySpecial && !mario.SlidingFlag)
-{
-    if (standingOnBlock)
-    {
-        if (!mario.isOnGround || mario.yVelocity > 0)
-            mario.LandOnBlock(highestBlockTop);
+            if (!handleBySpecial && !mario.SlidingFlag)
+            {
+                if (standingOnBlock)
+                {
+                    if (!mario.isOnGround || mario.yVelocity > 0)
+                        mario.LandOnBlock(highestBlockTop);
 
-        mario.isOnGround = true;
-        mario.Falling = false;
-        mario.Jumping = false;
-    }
-    else
-    {
-        mario.isOnGround = false;
-        mario.Falling = true;
-    }
-}
+                    mario.isOnGround = true;
+                    mario.Falling = false;
+                    mario.Jumping = false;
+                }
+                else
+                {
+                    mario.isOnGround = false;
+                    mario.Falling = true;
+                }
+            }
         }
         private static CollisionSide getCollisionSide(Rectangle mario, Rectangle block)
         {

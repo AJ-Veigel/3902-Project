@@ -80,6 +80,13 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
+        private static void placeTubeLeftAt(TileMap map, TextureRegion tube, Point tilePos, string pipeLevel, Vector2 marioSpawnPos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new TubeLeft(tube, location, pipeLevel, marioSpawnPos);
+            map.addBlockAt(tilePos, block);
+        }
+
         private static void placeTubeMidAt(TileMap map, TextureRegion tube, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
@@ -106,11 +113,6 @@ namespace SprintZero.Map
             tubeInter = blockTextures.GetRegion("tubeIntersect");
         }
 
-        public void spawnMarioAt(IMario mario, Vector2 Pos)
-        {
-            mario.location = Pos;
-        }
-
         public void FromFile(TileMap tilemap)
         {
             string filePath = Path.Combine(content.RootDirectory, filename);
@@ -126,6 +128,8 @@ namespace SprintZero.Map
 
                     int pipeNum = int.Parse(pipeData.Attribute("pipeNum").Value);
                     string pipeLevel = pipeData.Attribute("pipeLevel").Value;
+                    int marioX = int.Parse(pipeData.Attribute("marioPosX").Value);
+                    int marioY = int.Parse(pipeData.Attribute("marioPosY").Value);
 
                     XElement tilesElement = root.Element("Blocks");
 
@@ -196,6 +200,11 @@ namespace SprintZero.Map
                                     }
                                 default:
                                     {
+                                        if(tilesetIndex == pipeNum)
+                                        {
+                                            Vector2 marioSpawnPos = new Vector2(marioX, marioY);
+                                            placeTubeLeftAt(tilemap, tubeTop, p, pipeLevel, marioSpawnPos);
+                                        }
                                         break;
                                     }
                             }

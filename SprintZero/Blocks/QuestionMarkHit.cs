@@ -29,7 +29,7 @@ public class questionMarkHit : IBlock
     private bool movingUp = false;
     private bool movingDown = false;
 
-    public questionMarkHit(AnimatedSprite animated, Vector2 pos,TextureAtlas texture,List<ICollectable>currItems)
+    public questionMarkHit(AnimatedSprite animated, Vector2 pos, TextureAtlas texture, List<ICollectable> currItems)
     {
         sprite = animated;
         sprite.Scale = new Vector2(SCALE);
@@ -38,7 +38,7 @@ public class questionMarkHit : IBlock
         startY = location.Y;
         itemTexture = texture;
         items = currItems;
-        
+
 
         Collider = new Rectangle(
             (int)location.X,
@@ -88,35 +88,35 @@ public class questionMarkHit : IBlock
     public void onCollision(IMario mario, CollisionSide side)
     {
         if (side == CollisionSide.Bottom && mario.yVelocity < 0.0) { mario.yVelocity = 0; }
-        if (side == CollisionSide.Bottom)
+        if (side == CollisionSide.Bottom && mario.yVelocity >= 0.0)
+        {
+            if (!isHit)
             {
-                if(!isHit)
-                {
-                    isHit = true;
-                    Music.blockSound.Play();
-                    movingUp = true;
-                    movingDown = false;
-                    Console.WriteLine(itemTexture == null ? "itemTexture NULL" : "itemTexture OK");
-Console.WriteLine(items == null ? "items NULL" : "items OK");
-                     Vector2 aboveBlock = new Vector2(location.X, location.Y - 64);
+                isHit = true;
+                Music.blockSound.Play();
+                movingUp = true;
+                movingDown = false;
+                Console.WriteLine(itemTexture == null ? "itemTexture NULL" : "itemTexture OK");
+                Console.WriteLine(items == null ? "items NULL" : "items OK");
+                Vector2 aboveBlock = new Vector2(location.X, location.Y - 64);
                 if (mario.GetType() == typeof(SmallMario) || mario.GetType() == typeof(BigMario) || mario.GetType() == typeof(FireMario))
                 {
                     SpawnItem.SpawnCoin(itemTexture, items, aboveBlock);
                 }
-                }
             }
-            else if (side == CollisionSide.Top)
-            {
-                mario.LandOnBlock(location.Y);
-            }
-            else if (side == CollisionSide.Left)
-            {
-                mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
-            }
-            else if (side == CollisionSide.Right)
-            {
-                mario.location = new Vector2(Collider.Right, mario.location.Y);
-            }
+        }
+        else if (side == CollisionSide.Top)
+        {
+            mario.LandOnBlock(location.Y);
+        }
+        else if (side == CollisionSide.Left)
+        {
+            mario.location = new Vector2(Collider.Left - mario.MarioCollider.Width, mario.location.Y);
+        }
+        else if (side == CollisionSide.Right)
+        {
+            mario.location = new Vector2(Collider.Right, mario.location.Y);
+        }
     }
 
 

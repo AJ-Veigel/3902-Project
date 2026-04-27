@@ -384,7 +384,7 @@ public class Game1 : Core
             SpriteBatch.Draw(gameOverTexture, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
             SpriteBatch.End();
         }
-        string HUD = "MARIO            WORLD           TIME\n" + marioScore + "   Ox" + coinCount + "     " + worldNumber + "-" + levelNumber + "     " + gameTimer;
+        string HUD = "MARIO            WORLD           TIME\n" + marioScore + "   Ox" + coinCount + "     " + worldNumber + "-" + levelNumber + "     " + (int)gameTimer;
         Vector2 HUDpos = new Vector2(0, 0);
         SpriteBatch.Begin();
         SpriteBatch.DrawString(font1, HUD, HUDpos, Color.White);
@@ -596,6 +596,7 @@ public class Game1 : Core
 
         currentMario = new SmallMario(smallMarioTexture, spawn, Content, this);
         currentMarioNum = 0;
+        gameTimer = 400;
 
 
         prevX = 0;
