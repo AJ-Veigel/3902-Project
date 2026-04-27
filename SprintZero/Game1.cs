@@ -29,7 +29,7 @@ namespace SprintZero;
 public class Game1 : Core
 {
 
-    private TextureAtlas bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture, flagPoleTexture, hammerTexture, bowserFireballTexture;
+    private TextureAtlas bigBlockTexture, bigBlockTexturePt2, itemTexture, smallMarioTexture, bigMarioTexture, fireMarioTexture, projectileTexture, goombaTexture, flagPoleTexture, hammerTexture, bowserFireballTexture, oneDashFourtexture;
 
     private SpriteFont font1;
     private List<IController> controllers;
@@ -88,13 +88,14 @@ public class Game1 : Core
         flagPoleTexture = TextureAtlas.FromFile(Content, "Images/flag.xml");
         bigBlockTexture = TextureAtlas.FromFile(Content, "images/bigblock-definition.xml");
         bigBlockTexturePt2 = TextureAtlas.FromFile(Content, "images/BigBlocks2-definition.xml");
+        oneDashFourtexture = TextureAtlas.FromFile(Content, "images/1-4-definition.xml");
 
         Music.LoadContent(Content);
 
         font1 = Content.Load<SpriteFont>("Font/File");
 
-        blocks = new List<IBlock> {};
-        pipes = new List<IPipe> {};
+        blocks = new List<IBlock> { };
+        pipes = new List<IPipe> { };
 
         itemTexture = TextureAtlas.FromFile(Content, "images/items-definition.xml");
 
@@ -165,6 +166,10 @@ public class Game1 : Core
         level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml");
         level.FromFile(mapBonus);
         maps.Add(mapBonus);
+        TileMap finalLevel = new TileMap();
+        level = new LevelFour(Content, oneDashFourtexture, itemTexture, currentItems, "LevelData/LevelFour.xml", this);
+        level.FromFile(finalLevel);
+        maps.Add(finalLevel);
         Music.PlayBackground();
     }
     private void TriggerGameOver()
@@ -179,7 +184,7 @@ public class Game1 : Core
     }
     protected override void Update(GameTime gameTime)
     {
-        if(gameTimer < 100)
+        if (gameTimer < 100)
         {
             Music.hurryUpSound.Play();
             hurryupPlayed = true;
@@ -205,21 +210,50 @@ public class Game1 : Core
             return;
         }
 
-        map = maps[currentLevel];
+        var visibleArea = camera.BoundingRectangle;
+        Rectangle cameraRect = new Rectangle(
+            (int)visibleArea.Left,
+            (int)visibleArea.Top,
+            (int)visibleArea.Width,
+            (int)visibleArea.Height
+        );
 
         currentMario.Update(gameTime);
+
+        map = maps[currentLevel];
+
+        map.Update(gameTime, cameraRect, 64);
+
+        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
+        List<IPipe> collidablePipes = map.getPipesInRectangle(currentMario.MarioCollider, 96);
+
+        int mapChange = playerBlockCollision.checkBlockCollision(
+            currentMario,
+            collidableBlocks,
+            collidablePipes,
+            this
+        ); // We should only call this method once per update.
+
+        if (mapChange > 0)
+        {
+            prevX = 0;
+            return;
+        }
 
         foreach (ICollectable item in currentItems)
         {
             item.Update(gameTime);
         }
 
-        foreach (IEnemy enemy in enemies)
+        if (enemies.Count > 0)
         {
-            enemy.Update(gameTime);
-            CheckEnemyCollisions.CheckEnemyBlockCollisions(enemy, blocks, map);
-            CheckEnemyCollisions.CheckEnemyPipeCollisions(enemy, pipes, map);
-            CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage, this);
+            foreach (IEnemy enemy in enemies)
+            {
+                enemy.Update(gameTime);
+                CheckEnemyCollisions.CheckEnemyBlockCollisions(enemy, blocks, map);
+                CheckEnemyCollisions.CheckEnemyPipeCollisions(enemy, pipes, map);
+                CheckEnemyCollisions.CheckEnemyMarioCollisions(enemy, currentMario, Damage, this);
+            }
         }
 
         for (int i = projectiles.Count - 1; i >= 0; i--)
@@ -237,22 +271,6 @@ public class Game1 : Core
             }
         }
 
-        List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
-        List<IPipe> collidablePipes = map.getPipesInRectangle(currentMario.MarioCollider, 96);
-
-        int mapChange = playerBlockCollision.checkBlockCollision(
-            currentMario,
-            collidableBlocks,
-            collidablePipes,
-            this
-        ); // We should only call this method once per update.
-
-        if(mapChange > 0)
-        {
-            prevX = 0;
-            return;
-        }
-
         //resets scoring stomp combo
         if (!currentMario.Falling)
         {
@@ -266,18 +284,7 @@ public class Game1 : Core
             prevX = currentMario.location.X;
         }
 
-
-        var visibleArea = camera.BoundingRectangle;
-        Rectangle cameraRect = new Rectangle(
-            (int)visibleArea.Left,
-            (int)visibleArea.Top,
-            (int)visibleArea.Width,
-            (int)visibleArea.Height
-        );
-
         playerBlockCollision.checkCameraCollision(currentMario, cameraRect, SetMario, Damage);
-
-        map.Update(gameTime, cameraRect, 64);
 
         float cameraRightEdge = visibleArea.Right;
 
