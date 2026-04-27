@@ -37,6 +37,8 @@ public class BigMario : IMario
     public bool SlidingFlag { get; set; } = false;
     public bool AutoWalking { get; set; } = false;
     public bool WinState { get; set; } = false;
+    public bool IsStarPower { get; set; } = false;
+
     public BigMario(TextureAtlas bigMarioTexture, ContentManager content, Game1 game)
     {
         Moving = false;
@@ -207,6 +209,12 @@ public class BigMario : IMario
         marioSprites.SetLocation(location);
         marioSprites.SetAnimatedSprite("moveRight");
     }
+    public void BecomeInvincible()
+    {
+        Invincible = true;
+        IsStarPower = true;
+        invincibilityTimer = -10f;
+    }
     public void Update(GameTime gameTime)
     {
         invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -214,6 +222,11 @@ public class BigMario : IMario
         if (invincibilityTimer > 1)
         {
             Invincible = false;
+            if (IsStarPower)
+            {
+                IsStarPower = false;
+                Music.PlayBackground();
+            }
         }
 
         if (SlidingFlag)

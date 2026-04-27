@@ -294,6 +294,8 @@ public class Game1 : Core
             CheckEnemyCollisions.CheckEnemyPipeCollisions(activeEnemy, pipes, map);
             CheckEnemyCollisions.CheckEnemyMarioCollisions(activeEnemy, currentMario, Damage, this);
 
+            if (i >= enemies.Count) break;
+
             if (activeEnemy is Goomba goomba && goomba.Despawn) enemies.RemoveAt(i);
             else if (activeEnemy is Koopa koopa && koopa.Despawn) enemies.RemoveAt(i);
         }

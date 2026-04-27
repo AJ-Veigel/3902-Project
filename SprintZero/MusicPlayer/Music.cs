@@ -8,7 +8,7 @@ public class Music
 {
     public static  SoundEffect itemSound, blockSound, jumpSmallSound, jumpBigSound, coinSound, deathSound, gameOver, oneupSound, fireballSound, hurryUpSound,
      flagpoleSound, pauseSound;
-     private static Song backgroundMusic;
+    public static Song backgroundMusic, starSound;
 
     public static void LoadContent(ContentManager content)
     {
@@ -25,6 +25,7 @@ public class Music
         pauseSound = content.Load<SoundEffect>("Music/pause");
         hurryUpSound = content.Load<SoundEffect>("Music/hurryup");
         backgroundMusic = content.Load<Song>("Music/Background");
+        starSound = content.Load<Song>("Music/star");
 
     }
     
@@ -35,7 +36,11 @@ public static void PlayBackground()
         MediaPlayer.Volume = 0.5f;
         MediaPlayer.Play(backgroundMusic);
      }
-     public static void PauseMusic()
+    public static void PlayStarMusic()
+    {
+        MediaPlayer.Play(starSound);
+    }
+    public static void PauseMusic()
     {
         MediaPlayer.Pause();
     }

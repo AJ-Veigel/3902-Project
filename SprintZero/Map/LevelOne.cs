@@ -135,6 +135,26 @@ namespace SprintZero.Map
             IBlock block = new questionMarkItem(newSprite, location, itemTextures, items);
             map.addBlockAt(tilePos, block);
         }
+        private void placeItemBrickAt(TileMap map, TextureAtlas blockAtlas, Point tilePos, bool containsStar)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+
+            AnimatedSprite brickSprite = blockAtlas.CreateAnimatedSprite("aboveGroundBreak");
+
+            AnimatedSprite emptySprite = blockAtlas.CreateAnimatedSprite("hit-Question");
+
+            IBlock block = new ItemBrick(brickSprite, emptySprite, location, itemTextures, items, containsStar);
+            map.addBlockAt(tilePos, block);
+        }
+        private void placeHiddenBlockAt(TileMap map, TextureAtlas blockAtlas, Point tilePos, bool containsStar)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+
+            AnimatedSprite emptySprite = blockAtlas.CreateAnimatedSprite("hit-Question");
+
+            IBlock block = new HiddenBlock(emptySprite, location, itemTextures, items, containsStar);
+            map.addBlockAt(tilePos, block);
+        }
         private static void placeFlagAt(TileMap map, TextureRegion flag, Point tilepos)
         {
             Vector2 location = new Vector2(tilepos.X * TileSize, tilepos.Y * TileSize);
@@ -160,6 +180,8 @@ namespace SprintZero.Map
             IBlock block = new CastleBlock(castle, location);
             map.addBlockAt(tilePos, block);
         }
+
+
 
         public void LoadContent()
         {
@@ -320,6 +342,16 @@ namespace SprintZero.Map
                                     {
                                         Bowser bowser = new Bowser(bowserTexture, goombaTexture, game, pos);
                                         spawnedEnemies.Add(bowser);
+                                        break;
+                                    }
+                                case 19:
+                                    {
+                                        placeItemBrickAt(tilemap, blockTextures, p, true);
+                                        break;
+                                    }
+                                case 20:
+                                    {
+                                        placeHiddenBlockAt(tilemap, blockTextures, p, false);
                                         break;
                                     }
                                 default:
