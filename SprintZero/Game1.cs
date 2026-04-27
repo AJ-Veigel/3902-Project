@@ -263,7 +263,7 @@ public class Game1 : Core
             (int)visibleArea.Height
         );
 
-        playerBlockCollision.checkCameraCollision(currentMario, cameraRect);
+        playerBlockCollision.checkCameraCollision(currentMario, cameraRect, SetMario, Damage);
 
         map.Update(gameTime, cameraRect, 64);
 

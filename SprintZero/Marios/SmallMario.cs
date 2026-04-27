@@ -155,9 +155,8 @@ public class SmallMario : IMario
             jumpStartHeight = location.Y;
             isOnGround = false;
             marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-
+            Music.jumpSmallSound.Play();
         }
-        Music.jumpSmallSound.Play();
     }
 
     public void Bounce()

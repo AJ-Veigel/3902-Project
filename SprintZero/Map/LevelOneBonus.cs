@@ -126,7 +126,7 @@ namespace SprintZero.Map
 
                     XElement pipeElement = root.Element("PipeData");
 
-                    string pipeData = pipeElement.Attribute("pipeData").Value;
+                    string pipeData = pipeElement.Value;
 
                     string[] split = pipeData.Split(" ", StringSplitOptions.RemoveEmptyEntries);
                     int pipeNum = int.Parse(split[0]);
