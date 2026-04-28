@@ -105,7 +105,7 @@ public class questionMarkHit : IBlock
                 {
 
                     int previousItemCount = items.Count;
-                    SpawnItem.SpawnCoin(itemTexture, items, aboveBlock);
+                    SpawnItem.SpawnCoin(itemTexture, items, aboveBlock, false);
 
                     if(items.Count > previousItemCount)
                     {

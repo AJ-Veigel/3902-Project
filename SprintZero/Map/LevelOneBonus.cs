@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using MonoGameLibrary.Graphics;
 using SprintZero.blocks;
 using SpriteZero.Enemies;
+using SprintZero.Items;
 using SprintZero.Marios;
 using System.IO;
 using System.Xml;
@@ -22,7 +23,7 @@ namespace SprintZero.Map
         private TextureAtlas underBlockTextures { get; set; }
         private string filename;
         private TextureRegion ground, brick, solid, tubeTop, tubeMid, tubeLeft, tubeInter;
-        private AnimatedSprite qBlock;
+        private AnimatedSprite qBlock, coin;
         private Game1 game;
 
         public LevelOneBonus(ContentManager content, TextureAtlas blockTextures, TextureAtlas underBlockTextures, string filename, Game1 game)
@@ -53,14 +54,16 @@ namespace SprintZero.Map
             IBlock block = new Brick(brick, location);
             map.addBlockAt(tilePos, block);
         }
-/*
-        private static void placeCoinAt(TileMap map, TextureRegion coin, Point tilePos, Game1 game)
+
+        private static void placeCoinAt(TileMap map, TextureAtlas coinTexture, Point tilePos, Game1 game)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new StationaryCoin(coin, location, game);
-            map.addBlockAt(tilePos, block);
+
+            AnimatedSprite coin = coinTexture.CreateAnimatedSprite("coins");
+
+            ICollectable item = new Coin(coin, location, true, game);
+            map.addItemAt(tilePos, item);
         }
-        */
 
         private static void placeSolidAt(TileMap map, TextureRegion solid, Point tilePos)
         {
@@ -191,7 +194,7 @@ namespace SprintZero.Map
                                     }
                                 case 4:
                                     {
-                                        //placeCoinAt(tilemap, coin, p);
+                                        placeCoinAt(tilemap, underBlockTextures, p, game);
                                         break;
                                     }
                                 case 5:

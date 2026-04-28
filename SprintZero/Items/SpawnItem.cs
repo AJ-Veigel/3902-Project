@@ -20,10 +20,10 @@ namespace SprintZero.Items
             ICollectable flower = new Flower(flowerSprite, location);
             items.Add(flower);
         }
-        public static void SpawnCoin(TextureAtlas itemTexture, List<ICollectable> items, Vector2 location)
+        public static void SpawnCoin(TextureAtlas itemTexture, List<ICollectable> items, Vector2 location, bool stationary)
         {
             AnimatedSprite coinSprite = itemTexture.CreateAnimatedSprite("coin");
-            ICollectable coin = new Coin(coinSprite,location);
+            ICollectable coin = new Coin(coinSprite, location, stationary);
             items.Add(coin);
         }
         public static void SpawnStar(TextureAtlas itemTexture, List<ICollectable> items, Vector2 location)

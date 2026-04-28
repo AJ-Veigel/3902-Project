@@ -232,6 +232,7 @@ public class Game1 : Core
 
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
         List<IPipe> collidablePipes = map.getPipesInRectangle(currentMario.MarioCollider, 96);
+        List<ICollectable> collidableItems = map.getItemsInRectangle(currentMario.MarioCollider);
 
         int mapChange = playerBlockCollision.checkBlockCollision(
             currentMario,
@@ -239,11 +240,6 @@ public class Game1 : Core
             collidablePipes,
             this
         ); // We should only call this method once per update.
-
-        foreach (ICollectable item in currentItems)
-        {
-            item.Update(gameTime);
-        }
 
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {
@@ -305,8 +301,14 @@ public class Game1 : Core
 
         List<ICollectable> collectedItems = new List<ICollectable>();
 
+        foreach(ICollectable item in collidableItems)
+        {
+            currentItems.Add(item);
+        }
+
         foreach (var item in currentItems)
         {
+            item.Update(gameTime);
             if (!item.Collected)
             {
                 List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
@@ -319,7 +321,6 @@ public class Game1 : Core
             {
                 collectedItems.Add(item);
             }
-
         }
 
         foreach (ICollectable item in collectedItems)
