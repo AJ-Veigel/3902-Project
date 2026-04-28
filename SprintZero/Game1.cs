@@ -124,6 +124,8 @@ public class Game1 : Core
 
         Koopa.LoadTextures(Content);
 
+        BarFireball.LoadTextures(Content);
+
         enemies = new List<IEnemy>();
 
         levelEnemies = new List<List<IEnemy>>();
@@ -370,6 +372,14 @@ public class Game1 : Core
         {
             item.Draw(SpriteBatch);
         }
+        var visibleArea = camera.BoundingRectangle;
+        Rectangle cameraRect = new Rectangle(
+            (int)visibleArea.Left,
+            (int)visibleArea.Top,
+            (int)visibleArea.Width,
+            (int)visibleArea.Height
+        );
+        map.Draw(SpriteBatch, cameraRect, 64);
         foreach (var p in projectiles)
             p.Draw(SpriteBatch);
         foreach (IEnemy enemy in enemies)
@@ -384,14 +394,6 @@ public class Game1 : Core
         {
             fireball.Draw(SpriteBatch);
         }
-        var visibleArea = camera.BoundingRectangle;
-        Rectangle cameraRect = new Rectangle(
-            (int)visibleArea.Left,
-            (int)visibleArea.Top,
-            (int)visibleArea.Width,
-            (int)visibleArea.Height
-        );
-        map.Draw(SpriteBatch, cameraRect, 64);
         SpriteBatch.End();
         if (IsPaused)
         {

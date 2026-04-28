@@ -22,6 +22,10 @@ namespace SprintZero.Map
     {
         private const int TileSize = 64; // 64 in screen coordinates
 
+        private const int FIREBALL_COUNT = 6; // How many fireballs are in a fire bar.
+
+        private const int FIREBALL_DISTANCE = 32; // How much further out each fireball is in a fire bar.
+
         public Color BGColor { get; set; }
         private ContentManager content { get; set; }
         private TextureAtlas blockTextures { get; set; }
@@ -71,11 +75,18 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
-        private static void placeFireBarBlockAt(TileMap map, TextureRegion firebarBlock, Point tilePos)
+        private void placeFireBarBlockAt(TileMap map, TextureRegion firebarBlock, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
             IBlock block = new FireBarBlock(firebarBlock, location);
             map.addBlockAt(tilePos, block);
+
+            Vector2 blockCenter = location + new Vector2(TileSize / 2.0f, TileSize / 2.0f);
+            for (int i = 0; i < FIREBALL_COUNT; i++)
+            {
+                IEnemy Fireball = new BarFireball(blockCenter, FIREBALL_DISTANCE * i);
+                spawnedEnemies.Add(Fireball);
+            }
         }
 
         private static void placeBridgeAt(TileMap map, TextureRegion bridge, Point tilePos)

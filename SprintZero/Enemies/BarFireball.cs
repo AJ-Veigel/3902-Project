@@ -5,6 +5,7 @@ using EnemyCollisions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Particles.Modifiers.Interpolators;
 using MonoGameLibrary.Graphics;
 using SpriteZero.Enemies;
 
@@ -15,11 +16,13 @@ public class BarFireball : IEnemy
 
     private readonly AnimatedSprite rolling;
 
+    private const float SCALE = 4.0f;
+
     private const float SPIN_TIME = 1.0f; // Full spin every this many seconds.
 
     private const int SECTORS = 16; // how many different 'rotations' there are. Idk if this is right but it's probably close.
     public Vector2 position { get; set; } // should only be used to get, it'll instantly reset otherwise.
-    public bool Dead { get; set; } // unused
+    public bool Dead { get; set; } // This is true so that they don't collide with blocks.
     public bool onGround { get; set; } // unused
     public bool Despawn { get; set; }
     public Rectangle EnemyCollider { get; set; }
@@ -52,8 +55,10 @@ public class BarFireball : IEnemy
         this.Rotation = 0.0f;
         this.VelocityX = 0.0f;
         this.VelocityY = 0.0f;
-        this.position = this.Center + new Vector2(Radius, 0.0f);
+        this.position = this.Center; // Start at center so all activate at once.
         this.rolling = texture.CreateAnimatedSprite("FireballRolling");
+        this.Dead = true;
+        rolling.Scale = new Vector2(SCALE, SCALE);
     }
 
     public void CollideWithEnemy(IEnemy enemy) // Enemies don't collide with firebars I don't think?
@@ -87,9 +92,13 @@ public class BarFireball : IEnemy
         float realRotation = MathF.Floor(this.Rotation * SECTORS) / SECTORS;
 
         this.position = new Vector2(
-            this.Center.X + this.Radius * MathF.Cos(realRotation * 2.0f * MathF.PI),
-            this.Center.Y + this.Radius * MathF.Sin(realRotation * 2.0f * MathF.PI)
+            this.Center.X + this.Radius * MathF.Cos(realRotation * 2.0f * MathF.PI) - 4.0f*SCALE,
+            this.Center.Y + this.Radius * MathF.Sin(realRotation * 2.0f * MathF.PI) - 4.0f*SCALE
         );
+
+        rolling.Update(gameTime);
+
+        this.EnemyCollider = new Rectangle((int)this.position.X, (int)this.position.Y, 8 * (int)SCALE, 8 * (int)SCALE);
 
     }
 }
