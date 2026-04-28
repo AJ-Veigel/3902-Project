@@ -178,3 +178,13 @@ Specific comments on code quality:
 Hypothetical change:
 	A possible change to make would be to define constants for when the various timers activate, and then compare with those instead. This would make it easier to change these later, since they'd all be at once place with more clear names.
     
+Author of the code review: AJ Veigel
+Date of the code review: 4/27/2026
+Sprint number: 4
+Name of the .cs file being reviewed: Hammer.cs
+Author of the .cs file being reviewed: Sam Bixel
+Number of minutes taken: 15
+Specific comments on code quality:
+	The code is very similar to that of fireball which sam had also coded. I feel that having the ability to spawn the fireball directly in the game1 class however is a detriment as you would need to have access to game1 in order to spawn a hammer in the first place. Other than that the code is very concise with very few other issues, especially with checking the bounds.
+Hypothetical change:
+	A possible change is to make the ability to spawn a hammer or any other projectile for that matter be handled by an outside class, as to get rid of redundancies and game1 dependencies
