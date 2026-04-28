@@ -70,7 +70,7 @@ namespace SprintZero.PBCollision
 
             foreach (IBlock block in blocks)
             {
-                if (block is CastleBlock)
+                if (block is CastleBlock || block is Axe)
                 {
                     mario.WinState = true;
                     mario.xVelocity = 0f;
@@ -78,10 +78,7 @@ namespace SprintZero.PBCollision
                     mario.StopMove();
                     return mapChange;
                 }
-                else if (block is Chain || block is Axe)
-                {
-                    return mapChange;   
-                }
+                
                 Rectangle marioRect = mario.MarioCollider;
                 Rectangle blockRect = block.Collider;
 

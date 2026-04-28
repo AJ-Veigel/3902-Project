@@ -214,16 +214,16 @@ public class Game1 : Core
             controller.Update(gameTime);
         }
 
-        if (IsPaused || IsGameOver)
-        {
-            base.Update(gameTime);
-            return;
-        }
-
-        if (currentMario.WinState)
+        if (currentMario.WinState && currentLevel != 2)
         {
             LevelManager.GoToNextLevel(this, currentLevel);
             currentMario.WinState = false;
+        }
+
+        if (IsPaused || currentMario.WinState || IsGameOver)
+        {
+            base.Update(gameTime);
+            return;
         }
 
         var visibleArea = camera.BoundingRectangle;
@@ -249,7 +249,7 @@ public class Game1 : Core
             this
         );
 
-        if(mapChange > 0)
+        if (mapChange > 0)
         {
             visibleArea = camera.BoundingRectangle;
             cameraRect = new Rectangle(
@@ -321,7 +321,7 @@ public class Game1 : Core
 
         List<ICollectable> collectedItems = new List<ICollectable>();
 
-        foreach(ICollectable item in collidableItems)
+        foreach (ICollectable item in collidableItems)
         {
             currentItems.Add(item);
         }
@@ -388,7 +388,7 @@ public class Game1 : Core
 
         Color background = maps[currentLevel].GetBackgroundColor();
         GraphicsDevice.Clear(background);
-        
+
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetViewMatrix());
         currentMario.Draw(SpriteBatch);
         foreach (ICollectable item in currentItems)
@@ -632,7 +632,7 @@ public class Game1 : Core
 
     public void toggleMap(int roomNumber)
     {
-        if(currentMario.location.X > 560)
+        if (currentMario.location.X > 560)
         {
             camera.Position = new Vector2((int)currentMario.location.X - 560f, (int)camera.Position.Y);
         }
