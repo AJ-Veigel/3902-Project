@@ -22,7 +22,7 @@ public class BarFireball : IEnemy
 
     private const int SECTORS = 16; // how many different 'rotations' there are. Idk if this is right but it's probably close.
     public Vector2 position { get; set; } // should only be used to get, it'll instantly reset otherwise.
-    public bool Dead { get; set; } // This is true so that they don't collide with blocks.
+    public bool Dead { get; set; } // unused
     public bool onGround { get; set; } // unused
     public bool Despawn { get; set; }
     public Rectangle EnemyCollider { get; set; }
@@ -57,7 +57,6 @@ public class BarFireball : IEnemy
         this.VelocityY = 0.0f;
         this.position = this.Center; // Start at center so all activate at once.
         this.rolling = texture.CreateAnimatedSprite("FireballRolling");
-        this.Dead = true;
         rolling.Scale = new Vector2(SCALE, SCALE);
     }
 

@@ -129,7 +129,7 @@ namespace EnemyCollisions
 
         public static void CheckEnemyBlockCollisions(IEnemy currentEnemy, List<IBlock> blocks, TileMap map)
         {
-            if (currentEnemy != null && !currentEnemy.Dead)
+            if (currentEnemy != null && !currentEnemy.Dead && !(currentEnemy is BarFireball))
             {
                 List<IBlock> nearbyBlocks = map.getBlocksInRectangle(currentEnemy.EnemyCollider, 64);
                 nearbyBlocks.AddRange(blocks);
