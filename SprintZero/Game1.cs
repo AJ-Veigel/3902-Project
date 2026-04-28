@@ -139,7 +139,7 @@ public class Game1 : Core
 
         currentLevel = 0;
         LoadMaps();
-        
+
         marios = new List<IMario>
         {
             new SmallMario(smallMarioTexture, maps[currentLevel].getSpawn(), Content, this),
@@ -301,15 +301,32 @@ public class Game1 : Core
         }
         CheckEnemyCollisions.CheckEnemyEnemyCollisions(enemies, this);
 
+        List<ICollectable> collectedItems = new List<ICollectable>();
+
         foreach (var item in currentItems)
         {
-            List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
-            List<IPipe> itemCollidablePipes = map.getPipesInRectangle(item.RectCollider, 96);
-            ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
-            ItemCollision.CheckItemPipeCollisions(item, itemCollidablePipes, map);
-            ItemCollision.CheckItemMarioCollisions(item, currentMario, this);
+            if (!item.Collected)
+            {
+                List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
+                List<IPipe> itemCollidablePipes = map.getPipesInRectangle(item.RectCollider, 96);
+                ItemCollision.CheckItemBlockCollisions(item, itemCollidableBlocks, map);
+                ItemCollision.CheckItemPipeCollisions(item, itemCollidablePipes, map);
+                ItemCollision.CheckItemMarioCollisions(item, currentMario, this);
+            }
+            else
+            {
+                collectedItems.Add(item);
+            }
 
         }
+
+        foreach (ICollectable item in collectedItems)
+        {
+            currentItems.Remove(item);
+        }
+
+        collectedItems.Clear();
+
         for (int i = hammers.Count - 1; i >= 0; i--)
         {
             Hammer h = hammers[i];
@@ -590,6 +607,7 @@ public class Game1 : Core
 
     public void toggleMap(int roomNumber)
     {
+        prevX = 0;
         currentLevel = roomNumber;
         if (roomNumber >= maps.Count)
         {
