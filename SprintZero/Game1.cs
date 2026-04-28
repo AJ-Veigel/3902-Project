@@ -249,6 +249,17 @@ public class Game1 : Core
             this
         );
 
+        if(mapChange > 0)
+        {
+            visibleArea = camera.BoundingRectangle;
+            cameraRect = new Rectangle(
+                (int)visibleArea.Left,
+                (int)visibleArea.Top,
+                (int)visibleArea.Width,
+                (int)visibleArea.Height
+            );
+        }
+
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {
             Fireball currentFireball = (Fireball)projectiles[i];
@@ -623,11 +634,11 @@ public class Game1 : Core
     {
         if(currentMario.location.X > 560)
         {
-            camera.Position = new Vector2((int)currentMario.location.X, (int)camera.Position.Y);
+            camera.Position = new Vector2((int)currentMario.location.X - 560f, (int)camera.Position.Y);
         }
         else
         {
-            camera.Position = new Vector2((int)currentMario.location.X - 560f, (int)camera.Position.Y);
+            camera.Position = new Vector2(0, (int)camera.Position.Y);
         }
         prevX = currentMario.location.X;
         currentLevel = roomNumber;

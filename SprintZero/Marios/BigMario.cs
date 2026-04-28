@@ -80,6 +80,7 @@ public class BigMario : IMario
     }
     public void Move()
     {
+        xVelocity = Direction ? DefaultMoveSpeed : -DefaultMoveSpeed;
         if (!Crouching)
         {
             Moving = true;
@@ -87,7 +88,7 @@ public class BigMario : IMario
             // If you’re throwing, you might want to ignore Move animation for a split second.
             // Up to you—this keeps movement but doesn’t override the throw pose.
             location = new Vector2(
-                location.X + (Direction ? DefaultMoveSpeed : -DefaultMoveSpeed),
+                location.X + xVelocity,
                 location.Y
             );
             marioSprites.SetLocation(location);
@@ -115,6 +116,8 @@ public class BigMario : IMario
         Jumping = false;
         Falling = false;
         jumpStartHeight = location.Y;
+
+        yVelocity = 0;
 
         marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
 

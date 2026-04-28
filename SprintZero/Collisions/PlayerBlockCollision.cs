@@ -143,6 +143,7 @@ namespace SprintZero.PBCollision
                     if(pipe is TubeTop && pipe.levelNum > 0 && aboveTubeTop)
                     {
                         pipe.onCollision(mario, CollisionSide.Top, game);
+                        mapChange++;
                     }
                     standingOnBlock = true;
                     if (pipeRect.Top < highestBlockTop)

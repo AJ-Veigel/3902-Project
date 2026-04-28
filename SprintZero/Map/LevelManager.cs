@@ -23,7 +23,7 @@ namespace SprintZero.Map
 
         public static void GoToNextLevel(Game1 game, int currentLevel)
         {
-            game.spawnMarioAt(game.maps[currentLevel].getSpawn());
+            game.spawnMarioAt(game.maps[currentLevel + 2].getSpawn());
             game.toggleMap(currentLevel + 2);
         }
     }
