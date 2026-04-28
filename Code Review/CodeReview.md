@@ -129,3 +129,28 @@ Specific comments on code quality:
 	The code overall is easy to understand what it is supposed to do, it checks over every single enemy in the list passed to it. It makes it so that each time an enemy collides with another enemy it will reverse its direction.
 Hypothetical change:
 	A possible change would be to somehow lessen the stress on the check collisions method as it has two nested for loops. This could be done with either a helper method, or another check for the enemies around it.
+
+//Sprint 5 code reviews
+Author of the code review: Adam Novak
+Date of the code review: 4/27/2026
+Sprint number: 5
+Name of the .cs file being reviewed: FlyingKoopa.cs
+Author of the .cs file being reviewed: Alex Hall
+Number of minutes taken: 10
+Specific comments on code quality:
+     The code itself is pretty easy to understand. It's mostly a copy of Alex's previous Koopa.cs, with code added on
+     to facilitate the flying animations.
+Hypothetical change:
+     I would update the "replaceSelf" method. Right now, it just returns, and doesn't actually update anything about the Flying Koopa
+     to turn it into a regular Koopa when it's downed. I'm also not sure what the "sineTimer" is for, but I would assume it's to facilitate the vertical motion of the Flying Koopa. Otherwise, I believe the code is good, and generally easy to understand.
+
+Author of the code review: Adam Novak
+Date of the code review: 4/27/2026
+Sprint number: 5
+Name of the .cs file being reviewed: LevelFour.cs
+Author of the .cs file being reviewed: AJ Veigel
+Number of minutes taken: 10
+Specific comments on code quality:
+     The code quality is good, overall. It's similar to the LevelOne.cs and LevelOneBonus.cs files, and implements almost everything needed to build the level.
+Hypothetical change:
+     A possible change would be to add a case in the switch-case for the to spawn a question mark item block. The code for the placeItemQBlockAt method is currently listed as "unreachable," meaning there's no option in the switch-case to spawn a question mark item block, even though it is in the level. Other than that, the code looks good.
