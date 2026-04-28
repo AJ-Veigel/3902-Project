@@ -165,4 +165,16 @@ Number of minutes taken: 15
 Specific comments on code quality:
          
 Hypothetical change:
+
+
+Author of the code review: Alex Hall
+Date of the code review: 4/27/2026
+Sprint number: 4
+Name of the .cs file being reviewed: Bowser.cs
+Author of the .cs file being reviewed: Adam Novak
+Number of minutes taken: 10
+Specific comments on code quality:
+	The code is generally understandable, as it is relatively similar to the other Enemy classes. No part of the code nests particularly deeply, helping readability. However, there are a lot of magic numbers in the Update method, particularly with the timers.
+Hypothetical change:
+	A possible change to make would be to define constants for when the various timers activate, and then compare with those instead. This would make it easier to change these later, since they'd all be at once place with more clear names.
     
