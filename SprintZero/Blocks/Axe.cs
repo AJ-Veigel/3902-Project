@@ -8,10 +8,12 @@ public class Axe : IBlock
     private AnimatedSprite sprite;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
+    private const float SCALE = 4f;
 
     public Axe(AnimatedSprite animation, Vector2 location)
     {
         sprite = animation;
+        sprite.Scale = new Vector2(SCALE);
         this.location = location;
 
         Collider = new Rectangle(
@@ -22,7 +24,10 @@ public class Axe : IBlock
         );
     }
 
-    public void Update(GameTime gameTime) { }
+    public void Update(GameTime gameTime)
+    {
+        sprite.Update(gameTime);
+    }
 
     public void Draw(SpriteBatch spriteBatch)
     {

@@ -78,6 +78,10 @@ namespace SprintZero.PBCollision
                     mario.StopMove();
                     return mapChange;
                 }
+                else if (block is Chain || block is Axe)
+                {
+                    return mapChange;   
+                }
                 Rectangle marioRect = mario.MarioCollider;
                 Rectangle blockRect = block.Collider;
 
