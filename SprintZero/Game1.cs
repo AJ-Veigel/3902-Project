@@ -363,7 +363,9 @@ public class Game1 : Core
     protected override void Draw(GameTime gameTime)
     {
 
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        Color background = maps[currentLevel].GetBackgroundColor();
+        GraphicsDevice.Clear(background);
+        
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetViewMatrix());
         currentMario.Draw(SpriteBatch);
         foreach (ICollectable item in currentItems)

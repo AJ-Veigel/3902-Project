@@ -15,6 +15,7 @@ namespace SprintZero.Map
         private Dictionary<Point, IBlock> map;
         private Dictionary<Point, IPipe> pipeMap;
         private Vector2 marioSpawnPos = new Vector2(600, 600);
+        private Color backgroundColor = Color.CornflowerBlue;
 
         private List<IBlock> cachedBlockList = new List<IBlock>();
         private List<IPipe> cachedPipeList = new List<IPipe>();
@@ -59,6 +60,16 @@ namespace SprintZero.Map
         public void setSpawn(Vector2 pos)
         {
             marioSpawnPos = pos;
+        }
+
+        public Color GetBackgroundColor()
+        {
+            return backgroundColor;
+        }
+
+        public void SetBackgroundColor(Color color)
+        {
+            backgroundColor = color;
         }
 
         public List<IBlock> getBlocksInRectangle(Rectangle rect)

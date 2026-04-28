@@ -144,6 +144,8 @@ namespace SprintZero.Map
 
                     tilemap.setSpawn(marioSpawnPos);
 
+                    tilemap.SetBackgroundColor(Color.Black);
+
                     XElement tilesElement = root.Element("Blocks");
 
                     // Split the value of the tiles data into rows by splitting on
