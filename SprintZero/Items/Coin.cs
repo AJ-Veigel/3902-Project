@@ -65,6 +65,7 @@ public class Coin : ICollectable
                     if(game != null)
                     {
                         ScoreManager.CollectCoin(game);
+                        game.coinCount++;
                     }
                     endSound = true;
                 }
