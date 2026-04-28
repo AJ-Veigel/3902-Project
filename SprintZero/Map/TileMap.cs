@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SprintZero.blocks;
+using SprintZero.Items;
 
 
 namespace SprintZero.Map
@@ -14,10 +15,13 @@ namespace SprintZero.Map
     {
         private Dictionary<Point, IBlock> map;
         private Dictionary<Point, IPipe> pipeMap;
+        private Dictionary<Point, ICollectable> itemMap;
         private Vector2 marioSpawnPos = new Vector2(600, 600);
+        private Color backgroundColor = Color.CornflowerBlue;
 
         private List<IBlock> cachedBlockList = new List<IBlock>();
         private List<IPipe> cachedPipeList = new List<IPipe>();
+        private List<ICollectable> cachedItemList = new List<ICollectable>();
 
         /*
          *  It would probably be more efficient to instead map to like, 4x4 tiles containing blocks, or something.
@@ -29,6 +33,7 @@ namespace SprintZero.Map
         {
             map = new Dictionary<Point, IBlock>();
             pipeMap = new Dictionary<Point, IPipe>();
+            itemMap = new Dictionary<Point, ICollectable>();
         }
 
         public void addBlockAt(Point p, IBlock block)
@@ -39,6 +44,11 @@ namespace SprintZero.Map
         public void addPipeAt(Point p, IPipe pipe)
         {
             pipeMap.Add(p, pipe);
+        }
+
+        public void addItemAt(Point p, ICollectable item)
+        {
+            itemMap.Add(p, item);
         }
 
         public void removeBlockAt(Point p)
@@ -59,6 +69,16 @@ namespace SprintZero.Map
         public void setSpawn(Vector2 pos)
         {
             marioSpawnPos = pos;
+        }
+
+        public Color GetBackgroundColor()
+        {
+            return backgroundColor;
+        }
+
+        public void SetBackgroundColor(Color color)
+        {
+            backgroundColor = color;
         }
 
         public List<IBlock> getBlocksInRectangle(Rectangle rect)
@@ -114,6 +134,33 @@ namespace SprintZero.Map
             return cachedPipeList;
         }
 
+        public List<ICollectable> getItemsInRectangle(Rectangle rect)
+        {
+            cachedItemList.Clear();
+
+            int tileSize = 64;
+
+            int leftTile = rect.Left / tileSize;
+            int rightTile = rect.Right / tileSize;
+            int topTile = rect.Top / tileSize;
+            int bottomTile = rect.Bottom / tileSize;
+
+            for (int x = leftTile; x <= rightTile; x++)
+            {
+                for (int y = topTile; y <= bottomTile; y++)
+                {
+                    Point p = new Point(x, y);
+
+                    if (itemMap.ContainsKey(p))
+                    {
+                        cachedItemList.Add(itemMap[p]);
+                    }
+                }
+            }
+
+            return cachedItemList;
+        }
+
         public List<IBlock> getBlocksInRectangle(Rectangle rect, int tolerance)
         {
             rect.Inflate(tolerance, tolerance);
@@ -146,6 +193,10 @@ namespace SprintZero.Map
                     {
                         pipe.Draw(batch);
                     }
+                    if (itemMap.TryGetValue(tilePos, out ICollectable item))
+                    {
+                        item.Draw(batch);
+                    }
                 }
             }
         }
@@ -169,6 +220,10 @@ namespace SprintZero.Map
                     if (pipeMap.TryGetValue(tilePos, out IPipe pipe))
                     {
                         pipe.Update(gametime);
+                    }
+                    if (itemMap.TryGetValue(tilePos, out ICollectable item))
+                    {
+                        item.Update(gametime);
                     }
                 }
             }

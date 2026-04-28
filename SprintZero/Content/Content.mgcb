@@ -20,6 +20,12 @@
 /processorParam:TextureFormat=Compressed
 /build:Font/File.spritefont
 
+#begin Images/1-1Bonus-definition.xml
+/copy:Images/1-1Bonus-definition.xml
+
+#begin Images/1-4-definition.xml
+/copy:Images/1-4-definition.xml
+
 #begin Images/atlas-definition.xml.xml
 /copy:Images/atlas-definition.xml.xml;Images/atlas-definition.xml
 

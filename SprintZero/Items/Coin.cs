@@ -30,7 +30,7 @@ public class Coin : ICollectable
         IsPopUpCoin = false;
     }
 
-    public Coin(AnimatedSprite animated, Vector2 pos)
+    public Coin(AnimatedSprite animated, Vector2 pos, bool stationary)
     {
         sprite = animated;
         sprite.Scale = new Vector2(4f);
@@ -38,14 +38,30 @@ public class Coin : ICollectable
         groundY = pos.Y;
         VelocityY = bounceVelocity;
 
-        IsPopUpCoin = true;
+        if (!stationary) IsPopUpCoin = true;
+        Collidable = false;
+    }
+
+    public Coin(AnimatedSprite animated, Vector2 pos, bool stationary, Game1 game)
+    {
+        sprite = animated;
+        sprite.Scale = new Vector2(4f);
+        location = pos;
+        groundY = pos.Y;
+        VelocityY = bounceVelocity;
+
+        if (!stationary) IsPopUpCoin = true;
+        this.game = game;
         Collidable = false;
     }
 
     public void Update(GameTime gameTime)
     {
         if (Collected)
+        {
+            RectCollider = Rectangle.Empty;
             return;
+        }
 
         sprite.Update(gameTime);
 
@@ -62,7 +78,7 @@ public class Coin : ICollectable
                 if (!endSound)
                 {
                     Music.coinSound.Play();
-                    if(game != null)
+                    if (game != null)
                     {
                         ScoreManager.CollectCoin(game);
                         game.coinCount++;
@@ -72,9 +88,8 @@ public class Coin : ICollectable
 
                 Collected = true;
             }
-
-            RectCollider = Rectangle.Empty;
-        } else
+        }
+        else
         {
             RectCollider = new Rectangle(
                 (int)location.X,

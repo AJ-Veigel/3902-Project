@@ -22,6 +22,7 @@ using BowserFireballCollisions;
 using SoundManager;
 using System.Security.Cryptography;
 using System.IO.Pipes;
+using System;
 
 
 namespace SprintZero;
@@ -163,13 +164,14 @@ public class Game1 : Core
     private void LoadMaps()
     {
         TextureAtlas blockTextures = TextureAtlas.FromFile(Content, "images/block-definition.xml");
+        TextureAtlas underGroundTextures = TextureAtlas.FromFile(Content, "images/1-1Bonus-definition.xml");
         TileMap map1 = new TileMap();
         ILevel level = new LevelOne(Content, blockTextures, itemTexture, currentItems, "LevelData/LevelOne.xml", bigBlockTexturePt2, bigBlockTexture, this);
         levelEnemies.Add(level.GetEnemies());
         level.FromFile(map1);
         maps.Add(map1);
         TileMap mapBonus = new TileMap();
-        level = new LevelOneBonus(Content, blockTextures, "LevelData/LevelOneBonus.xml", this);
+        level = new LevelOneBonus(Content, blockTextures, underGroundTextures, "LevelData/LevelOneBonus.xml", this);
         levelEnemies.Add(level.GetEnemies());
         level.FromFile(mapBonus);
         maps.Add(mapBonus);
@@ -232,6 +234,7 @@ public class Game1 : Core
 
         List<IBlock> collidableBlocks = map.getBlocksInRectangle(currentMario.MarioCollider, 96);
         List<IPipe> collidablePipes = map.getPipesInRectangle(currentMario.MarioCollider, 96);
+        List<ICollectable> collidableItems = map.getItemsInRectangle(currentMario.MarioCollider);
 
         int mapChange = playerBlockCollision.checkBlockCollision(
             currentMario,
@@ -239,11 +242,6 @@ public class Game1 : Core
             collidablePipes,
             this
         ); // We should only call this method once per update.
-
-        foreach (ICollectable item in currentItems)
-        {
-            item.Update(gameTime);
-        }
 
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {
@@ -305,8 +303,14 @@ public class Game1 : Core
 
         List<ICollectable> collectedItems = new List<ICollectable>();
 
+        foreach(ICollectable item in collidableItems)
+        {
+            currentItems.Add(item);
+        }
+
         foreach (var item in currentItems)
         {
+            item.Update(gameTime);
             if (!item.Collected)
             {
                 List<IBlock> itemCollidableBlocks = map.getBlocksInRectangle(item.RectCollider, 96);
@@ -319,7 +323,6 @@ public class Game1 : Core
             {
                 collectedItems.Add(item);
             }
-
         }
 
         foreach (ICollectable item in collectedItems)
@@ -365,7 +368,9 @@ public class Game1 : Core
     protected override void Draw(GameTime gameTime)
     {
 
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        Color background = maps[currentLevel].GetBackgroundColor();
+        GraphicsDevice.Clear(background);
+        
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetViewMatrix());
         currentMario.Draw(SpriteBatch);
         foreach (ICollectable item in currentItems)
@@ -615,18 +620,19 @@ public class Game1 : Core
         {
             currentLevel = 0;
         }
-        unspawnedEnemies = levelEnemies[currentLevel];
+        enemies.Clear();
         currentItems.Clear();
         projectiles.Clear();
         maps.Clear();
         LoadMaps();
+        unspawnedEnemies = levelEnemies[currentLevel];
         map = maps[currentLevel];
         // update function handles it from here.
     }
 
     public void spawnMarioAt(Vector2 pos)
     {
-        currentMario.location = pos;
+        currentMario.SetLocation(pos);
     }
 
     public void Reset()
@@ -638,11 +644,13 @@ public class Game1 : Core
     }
     private void ResetAfterDeath()
     {
-        Vector2 spawn = new Vector2(300, 664);
+        Vector2 spawn = maps[currentLevel].getSpawn();
 
         currentMario = new SmallMario(smallMarioTexture, spawn, Content, this);
         currentMarioNum = 0;
         gameTimer = 400;
+
+        Console.WriteLine(currentMario.location);
 
 
         prevX = 0;

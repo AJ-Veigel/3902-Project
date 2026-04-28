@@ -31,7 +31,7 @@ public class MouseController : IController
         // Top Right
         else if (mousePosition.X <= 910 && mousePosition.Y >= 540 && currentState.LeftButton.Equals(ButtonState.Pressed) && previousState.LeftButton.Equals(ButtonState.Released))
         {
-            //game.toggleMap(2);
+            game.toggleMap(2);
         }
         // Bottom Right
         else if (mousePosition.X >= 910 && mousePosition.Y >= 540 && currentState.LeftButton.Equals(ButtonState.Pressed) && previousState.LeftButton.Equals(ButtonState.Released))

@@ -1,0 +1,14 @@
+﻿<TextureAtlas>
+    <Texture>Images/bigblock</Texture>
+
+    <Regions>
+        <Region name="UnderBrick" x="393" y="102" width="16" height="16"/>
+        <Region name="coin" x="435" y="167" width="10" height ="14"/>
+        <Region name="UnderGround" x="393" y="124" width="16" height ="16"/>
+    </Regions>
+    <Animations>
+		<Animation name = "coins" delay="300">
+			<Frame region ="coin"/>
+		</Animation>
+    </Animations>
+</TextureAtlas>
