@@ -100,13 +100,14 @@ public class FireMario : IMario
 
     public void Move()
     {
+        xVelocity = Direction ? MOVE_SPEED : -MOVE_SPEED;
         if (!Crouching || Jumping)
         {
             Moving = true;
             // If you’re throwing, you might want to ignore Move animation for a split second.
             // Up to you—this keeps movement but doesn’t override the throw pose.
             location = new Vector2(
-                location.X + (Direction ? MOVE_SPEED : -MOVE_SPEED),
+                location.X + xVelocity,
                 location.Y
             );
             marioSprites.SetLocation(location);
@@ -133,6 +134,7 @@ public class FireMario : IMario
 
     public void StopMove()
     {
+        xVelocity = 0;
         Moving = false;
         if (!Jumping && !Crouching && !Swimming && !throwing)
         {
