@@ -236,6 +236,18 @@ public class SmallMario : IMario
         IsStarPower = true;
         invincibilityTimer = -10f;
     }
+
+    public void SetLocation(Vector2 pos)
+    {
+        location = pos;
+        marioSprites.SetLocation(pos);
+        Console.WriteLine(marioSprites.location);
+    }
+
+    public Vector2 GetLocation()
+    {
+        return location;
+    }
     public void Update(GameTime gameTime)
     {
         if (SlidingFlag)

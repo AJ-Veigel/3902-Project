@@ -19,14 +19,16 @@ namespace SprintZero.Map
         public Color BGColor { get; set; }
         private ContentManager content { get; set; }
         private TextureAtlas blockTextures { get; set; }
+        private TextureAtlas underBlockTextures { get; set; }
         private string filename;
-        private TextureRegion ground, solid, tubeTop, tubeMid, tubeLeft, tubeInter;
-        private AnimatedSprite qBlock, brick;
+        private TextureRegion ground, brick, solid, tubeTop, tubeMid, tubeLeft, tubeInter;
+        private AnimatedSprite qBlock;
         private Game1 game;
 
-        public LevelOneBonus(ContentManager content, TextureAtlas blockTextures, string filename, Game1 game)
+        public LevelOneBonus(ContentManager content, TextureAtlas blockTextures, TextureAtlas underBlockTextures, string filename, Game1 game)
         {
             this.blockTextures = blockTextures;
+            this.underBlockTextures = underBlockTextures;
             LoadContent();
             BGColor = Color.AliceBlue;
             this.filename = filename;
@@ -45,21 +47,20 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
-      private static void placeBrickAt(TileMap map, TextureAtlas agbTexture, Point tilePos, Game1 game)
+        private static void placeBrickAt(TileMap map, TextureRegion brick, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            AnimatedSprite newSprite = agbTexture.CreateAnimatedSprite("aboveGroundBreak");
-            IBlock block = new AboveGroundBreak(newSprite, location, game);
+            IBlock block = new Brick(brick, location);
             map.addBlockAt(tilePos, block);
         }
-    // private  void placeQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
-    //     {
-    //         Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-    //         AnimatedSprite newSprite = hqTexture.CreateAnimatedSprite("hit-Question");
-    //         IBlock block = new questionMarkHit(newSprite, location, itemTexture, );
-
-    //         map.addBlockAt(tilePos, block);
-    //     }
+/*
+        private static void placeCoinAt(TileMap map, TextureRegion coin, Point tilePos, Game1 game)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBlock block = new StationaryCoin(coin, location, game);
+            map.addBlockAt(tilePos, block);
+        }
+        */
 
         private static void placeSolidAt(TileMap map, TextureRegion solid, Point tilePos)
         {
@@ -105,8 +106,8 @@ namespace SprintZero.Map
 
         public void LoadContent()
         {
-            ground = blockTextures.GetRegion("ground");
-            brick = blockTextures.CreateAnimatedSprite("aboveGroundBreak");
+            ground = underBlockTextures.GetRegion("UnderGround");
+            brick = underBlockTextures.GetRegion("UnderBrick");
             qBlock = blockTextures.CreateAnimatedSprite("hit-Question");
             solid = blockTextures.GetRegion("solidBlock");
             tubeTop = blockTextures.GetRegion("tubeTop");
@@ -171,7 +172,7 @@ namespace SprintZero.Map
                             // Get the tileset index for this location
                             int tilesetIndex = int.Parse(columns[column]);
 
-                            switch(tilesetIndex)
+                            switch (tilesetIndex)
                             {
                                 case 1:
                                     {
@@ -180,7 +181,7 @@ namespace SprintZero.Map
                                     }
                                 case 2:
                                     {
-                                        placeBrickAt(tilemap, blockTextures, p, game);
+                                        placeBrickAt(tilemap, brick, p);
                                         break;
                                     }
                                 case 3:
@@ -188,11 +189,11 @@ namespace SprintZero.Map
                                         placeSolidAt(tilemap, solid, p);
                                         break;
                                     }
-                                // case 4:
-                                //     {
-                                //         placeQBlockAt(tilemap, blockTextures, p);
-                                //         break;
-                                //     }
+                                case 4:
+                                    {
+                                        //placeCoinAt(tilemap, coin, p);
+                                        break;
+                                    }
                                 case 5:
                                     {
                                         placeTubeTopAt(tilemap, tubeTop, p);
@@ -215,7 +216,7 @@ namespace SprintZero.Map
                                     }
                                 default:
                                     {
-                                        if(tilesetIndex == pipeNum)
+                                        if (tilesetIndex == pipeNum)
                                         {
                                             Vector2 marioPipePos = new Vector2(marioX, marioY);
                                             placeTubeLeftAt(tilemap, tubeLeft, p, pipeLevel, marioPipePos);

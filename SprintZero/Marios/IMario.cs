@@ -19,10 +19,12 @@ namespace SprintZero.Marios
         bool Falling { get; set; }
         bool SlidingFlag { get; set; }
         bool Invincible { get; set; }
-        bool AutoWalking{get;set;}
-       bool WinState{get;set;}
+        bool AutoWalking { get; set; }
+        bool WinState { get; set; }
         bool IsStarPower { get; set; }
-
+        float yVelocity { get; set; }
+        float xVelocity { get; set; }
+        float currentPlatformY { get; set; }
 
         void Bounce();
         void Move();
@@ -34,10 +36,8 @@ namespace SprintZero.Marios
         void GrabFlagPole();
         void EndFlagPole();
         void BecomeInvincible();
-        float yVelocity { get; set; }
-        float xVelocity { get; set; }
-        float currentPlatformY {get;set;}
-
+        void SetLocation(Vector2 pos);
+        Vector2 GetLocation();
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
         void LandOnBlock(float blockTopY);
