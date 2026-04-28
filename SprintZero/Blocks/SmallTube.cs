@@ -12,11 +12,11 @@ public class smallTube : IBlock
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
     
-    public smallTube(TextureRegion region)
+    public smallTube(TextureRegion region, Vector2 pos)
     {
         sprite = region;
 
-        location = new Vector2(600, 700);
+        location = pos;
 
     
         Collider = new Rectangle(

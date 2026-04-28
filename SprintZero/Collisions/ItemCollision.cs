@@ -66,10 +66,8 @@ namespace ItemCollisions
         {
             if (currentItem != null)
             {
-                List<IBlock> nearbyBlocks = map.getBlocksInRectangle(currentItem.RectCollider);
-                nearbyBlocks.AddRange(blocks);
 
-                foreach (var block in nearbyBlocks)
+                foreach (var block in blocks)
                 {
                     Rectangle blockRect = block.Collider;
                     Rectangle itemRect = currentItem.RectCollider;
@@ -80,7 +78,7 @@ namespace ItemCollisions
                         float overlapY = Math.Min(itemRect.Bottom, blockRect.Bottom) - Math.Max(itemRect.Top, blockRect.Top);
 
                         // Side collision
-                        if (overlapX < overlapY && overlapY > 12f)
+                        if (overlapX < overlapY && overlapY > 4f)
                         {
                             if (itemRect.Center.X < blockRect.Center.X)
                                 currentItem.location = new Vector2(currentItem.location.X - overlapX, currentItem.location.Y);
@@ -120,10 +118,8 @@ namespace ItemCollisions
         {
             if (currentItem != null)
             {
-                List<IPipe> nearbyPipes = map.getPipesInRectangle(currentItem.RectCollider);
-                nearbyPipes.AddRange(pipes);
 
-                foreach (var Pipe in nearbyPipes)
+                foreach (var Pipe in pipes)
                 {
                     Rectangle PipeRect = Pipe.Collider;
                     Rectangle itemRect = currentItem.RectCollider;
@@ -134,7 +130,7 @@ namespace ItemCollisions
                         float overlapY = Math.Min(itemRect.Bottom, PipeRect.Bottom) - Math.Max(itemRect.Top, PipeRect.Top);
 
                         // Side collision
-                        if (overlapX < overlapY && overlapY > 12f)
+                        if (overlapX < overlapY && overlapY > 4f)
                         {
                             if (itemRect.Center.X < PipeRect.Center.X)
                                 currentItem.location = new Vector2(currentItem.location.X - overlapX, currentItem.location.Y);
