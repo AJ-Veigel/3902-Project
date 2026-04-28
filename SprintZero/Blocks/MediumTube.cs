@@ -13,12 +13,11 @@ public class MediumTube : IBlock
     public Rectangle Collider { get; set; }
 
 
-    public MediumTube(TextureRegion region)
+    public MediumTube(TextureRegion region, Vector2 pos)
     {
         sprite = region;
 
-        location = new Vector2(600, 700);
-
+        location = pos;
 
         Collider = new Rectangle(
             (int)location.X,
