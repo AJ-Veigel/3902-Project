@@ -21,22 +21,22 @@ public class MouseController : IController
         // Top Left
         if (mousePosition.X <= 910 && mousePosition.Y <= 540 && currentState.LeftButton.Equals(ButtonState.Pressed) && previousState.LeftButton.Equals(ButtonState.Released))
         {
-            game.toggleMap(0);
+            //game.toggleMap(0);
         }
         // Bottom Left
         else if (mousePosition.X >= 910 && mousePosition.Y <= 540 && currentState.LeftButton.Equals(ButtonState.Pressed) && previousState.LeftButton.Equals(ButtonState.Released))
         {
-            game.toggleMap(1);
+            //game.toggleMap(1);
         }
         // Top Right
         else if (mousePosition.X <= 910 && mousePosition.Y >= 540 && currentState.LeftButton.Equals(ButtonState.Pressed) && previousState.LeftButton.Equals(ButtonState.Released))
         {
-            game.toggleMap(2);
+            //game.toggleMap(2);
         }
         // Bottom Right
         else if (mousePosition.X >= 910 && mousePosition.Y >= 540 && currentState.LeftButton.Equals(ButtonState.Pressed) && previousState.LeftButton.Equals(ButtonState.Released))
         {
-            game.toggleMap(3);
+            //game.toggleMap(3);
         }
     }
 }
