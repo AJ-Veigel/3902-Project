@@ -214,10 +214,16 @@ public class Game1 : Core
             controller.Update(gameTime);
         }
 
-        if (IsPaused || currentMario.WinState || IsGameOver)
+        if (IsPaused || IsGameOver)
         {
             base.Update(gameTime);
             return;
+        }
+
+        if (currentMario.WinState)
+        {
+            LevelManager.GoToNextLevel(this, currentLevel);
+            currentMario.WinState = false;
         }
 
         var visibleArea = camera.BoundingRectangle;
@@ -241,7 +247,7 @@ public class Game1 : Core
             collidableBlocks,
             collidablePipes,
             this
-        ); // We should only call this method once per update.
+        );
 
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {
@@ -270,6 +276,7 @@ public class Game1 : Core
             camera.Position = new Vector2((int)currentMario.location.X - 560f, (int)camera.Position.Y);
             prevX = currentMario.location.X;
         }
+
 
         playerBlockCollision.checkCameraCollision(currentMario, cameraRect, SetMario, Damage);
 
@@ -614,7 +621,15 @@ public class Game1 : Core
 
     public void toggleMap(int roomNumber)
     {
-        prevX = 0;
+        if(currentMario.location.X > 560)
+        {
+            camera.Position = new Vector2((int)currentMario.location.X, (int)camera.Position.Y);
+        }
+        else
+        {
+            camera.Position = new Vector2((int)currentMario.location.X - 560f, (int)camera.Position.Y);
+        }
+        prevX = currentMario.location.X;
         currentLevel = roomNumber;
         if (roomNumber >= maps.Count)
         {
@@ -667,6 +682,8 @@ public class Game1 : Core
         currentItems.Clear();
         projectiles.Clear();
         LoadMaps();
+        unspawnedEnemies = levelEnemies[currentLevel];
+        map = maps[currentLevel];
     }
     public void play()
     {

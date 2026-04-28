@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using SprintZero.blocks;
 
 namespace SprintZero.Map
@@ -11,8 +12,8 @@ namespace SprintZero.Map
             int bonus = pipe.bonus;
             Console.WriteLine(level + "-" + bonus);
             level--;
-            game.toggleMap(level + bonus);
             game.spawnMarioAt(pipe.marioSpawnPos);
+            game.toggleMap(level + bonus);
         }
 
         public static void RetrunFromBonusLevel(Game1 game, IPipe pipe)
@@ -20,9 +21,10 @@ namespace SprintZero.Map
             
         }
 
-        public static void GoToNextLevel()
+        public static void GoToNextLevel(Game1 game, int currentLevel)
         {
-
+            game.spawnMarioAt(game.maps[currentLevel].getSpawn());
+            game.toggleMap(currentLevel + 2);
         }
     }
 }
