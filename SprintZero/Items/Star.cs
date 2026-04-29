@@ -37,6 +37,8 @@ public class Star : ICollectable
         location = pos;
         //Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
         RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
+        VelocityX = 2f;
+
     }
     public void ReverseDirection()
     {
