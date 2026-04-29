@@ -690,7 +690,7 @@ public class Game1 : Core
         Music.StopMusic();
         Music.deathSound.Play();
 
-        enemies.Clear();
+        maps.Clear();
         currentItems.Clear();
         projectiles.Clear();
         LoadMaps();

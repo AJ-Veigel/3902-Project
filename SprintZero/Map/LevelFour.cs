@@ -130,6 +130,8 @@ namespace SprintZero.Map
 
         public void FromFile(TileMap tilemap)
         {
+            tilemap.ClearMaps();
+            spawnedEnemies.Clear();
 
             string filePath = Path.Combine(content.RootDirectory, filename);
 

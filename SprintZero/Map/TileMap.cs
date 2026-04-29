@@ -13,7 +13,7 @@ namespace SprintZero.Map
 {
     public class TileMap
     {
-        private Dictionary<Point, IBlock> map;
+        private Dictionary<Point, IBlock> blockMap;
         private Dictionary<Point, IPipe> pipeMap;
         private Dictionary<Point, ICollectable> itemMap;
         private Vector2 marioSpawnPos = new Vector2(600, 600);
@@ -31,14 +31,14 @@ namespace SprintZero.Map
 
         public TileMap()
         {
-            map = new Dictionary<Point, IBlock>();
+            blockMap = new Dictionary<Point, IBlock>();
             pipeMap = new Dictionary<Point, IPipe>();
             itemMap = new Dictionary<Point, ICollectable>();
         }
 
         public void addBlockAt(Point p, IBlock block)
         {
-            map.Add(p, block);
+            blockMap.Add(p, block);
         }
 
         public void addPipeAt(Point p, IPipe pipe)
@@ -53,12 +53,12 @@ namespace SprintZero.Map
 
         public void removeBlockAt(Point p)
         {
-            map.Remove(p);
+            blockMap.Remove(p);
         }
 
         public IBlock getBlockAt(Point p)
         {
-            return map[p];
+            return blockMap[p];
         }
 
         public Vector2 getSpawn()
@@ -81,6 +81,13 @@ namespace SprintZero.Map
             backgroundColor = color;
         }
 
+        public void ClearMaps()
+        {
+            blockMap.Clear();
+            pipeMap.Clear();
+            itemMap.Clear();
+        }
+
         public List<IBlock> getBlocksInRectangle(Rectangle rect)
         {
             cachedBlockList.Clear();
@@ -97,9 +104,9 @@ namespace SprintZero.Map
                 {
                     Point p = new Point(x, y);
 
-                    if (map.ContainsKey(p))
+                    if (blockMap.ContainsKey(p))
                     {
-                        cachedBlockList.Add(map[p]);
+                        cachedBlockList.Add(blockMap[p]);
                     }
                 }
             }
@@ -185,7 +192,7 @@ namespace SprintZero.Map
                 {
                     Point tilePos = new Point(x, y);
 
-                    if (map.TryGetValue(tilePos, out IBlock block))
+                    if (blockMap.TryGetValue(tilePos, out IBlock block))
                     {
                         block.Draw(batch);
                     }
@@ -213,7 +220,7 @@ namespace SprintZero.Map
                 {
                     Point tilePos = new Point(x, y);
 
-                    if (map.TryGetValue(tilePos, out IBlock block))
+                    if (blockMap.TryGetValue(tilePos, out IBlock block))
                     {
                         block.Update(gametime);
                     }
@@ -231,7 +238,7 @@ namespace SprintZero.Map
 
         public List<IBlock> getAllBlocks()
         {
-            return new List<IBlock>(map.Values);
+            return new List<IBlock>(blockMap.Values);
         }
     }
 }
