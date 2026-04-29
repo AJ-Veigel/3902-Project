@@ -20,7 +20,7 @@ public class Koopa : IEnemy
 
 	private const float GRAVITY = 768.0f;
 
-	private const float WALK_SPEED = 150.0f; // In per second scale
+	private const float WALK_SPEED = 120.0f; // In per second scale
 	private const float SHELL_SPEED = 768.0f;
 	public enum KoopaType { Green, Red, Blue };
 	public Vector2 position { get; set; }

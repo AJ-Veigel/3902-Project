@@ -440,7 +440,8 @@ public class Game1 : Core
         string coins = coinCount.ToString("D2");
         int timeleft = (int)gameTimer;
         string time = timeleft.ToString("D3");
-        string HUD = "MARIO              WORLD         TIME\n" + score + "   Ox" + coins + "       " + worldNumber + "-" + levelNumber + "              " + time;
+        string lives = livesCount.ToString("D1");
+        string HUD = "MARIO              WORLD         TIME         LIVES\n" + score + "   Ox" + coins + "       " + worldNumber + "-" + levelNumber + "              " + time + "              " + lives;
         Vector2 HUDpos = new Vector2(0, 0);
         SpriteBatch.Begin();
         SpriteBatch.DrawString(font1, HUD, HUDpos, Color.White);
