@@ -11,7 +11,9 @@ namespace HammerCollisions
         public static void CheckHammerMarioCollision(Hammer hammer, IMario mario, Action damageCallback)
         {
             if (!hammer.IsActive) return;
- 
+
+            if (mario.Invincible) return;
+
             if (hammer.HammerCollider.Intersects(mario.MarioCollider))
             {
                 damageCallback();
