@@ -23,7 +23,7 @@ namespace SprintZero.Map
         private TextureAtlas underBlockTextures { get; set; }
         private string filename;
         private TextureRegion ground, brick, solid, tubeTop, tubeMid, tubeLeft, tubeInter;
-        private AnimatedSprite qBlock, coin;
+        private AnimatedSprite qBlock;
         private Game1 game;
 
         public LevelOneBonus(ContentManager content, TextureAtlas blockTextures, TextureAtlas underBlockTextures, string filename, Game1 game)

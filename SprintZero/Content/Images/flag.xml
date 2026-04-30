@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <TextureAtlas>
-  <Texture>Images/flag</Texture>
+  <Texture>Images/bigblock</Texture>
   <Regions>
-    <Region name="flag" x="0" y="0" width="50" height="53"/>
-    <Region name="poleTop" x="65" y="0" width="31" height="53"/>
-    <Region name="poleMiddle" x="110" y="6" width="33" height="45"/>
+    <Region name="flag" x="259" y="55" width="16" height="16"/>
+    <Region name="poleTop" x="268" y="38" width="16" height="16"/>
+    <Region name="poleMiddle" x="268" y="182" width="16" height="16"/>
   </Regions>
    <Animations>
   </Animations>
