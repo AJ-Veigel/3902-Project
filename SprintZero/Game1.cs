@@ -223,6 +223,7 @@ public class Game1 : Core
 
         if (IsPaused || currentMario.WinState || IsGameOver || inAnimation)
         {
+            Music.StopMusic();
             base.Update(gameTime);
             return;
         }
@@ -350,6 +351,12 @@ public class Game1 : Core
         }
 
         collectedItems.Clear();
+
+        if (coinCount == 100)
+        {
+            coinCount = 0;
+            livesCount ++;
+        }
 
         for (int i = hammers.Count - 1; i >= 0; i--)
         {

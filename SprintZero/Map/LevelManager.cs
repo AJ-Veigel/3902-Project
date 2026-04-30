@@ -13,7 +13,6 @@ namespace SprintZero.Map
             Console.WriteLine(level + "-" + bonus);
             level--;
             game.inAnimation = true;
-            AnimationManager.PipeAnimation(game.currentMario, pipe);
             game.spawnMarioAt(pipe.marioSpawnPos);
             game.toggleMap(level + bonus);
             game.inAnimation = false;
@@ -23,7 +22,7 @@ namespace SprintZero.Map
         {
             game.levelNumber = 4;
             game.gameTimer = 400f;
-            if(currentLevel + 1 >= game.maps.Count)
+            if(currentLevel + 2 >= game.maps.Count)
             {
                 currentLevel = -2;
             }
