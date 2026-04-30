@@ -10,6 +10,7 @@
 		<Region name="bridge" x="587" y="468" width="16" height ="16"/>
 		<Region name="chain" x="587" y="452" width="16" height ="16"/>
 		<Region name="lavaTop" x="622" y="452" width="16" height ="16"/>
+		<Region name="lavaBody" x="622" y="469" width="16" height ="16"/>
 		<Region name="lavaFireball" x="660" y="474" width="14" height ="16"/>
 		<Region name="firebarBase" x="413" y="84" width="16" height ="16"/>
 		<Region name = "questionBlock1" x="372" y="160" width="16" height="16"/>

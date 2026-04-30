@@ -691,6 +691,8 @@ public class Game1 : Core
         Music.deathSound.Play();
 
         maps.Clear();
+        enemies.Clear();
+        levelEnemies.Clear();
         currentItems.Clear();
         projectiles.Clear();
         LoadMaps();

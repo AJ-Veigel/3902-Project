@@ -34,7 +34,7 @@ namespace SprintZero.Map
         private TextureRegion ground, solid, tubeTop, tubeLeft, tubeMid, tubeInter, castle;
         private AnimatedSprite qBlock, brick;
         private TextureAtlas flagpoleTexture;
-        private TextureRegion flagRegion, flag, poleTop, poleMiddle;
+        private TextureRegion flag, poleTop, poleMiddle;
 
 
         public List<IEnemy> spawnedEnemies;
