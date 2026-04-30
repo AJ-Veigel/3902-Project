@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SprintZero.blocks;
+using SprintZero.background;
 using SprintZero.Items;
 
 
@@ -16,6 +17,7 @@ namespace SprintZero.Map
         private Dictionary<Point, IBlock> blockMap;
         private Dictionary<Point, IPipe> pipeMap;
         private Dictionary<Point, ICollectable> itemMap;
+        private Dictionary <Point, IBackground> backgroundMap;
         private Vector2 marioSpawnPos = new Vector2(600, 600);
         private Color backgroundColor = Color.CornflowerBlue;
 
@@ -34,6 +36,7 @@ namespace SprintZero.Map
             blockMap = new Dictionary<Point, IBlock>();
             pipeMap = new Dictionary<Point, IPipe>();
             itemMap = new Dictionary<Point, ICollectable>();
+            backgroundMap = new Dictionary<Point, IBackground>();
         }
 
         public void addBlockAt(Point p, IBlock block)
@@ -49,6 +52,11 @@ namespace SprintZero.Map
         public void addItemAt(Point p, ICollectable item)
         {
             itemMap.Add(p, item);
+        }
+
+        public void addBackgroundAt(Point p, IBackground background)
+        {
+            backgroundMap.Add(p, background);
         }
 
         public void removeBlockAt(Point p)
@@ -86,6 +94,7 @@ namespace SprintZero.Map
             blockMap.Clear();
             pipeMap.Clear();
             itemMap.Clear();
+            backgroundMap.Clear();
         }
 
         public List<IBlock> getBlocksInRectangle(Rectangle rect)
@@ -204,6 +213,10 @@ namespace SprintZero.Map
                     {
                         item.Draw(batch);
                     }
+                    if (backgroundMap.TryGetValue(tilePos, out IBackground background))
+                    {
+                        background.Draw(batch);
+                    }
                 }
             }
         }
@@ -231,6 +244,10 @@ namespace SprintZero.Map
                     if (itemMap.TryGetValue(tilePos, out ICollectable item))
                     {
                         item.Update(gametime);
+                    }
+                    if (backgroundMap.TryGetValue(tilePos, out IBackground background))
+                    {
+                        background.Update(gametime);
                     }
                 }
             }

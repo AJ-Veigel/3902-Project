@@ -50,7 +50,10 @@ namespace EnemyCollisions
                         ScoreManager.EnemyStomped(game);
                     }
 
-                    currentMario.Bounce();
+                    if(currentEnemy is not BarFireball)
+                    {
+                        currentMario.Bounce();
+                    }
                 }
             }
             else

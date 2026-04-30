@@ -15,6 +15,7 @@ using MonoGame.Extended;
 using System.Reflection.Metadata;
 using SprintZero.Marios;
 using SprintZero.Enemies;
+using SprintZero.background;
 
 namespace SprintZero.Map
 {
@@ -32,7 +33,7 @@ namespace SprintZero.Map
         private TextureAtlas itemTextures;
         private List<ICollectable> items;
         private string filename;
-        private TextureRegion brick, bridge, firebarBlock, chain;
+        private TextureRegion brick, bridge, firebarBlock, chain, lava;
         private AnimatedSprite qBlock, axe;
 
 
@@ -99,8 +100,15 @@ namespace SprintZero.Map
         private static void placeChainAt(TileMap map, TextureRegion chain, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new Chain(chain, location);
-            map.addBlockAt(tilePos, block);
+            IBackground block = new Chain(chain, location);
+            map.addBackgroundAt(tilePos, block);
+        }
+
+        private static void placeLavaAt(TileMap map, TextureRegion lava, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBackground block = new Lava(lava, location);
+            map.addBackgroundAt(tilePos, block);
         }
 
         private void placeItemQBlockAt(TileMap map, AnimatedSprite qBlock, Point tilePos)
@@ -123,7 +131,9 @@ namespace SprintZero.Map
             brick = blockTextures.GetRegion("castleBlock");
             bridge = blockTextures.GetRegion("bridge");
             chain = blockTextures.GetRegion("chain");
+            lava = blockTextures.GetRegion("lavaTop");
             firebarBlock = blockTextures.GetRegion("firebarBase");
+            //fireballTexture = TextureAtlas.FromFile(this.content, "images/fireBall-definition.xml");
             goombaTexture = TextureAtlas.FromFile(this.content, "images/goomba-definition.xml");
             bowserTexture = TextureAtlas.FromFile(this.content, "images/bowser-definition.xml");
         }
@@ -213,6 +223,7 @@ namespace SprintZero.Map
                                     }
                                 case 7:
                                     {
+                                        placeLavaAt(tilemap, lava, p);
                                         break;
                                     }
                                 case 8:
