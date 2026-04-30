@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SprintZero;
 using SprintZero.Controllers;
+using SprintZero.Map;
 
 public class MouseController : IController
 {
@@ -31,7 +32,7 @@ public class MouseController : IController
         // Top Right
         else if (mousePosition.X <= 910 && mousePosition.Y >= 540 && currentState.LeftButton.Equals(ButtonState.Pressed) && previousState.LeftButton.Equals(ButtonState.Released))
         {
-            game.toggleMap(2);
+            LevelManager.GoToNextLevel(game, game.currentLevel);
         }
         // Bottom Right
         else if (mousePosition.X >= 910 && mousePosition.Y >= 540 && currentState.LeftButton.Equals(ButtonState.Pressed) && previousState.LeftButton.Equals(ButtonState.Released))

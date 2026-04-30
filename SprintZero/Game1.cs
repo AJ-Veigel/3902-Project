@@ -45,7 +45,7 @@ public class Game1 : Core
     private List<IEnemy> unspawnedEnemies;
     private List<List<IEnemy>> levelEnemies;
     public IMario currentMario;
-    private bool hurryupPlayed = false, inAnimation = false;
+    private bool hurryupPlayed = false;
 
     public List<TileMap> maps; // Temporary!
     private TileMap map; // Current map.
@@ -60,6 +60,7 @@ public class Game1 : Core
     public float gameTimer = 400f;
 
     public bool IsPaused { get; set; } = false;
+    public bool inAnimation { get; set; } = false;
     private Texture2D pauseTexture, winTexture;
     public bool IsGameOver { get; set; } = false;
     private Texture2D gameOverTexture;
@@ -209,12 +210,9 @@ public class Game1 : Core
             }
         }
 
-        if (!inAnimation)
+        foreach (IController controller in controllers)
         {
-            foreach (IController controller in controllers)
-            {
-                controller.Update(gameTime);
-            }
+            controller.Update(gameTime);
         }
 
         if (currentMario.WinState && currentLevel != 2)
@@ -223,7 +221,7 @@ public class Game1 : Core
             currentMario.WinState = false;
         }
 
-        if (IsPaused || currentMario.WinState || IsGameOver)
+        if (IsPaused || currentMario.WinState || IsGameOver || inAnimation)
         {
             base.Update(gameTime);
             return;
