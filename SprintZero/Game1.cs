@@ -64,6 +64,9 @@ public class Game1 : Core
     private Texture2D pauseTexture, winTexture;
     public bool IsGameOver { get; set; } = false;
     private Texture2D gameOverTexture;
+    public enum AnimationType {PipeDown, PipeLeft, PipeUp};
+    public AnimationType animationState;
+    public IPipe pipeChange;
 
     public Game1() : base("SMB1", 1920, 1080, false) { }
 
@@ -210,6 +213,13 @@ public class Game1 : Core
             }
         }
 
+        if (IsPaused || currentMario.WinState || IsGameOver || inAnimation)
+        {
+            Music.StopMusic();
+            base.Update(gameTime);
+            return;
+        }
+
         foreach (IController controller in controllers)
         {
             controller.Update(gameTime);
@@ -219,13 +229,6 @@ public class Game1 : Core
         {
             LevelManager.GoToNextLevel(this, currentLevel);
             currentMario.WinState = false;
-        }
-
-        if (IsPaused || currentMario.WinState || IsGameOver || inAnimation)
-        {
-            Music.StopMusic();
-            base.Update(gameTime);
-            return;
         }
 
         var visibleArea = camera.BoundingRectangle;
@@ -399,6 +402,10 @@ public class Game1 : Core
 
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetViewMatrix());
         currentMario.Draw(SpriteBatch);
+        if(inAnimation)
+        {
+            AnimationManager.DrawAnimation(SpriteBatch, this, pipeChange);
+        }
         foreach (ICollectable item in currentItems)
         {
             item.Draw(SpriteBatch);

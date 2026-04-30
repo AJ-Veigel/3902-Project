@@ -8,14 +8,18 @@ namespace SprintZero.Map
     {
         public static void SwapLevel(Game1 game, IPipe pipe)
         {
-            int level = pipe.levelNum;
+            int level = pipe.levelNum - 1;
             int bonus = pipe.bonus;
-            Console.WriteLine(level + "-" + bonus);
-            level--;
             game.inAnimation = true;
-            game.spawnMarioAt(pipe.marioSpawnPos);
-            game.toggleMap(level + bonus);
-            game.inAnimation = false;
+            if(pipe is TubeTop)
+            {
+                game.animationState = Game1.AnimationType.PipeDown;
+            }
+            else if(pipe is TubeLeft)
+            {
+                game.animationState = Game1.AnimationType.PipeLeft;
+            }
+            game.pipeChange = pipe;
         }
 
         public static void GoToNextLevel(Game1 game, int currentLevel)
