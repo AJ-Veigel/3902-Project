@@ -11,7 +11,6 @@ public class Mushroom : ICollectable
 {
     private TextureRegion sprite;
     public Vector2 location { get; set; }
-    public Hitbox Collider { get; set; }
     public Rectangle RectCollider { get; set; }
 
     public float VelocityX { get; set; }
