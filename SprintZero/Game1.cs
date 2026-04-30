@@ -45,7 +45,7 @@ public class Game1 : Core
     private List<IEnemy> unspawnedEnemies;
     private List<List<IEnemy>> levelEnemies;
     public IMario currentMario;
-    private bool hurryupPlayed = false;
+    private bool hurryupPlayed = false, inAnimation = false;
 
     public List<TileMap> maps; // Temporary!
     private TileMap map; // Current map.
@@ -209,9 +209,12 @@ public class Game1 : Core
             }
         }
 
-        foreach (IController controller in controllers)
+        if (!inAnimation)
         {
-            controller.Update(gameTime);
+            foreach (IController controller in controllers)
+            {
+                controller.Update(gameTime);
+            }
         }
 
         if (currentMario.WinState && currentLevel != 2)

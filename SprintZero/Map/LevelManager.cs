@@ -16,13 +16,10 @@ namespace SprintZero.Map
             game.toggleMap(level + bonus);
         }
 
-        public static void RetrunFromBonusLevel(Game1 game, IPipe pipe)
-        {
-            
-        }
-
         public static void GoToNextLevel(Game1 game, int currentLevel)
         {
+            game.levelNumber = 4;
+            game.gameTimer = 400f;
             game.spawnMarioAt(game.maps[currentLevel + 2].getSpawn());
             game.toggleMap(currentLevel + 2);
         }
