@@ -33,7 +33,7 @@ namespace SprintZero.Map
         private TextureAtlas itemTextures;
         private List<ICollectable> items;
         private string filename;
-        private TextureRegion brick, bridge, firebarBlock, chain, lava;
+        private TextureRegion brick, bridge, firebarBlock, chain, lava, lavaBody;
         private AnimatedSprite qBlock, axe;
 
 
@@ -111,6 +111,13 @@ namespace SprintZero.Map
             map.addBackgroundAt(tilePos, block);
         }
 
+        private static void placeLavaBodyAt(TileMap map, TextureRegion lava, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBackground block = new LavaBody(lava, location);
+            map.addBackgroundAt(tilePos, block);
+        }
+
         private void placeItemQBlockAt(TileMap map, AnimatedSprite qBlock, Point tilePos)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
@@ -132,6 +139,7 @@ namespace SprintZero.Map
             bridge = blockTextures.GetRegion("bridge");
             chain = blockTextures.GetRegion("chain");
             lava = blockTextures.GetRegion("lavaTop");
+            lavaBody = blockTextures.GetRegion("lavaBody");
             firebarBlock = blockTextures.GetRegion("firebarBase");
             //fireballTexture = TextureAtlas.FromFile(this.content, "images/fireBall-definition.xml");
             goombaTexture = TextureAtlas.FromFile(this.content, "images/goomba-definition.xml");
@@ -228,6 +236,7 @@ namespace SprintZero.Map
                                     }
                                 case 8:
                                     {
+                                        placeLavaBodyAt(tilemap, lavaBody, p);
                                         break;
                                     }
                                 case 9:
