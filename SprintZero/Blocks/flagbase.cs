@@ -10,7 +10,7 @@ public class FlagBase : IBlock
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
 
-    private const float SCALE = 1.5f;
+    private const float SCALE = 4f;
 
     public FlagBase(TextureRegion region, Vector2 location)
     {
