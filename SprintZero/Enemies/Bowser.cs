@@ -19,6 +19,18 @@ namespace SprintZero.Enemies
         public float VelocityX { get; set; }
         public float VelocityY { get; set; }
 
+        private const float MOVE_TIMING = 1.5f;
+        private const float JUMP_TIMING = 3.0f;
+        private const float FIRE_TIMING = 4.0f;
+        private const float HAMMER_TIMING = 1.2f;
+        private const float ANIMATION_TIMING = 0.3f;
+        private const float FIRE_ANIM_COOLDOWN = 0.5f;
+        private const float DAMAGE_COOLDOWN_DURATION = 0.5f;
+
+
+
+
+
         private bool isDead = false;
         public bool Dead
         {
@@ -104,7 +116,7 @@ namespace SprintZero.Enemies
             health--;
 
             // Give Bowser half a second of invincibility per hit
-            damageCooldown = 0.5f;
+            damageCooldown = DAMAGE_COOLDOWN_DURATION;
 
             if (health <= 0)
             {
@@ -160,13 +172,13 @@ namespace SprintZero.Enemies
             moveTimer += dt;
             animationTimer += dt;
 
-            if (moveTimer > 1.5f)
+            if (moveTimer > MOVE_TIMING)
             {
                 VelocityX = -VelocityX;
                 moveTimer = 0f;
             }
 
-            if (jumpTimer > 3.0f && onGround)
+            if (jumpTimer > JUMP_TIMING && onGround)
             {
                 VelocityY = -12f;
                 onGround = false;
@@ -187,7 +199,7 @@ namespace SprintZero.Enemies
                 moveTimer = 0f;
             }
 
-            if (fireTimer > 4.0f)
+            if (fireTimer > FIRE_TIMING)
             {
                 bool shootRight = !facingLeft;
                 Vector2 spawnPos = new Vector2(position.X + (facingLeft ? -30f : 100f), position.Y + 20f);
@@ -198,7 +210,7 @@ namespace SprintZero.Enemies
                 animationTimer = 0f;
             }
 
-            if (hammerTimer > 1.2f)
+            if (hammerTimer > HAMMER_TIMING)
             {
                 bool shootRight = !facingLeft;
                 Vector2 spawnPos = new Vector2(position.X + (facingLeft ? -10f : 80f), position.Y - 20f);
@@ -207,7 +219,7 @@ namespace SprintZero.Enemies
                 hammerTimer = 0f;
             }
 
-            if (animationTimer > 0.3f && fireTimer > 0.5f)
+            if (animationTimer > ANIMATION_TIMING && fireTimer > FIRE_ANIM_COOLDOWN)
             {
                 animationTimer = 0f;
                 currentSprite = (currentSprite == mouthClosed1) ? mouthOpen1 : mouthClosed1;
