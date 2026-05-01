@@ -43,7 +43,6 @@ namespace SprintZero.Enemies
 
                     currentSprite = grayGoombaSprite;
 
-                    // Adjusts position so the Goomba is centered where Bowser was standing
                     position = new Vector2(position.X + 34f, position.Y + 64f);
 
                     EnemyCollider = new Rectangle(0, 0, 0, 0);
@@ -61,7 +60,7 @@ namespace SprintZero.Enemies
 
         private TextureRegion mouthOpen1;
         private TextureRegion mouthClosed1;
-        private TextureRegion grayGoombaSprite; // Fake Goomba sprite for when Bowser dies
+        private TextureRegion grayGoombaSprite; 
         private TextureRegion currentSprite;
 
         private float fireTimer = 0f;
@@ -75,7 +74,6 @@ namespace SprintZero.Enemies
 
         private Random rng = new Random();
 
-        // Cooldown timer for invincibility frames
         private float damageCooldown = 0f;
 
         public Bowser(TextureAtlas bowserTexture, TextureAtlas goombaTexture, Game1 gameInstance, Vector2 startPos)
@@ -110,12 +108,10 @@ namespace SprintZero.Enemies
 
         public void TakeDamage()
         {
-            // If the cooldown is active, ignore the hit
             if (damageCooldown > 0) return;
 
             health--;
 
-            // Give Bowser half a second of invincibility per hit
             damageCooldown = DAMAGE_COOLDOWN_DURATION;
 
             if (health <= 0)
@@ -139,21 +135,19 @@ namespace SprintZero.Enemies
 
             if (currentSprite != null)
             {
-                // Optional: You could make Bowser flash red or disappear briefly when damageCooldown > 0 here to show he took a hit!
                 spriteBatch.Draw(currentSprite.Texture, position, currentSprite.SourceRectangle, Color.White, 0f, Vector2.Zero, SCALE, effect, 0f);
             }
         }
 
         public void Stomped()
         {
-            // Stomping on Bowser does nothing
+            //stomping on Bowser does nothing
         }
 
         public void Update(GameTime gameTime)
         {
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            // Count down the invincibility frames
             if (damageCooldown > 0) damageCooldown -= dt;
 
             if (Dead)
