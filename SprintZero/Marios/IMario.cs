@@ -13,6 +13,7 @@ namespace SprintZero.Marios
         bool Jumping { get; set; }
         float jumpStartHeight { get; set; }
         bool isOnGround { get; set; }
+        bool Moving { get; set; }
         bool Sprinting { get; set; }
         bool Swimming { get; set; }
         bool Crouching { get; set; }
