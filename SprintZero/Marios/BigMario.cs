@@ -162,13 +162,13 @@ public class BigMario : IMario
         {
             if (Crouching)
             {
-                location = new Vector2(location.X, location.Y + 10f * (SCALE));
+                location = new Vector2(location.X, location.Y + 10f * SCALE);
                 marioSprites.SetLocation(location);
                 marioSprites.SetSprite(Direction ? "crouchRight" : "crouchLeft");
             }
             else if (!Crouching)
             {
-                location = new Vector2(location.X, location.Y - 10f * (SCALE));
+                location = new Vector2(location.X, location.Y - 10f * SCALE);
                 marioSprites.SetLocation(location);
                 marioSprites.SetSprite(Direction ? "crouchRight" : "crouchLeft");
             }
