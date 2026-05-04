@@ -24,6 +24,7 @@ namespace SprintZero.Marios
         bool AutoWalking { get; set; }
         bool WinState { get; set; }
         bool IsStarPower { get; set; }
+        bool inPipe { get; set; }
         float yVelocity { get; set; }
         float xVelocity { get; set; }
         float currentPlatformY { get; set; }

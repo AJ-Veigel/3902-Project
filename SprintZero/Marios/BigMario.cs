@@ -30,6 +30,7 @@ public class BigMario : IMario
     public bool Swimming { get; set; }
     public bool throwing { get; set; } = false;
     public bool Moving { get; set; }
+    public bool inPipe { get; set; }
     public bool Invincible { get; set; } = true;
     private float invincibilityTimer = 0f;
     private const float SCALE = 4f;

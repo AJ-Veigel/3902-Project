@@ -33,12 +33,14 @@ public class SmallMario : IMario
     public bool Moving { get; set; }
     public bool throwing { get; set; } = false;
     public bool SlidingFlag { get; set; }
+    public bool inPipe { get; set; }
     public bool Invincible { get; set; } = true;
     private float invincibilityTimer = 0f;
     private const float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private float groundY;
+    private float pipeHeight = 64;
     public float currentPlatformY { get; set; }
     private const float JUMP_POWER = -11f;
     public bool AutoWalking { get; set; } = false;
@@ -166,9 +168,9 @@ public class SmallMario : IMario
                 Music.PlayBackground();
             }
         }
-        if(IsStarPower)
+        if (IsStarPower)
         {
-            if(-(int)(invincibilityTimer * 6) % 2 == 0)
+            if (-(int)(invincibilityTimer * 6) % 2 == 0)
             {
                 invincibleTint = true;
             }
@@ -181,7 +183,7 @@ public class SmallMario : IMario
         {
             invincibleTint = false;
         }
-        
+
 
         if (AutoWalking)
         {
@@ -204,10 +206,26 @@ public class SmallMario : IMario
             return;
         }
 
+        if (inPipe)
+        {
+            if(pipeHeight > 0)
+            {
+                pipeHeight -= 4;
+                location = new Vector2(location.X, location.Y - 4);
+                marioSprites.SetLocation(location);
+                MarioCollider = marioSprites.UpdateCollider();
+                return;
+            }
+            else
+            {
+                pipeHeight = 64;
+            }
+        }
+
         if (Jumping)
         {
             yVelocity += GRAVITY;
-            location = new Vector2(location.X, location.Y + yVelocity); 
+            location = new Vector2(location.X, location.Y + yVelocity);
 
             if (yVelocity > 0)
             {

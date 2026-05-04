@@ -40,6 +40,7 @@ public class FireMario : IMario
     public bool Crouching { get; set; }
     public bool Swimming { get; set; }
     public bool Moving { get; set; }
+    public bool inPipe { get; set; }
     public bool isOnGround { get; set; } = true;
     public bool Invincible { get; set; } = true;
     private float invincibilityTimer = 0f;
