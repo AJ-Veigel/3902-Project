@@ -30,7 +30,6 @@ public class BigMario : IMario
     public bool Moving { get; set; }
     public bool Invincible { get; set; } = true;
     private float invincibilityTimer = 0f;
-    private float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private const float JUMP_POWER = -11f;

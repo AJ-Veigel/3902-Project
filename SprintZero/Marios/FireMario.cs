@@ -327,6 +327,7 @@ public class FireMario : IMario
         {
             Invincible = false;
         }
+        
         if (AutoWalking)
         {
             float castleX = 100f;
