@@ -393,11 +393,6 @@ public class Game1 : Core
         GraphicsDevice.Clear(background);
 
         SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetViewMatrix());
-        currentMario.Draw(SpriteBatch);
-        foreach (ICollectable item in currentItems)
-        {
-            item.Draw(SpriteBatch);
-        }
         var visibleArea = camera.BoundingRectangle;
         Rectangle cameraRect = new Rectangle(
             (int)visibleArea.Left,
@@ -405,7 +400,14 @@ public class Game1 : Core
             (int)visibleArea.Width,
             (int)visibleArea.Height
         );
+        Rectangle backRect = new Rectangle(0, 0, 64, 64);
+        map.Draw(SpriteBatch, backRect, 64);
         map.Draw(SpriteBatch, cameraRect, 64);
+        currentMario.Draw(SpriteBatch);
+        foreach (ICollectable item in currentItems)
+        {
+            item.Draw(SpriteBatch);
+        }
         foreach (var p in projectiles)
             p.Draw(SpriteBatch);
         foreach (IEnemy enemy in enemies)
