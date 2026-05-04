@@ -27,9 +27,9 @@ namespace MarioMovement
         {
             mario.Moving = false;
             mario.xVelocity = 0;
-            if (!mario.Jumping && !mario.Falling)
+            if (!mario.Jumping && !mario.Falling & !mario.throwing)
             {
-                if(mario is FireMario && !mario.throwing) sprites.SetSprite(mario.Direction ? "standRight" : "standLeft");
+                sprites.SetSprite(mario.Direction ? "standRight" : "standLeft");
             }
         }
 

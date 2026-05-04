@@ -26,8 +26,9 @@ public class HiddenBlock : IBlock
     private bool movingUp = false;
     private bool movingDown = false;
     private bool containsStar;
+    private bool containsOneUp;
 
-    public HiddenBlock(AnimatedSprite emptyAnim, Vector2 pos, TextureAtlas texture, List<ICollectable> currItems, bool hasStar)
+    public HiddenBlock(AnimatedSprite emptyAnim, Vector2 pos, TextureAtlas texture, List<ICollectable> currItems, bool hasStar, bool hasOneUp)
     {
         emptySprite = emptyAnim;
         emptySprite.Scale = new Vector2(SCALE);
@@ -38,6 +39,7 @@ public class HiddenBlock : IBlock
         itemTexture = texture;
         items = currItems;
         containsStar = hasStar;
+        containsOneUp = hasOneUp;
 
         Collider = new Rectangle(
             (int)location.X,
@@ -100,7 +102,7 @@ public class HiddenBlock : IBlock
                 {
                     SpawnItem.SpawnStar(itemTexture, items, aboveBlock);
                 }
-                else
+                else if (containsOneUp)
                 {
                     SpawnItem.SpawnOneUp(itemTexture, items, aboveBlock);
                 }

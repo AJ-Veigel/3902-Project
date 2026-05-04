@@ -152,7 +152,7 @@ namespace SprintZero.Map
 
             AnimatedSprite emptySprite = blockAtlas.CreateAnimatedSprite("hit-Question");
 
-            IBlock block = new HiddenBlock(emptySprite, location, itemTextures, items, containsStar);
+            IBlock block = new HiddenBlock(emptySprite, location, itemTextures, items, containsStar, true);
             map.addBlockAt(tilePos, block);
         }
         private static void placeFlagAt(TileMap map, TextureRegion flag, Point tilepos)

@@ -118,10 +118,13 @@ namespace SprintZero.Map
             map.addBackgroundAt(tilePos, block);
         }
 
-        private void placeItemQBlockAt(TileMap map, AnimatedSprite qBlock, Point tilePos)
+        private void placeHiddenBlockAt(TileMap map, TextureAtlas blockAtlas, Point tilePos, bool containsStar)
         {
             Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new questionMarkItem(qBlock, location, itemTextures, items);
+
+            AnimatedSprite emptySprite = blockAtlas.CreateAnimatedSprite("hit-Question");
+
+            IBlock block = new HiddenBlock(emptySprite, location, itemTextures, items, containsStar, false);
             map.addBlockAt(tilePos, block);
         }
         private static void placeAxeAt(TileMap map, AnimatedSprite axe, Point tilepos)
@@ -277,6 +280,11 @@ namespace SprintZero.Map
                                     {
                                         Bowser bowser = new Bowser(bowserTexture, goombaTexture, game, pos);
                                         spawnedEnemies.Add(bowser);
+                                        break;
+                                    }
+                                case 20:
+                                    {
+                                        placeHiddenBlockAt(tilemap, blockTextures, p, false);
                                         break;
                                     }
                                 default:
