@@ -78,7 +78,7 @@ namespace SprintZero.PBCollision
                     mario.StopMove();
                     return mapChange;
                 }
-                
+
                 Rectangle marioRect = mario.MarioCollider;
                 Rectangle blockRect = block.Collider;
 
@@ -86,7 +86,7 @@ namespace SprintZero.PBCollision
                 {
                     theSide = getCollisionSide(marioRect, blockRect);
                     Console.WriteLine($"[Collision Debug] mario collided with block at {blockRect.Location} on {theSide} side");
-                    if (block is FlagMove)
+                    if (block is FlagMove || block is HiddenBlock)
                     {
                         block.onCollision(mario, theSide);
                         handleBySpecial = true;
@@ -106,11 +106,35 @@ namespace SprintZero.PBCollision
                     }
                 }
 
-
                 bool withinX = marioRect.Right > blockRect.Left && marioRect.Left < blockRect.Right;
                 bool nearTop = marioRect.Bottom >= blockRect.Top - tolerance && marioRect.Bottom <= blockRect.Top + tolerance;
 
-                if (withinX && nearTop && mario.yVelocity >= 0)
+                HiddenBlock hit = null;
+                if (block is HiddenBlock)
+                {
+                    hit = (HiddenBlock)block;
+                }
+
+                FlagMove flag = null;
+                if (block is FlagMove)
+                {
+                    flag = (FlagMove)block;
+                }
+
+                if (withinX && nearTop && mario.yVelocity >= 0 && hit != null)
+                {
+                    if (hit.GetisHit())
+                    {
+                        standingOnBlock = true;
+                        if (blockRect.Top < highestBlockTop)
+                            highestBlockTop = blockRect.Top;
+                    }
+                }
+                else if (withinX && nearTop && mario.yVelocity >= 0 && flag != null)
+                {
+
+                }
+                else if (withinX && nearTop && mario.yVelocity >= 0)
                 {
                     standingOnBlock = true;
                     if (blockRect.Top < highestBlockTop)
@@ -137,7 +161,7 @@ namespace SprintZero.PBCollision
 
                 if (withinX && nearTop && mario.yVelocity >= 0)
                 {
-                    if(pipe is TubeTop && pipe.levelNum > 0 && aboveTubeTop)
+                    if (pipe is TubeTop && pipe.levelNum > 0 && aboveTubeTop)
                     {
                         pipe.onCollision(mario, CollisionSide.Top, game);
                         mapChange++;
