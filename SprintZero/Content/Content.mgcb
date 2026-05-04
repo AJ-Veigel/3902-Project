@@ -41,6 +41,9 @@
 #begin Images/block-definition.xml
 /copy:Images/block-definition.xml
 
+#begin Images/bowser-definition.xml
+/copy:Images/bowser-definition.xml
+
 #begin Images/BowserFireball-definition.xml
 /copy:Images/BowserFireball-definition.xml
 
