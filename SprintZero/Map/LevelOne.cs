@@ -15,6 +15,7 @@ using MonoGame.Extended;
 using System.Reflection.Metadata;
 using SprintZero.Marios;
 using SprintZero.Enemies;
+using SprintZero.background;
 
 namespace SprintZero.Map
 {
@@ -31,7 +32,7 @@ namespace SprintZero.Map
         private TextureAtlas bigBlockTexturePt2;
         private List<ICollectable> items;
         private string filename;
-        private TextureRegion ground, solid, tubeTop, tubeLeft, tubeMid, tubeInter, castle;
+        private TextureRegion ground, solid, tubeTop, tubeLeft, tubeMid, tubeInter, castle, background;
         private AnimatedSprite qBlock, brick;
         private TextureAtlas flagpoleTexture;
         private TextureRegion flag, poleTop, poleMiddle;
@@ -41,6 +42,7 @@ namespace SprintZero.Map
 
         private TextureAtlas goombaTexture;
         private TextureAtlas bowserTexture;
+        private TextureAtlas backgroundTexture;
         private Game1 game;
 
         public LevelOne(ContentManager content, TextureAtlas blockTextures, TextureAtlas itemTextures, List<ICollectable> currItems, string filename, TextureAtlas bigBlockTexturePt2, TextureAtlas bigBlockTexture, Game1 game)
@@ -48,7 +50,7 @@ namespace SprintZero.Map
             this.content = content;
             this.blockTextures = blockTextures;
             this.bigBlockTexturePt2 = bigBlockTexturePt2;
-            this.spawnedEnemies = new List<IEnemy>();
+            spawnedEnemies = new List<IEnemy>();
             this.bigBlockTexture = bigBlockTexture;
             this.game = game;
             LoadContent();
@@ -181,7 +183,12 @@ namespace SprintZero.Map
             map.addBlockAt(tilePos, block);
         }
 
-
+        private static void placeBackgroundAt(TileMap map, TextureRegion background, Point tilePos)
+        {
+            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
+            IBackground back = new LevelOneBackground(background, location);
+            map.addBackgroundAt(tilePos, back);
+        }
 
         public void LoadContent()
         {
@@ -193,14 +200,16 @@ namespace SprintZero.Map
             tubeLeft = blockTextures.GetRegion("tubeLeft");
             tubeMid = blockTextures.GetRegion("tubeMid");
             tubeInter = blockTextures.GetRegion("tubeIntersect");
-            goombaTexture = TextureAtlas.FromFile(this.content, "images/goomba-definition.xml");
-            bowserTexture = TextureAtlas.FromFile(this.content, "images/bowser-definition.xml");
+            goombaTexture = TextureAtlas.FromFile(content, "images/goomba-definition.xml");
+            bowserTexture = TextureAtlas.FromFile(content, "images/bowser-definition.xml");
             flagMove = bigBlockTexturePt2.CreateAnimatedSprite("flagMove");
             castle = bigBlockTexture.GetRegion("castle");
             flagpoleTexture = TextureAtlas.FromFile(content, "Images/flag.xml");
             flag = flagpoleTexture.GetRegion("flag");
             poleTop = flagpoleTexture.GetRegion("poleTop");
             poleMiddle = flagpoleTexture.GetRegion("poleMiddle");
+            backgroundTexture = TextureAtlas.FromFile(content, "images/1-1-Background-definition.xml");
+            background = backgroundTexture.GetRegion("Background");
         }
 
         public void FromFile(TileMap tilemap)
@@ -355,6 +364,11 @@ namespace SprintZero.Map
                                 case 20:
                                     {
                                         placeHiddenBlockAt(tilemap, blockTextures, p, false);
+                                        break;
+                                    }
+                                case 21:
+                                    {
+                                        placeBackgroundAt(tilemap, background, p);
                                         break;
                                     }
                                 default:

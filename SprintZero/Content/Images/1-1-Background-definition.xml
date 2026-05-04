@@ -1,0 +1,9 @@
+﻿<TextureAtlas>
+    <Texture>Images/SMB_NES_World_1-1_Map_Background</Texture>
+
+    <Regions>
+        <Region name="Background" x="0" y="16" width="3500" height="240"/>
+    </Regions>
+    <Animations>
+    </Animations>
+</TextureAtlas>

@@ -20,6 +20,9 @@
 /processorParam:TextureFormat=Compressed
 /build:Font/File.spritefont
 
+#begin Images/1-1-Background-definition.xml
+/copy:Images/1-1-Background-definition.xml
+
 #begin Images/1-1Bonus-definition.xml
 /copy:Images/1-1Bonus-definition.xml
 
@@ -202,6 +205,18 @@
 
 #begin Images/SmallMario-definition.xml
 /copy:Images/SmallMario-definition.xml
+
+#begin Images/SMB_NES_World_1-1_Map_Background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/SMB_NES_World_1-1_Map_Background.png
 
 #begin Images/You-Win-4-21-2026.png
 /importer:TextureImporter
