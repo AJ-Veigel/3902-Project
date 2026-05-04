@@ -115,12 +115,6 @@ namespace SprintZero.PBCollision
                     hit = (HiddenBlock)block;
                 }
 
-                FlagMove flag = null;
-                if (block is FlagMove)
-                {
-                    flag = (FlagMove)block;
-                }
-
                 if (withinX && nearTop && mario.yVelocity >= 0 && hit != null)
                 {
                     if (hit.GetisHit())
@@ -130,11 +124,7 @@ namespace SprintZero.PBCollision
                             highestBlockTop = blockRect.Top;
                     }
                 }
-                else if (withinX && nearTop && mario.yVelocity >= 0 && flag != null)
-                {
-
-                }
-                else if (withinX && nearTop && mario.yVelocity >= 0)
+                else if (withinX && nearTop && mario.yVelocity >= 0 && (!(block is FlagMove) || !(block is FlagTop) || !(block is FlagMiddle)))
                 {
                     standingOnBlock = true;
                     if (blockRect.Top < highestBlockTop)
