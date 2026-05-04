@@ -1,11 +1,13 @@
-﻿using System;
+﻿using EnemyCollisions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
-using EnemyCollisions;
+using SprintZero;
+using SprintZero.Marios;
 using SpriteZero.Enemies;
+using System;
 
 public class Koopa : IEnemy
 {
@@ -178,8 +180,50 @@ public class Koopa : IEnemy
 				break;
 		}
 	}
+    public void ResolveTerrainCollision(float deltaX, float deltaY)
+    {
+        position = new Vector2(position.X + deltaX, position.Y + deltaY);
+        if (deltaY != 0)
+        {
+            VelocityY = 0;
+            onGround = true;
+        }
+        UpdateCollider();
+    }
 
-	public void Draw(SpriteBatch spriteBatch)
+    public void HandleMarioCollision(IMario mario, bool isAbove, Action damageMario, Game1 game)
+    {
+        if (isAbove && mario.yVelocity > 0)
+        {
+            if (KoopaState == KoopaStates.ShellStill || KoopaState == KoopaStates.ShellStill2)
+            {
+                bool kickRight = mario.MarioCollider.Center.X < this.EnemyCollider.Center.X;
+                this.Kicked(kickRight);
+                ScoreManager.KickShell(game);
+            }
+            else
+            {
+                this.Stomped();
+                ScoreManager.EnemyStomped(game);
+            }
+            mario.Bounce();
+        }
+        else
+        {
+            if (KoopaState == KoopaStates.ShellStill || KoopaState == KoopaStates.ShellStill2)
+            {
+                bool kickRight = mario.MarioCollider.Center.X < this.EnemyCollider.Center.X;
+                this.Kicked(kickRight);
+                ScoreManager.KickShell(game);
+            }
+            else
+            {
+                damageMario();
+            }
+        }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
 	{
 		if (Despawn) return;
 
