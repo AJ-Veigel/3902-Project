@@ -145,9 +145,9 @@ public class Game1 : Core
 
         marios = new List<IMario>
         {
-            new SmallMario(smallMarioTexture, maps[currentLevel].getSpawn(), Content, this),
-            new BigMario(bigMarioTexture, Content, this),
-            new FireMario(fireMarioTexture, Content, this)
+            new SmallMario(smallMarioTexture, maps[currentLevel].getSpawn(), this),
+            new BigMario(bigMarioTexture, maps[currentLevel].getSpawn(), this),
+            new FireMario(fireMarioTexture, maps[currentLevel].getSpawn(), this)
         };
         currentMario = marios[0];
         currentMarioNum = 0;
@@ -225,6 +225,12 @@ public class Game1 : Core
 
         if (IsPaused || currentMario.WinState || IsGameOver)
         {
+            base.Update(gameTime);
+            return;
+        }
+        if (currentMario.inPipe)
+        {
+            currentMario.Update(gameTime);
             base.Update(gameTime);
             return;
         }
@@ -401,9 +407,9 @@ public class Game1 : Core
             (int)visibleArea.Height
         );
         Rectangle backRect = new Rectangle(0, 0, 64, 64);
-        map.Draw(SpriteBatch, backRect, 64);
-        map.Draw(SpriteBatch, cameraRect, 64);
+        map.DrawBackground(SpriteBatch, backRect, 64);
         currentMario.Draw(SpriteBatch);
+        map.Draw(SpriteBatch, cameraRect, 64);
         foreach (ICollectable item in currentItems)
         {
             item.Draw(SpriteBatch);
@@ -500,14 +506,14 @@ public class Game1 : Core
         if (marioNumber == 0)
         {
             if (currentMarioNum > 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y + 64f);
-            currentMario = new SmallMario(smallMarioTexture, currentPosition, Content, this);
+            currentMario = new SmallMario(smallMarioTexture, currentPosition, this);
             currentMarioNum = marioNumber;
         }
         else if (marioNumber == 1)
         {
             if (currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
             float velocity = currentMario.yVelocity;
-            currentMario = new BigMario(bigMarioTexture, currentPosition);
+            currentMario = new BigMario(bigMarioTexture, currentPosition, this);
             currentMarioNum = marioNumber;
             currentMario.yVelocity = velocity;
             currentMario.Falling = true;
@@ -516,7 +522,7 @@ public class Game1 : Core
         {
             if (currentMarioNum == 0) currentPosition = new Vector2(currentPosition.X, currentPosition.Y - 64f);
             float velocity = currentMario.yVelocity;
-            currentMario = new FireMario(fireMarioTexture, currentPosition, Content);
+            currentMario = new FireMario(fireMarioTexture, currentPosition, this);
             currentMarioNum = marioNumber;
             currentMario.yVelocity = velocity;
             currentMario.Falling = true;
@@ -622,7 +628,7 @@ public class Game1 : Core
     {
         Vector2 spawn = maps[currentLevel].getSpawn();
 
-        currentMario = new SmallMario(smallMarioTexture, spawn, Content, this);
+        currentMario = new SmallMario(smallMarioTexture, spawn, this);
         currentMarioNum = 0;
     }
     public void PauseGame()
@@ -678,7 +684,7 @@ public class Game1 : Core
     {
         Vector2 spawn = maps[currentLevel].getSpawn();
 
-        currentMario = new SmallMario(smallMarioTexture, spawn, Content, this);
+        currentMario = new SmallMario(smallMarioTexture, spawn, this);
         currentMarioNum = 0;
         gameTimer = 400;
 

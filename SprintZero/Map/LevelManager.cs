@@ -12,8 +12,8 @@ namespace SprintZero.Map
             int bonus = pipe.bonus;
             Console.WriteLine(level + "-" + bonus);
             level--;
-            game.spawnMarioAt(pipe.marioSpawnPos);
-            game.toggleMap(level + bonus);
+            game.currentMario.inPipe = true;
+            game.currentMario.pipeStorage = pipe;
         }
 
         public static void GoToNextLevel(Game1 game, int currentLevel)

@@ -11,6 +11,7 @@ using MonoGameLibrary.Graphics;
 using SoundManager;
 using SprintZero;
 using SprintZero.Marios;
+using SprintZero.blocks;
 
 
 public class SmallMario : IMario
@@ -33,19 +34,22 @@ public class SmallMario : IMario
     public bool Moving { get; set; }
     public bool throwing { get; set; } = false;
     public bool SlidingFlag { get; set; }
+    public bool inPipe { get; set; }
     public bool Invincible { get; set; } = true;
     private float invincibilityTimer = 0f;
     private const float DefaultMoveSpeed = 4f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private float groundY;
+    private float pipeHeight = 64;
     public float currentPlatformY { get; set; }
     private const float JUMP_POWER = -11f;
     public bool AutoWalking { get; set; } = false;
     public bool WinState { get; set; } = false;
     public bool IsStarPower { get; set; } = false;
+    public IPipe pipeStorage { get; set; }
     private bool invincibleTint = false;
-    public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos, ContentManager content, Game1 game)
+    public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos, Game1 game)
     {
         Moving = false;
 
@@ -166,9 +170,9 @@ public class SmallMario : IMario
                 Music.PlayBackground();
             }
         }
-        if(IsStarPower)
+        if (IsStarPower)
         {
-            if(-(int)(invincibilityTimer * 6) % 2 == 0)
+            if (-(int)(invincibilityTimer * 6) % 2 == 0)
             {
                 invincibleTint = true;
             }
@@ -181,7 +185,7 @@ public class SmallMario : IMario
         {
             invincibleTint = false;
         }
-        
+
 
         if (AutoWalking)
         {
@@ -204,10 +208,37 @@ public class SmallMario : IMario
             return;
         }
 
+        if (inPipe)
+        {
+            if(pipeHeight > 0)
+            {
+                pipeHeight -= 4;
+                if(pipeStorage is TubeTop)
+                {
+                    location = new Vector2(location.X, location.Y + 4);
+                }
+                else
+                {
+                    location = new Vector2(location.X + 4, location.Y);
+                }
+                marioSprites.SetLocation(location);
+                MarioCollider = marioSprites.UpdateCollider();
+                return;
+            }
+            else
+            {
+                game.spawnMarioAt(pipeStorage.marioSpawnPos);
+                game.toggleMap(pipeStorage.levelNum + pipeStorage.bonus - 1);
+                pipeStorage = null;
+                pipeHeight = 64;
+                inPipe = false;
+            }
+        }
+
         if (Jumping)
         {
             yVelocity += GRAVITY;
-            location = new Vector2(location.X, location.Y + yVelocity); 
+            location = new Vector2(location.X, location.Y + yVelocity);
 
             if (yVelocity > 0)
             {
