@@ -39,8 +39,7 @@ Music reference links:
 
 This is currently a work in progress!
 Known issues: 
-   - During death animation, game will instantly restart rather than showing mario's death animation.
-   - DO NOT CHANGE levels, although there is a bonus level implemented, pipes do not swap them, and when mario gets stuck inside the block it is very loud, so if you do swap only do it when muted or before you move too far
+   - 
 
 Currently being worked on:
     -Collision between blocks, items, projectiles, and enemies.
