@@ -1,4 +1,5 @@
 using System;
+using MarioMovement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -27,6 +28,7 @@ public class BigMario : IMario
     public bool Sprinting { get; set; }
     public bool Crouching { get; set; }
     public bool Swimming { get; set; }
+    public bool throwing { get; set; } = false;
     public bool Moving { get; set; }
     public bool Invincible { get; set; } = true;
     private float invincibilityTimer = 0f;
@@ -37,6 +39,7 @@ public class BigMario : IMario
     public bool AutoWalking { get; set; } = false;
     public bool WinState { get; set; } = false;
     public bool IsStarPower { get; set; } = false;
+    private bool invincibleTint = false;
 
     public BigMario(TextureAtlas bigMarioTexture, ContentManager content, Game1 game)
     {
@@ -79,81 +82,25 @@ public class BigMario : IMario
     }
     public void Move()
     {
-        xVelocity = Direction ? DefaultMoveSpeed : -DefaultMoveSpeed;
-        if (!Crouching)
-        {
-            Moving = true;
-            Moving = true;
-            // If you’re throwing, you might want to ignore Move animation for a split second.
-            // Up to you—this keeps movement but doesn’t override the throw pose.
-            location = new Vector2(
-                location.X + xVelocity,
-                location.Y
-            );
-            marioSprites.SetLocation(location);
-
-            // Only set run animation if we’re not in a higher-priority pose
-            if (!Jumping && !Swimming && !Falling)
-            {
-                marioSprites.SetAnimatedSprite(Direction ? "moveRight" : "moveLeft");
-            }
-        }
+        MarioMovementManager.Move(this, marioSprites);
     }
     public void StopMove()
     {
-        Moving = false;
-        xVelocity = 0;
-        if (!Jumping && !Crouching && !Falling)
-        {
-            marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
-        }
+        MarioMovementManager.StopMove(this, marioSprites);
     }
     public void LandOnBlock(float blockTopY)
     {
-        location = new Vector2(location.X, blockTopY - MarioCollider.Height);
-        isOnGround = true;
-        Jumping = false;
-        Falling = false;
-        jumpStartHeight = location.Y;
-
-        yVelocity = 0;
-
-        marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
-
-        MarioCollider = marioSprites.UpdateCollider();
-
+        MarioMovementManager.LandOnBlock(this, marioSprites, blockTopY);
     }
-
 
     public void Jump()
     {
-        if (isOnGround)
-        {
-            yVelocity = JUMP_POWER;
-            Jumping = true;
-            Falling = false;
-            jumpStartHeight = location.Y;
-            isOnGround = false;
-
-            // Update sprite
-            marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-
-            Music.jumpBigSound.Play();
-        }
+        MarioMovementManager.Jump(this, marioSprites);
     }
 
     public void Bounce()
     {
-        yVelocity = -6f;
-
-        Jumping = true;
-        Falling = false;
-        isOnGround = false;
-        jumpStartHeight = location.Y;
-
-        marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-
-        Music.jumpBigSound.Play();
+        MarioMovementManager.Bounce(this, marioSprites);
     }
     public void Crouch()
     {
@@ -183,33 +130,11 @@ public class BigMario : IMario
     }
     public void GrabFlagPole()
     {
-        SlidingFlag = true;
-
-        Jumping = false;
-        Falling = false;
-        isOnGround = false;
-
-        xVelocity = 0f;
-        yVelocity = 0f;
-
-        marioSprites.SetAnimatedSprite(Direction ? "flagpoleRight" : "flagpoleLeft");
+        MarioMovementManager.GrabFlagPole(this, marioSprites);
     }
     public void EndFlagPole()
     {
-        SlidingFlag = false;
-        AutoWalking = true;
-        yVelocity = 0f;
-        xVelocity = 0f;
-        isOnGround = true;
-        Falling = false;
-        Jumping = false;
-
-        currentPlatformY = location.Y;
-
-
-        location = new Vector2(location.X, currentPlatformY);
-        marioSprites.SetLocation(location);
-        marioSprites.SetAnimatedSprite("moveRight");
+        MarioMovementManager.EndFlagPole(this, marioSprites);
     }
     public void BecomeInvincible()
     {
@@ -240,6 +165,21 @@ public class BigMario : IMario
                 IsStarPower = false;
                 Music.PlayBackground();
             }
+        }
+        if(IsStarPower)
+        {
+            if(-(int)(invincibilityTimer * 6) % 2 == 0)
+            {
+                invincibleTint = true;
+            }
+            else
+            {
+                invincibleTint = false;
+            }
+        }
+        else
+        {
+            invincibleTint = false;
         }
 
         if (SlidingFlag)
@@ -341,13 +281,9 @@ public class BigMario : IMario
         marioSprites.Update(gameTime);
 
         MarioCollider = marioSprites.UpdateCollider();
-
-
-        marioSprites.Update(gameTime);
-        MarioCollider = marioSprites.UpdateCollider();
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        marioSprites.Draw(spriteBatch);
+        marioSprites.Draw(spriteBatch, invincibleTint);
     }
 }

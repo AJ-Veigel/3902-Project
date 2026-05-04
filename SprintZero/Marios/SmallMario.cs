@@ -31,6 +31,7 @@ public class SmallMario : IMario
     public bool Crouching { get; set; }
     public bool Swimming { get; set; }
     public bool Moving { get; set; }
+    public bool throwing { get; set; } = false;
     public bool SlidingFlag { get; set; }
     public bool Invincible { get; set; } = true;
     private float invincibilityTimer = 0f;
@@ -43,6 +44,7 @@ public class SmallMario : IMario
     public bool AutoWalking { get; set; } = false;
     public bool WinState { get; set; } = false;
     public bool IsStarPower { get; set; } = false;
+    private bool invincibleTint = false;
     public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos, ContentManager content, Game1 game)
     {
         Moving = false;
@@ -164,6 +166,22 @@ public class SmallMario : IMario
                 Music.PlayBackground();
             }
         }
+        if(IsStarPower)
+        {
+            if(-(int)(invincibilityTimer * 6) % 2 == 0)
+            {
+                invincibleTint = true;
+            }
+            else
+            {
+                invincibleTint = false;
+            }
+        }
+        else
+        {
+            invincibleTint = false;
+        }
+        
 
         if (AutoWalking)
         {
@@ -240,6 +258,6 @@ public class SmallMario : IMario
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        marioSprites.Draw(spriteBatch);
+        marioSprites.Draw(spriteBatch, invincibleTint);
     }
 }
