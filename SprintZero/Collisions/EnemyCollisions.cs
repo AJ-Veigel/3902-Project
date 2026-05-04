@@ -12,6 +12,7 @@ namespace EnemyCollisions
     public static class CheckEnemyCollisions
     {
         public enum EnemyAction { None, Bounce, Kill }
+
         public static void CheckEnemyMarioCollisions(IEnemy currentEnemy, IMario currentMario, Action Damage, Game1 game)
         {
             if (currentEnemy == null || currentEnemy.Dead || !currentEnemy.EnemyCollider.Intersects(currentMario.MarioCollider))
@@ -20,220 +21,129 @@ namespace EnemyCollisions
             if (currentMario.IsStarPower)
             {
                 currentEnemy.Dead = true;
-                ScoreManager.EnemyStomped(game); 
+                ScoreManager.EnemyStomped(game);
                 SoundManager.Music.blockSound.Play();
                 return;
             }
 
-            if (currentMario.Invincible)
-                return;
+            if (currentMario.Invincible) return;
 
-            Rectangle mRect = currentMario.MarioCollider;
-            Rectangle eRect = currentEnemy.EnemyCollider;
+            Rectangle marioRect = currentMario.MarioCollider;
+            Rectangle enemyRect = currentEnemy.EnemyCollider;
 
+            bool isAbove = marioRect.Bottom <= enemyRect.Center.Y + 16;
 
-            bool isAbove = mRect.Bottom <= eRect.Center.Y + 16;
-
-            if (isAbove)
-            {
-                if (currentMario.yVelocity > 0) //using currentMario.Falling caused the koopa shell to automatically kick out 
-                {
-                    if (currentEnemy is Koopa koopa && (koopa.KoopaState == Koopa.KoopaStates.ShellStill || koopa.KoopaState == Koopa.KoopaStates.ShellStill2))
-                    {
-                        bool kickRight = mRect.Center.X < eRect.Center.X;
-                        koopa.Kicked(kickRight);
-                        ScoreManager.KickShell(game);
-                    }
-                    else
-                    {
-                        currentEnemy.Stomped();
-                        ScoreManager.EnemyStomped(game);
-                    }
-
-                    if(currentEnemy is not BarFireball)
-                    {
-                        currentMario.Bounce();
-                    }
-                }
-            }
-            else
-            {
-                if (currentEnemy is Koopa koopa && (koopa.KoopaState == Koopa.KoopaStates.ShellStill || koopa.KoopaState == Koopa.KoopaStates.ShellStill2))
-                {
-                    bool kickRight = mRect.Center.X < eRect.Center.X;
-                    koopa.Kicked(kickRight);
-                    ScoreManager.KickShell(game);
-                }
-                else
-                {
-                    Damage();
-                }
-            }
+            //each enemy decides how it reacts to Mario
+            currentEnemy.HandleMarioCollision(currentMario, isAbove, Damage, game);
         }
 
+        //same loop from previous builds, but we use helper methods to split up the logic
         public static void CheckEnemyEnemyCollisions(List<IEnemy> enemies, Game1 game)
         {
             for (int i = 0; i < enemies.Count; i++)
             {
                 IEnemy thisEnemy = enemies[i];
-
-                if (thisEnemy.Dead || thisEnemy.Despawn) continue;
+                if (!IsActive(thisEnemy)) continue; 
 
                 for (int j = i + 1; j < enemies.Count; j++)
                 {
                     IEnemy otherEnemy = enemies[j];
-                    Rectangle rect1 = thisEnemy.EnemyCollider;
-                    Rectangle rect2 = otherEnemy.EnemyCollider;
+                    if (!IsActive(otherEnemy)) continue; 
 
-                    if (rect1.Intersects(rect2))
+                    if (thisEnemy.EnemyCollider.Intersects(otherEnemy.EnemyCollider))
                     {
-                        if (thisEnemy.ActionState == EnemyAction.Bounce && otherEnemy.ActionState == EnemyAction.Bounce)
-                        {
-                            float overlapX = Math.Min(rect1.Right, rect2.Right) - Math.Max(rect1.Left, rect2.Left);
-
-                            if (rect1.Center.X < rect2.Center.X)
-                            {
-                                thisEnemy.position = new Vector2(thisEnemy.position.X - (overlapX / 2), thisEnemy.position.Y);
-                                otherEnemy.position = new Vector2(otherEnemy.position.X + (overlapX / 2), otherEnemy.position.Y);
-                            }
-                            else
-                            {
-                                thisEnemy.position = new Vector2(thisEnemy.position.X + (overlapX / 2), thisEnemy.position.Y);
-                                otherEnemy.position = new Vector2(otherEnemy.position.X - (overlapX / 2), otherEnemy.position.Y);
-                            }
-
-                            thisEnemy.EnemyCollider = new Rectangle((int)thisEnemy.position.X, (int)thisEnemy.position.Y, rect1.Width, rect1.Height);
-                            otherEnemy.EnemyCollider = new Rectangle((int)otherEnemy.position.X, (int)otherEnemy.position.Y, rect2.Width, rect2.Height);
-                        }
-
-                        //booleans for determining koopa shell kills
-                        bool thisKiller = thisEnemy.ActionState == EnemyAction.Kill;
-                        bool otherKiller = otherEnemy.ActionState == EnemyAction.Kill;
-                        bool thisAlive = !thisEnemy.Dead;
-                        bool otherAlive = !otherEnemy.Dead;
-
-
-                        thisEnemy.CollideWithEnemy(otherEnemy);
-                        otherEnemy.CollideWithEnemy(thisEnemy);
-
-                        //updates score for koopa shell kills
-                        if (thisKiller && otherAlive && otherEnemy.Dead)
-                        {
-                            ScoreManager.EnemyDefeatedByShell(game);
-                        }
-                        else if (otherKiller && thisAlive && thisEnemy.Dead)
-                        {
-                            ScoreManager.EnemyDefeatedByShell(game);
-                        }
+                        ResolveEnemyInteraction(thisEnemy, otherEnemy, game);
                     }
                 }
             }
         }
 
+        //checks if enemy is alive and active
+        private static bool IsActive(IEnemy enemy)
+        {
+            return enemy != null && !enemy.Dead && !enemy.Despawn;
+        }
+
+        //handles the actual enemy interaction logic
+        private static void ResolveEnemyInteraction(IEnemy enemy1, IEnemy enemy2, Game1 game)
+        {
+            if (enemy1.ActionState == EnemyAction.Bounce && enemy2.ActionState == EnemyAction.Bounce)
+            {
+                ApplyBouncePhysics(enemy1, enemy2);
+            }
+
+            bool e1WasKiller = enemy1.ActionState == EnemyAction.Kill;
+            bool e2WasKiller = enemy2.ActionState == EnemyAction.Kill;
+
+            enemy1.CollideWithEnemy(enemy2);
+            enemy2.CollideWithEnemy(enemy1);
+
+            if ((e1WasKiller && enemy2.Dead) || (e2WasKiller && enemy1.Dead))
+            {
+                ScoreManager.EnemyDefeatedByShell(game);
+            }
+        }
+
+        //helper to make enemies bounce off each other if it's not a Koopa shell
+        private static void ApplyBouncePhysics(IEnemy enemy1, IEnemy enemy2)
+        {
+            Rectangle rect1 = enemy1.EnemyCollider;
+            Rectangle rect2 = enemy2.EnemyCollider;
+
+            float overlapX = Math.Min(rect1.Right, rect2.Right) - Math.Max(rect1.Left, rect2.Left);
+
+            float direction = rect1.Center.X < rect2.Center.X ? -1 : 1;
+
+            enemy1.ResolveTerrainCollision(direction * (overlapX / 2), 0);
+            enemy2.ResolveTerrainCollision(-direction * (overlapX / 2), 0);
+        }
+
         public static void CheckEnemyBlockCollisions(IEnemy currentEnemy, List<IBlock> blocks, TileMap map)
         {
-            if (currentEnemy != null && !currentEnemy.Dead && !(currentEnemy is BarFireball))
+            if (currentEnemy == null || currentEnemy.Dead) return;
+
+            List<IBlock> nearbyBlocks = map.getBlocksInRectangle(currentEnemy.EnemyCollider, 64);
+            nearbyBlocks.AddRange(blocks);
+
+            foreach (var block in nearbyBlocks)
             {
-                List<IBlock> nearbyBlocks = map.getBlocksInRectangle(currentEnemy.EnemyCollider, 64);
-                nearbyBlocks.AddRange(blocks);
-
-                foreach (var block in nearbyBlocks)
-                {
-                    Rectangle blockRect = block.Collider;
-                    Rectangle enemyRect = currentEnemy.EnemyCollider;
-
-                    if (enemyRect.Intersects(blockRect))
-                    {
-                        float overlapX = Math.Min(enemyRect.Right, blockRect.Right) - Math.Max(enemyRect.Left, blockRect.Left);
-                        float overlapY = Math.Min(enemyRect.Bottom, blockRect.Bottom) - Math.Max(enemyRect.Top, blockRect.Top);
-
-                        //side collision
-                        if (overlapX < overlapY)
-                        {
-                            if (enemyRect.Center.X < blockRect.Center.X)
-                                currentEnemy.position = new Vector2(currentEnemy.position.X - overlapX, currentEnemy.position.Y);
-                            else
-                                currentEnemy.position = new Vector2(currentEnemy.position.X + overlapX, currentEnemy.position.Y);
-
-                            currentEnemy.ReverseDirection();
-                        }
-                        //top/bottom collision
-                        else
-                        {
-                            if (enemyRect.Center.Y < blockRect.Center.Y)
-                            {
-                                currentEnemy.position = new Vector2(currentEnemy.position.X, currentEnemy.position.Y - overlapY);
-                                currentEnemy.VelocityY = 0;
-                                currentEnemy.onGround = true;
-                            }
-                            else
-                            {
-                                currentEnemy.position = new Vector2(currentEnemy.position.X, currentEnemy.position.Y + overlapY);
-                                currentEnemy.VelocityY = 0;
-                            }
-                        }
-                    }
-
-                    currentEnemy.EnemyCollider = new Rectangle(
-                        (int)currentEnemy.position.X,
-                        (int)currentEnemy.position.Y,
-                        enemyRect.Width,
-                        enemyRect.Height
-                    );
-                }
+                HandleStaticCollision(currentEnemy, block.Collider);
             }
         }
 
         public static void CheckEnemyPipeCollisions(IEnemy currentEnemy, List<IPipe> pipes, TileMap map)
         {
-            if (currentEnemy != null && !currentEnemy.Dead)
+            if (currentEnemy == null || currentEnemy.Dead) return;
+
+            List<IPipe> nearbyPipes = map.getPipesInRectangle(currentEnemy.EnemyCollider, 64);
+            nearbyPipes.AddRange(pipes);
+
+            foreach (var pipe in nearbyPipes)
             {
-                List<IPipe> nearbyPipes = map.getPipesInRectangle(currentEnemy.EnemyCollider, 64);
-                nearbyPipes.AddRange(pipes);
+                HandleStaticCollision(currentEnemy, pipe.Collider);
+            }
+        }
 
-                foreach (var pipe in nearbyPipes)
+        
+        private static void HandleStaticCollision(IEnemy currentEnemy, Rectangle staticRect)
+        {
+            Rectangle enemyRect = currentEnemy.EnemyCollider;
+
+            if (enemyRect.Intersects(staticRect))
+            {
+                float overlapX = Math.Min(enemyRect.Right, staticRect.Right) - Math.Max(enemyRect.Left, staticRect.Left);
+                float overlapY = Math.Min(enemyRect.Bottom, staticRect.Bottom) - Math.Max(enemyRect.Top, staticRect.Top);
+
+                if (overlapX < overlapY) 
                 {
-                    Rectangle pipeRect = pipe.Collider;
-                    Rectangle enemyRect = currentEnemy.EnemyCollider;
-
-                    if (enemyRect.Intersects(pipeRect))
-                    {
-                        float overlapX = Math.Min(enemyRect.Right, pipeRect.Right) - Math.Max(enemyRect.Left, pipeRect.Left);
-                        float overlapY = Math.Min(enemyRect.Bottom, pipeRect.Bottom) - Math.Max(enemyRect.Top, pipeRect.Top);
-
-                        // Side collision
-                        if (overlapX < overlapY)
-                        {
-                            if (enemyRect.Center.X < pipeRect.Center.X)
-                                currentEnemy.position = new Vector2(currentEnemy.position.X - overlapX, currentEnemy.position.Y);
-                            else
-                                currentEnemy.position = new Vector2(currentEnemy.position.X + overlapX, currentEnemy.position.Y);
-
-                            currentEnemy.ReverseDirection();
-                        }
-                        // Top/bottom collision
-                        else
-                        {
-                            if (enemyRect.Center.Y < pipeRect.Center.Y)
-                            {
-                                currentEnemy.position = new Vector2(currentEnemy.position.X, currentEnemy.position.Y - overlapY);
-                                currentEnemy.VelocityY = 0;
-                                currentEnemy.onGround = true;
-                            }
-                            else
-                            {
-                                currentEnemy.position = new Vector2(currentEnemy.position.X, currentEnemy.position.Y + overlapY);
-                                currentEnemy.VelocityY = 0;
-                            }
-                        }
-                    }
-
-                    currentEnemy.EnemyCollider = new Rectangle(
-                        (int)currentEnemy.position.X,
-                        (int)currentEnemy.position.Y,
-                        enemyRect.Width,
-                        enemyRect.Height
-                    );
+                    float sign = enemyRect.Center.X < staticRect.Center.X ? -1 : 1;
+                    currentEnemy.ResolveTerrainCollision(sign * overlapX, 0);
+                    currentEnemy.ReverseDirection();
+                }
+                else 
+                {
+                    float sign = enemyRect.Center.Y < staticRect.Center.Y ? -1 : 1;
+                    currentEnemy.ResolveTerrainCollision(0, sign * overlapY);
                 }
             }
         }

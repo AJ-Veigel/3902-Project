@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EnemyCollisions;
+﻿using EnemyCollisions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Particles.Modifiers.Interpolators;
 using MonoGameLibrary.Graphics;
+using SprintZero;
+using SprintZero.Marios;
 using SpriteZero.Enemies;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 
 public class BarFireball : IEnemy
@@ -73,6 +75,17 @@ public class BarFireball : IEnemy
     public void Stomped() // Not applicable
     {
         return;
+    }
+
+    public void ResolveTerrainCollision(float deltaX, float deltaY)
+    {
+        //fire bars ignore terrain collisions
+    }
+
+    public void HandleMarioCollision(IMario mario, bool isAbove, Action damageMario, Game1 game)
+    {
+        //only damages Mario
+        damageMario();
     }
 
     public void Draw(SpriteBatch spriteBatch)

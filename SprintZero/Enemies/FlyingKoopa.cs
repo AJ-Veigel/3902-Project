@@ -1,11 +1,13 @@
-﻿using System;
+﻿using EnemyCollisions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
-using EnemyCollisions;
+using SprintZero;
+using SprintZero.Marios;
 using SpriteZero.Enemies;
+using System;
 
 public class FlyingKoopa : IEnemy
 {
@@ -127,7 +129,27 @@ public class FlyingKoopa : IEnemy
 		}
 	}
 
-	public void Draw(SpriteBatch spriteBatch)
+    public void ResolveTerrainCollision(float deltaX, float deltaY)
+    {
+        position = new Vector2(position.X + deltaX, position.Y + deltaY);
+        UpdateCollider();
+    }
+
+    public void HandleMarioCollision(IMario mario, bool isAbove, Action damageMario, Game1 game)
+    {
+        if (isAbove && mario.yVelocity > 0)
+        {
+            this.Stomped();
+            ScoreManager.EnemyStomped(game);
+            mario.Bounce();
+        }
+        else
+        {
+            damageMario();
+        }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
 	{
 		if (Despawn) return;
 
