@@ -223,6 +223,33 @@ public class MarioSprite : ISprite
             currentAnimatedSprite.Draw(spriteBatch, location);
         }
     }
+    public void Draw(SpriteBatch spriteBatch, bool invincibleTint)
+    {
+        if (currentSprite != null)
+        {
+            if (invincibleTint)
+            {
+                currentSprite.Draw(spriteBatch, location, Color.Red, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
+            }
+            else
+            {
+                currentSprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, 4f, SpriteEffects.None, 0f);
+            }
+        }
+        else if (currentAnimatedSprite != null)
+        {
+            currentAnimatedSprite.Scale = new Vector2(4f);
+            if (invincibleTint)
+            {
+                currentAnimatedSprite.Color = Color.Red;
+            }
+            else
+            {
+                currentAnimatedSprite.Color = Color.White;
+            }
+            currentAnimatedSprite.Draw(spriteBatch, location);
+        }
+    }
 
     public void Update(GameTime gameTime)
     {

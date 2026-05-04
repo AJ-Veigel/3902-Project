@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using MarioMovement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -44,12 +45,13 @@ public class FireMario : IMario
     private float invincibilityTimer = 0f;
 
     // Throw Timer
-    private bool throwing;
+    public bool throwing { get; set; } = false;
     private double throwTimerMs;
     private const double THROW_DURATION_MS = 180;
     public bool AutoWalking { get; set; } = false;
     public bool WinState { get; set; } = false;
     public bool IsStarPower { get; set; } = false;
+    private bool invincibleTint = false;
 
 
 
@@ -100,24 +102,7 @@ public class FireMario : IMario
 
     public void Move()
     {
-        xVelocity = Direction ? MOVE_SPEED : -MOVE_SPEED;
-        if (!Crouching || Jumping)
-        {
-            Moving = true;
-            // If you’re throwing, you might want to ignore Move animation for a split second.
-            // Up to you—this keeps movement but doesn’t override the throw pose.
-            location = new Vector2(
-                location.X + xVelocity,
-                location.Y
-            );
-            marioSprites.SetLocation(location);
-
-            // Only set run animation if we’re not in a higher-priority pose
-            if (!Jumping && !Swimming && !throwing && !Falling)
-            {
-                marioSprites.SetAnimatedSprite(Direction ? "moveRight" : "moveLeft");
-            }
-        }
+        MarioMovementManager.Move(this, marioSprites);
     }
 
     public void setAppropriate()
@@ -134,28 +119,11 @@ public class FireMario : IMario
 
     public void StopMove()
     {
-        xVelocity = 0;
-        Moving = false;
-        if (!Jumping && !Crouching && !Swimming && !throwing)
-        {
-            marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
-        }
+        MarioMovementManager.StopMove(this, marioSprites);
     }
     public void LandOnBlock(float blockTopY)
     {
-        Vector2 newPos = location;
-        newPos.Y = blockTopY - MarioCollider.Height;
-        location = newPos;
-        marioSprites.SetLocation(location);
-
-        jumpStartHeight = location.Y;
-        Jumping = false;
-        Falling = false;
-        isOnGround = true;
-
-        marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
-
-        MarioCollider = marioSprites.UpdateCollider();
+        MarioMovementManager.LandOnBlock(this, marioSprites, blockTopY);
     }
     public void UpdateAirSpriteForDirection()
     {
@@ -168,32 +136,12 @@ public class FireMario : IMario
 
     public void Jump()
     {
-        if (isOnGround)
-        {
-            yVelocity = JUMP_POWER;
-            Jumping = true;
-            Falling = false;
-            jumpStartHeight = location.Y;
-            isOnGround = false;
-
-            // Update sprite
-            marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-            Music.jumpBigSound.Play();
-        }
+        MarioMovementManager.Jump(this, marioSprites);
     }
 
     public void Bounce()
     {
-        yVelocity = -6f;
-
-        Jumping = true;
-        Falling = false;
-        isOnGround = false;
-        jumpStartHeight = location.Y;
-
-        marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-
-        Music.jumpBigSound.Play();
+        MarioMovementManager.Bounce(this, marioSprites);
     }
 
     public void Crouch()
@@ -220,6 +168,7 @@ public class FireMario : IMario
         throwing = true;
         throwTimerMs = 0;
         marioSprites.SetAnimatedSprite(Direction ? "throwRight" : "throwLeft");
+        marioSprites.UpdateCollider();
         Music.fireballSound.Play();
     }
 
@@ -229,33 +178,11 @@ public class FireMario : IMario
     }
     public void GrabFlagPole()
     {
-        SlidingFlag = true;
-
-        Jumping = false;
-        Falling = false;
-        isOnGround = false;
-
-        xVelocity = 0f;
-        yVelocity = 0f;
-
-        marioSprites.SetAnimatedSprite(Direction ? "flagpoleRight" : "flagpoleLeft");
+        MarioMovementManager.GrabFlagPole(this, marioSprites);
     }
     public void EndFlagPole()
     {
-        SlidingFlag = false;
-        AutoWalking = true;
-        yVelocity = 0f;
-        xVelocity = 0f;
-        isOnGround = true;
-        Falling = false;
-        Jumping = false;
-
-        currentPlatformY = location.Y;
-
-
-        location = new Vector2(location.X, currentPlatformY);
-        marioSprites.SetLocation(location);
-        marioSprites.SetAnimatedSprite("moveRight");
+        MarioMovementManager.EndFlagPole(this, marioSprites);
     }
     public Vector2 FireballSpawnlocation
     {
@@ -326,6 +253,26 @@ public class FireMario : IMario
         if (invincibilityTimer > 1)
         {
             Invincible = false;
+            if (IsStarPower)
+            {
+                IsStarPower = false;
+                Music.PlayBackground();
+            }
+        }
+        if(IsStarPower)
+        {
+            if(-(int)(invincibilityTimer * 6) % 2 == 0)
+            {
+                invincibleTint = true;
+            }
+            else
+            {
+                invincibleTint = false;
+            }
+        }
+        else
+        {
+            invincibleTint = false;
         }
         if (AutoWalking)
         {
@@ -422,6 +369,6 @@ public class FireMario : IMario
     }
     public void Draw(SpriteBatch spriteBatch)
     {
-        marioSprites.Draw(spriteBatch);
+        marioSprites.Draw(spriteBatch, invincibleTint);
     }
 }
