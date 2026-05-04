@@ -17,6 +17,7 @@ namespace SprintZero.Marios
         bool Sprinting { get; set; }
         bool Swimming { get; set; }
         bool Crouching { get; set; }
+        bool throwing { get; set; }
         bool Falling { get; set; }
         bool SlidingFlag { get; set; }
         bool Invincible { get; set; }
