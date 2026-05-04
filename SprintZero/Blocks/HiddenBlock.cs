@@ -48,6 +48,11 @@ public class HiddenBlock : IBlock
             (int)emptySprite.Height);
     }
 
+    public bool GetisHit()
+    {
+        return isHit;
+    }
+
     public void Update(GameTime gameTime)
     {
         if (isHit)
@@ -113,7 +118,10 @@ public class HiddenBlock : IBlock
             if (side == CollisionSide.Bottom && mario.yVelocity < 0.0) { mario.yVelocity = 0; }
             else if (side == CollisionSide.Top)
             {
-                mario.LandOnBlock(location.Y);
+                if(isHit)
+                {
+                    mario.LandOnBlock(location.Y);
+                }
             }
             else if (side == CollisionSide.Left)
             {

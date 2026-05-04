@@ -11,7 +11,7 @@ namespace MarioMovement
             int DefaultMoveSpeed = 4;
             mario.Moving = true;
             mario.xVelocity = mario.Direction ? DefaultMoveSpeed : -DefaultMoveSpeed;
-            if (mario.Jumping & !mario.isOnGround & !mario.throwing)
+            if (mario.Jumping && !mario.isOnGround && !mario.throwing)
             {
                 sprites.SetSprite(mario.Direction ? "jumpRight" : "jumpLeft");
             }
@@ -27,7 +27,7 @@ namespace MarioMovement
         {
             mario.Moving = false;
             mario.xVelocity = 0;
-            if (!mario.Jumping && !mario.Falling & !mario.throwing)
+            if (!mario.Jumping && !mario.Falling && !mario.throwing && !mario.Crouching)
             {
                 sprites.SetSprite(mario.Direction ? "standRight" : "standLeft");
             }
