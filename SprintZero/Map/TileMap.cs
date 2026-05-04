@@ -213,9 +213,25 @@ namespace SprintZero.Map
                     {
                         item.Draw(batch);
                     }
-                    if (backgroundMap.TryGetValue(tilePos, out IBackground background))
+                }
+            }
+        }
+        public void DrawBackground(SpriteBatch batch, Rectangle cameraWorldBounds, int tileSize)
+        {
+            int leftTile = cameraWorldBounds.Left / tileSize - 2;
+            int rightTile = cameraWorldBounds.Right / tileSize + 1;
+            int topTile = cameraWorldBounds.Top / tileSize - 1;
+            int bottomTile = cameraWorldBounds.Bottom / tileSize + 1;
+
+            for (int x = leftTile; x <= rightTile; x++)
+            {
+                for (int y = topTile; y <= bottomTile; y++)
+                {
+                    Point tilePos = new Point(x, y);
+
+                    if (backgroundMap.TryGetValue(tilePos, out IBackground back))
                     {
-                        background.Draw(batch);
+                        back.Draw(batch);
                     }
                 }
             }

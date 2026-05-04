@@ -9,6 +9,7 @@ using MonoGameLibrary.Graphics;
 using SoundManager;
 using SprintZero;
 using SprintZero.Marios;
+using SprintZero.blocks;
 
 public class FireMario : IMario
 {
@@ -44,6 +45,7 @@ public class FireMario : IMario
     public bool isOnGround { get; set; } = true;
     public bool Invincible { get; set; } = true;
     private float invincibilityTimer = 0f;
+    private float pipeHeight = 128f;
 
     // Throw Timer
     public bool throwing { get; set; } = false;
@@ -52,39 +54,16 @@ public class FireMario : IMario
     public bool AutoWalking { get; set; } = false;
     public bool WinState { get; set; } = false;
     public bool IsStarPower { get; set; } = false;
+    public IPipe pipeStorage { get; set; }
     private bool invincibleTint = false;
 
-
-
-    public FireMario(TextureAtlas fireMarioTexture, ContentManager content, Game1 game)
-    {
-        Moving = false;
-        // Defaults
-        location = new Vector2(300, 600);
-        Direction = true;
-        this.game = game;
-
-        groundY = location.Y;
-        currentPlatformY = groundY;
-
-        yVelocity = 0f;
-        xVelocity = 0f;
-
-        marioSprites = new MarioSprite(fireMarioTexture, 2, location);
-
-        // Set Mario Collider
-        MarioCollider = marioSprites.UpdateCollider();
-
-        isOnGround = false;
-
-    }
-
-    public FireMario(TextureAtlas fireMarioTexture, Vector2 pos, ContentManager content)
+    public FireMario(TextureAtlas fireMarioTexture, Vector2 pos, Game1 game)
     {
         Moving = false;
         // Defaults
         location = pos;
         Direction = true;
+        this.game = game;
 
         groundY = location.Y;
         currentPlatformY = groundY;
@@ -295,6 +274,33 @@ public class FireMario : IMario
 
             MarioCollider = marioSprites.UpdateCollider();
             return;
+        }
+
+        if (inPipe)
+        {
+            if(pipeHeight > 0)
+            {
+                pipeHeight -= 4;
+                if(pipeStorage is TubeTop)
+                {
+                    location = new Vector2(location.X, location.Y + 4);
+                }
+                else
+                {
+                    location = new Vector2(location.X + 4, location.Y);
+                }
+                marioSprites.SetLocation(location);
+                MarioCollider = marioSprites.UpdateCollider();
+                return;
+            }
+            else
+            {
+                game.spawnMarioAt(pipeStorage.marioSpawnPos);
+                game.toggleMap(pipeStorage.levelNum + pipeStorage.bonus - 1);
+                pipeStorage = null;
+                pipeHeight = 64;
+                inPipe = false;
+            }
         }
 
         Vector2 newlocation = location;

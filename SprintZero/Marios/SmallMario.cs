@@ -11,6 +11,7 @@ using MonoGameLibrary.Graphics;
 using SoundManager;
 using SprintZero;
 using SprintZero.Marios;
+using SprintZero.blocks;
 
 
 public class SmallMario : IMario
@@ -46,8 +47,9 @@ public class SmallMario : IMario
     public bool AutoWalking { get; set; } = false;
     public bool WinState { get; set; } = false;
     public bool IsStarPower { get; set; } = false;
+    public IPipe pipeStorage { get; set; }
     private bool invincibleTint = false;
-    public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos, ContentManager content, Game1 game)
+    public SmallMario(TextureAtlas smallMarioTexture, Vector2 pos, Game1 game)
     {
         Moving = false;
 
@@ -211,14 +213,25 @@ public class SmallMario : IMario
             if(pipeHeight > 0)
             {
                 pipeHeight -= 4;
-                location = new Vector2(location.X, location.Y - 4);
+                if(pipeStorage is TubeTop)
+                {
+                    location = new Vector2(location.X, location.Y + 4);
+                }
+                else
+                {
+                    location = new Vector2(location.X + 4, location.Y);
+                }
                 marioSprites.SetLocation(location);
                 MarioCollider = marioSprites.UpdateCollider();
                 return;
             }
             else
             {
+                game.spawnMarioAt(pipeStorage.marioSpawnPos);
+                game.toggleMap(pipeStorage.levelNum + pipeStorage.bonus - 1);
+                pipeStorage = null;
                 pipeHeight = 64;
+                inPipe = false;
             }
         }
 

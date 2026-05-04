@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SprintZero.blocks;
 
 namespace SprintZero.Marios
 {
@@ -25,6 +26,7 @@ namespace SprintZero.Marios
         bool WinState { get; set; }
         bool IsStarPower { get; set; }
         bool inPipe { get; set; }
+        IPipe pipeStorage { get; set; }
         float yVelocity { get; set; }
         float xVelocity { get; set; }
         float currentPlatformY { get; set; }

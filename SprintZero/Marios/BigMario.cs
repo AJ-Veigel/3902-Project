@@ -8,6 +8,7 @@ using MonoGameLibrary.Graphics;
 using SoundManager;
 using SprintZero;
 using SprintZero.Marios;
+using SprintZero.blocks;
 
 public class BigMario : IMario
 {
@@ -33,6 +34,7 @@ public class BigMario : IMario
     public bool inPipe { get; set; }
     public bool Invincible { get; set; } = true;
     private float invincibilityTimer = 0f;
+    private float pipeHeight = 128f;
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private const float JUMP_POWER = -11f;
@@ -40,34 +42,16 @@ public class BigMario : IMario
     public bool AutoWalking { get; set; } = false;
     public bool WinState { get; set; } = false;
     public bool IsStarPower { get; set; } = false;
+    public IPipe pipeStorage { get; set; }
     private bool invincibleTint = false;
 
-    public BigMario(TextureAtlas bigMarioTexture, ContentManager content, Game1 game)
-    {
-        Moving = false;
-        this.game = game;
-        location = new Vector2(300, 600);
-        Direction = true;
-
-        groundY = location.Y;
-        currentPlatformY = groundY;
-
-        yVelocity = 0f;
-        xVelocity = 0f;
-
-        marioSprites = new MarioSprite(bigMarioTexture, 1, location);
-
-
-        MarioCollider = marioSprites.UpdateCollider();
-
-        isOnGround = false;
-    }
-    public BigMario(TextureAtlas bigMarioTexture, Vector2 pos)
+    public BigMario(TextureAtlas bigMarioTexture, Vector2 pos, Game1 game)
     {
         Moving = false;
 
         location = pos;
         Direction = true;
+        this.game = game;
 
         groundY = location.Y;
         currentPlatformY = groundY;
@@ -226,6 +210,33 @@ public class BigMario : IMario
 
             MarioCollider = marioSprites.UpdateCollider();
             return;
+        }
+
+        if (inPipe)
+        {
+            if(pipeHeight > 0)
+            {
+                pipeHeight -= 4;
+                if(pipeStorage is TubeTop)
+                {
+                    location = new Vector2(location.X, location.Y + 4);
+                }
+                else
+                {
+                    location = new Vector2(location.X + 4, location.Y);
+                }
+                marioSprites.SetLocation(location);
+                MarioCollider = marioSprites.UpdateCollider();
+                return;
+            }
+            else
+            {
+                game.spawnMarioAt(pipeStorage.marioSpawnPos);
+                game.toggleMap(pipeStorage.levelNum + pipeStorage.bonus - 1);
+                pipeStorage = null;
+                pipeHeight = 64;
+                inPipe = false;
+            }
         }
 
         if (Jumping && !Falling)
