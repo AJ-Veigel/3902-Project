@@ -233,18 +233,6 @@ public class SmallMario : IMario
             }
         }
 
-
-        if (isOnGround)
-        {
-            if (!Moving) StopMove();
-            Falling = false;
-            yVelocity = 0f;
-        }
-        else if (!isOnGround)
-        {
-            Falling = true;
-        }
-
         if ((Jumping || Falling) && !isOnGround)
         {
             marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");

@@ -259,16 +259,12 @@ public class BigMario : IMario
             }
         }
 
-
         if (isOnGround)
         {
             if (!Moving) StopMove();
             Falling = false;
             yVelocity = 0f;
         }
-
-        MarioCollider = marioSprites.UpdateCollider();
-
 
         if ((Jumping || Falling) && !isOnGround)
         {

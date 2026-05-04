@@ -356,8 +356,6 @@ public class FireMario : IMario
             }
         }
 
-        MarioCollider = marioSprites.UpdateCollider();
-
         if ((Jumping || Falling) && !isOnGround)
         {
             if (Direction)
@@ -365,6 +363,8 @@ public class FireMario : IMario
             else
                 marioSprites.SetSprite("jumpLeft");
         }
+
+        MarioCollider = marioSprites.UpdateCollider();
 
         marioSprites.Update(gameTime);
     }
