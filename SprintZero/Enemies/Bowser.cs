@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero;
+using SprintZero.Marios;
 using SpriteZero.Enemies;
 using System;
 using System.Collections.Generic;
@@ -142,6 +143,22 @@ namespace SprintZero.Enemies
         public void Stomped()
         {
             //stomping on Bowser does nothing
+        }
+
+        public void ResolveTerrainCollision(float deltaX, float deltaY)
+        {
+            position = new Vector2(position.X + deltaX, position.Y + deltaY);
+            if (deltaY != 0)
+            {
+                VelocityY = 0;
+                onGround = true;
+            }
+            EnemyCollider = new Rectangle((int)position.X, (int)position.Y, EnemyCollider.Width, EnemyCollider.Height);
+        }
+
+        public void HandleMarioCollision(IMario mario, bool isAbove, Action damageMario, Game1 game)
+        {
+            damageMario();
         }
 
         public void Update(GameTime gameTime)

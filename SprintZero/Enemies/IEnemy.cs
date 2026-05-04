@@ -22,7 +22,8 @@ namespace SpriteZero.Enemies
         void Draw(SpriteBatch spriteBatch);
         void ReverseDirection();
         void Stomped();
-
+        void ResolveTerrainCollision(float deltaX, float deltaY);
+        void HandleMarioCollision(SprintZero.Marios.IMario mario, bool isAbove, Action damageMario, SprintZero.Game1 game);
 
         void CollideWithEnemy(IEnemy enemy);
     }
