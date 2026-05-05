@@ -76,18 +76,18 @@ public class Koopa : IEnemy
 		blue = new TextureRegion[StateCount];
 		green[(int)KoopaStates.Walk1] = atlas.GetRegion("greenWalk1");
 		green[(int)KoopaStates.Walk2] = atlas.GetRegion("greenWalk2");
-		green[(int)KoopaStates.ShellStill] = atlas.GetRegion("greenShell1");
-		green[(int)KoopaStates.ShellStill2] = atlas.GetRegion("greenShell2");
+		green[(int)KoopaStates.ShellStill] = atlas.GetRegion("greenShell2");
+		green[(int)KoopaStates.ShellStill2] = atlas.GetRegion("greenShell1");
 		green[(int)KoopaStates.ShellMoving] = atlas.GetRegion("greenShell2");
 		red[(int)KoopaStates.Walk1] = atlas.GetRegion("redWalk1");
 		red[(int)KoopaStates.Walk2] = atlas.GetRegion("redWalk2");
-		red[(int)KoopaStates.ShellStill] = atlas.GetRegion("redShell1");
-		red[(int)KoopaStates.ShellStill2] = atlas.GetRegion("redShell2");
+		red[(int)KoopaStates.ShellStill] = atlas.GetRegion("redShell2");
+		red[(int)KoopaStates.ShellStill2] = atlas.GetRegion("redShell1");
 		red[(int)KoopaStates.ShellMoving] = atlas.GetRegion("redShell2");
 		blue[(int)KoopaStates.Walk1] = atlas.GetRegion("blueWalk1");
 		blue[(int)KoopaStates.Walk2] = atlas.GetRegion("blueWalk2");
-		blue[(int)KoopaStates.ShellStill] = atlas.GetRegion("blueShell1");
-		blue[(int)KoopaStates.ShellStill2] = atlas.GetRegion("blueShell2");
+		blue[(int)KoopaStates.ShellStill] = atlas.GetRegion("blueShell2");
+		blue[(int)KoopaStates.ShellStill2] = atlas.GetRegion("blueShell1");
 		blue[(int)KoopaStates.ShellMoving] = atlas.GetRegion("blueShell2");
 	}
 

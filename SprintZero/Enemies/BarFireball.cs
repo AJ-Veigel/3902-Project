@@ -22,7 +22,7 @@ public class BarFireball : IEnemy
 
     private const float SPIN_TIME = 3.0f; // Full spin every this many seconds.
 
-    private const int SECTORS = 16; // how many different 'rotations' there are. Idk if this is right but it's probably close.
+    private const int SECTORS = 24; // how many different 'rotations' there are. Idk if this is right but it's probably close.
     public Vector2 position { get; set; } // should only be used to get, it'll instantly reset otherwise.
     public bool Dead { get; set; } // unused
     public bool onGround { get; set; } // unused
