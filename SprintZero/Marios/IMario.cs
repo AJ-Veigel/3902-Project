@@ -26,6 +26,7 @@ namespace SprintZero.Marios
         bool WinState { get; set; }
         bool IsStarPower { get; set; }
         bool inPipe { get; set; }
+        float pipeHeight { get; set; }
         IPipe pipeStorage { get; set; }
         float yVelocity { get; set; }
         float xVelocity { get; set; }
