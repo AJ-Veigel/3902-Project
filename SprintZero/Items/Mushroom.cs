@@ -26,21 +26,6 @@ public class Mushroom : ICollectable
 
     private float spawnTimer = 0f;
 
-    public Mushroom(TextureRegion region)
-    {
-        sprite = region;
-        location = new Vector2(300, 700);
-
-        RectCollider = new Rectangle(
-            (int)location.X,
-            (int)location.Y,
-            (int)(sprite.Width * SCALE),
-            (int)(sprite.Height * SCALE)
-        );
-
-        VelocityX = 2f;
-    }
-
     public Mushroom(TextureRegion region, Vector2 pos)
     {
         sprite = region;

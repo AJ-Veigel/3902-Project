@@ -21,52 +21,52 @@ public class FlagMove : IBlock
     public Rectangle Collider { get; set; }
     public bool alreadyActived = false;
     private float bottomY;
-  
+
     public bool SlidingFlag { get; set; } = false;
     public FlagMove(AnimatedSprite sprite, Vector2 location)
     {
         flagSprite = sprite;
         flagSprite.Scale = new Vector2(SCALE);
         flagSprite.Pause();
-        this.location = location; 
+        this.location = location;
 
         bottomY = location.Y + 900f;
 
         UpdateCollider();
     }
 
-   public void Update(GameTime gameTime)
-{
-    if (marioSliding && slidingMario != null)
+    public void Update(GameTime gameTime)
     {
-      
-        Vector2 newMarioPos = slidingMario.location;
-        newMarioPos.Y = Math.Min(newMarioPos.Y + marioSlideSpeed, bottomY - slidingMario.MarioCollider.Height);
-        slidingMario.location = newMarioPos;
+        if (marioSliding && slidingMario != null)
+        {
 
-        // Update collider and animation
-        slidingMario.MarioCollider = new Rectangle(
-            (int)slidingMario.location.X,
-            (int)slidingMario.location.Y,
-            slidingMario.MarioCollider.Width,
-            slidingMario.MarioCollider.Height
-        );
-        slidingMario.SlidingFlag = true; 
+            Vector2 newMarioPos = slidingMario.location;
+            newMarioPos.Y = Math.Min(newMarioPos.Y + marioSlideSpeed, bottomY - slidingMario.MarioCollider.Height);
+            slidingMario.location = newMarioPos;
 
-        flagSprite.Update(gameTime);
+            // Update collider and animation
+            slidingMario.MarioCollider = new Rectangle(
+                (int)slidingMario.location.X,
+                (int)slidingMario.location.Y,
+                slidingMario.MarioCollider.Width,
+                slidingMario.MarioCollider.Height
+            );
+            slidingMario.SlidingFlag = true;
 
-       if (slidingMario.location.Y >= bottomY - slidingMario.MarioCollider.Height)
-{
-    slidingMario.SlidingFlag = false;
-    slidingMario.EndFlagPole(); 
+            flagSprite.Update(gameTime);
 
-    marioSliding = false;
-    slidingMario = null;
-}
+            if (slidingMario.location.Y >= bottomY - slidingMario.MarioCollider.Height)
+            {
+                slidingMario.SlidingFlag = false;
+                slidingMario.EndFlagPole();
+
+                marioSliding = false;
+                slidingMario = null;
+            }
+        }
+
+        UpdateCollider();
     }
-
-    UpdateCollider();
-}
 
     public void Draw(SpriteBatch spriteBatch)
     {
@@ -81,33 +81,33 @@ public class FlagMove : IBlock
             (int)flagSprite.Width,
             (int)flagSprite.Height);
     }
-public void onCollision(IMario mario, CollisionSide theSide)
-{
-    Console.WriteLine($"[FLAG] Collision detected! Side: {theSide}");
-
-    if (marioSliding || alreadyActived)
-        return;
-
-    bool validHit = theSide == CollisionSide.Top|| theSide == CollisionSide.Left;
-
-    if (validHit)
+    public void onCollision(IMario mario, CollisionSide theSide)
     {
-        Console.WriteLine("[FLAG] Valid collision starting slide");
+        Console.WriteLine($"[FLAG] Collision detected! Side: {theSide}");
 
-        alreadyActived = true;
-        marioSliding = true;
-        slidingMario = mario;
+        if (marioSliding || alreadyActived)
+            return;
 
-        flagSprite.Play();
-        Music.flagpoleSound.Play();
+        bool validHit = theSide == CollisionSide.Top || theSide == CollisionSide.Left;
 
-        slidingMario.location = new Vector2(
-            location.X - slidingMario.MarioCollider.Width,
-            slidingMario.location.Y
-        );
+        if (validHit)
+        {
+            Console.WriteLine("[FLAG] Valid collision starting slide");
 
-        slidingMario.SlidingFlag = true;
-        slidingMario.isOnGround = false;
+            alreadyActived = true;
+            marioSliding = true;
+            slidingMario = mario;
+
+            flagSprite.Play();
+            Music.flagpoleSound.Play();
+
+            slidingMario.location = new Vector2(
+                location.X - slidingMario.MarioCollider.Width,
+                slidingMario.location.Y
+            );
+
+            slidingMario.SlidingFlag = true;
+            slidingMario.isOnGround = false;
+        }
     }
-}
 }

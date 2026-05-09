@@ -20,16 +20,6 @@ public class Star : ICollectable
     public bool Collidable { get; set; } = false;
     private float spawnTimer = 0f;
 
-    public Star(AnimatedSprite animated)
-    {
-        sprite = animated;
-        sprite.Scale = new Vector2(SCALE);
-        location = new Vector2(300, 700);
-        //Collider = new Rectangle((int)location.X, (int)location.Y, (int)sprite.Width, (int)sprite.Height);
-        RectCollider = new Rectangle((int)location.X, (int)location.Y, (int)(sprite.Width), (int)(sprite.Height));
-        VelocityX = 2f;
-    }
-
     public Star(AnimatedSprite animated, Vector2 pos)
     {
         sprite = animated;
@@ -75,21 +65,6 @@ public class Star : ICollectable
         sprite.Update(gameTime);
     } 
 
-    public bool CheckCollisions(IMario mario)
-    {
-        bool isCollected = false;
-        if (!Collected)
-        {
-            if (RectCollider.Intersects(mario.MarioCollider))
-            {
-                Collected = true;
-                Music.PlayStarMusic();
-                mario.BecomeInvincible();
-                isCollected = true;
-            }
-        }
-        return isCollected;
-    }
     public void Draw(SpriteBatch spriteBatch)
     {
         if (!Collected)

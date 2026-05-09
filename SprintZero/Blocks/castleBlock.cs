@@ -22,7 +22,5 @@ public class CastleBlock : IBlock
     public void Draw(SpriteBatch spriteBatch)
     {
         sprite.Draw(spriteBatch, location, Color.White, 0f, Vector2.One, SCALE, SpriteEffects.None, 0f);
-
     }
-  
 }
