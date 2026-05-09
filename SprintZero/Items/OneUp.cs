@@ -20,12 +20,6 @@ public class OneUp : ICollectable
     public bool Collidable { get; set; } = false;
     private float spawnTimer = 0f;
 
-    public OneUp(TextureRegion region)
-    {
-        sprite = region;
-        location = new Vector2(400, 700);
-    }
-
     public OneUp(TextureRegion region, Vector2 pos)
     {
         sprite = region;

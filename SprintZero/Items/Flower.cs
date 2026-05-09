@@ -27,15 +27,6 @@ public class Flower : ICollectable
     public bool Collidable { get; set; } = false;
     private float spawnTimer = 0f;
 
-    public Flower(AnimatedSprite animated)
-    {
-        sprite = animated;
-        sprite.Scale = new Vector2(SCALE);
-        _location = new Vector2(500, 600);
-        //Collider = new HitBox((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
-        RectCollider = new Rectangle((int)_location.X, (int)_location.Y, (int)sprite.Width, (int)sprite.Height);
-    }
-
     public Flower(AnimatedSprite animated, Vector2 pos)
     {
         sprite = animated;

@@ -22,14 +22,6 @@ public class Coin : ICollectable
     private bool endSound = false;
     private bool IsPopUpCoin = false;
 
-    public Coin(AnimatedSprite animated)
-    {
-        sprite = animated;
-        sprite.Scale = new Vector2(4f);
-        location = new Vector2(400, 700);
-        IsPopUpCoin = false;
-    }
-
     public Coin(AnimatedSprite animated, Vector2 pos, bool stationary)
     {
         sprite = animated;
