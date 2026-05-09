@@ -35,10 +35,7 @@ namespace SprintZero.Map
         private string filename;
         private TextureRegion brick, bridge, firebarBlock, chain, lava, lavaBody;
         private AnimatedSprite qBlock, axe;
-
-
         public List<IEnemy> spawnedEnemies;
-
         private TextureAtlas goombaTexture;
         private TextureAtlas bowserTexture;
         private Game1 game;
@@ -60,21 +57,6 @@ namespace SprintZero.Map
         {
             return spawnedEnemies;
         }
-        private static void placeBrickAt(TileMap map, TextureRegion brick, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new CastleBrick(brick, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private void placeQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            AnimatedSprite newSprite = hqTexture.CreateAnimatedSprite("hit-Question");
-            IBlock block = new questionMarkHit(newSprite, location, itemTextures, items, game);
-
-            map.addBlockAt(tilePos, block);
-        }
 
         private void placeFireBarBlockAt(TileMap map, TextureRegion firebarBlock, Point tilePos)
         {
@@ -90,50 +72,6 @@ namespace SprintZero.Map
             }
         }
 
-        private static void placeBridgeAt(TileMap map, TextureRegion bridge, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new Bridge(bridge, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeChainAt(TileMap map, TextureRegion chain, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBackground block = new Chain(chain, location);
-            map.addBackgroundAt(tilePos, block);
-        }
-
-        private static void placeLavaAt(TileMap map, TextureRegion lava, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBackground block = new Lava(lava, location);
-            map.addBackgroundAt(tilePos, block);
-        }
-
-        private static void placeLavaBodyAt(TileMap map, TextureRegion lava, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBackground block = new LavaBody(lava, location);
-            map.addBackgroundAt(tilePos, block);
-        }
-
-        private void placeHiddenBlockAt(TileMap map, TextureAtlas blockAtlas, Point tilePos, bool containsStar)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-
-            AnimatedSprite emptySprite = blockAtlas.CreateAnimatedSprite("hit-Question");
-
-            IBlock block = new HiddenBlock(emptySprite, location, itemTextures, items, containsStar, false);
-            map.addBlockAt(tilePos, block);
-        }
-        private static void placeAxeAt(TileMap map, AnimatedSprite axe, Point tilepos)
-        {
-            Vector2 location = new Vector2(tilepos.X * TileSize, tilepos.Y * TileSize);
-            IBlock block = new Axe(axe, location);
-            map.addBlockAt(tilepos, block);
-        }
-
         public void LoadContent()
         {
             axe = blockTextures.CreateAnimatedSprite("axe");
@@ -144,7 +82,6 @@ namespace SprintZero.Map
             lava = blockTextures.GetRegion("lavaTop");
             lavaBody = blockTextures.GetRegion("lavaBody");
             firebarBlock = blockTextures.GetRegion("firebarBase");
-            //fireballTexture = TextureAtlas.FromFile(this.content, "images/fireBall-definition.xml");
             goombaTexture = TextureAtlas.FromFile(this.content, "images/goomba-definition.xml");
             bowserTexture = TextureAtlas.FromFile(this.content, "images/bowser-definition.xml");
         }
@@ -204,7 +141,7 @@ namespace SprintZero.Map
                             {
                                 case 1:
                                     {
-                                        placeBrickAt(tilemap, brick, p);
+                                        LevelElements.LevelElements.placeBrickAt(tilemap, brick, p);
                                         break;
                                     }
                                 case 2:
@@ -214,32 +151,32 @@ namespace SprintZero.Map
                                     }
                                 case 3:
                                     {
-                                        placeQBlockAt(tilemap, blockTextures, p);
+                                        LevelElements.LevelElements.placeQBlockAt(tilemap, blockTextures, itemTextures, items, p, game);
                                         break;
                                     }
                                 case 4:
                                     {
-                                        placeBridgeAt(tilemap, bridge, p);
+                                        LevelElements.LevelElements.placeBridgeAt(tilemap, bridge, p);
                                         break;
                                     }
                                 case 5:
                                     {
-                                        placeChainAt(tilemap, chain, p);
+                                        LevelElements.LevelElements.placeChainAt(tilemap, chain, p);
                                         break;
                                     }
                                 case 6:
                                     {
-                                        placeAxeAt(tilemap, axe, p);
+                                        LevelElements.LevelElements.placeAxeAt(tilemap, axe, p);
                                         break;
                                     }
                                 case 7:
                                     {
-                                        placeLavaAt(tilemap, lava, p);
+                                        LevelElements.LevelElements.placeLavaAt(tilemap, lava, p);
                                         break;
                                     }
                                 case 8:
                                     {
-                                        placeLavaBodyAt(tilemap, lavaBody, p);
+                                        LevelElements.LevelElements.placeLavaBodyAt(tilemap, lavaBody, p);
                                         break;
                                     }
                                 case 9:
@@ -284,7 +221,7 @@ namespace SprintZero.Map
                                     }
                                 case 20:
                                     {
-                                        placeHiddenBlockAt(tilemap, blockTextures, p, false);
+                                        LevelElements.LevelElements.placeHiddenBlockAt(tilemap, blockTextures, itemTextures, items, p, false);
                                         break;
                                     }
                                 default:

@@ -17,7 +17,12 @@ public class ProjectileController
     {
         if (currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
         {
-            game.MarioFire();
+            if (game.currentMarioNum == 2)
+            {
+                if (game.IsPaused || game.currentMario.WinState) return;
+                game.currentMario.Fireball();
+                game.SpawnFireball();
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SprintZero;
 using SprintZero.Controllers;
+using SprintZero.Marios;
 
 public class KeyController : IController
 {
@@ -20,7 +21,7 @@ public class KeyController : IController
         DebugController debug = new DebugController(previousState, current, game);
         ProjectileController projectile = new ProjectileController(previousState, current, game);
         GameController gameCon = new GameController(previousState, current, game);
-
+        
         // updates the movements of Mario
         movement.UpdateMovement();
 

@@ -1,7 +1,7 @@
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SprintZero;
+using SoundManager;
 
 public class GameController
 {
@@ -17,7 +17,7 @@ public class GameController
 
     public void UpdateGame()
     {
-       
+
         if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
             game.Exit();
 
@@ -25,15 +25,21 @@ public class GameController
             game.Reset();
 
         if (currentState.IsKeyDown(Keys.N) && previousState.IsKeyUp(Keys.N))
-            game.play();
+            Music.PlayBackground();
 
 
         if (currentState.IsKeyDown(Keys.D5) && previousState.IsKeyUp(Keys.D5))
-            game.PauseGame();
+        {
+            game.IsPaused = true;
+            Music.PauseMusic();
+        }
 
         if (currentState.IsKeyDown(Keys.D6) && previousState.IsKeyUp(Keys.D6))
-            game.UnpauseGame();
-            
+        {
+            game.IsPaused = false;
+            Music.ResumeMusic();
+        }
+
         if (currentState.IsKeyDown(Keys.M) && previousState.IsKeyUp(Keys.M))
             MediaPlayer.Pause();
     }

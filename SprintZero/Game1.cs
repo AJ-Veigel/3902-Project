@@ -407,9 +407,11 @@ public class Game1 : Core
             (int)visibleArea.Height
         );
         Rectangle backRect = new Rectangle(0, 0, 64, 64);
+        Rectangle backRect2 = new Rectangle((int)visibleArea.Left, 128, (int)visibleArea.Width, (int)visibleArea.Height);
         map.DrawBackground(SpriteBatch, backRect, 64);
         currentMario.Draw(SpriteBatch);
         map.Draw(SpriteBatch, cameraRect, 64);
+        map.DrawBackground(SpriteBatch, backRect2, 64);
         foreach (ICollectable item in currentItems)
         {
             item.Draw(SpriteBatch);
@@ -463,7 +465,7 @@ public class Game1 : Core
     }
 
 
-    private void SpawnFireball()
+    public void SpawnFireball()
     {
         // 2 fireballs max
         if (projectiles.Count >= 2) return;
@@ -531,56 +533,6 @@ public class Game1 : Core
         cooldownTimer = 0f;
 
     }
-    public void MarioJump()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Jump();
-    }
-    public void MarioCrouch()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Crouching = true;
-        currentMario.Crouch();
-    }
-    public void MarioUncrouch()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Crouching = false;
-        currentMario.Crouch();
-    }
-    public void MarioFire()
-    {
-        if (currentMarioNum == 2)
-        {
-            if (IsPaused || currentMario.WinState) return;
-            currentMario.Fireball();
-            SpawnFireball();
-        }
-    }
-    public void MarioRight()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Direction = true;
-        currentMario.Move();
-    }
-    public void MarioLeft()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Direction = false;
-        currentMario.Move();
-    }
-    public void StopMarioRight()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Direction = true;
-        currentMario.StopMove();
-    }
-    public void StopMarioLeft()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Direction = false;
-        currentMario.StopMove();
-    }
     public void Damage()
     {
         if (IsPaused || currentMario.WinState || IsGameOver)
@@ -630,16 +582,6 @@ public class Game1 : Core
 
         currentMario = new SmallMario(smallMarioTexture, spawn, this);
         currentMarioNum = 0;
-    }
-    public void PauseGame()
-    {
-        IsPaused = true;
-        Music.PauseMusic();
-    }
-    public void UnpauseGame()
-    {
-        IsPaused = false;
-        Music.ResumeMusic();
     }
 
     public void toggleMap(int roomNumber)
@@ -710,9 +652,4 @@ public class Game1 : Core
         unspawnedEnemies = levelEnemies[currentLevel];
         map = maps[currentLevel];
     }
-    public void play()
-    {
-        Music.PlayBackground();
-    }
-
 }
