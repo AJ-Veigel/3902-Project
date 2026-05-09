@@ -227,7 +227,7 @@ public class SmallMario : IMario
             }
             else
             {
-                game.spawnMarioAt(pipeStorage.marioSpawnPos);
+                SetLocation(pipeStorage.marioSpawnPos);
                 game.toggleMap(pipeStorage.levelNum + pipeStorage.bonus - 1);
                 pipeStorage = null;
                 pipeHeight = 64;

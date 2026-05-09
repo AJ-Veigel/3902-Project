@@ -20,7 +20,7 @@ namespace SprintZero.Map
         {
             game.levelNumber = 4;
             game.gameTimer = 400f;
-            game.spawnMarioAt(game.maps[currentLevel + 2].getSpawn());
+            game.currentMario.SetLocation(game.maps[currentLevel + 2].getSpawn());
             game.toggleMap(currentLevel + 2);
         }
     }

@@ -82,7 +82,6 @@ public class Game1 : Core
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
         camera = new OrthographicCamera(viewportAdapter);
 
-        // fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
     }
     protected override void LoadContent()
     {
@@ -152,9 +151,6 @@ public class Game1 : Core
         currentMario = marios[0];
         currentMarioNum = 0;
 
-        map = maps[currentLevel];
-
-        unspawnedEnemies = levelEnemies[currentLevel];
         pauseTexture = Content.Load<Texture2D>("Images/Pause");
         winTexture = Content.Load<Texture2D>("Images/You-Win-4-21-2026");
         base.LoadContent();
@@ -181,6 +177,8 @@ public class Game1 : Core
         level.FromFile(finalLevel);
         maps.Add(finalLevel);
         Music.PlayBackground();
+        map = maps[currentLevel];
+        unspawnedEnemies = levelEnemies[currentLevel];
     }
     private void TriggerGameOver()
     {
@@ -209,7 +207,7 @@ public class Game1 : Core
             }
         }
 
-        if (!inAnimation)
+        if (!inAnimation || currentMario.inPipe)
         {
             foreach (IController controller in controllers)
             {
@@ -544,7 +542,6 @@ public class Game1 : Core
         canTakeDamage = false;
         cooldownTimer = cooldownForDamage;
 
-
         if (currentMarioNum == 2)
         {
             SetMario(1);
@@ -556,7 +553,6 @@ public class Game1 : Core
             SetMario(0);
             return;
         }
-
 
         else if (currentMarioNum == 0)
         {
@@ -572,16 +568,11 @@ public class Game1 : Core
                 ResetAfterDeath();
             }
 
-            ResetMarioPosition();
+            Vector2 spawn = maps[currentLevel].getSpawn();
+
+            currentMario = new SmallMario(smallMarioTexture, spawn, this);
+            currentMarioNum = 0;
         }
-    }
-
-    private void ResetMarioPosition()
-    {
-        Vector2 spawn = maps[currentLevel].getSpawn();
-
-        currentMario = new SmallMario(smallMarioTexture, spawn, this);
-        currentMarioNum = 0;
     }
 
     public void toggleMap(int roomNumber)
@@ -600,19 +591,8 @@ public class Game1 : Core
         {
             currentLevel = 0;
         }
-        enemies.Clear();
-        currentItems.Clear();
-        projectiles.Clear();
-        maps.Clear();
+        ClearLists();
         LoadMaps();
-        unspawnedEnemies = levelEnemies[currentLevel];
-        map = maps[currentLevel];
-        // update function handles it from here.
-    }
-
-    public void spawnMarioAt(Vector2 pos)
-    {
-        currentMario.SetLocation(pos);
     }
 
     public void Reset()
@@ -632,7 +612,6 @@ public class Game1 : Core
 
         Console.WriteLine(currentMario.location);
 
-
         prevX = 0;
 
         camera.Position = new Vector2(0, camera.Position.Y);
@@ -643,13 +622,16 @@ public class Game1 : Core
         Music.StopMusic();
         Music.deathSound.Play();
 
+        ClearLists();
+        LoadMaps();
+    }
+
+    private void ClearLists()
+    {
         maps.Clear();
         enemies.Clear();
         levelEnemies.Clear();
         currentItems.Clear();
         projectiles.Clear();
-        LoadMaps();
-        unspawnedEnemies = levelEnemies[currentLevel];
-        map = maps[currentLevel];
     }
 }
