@@ -64,131 +64,6 @@ namespace SprintZero.Map
         {
             return spawnedEnemies;
         }
-        private static void placeGroundAt(TileMap map, TextureRegion ground, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new Ground(ground, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeBrickAt(TileMap map, TextureAtlas agbTexture, Point tilePos, Game1 game)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            AnimatedSprite newSprite = agbTexture.CreateAnimatedSprite("aboveGroundBreak");
-            IBlock block = new AboveGroundBreak(newSprite, location, game);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private void placeQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            AnimatedSprite newSprite = hqTexture.CreateAnimatedSprite("hit-Question");
-            IBlock block = new questionMarkHit(newSprite, location, itemTextures, items, game);
-
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeSolidAt(TileMap map, TextureRegion solid, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new SolidBlock(solid, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeTubeTopAt(TileMap map, TextureRegion tube, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IPipe block = new TubeTop(tube, location);
-            map.addPipeAt(tilePos, block);
-        }
-
-        private static void placeTubeTopAt(TileMap map, TextureRegion tube, Point tilePos, string pipeLevel, Vector2 MarioPos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IPipe block = new TubeTop(tube, location, pipeLevel, MarioPos, 1, 1);
-            map.addPipeAt(tilePos, block);
-        }
-
-        private static void placeTubeLeftAt(TileMap map, TextureRegion tube, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IPipe block = new TubeLeft(tube, location);
-            map.addPipeAt(tilePos, block);
-        }
-
-        private static void placeTubeMidAt(TileMap map, TextureRegion tube, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeMid(tube, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeTubeInterAt(TileMap map, TextureRegion tube, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeIntersect(tube, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private void placeItemQBlockAt(TileMap map, TextureAtlas hqTexture, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            AnimatedSprite newSprite = hqTexture.CreateAnimatedSprite("hit-Question");
-            IBlock block = new questionMarkItem(newSprite, location, itemTextures, items);
-            map.addBlockAt(tilePos, block);
-        }
-        private void placeItemBrickAt(TileMap map, TextureAtlas blockAtlas, Point tilePos, bool containsStar)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-
-            AnimatedSprite brickSprite = blockAtlas.CreateAnimatedSprite("aboveGroundBreak");
-
-            AnimatedSprite emptySprite = blockAtlas.CreateAnimatedSprite("hit-Question");
-
-            IBlock block = new ItemBrick(brickSprite, emptySprite, location, itemTextures, items, containsStar);
-            map.addBlockAt(tilePos, block);
-        }
-        private void placeHiddenBlockAt(TileMap map, TextureAtlas blockAtlas, Point tilePos, bool containsStar)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-
-            AnimatedSprite emptySprite = blockAtlas.CreateAnimatedSprite("hit-Question");
-
-            IBlock block = new HiddenBlock(emptySprite, location, itemTextures, items, containsStar, true);
-            map.addBlockAt(tilePos, block);
-        }
-        private static void placeFlagAt(TileMap map, TextureRegion flag, Point tilepos)
-        {
-            Vector2 location = new Vector2(tilepos.X * TileSize, tilepos.Y * TileSize);
-            IBlock block = new Flag(flag, location);
-            map.addBlockAt(tilepos, block);
-        }
-        private static void placePoleTop(TileMap map, TextureRegion poleTop, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new FlagTop(poleTop, location);
-            map.addBlockAt(tilePos, block);
-        }
-        private static void placePoleMiddle(TileMap map, TextureRegion poleMid, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new FlagMiddle(poleMid, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeCastleAt(TileMap map, TextureRegion castle, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new CastleBlock(castle, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeBackgroundAt(TileMap map, TextureRegion background, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBackground back = new LevelOneBackground(background, location);
-            map.addBackgroundAt(tilePos, back);
-        }
 
         public void LoadContent()
         {
@@ -273,47 +148,47 @@ namespace SprintZero.Map
                             {
                                 case 1:
                                     {
-                                        placeGroundAt(tilemap, ground, p);
+                                        LevelElements.LevelElements.placeGroundAt(tilemap, ground, p);
                                         break;
                                     }
                                 case 2:
                                     {
-                                        placeBrickAt(tilemap, blockTextures, p, game);
+                                        LevelElements.LevelElements.placeBrickAt(tilemap, blockTextures, p, game);
                                         break;
                                     }
                                 case 3:
                                     {
-                                        placeSolidAt(tilemap, solid, p);
+                                        LevelElements.LevelElements.placeSolidAt(tilemap, solid, p);
                                         break;
                                     }
                                 case 4:
                                     {
-                                        placeQBlockAt(tilemap, blockTextures, p);
+                                        LevelElements.LevelElements.placeQBlockAt(tilemap, blockTextures, itemTextures, items, p, game);
                                         break;
                                     }
                                 case 5:
                                     {
-                                        placeTubeTopAt(tilemap, tubeTop, p);
+                                        LevelElements.LevelElements.placeTubeTopAt(tilemap, tubeTop, p);
                                         break;
                                     }
                                 case 6:
                                     {
-                                        placeTubeMidAt(tilemap, tubeMid, p);
+                                        LevelElements.LevelElements.placeTubeMidAt(tilemap, tubeMid, p);
                                         break;
                                     }
                                 case 7:
                                     {
-                                        placeTubeLeftAt(tilemap, tubeLeft, p);
+                                        LevelElements.LevelElements.placeTubeLeftAt(tilemap, tubeLeft, p);
                                         break;
                                     }
                                 case 8:
                                     {
-                                        placeTubeInterAt(tilemap, tubeInter, p);
+                                        LevelElements.LevelElements.placeTubeInterAt(tilemap, tubeInter, p);
                                         break;
                                     }
                                 case 9:
                                     {
-                                        placeItemQBlockAt(tilemap, blockTextures, p);
+                                        LevelElements.LevelElements.placeItemQBlockAt(tilemap, blockTextures, itemTextures, items, p);
                                         break;
                                     }
                                 case 12:
@@ -332,22 +207,22 @@ namespace SprintZero.Map
                                     }
                                 case 14:
                                     {
-                                        placeFlagAt(tilemap, flag, p);
+                                        LevelElements.LevelElements.placeFlagAt(tilemap, flag, p);
                                         break;
                                     }
                                 case 15:
                                     {
-                                        placeCastleAt(tilemap, castle, p);
+                                        LevelElements.LevelElements.placeCastleAt(tilemap, castle, p);
                                         break;
                                     }
                                 case 16:
                                     {
-                                        placePoleTop(tilemap, poleTop, p);
+                                        LevelElements.LevelElements.placePoleTop(tilemap, poleTop, p);
                                         break;
                                     }
                                 case 17:
                                     {
-                                        placePoleMiddle(tilemap, poleMiddle, p);
+                                        LevelElements.LevelElements.placePoleMiddle(tilemap, poleMiddle, p);
                                         break;
                                     }
                                 case 18:
@@ -358,17 +233,17 @@ namespace SprintZero.Map
                                     }
                                 case 19:
                                     {
-                                        placeItemBrickAt(tilemap, blockTextures, p, true);
+                                        LevelElements.LevelElements.placeItemBrickAt(tilemap, blockTextures, itemTextures, items, p, true);
                                         break;
                                     }
                                 case 20:
                                     {
-                                        placeHiddenBlockAt(tilemap, blockTextures, p, false);
+                                        LevelElements.LevelElements.placeHiddenBlockAt(tilemap, blockTextures, itemTextures, items, p, false);
                                         break;
                                     }
                                 case 21:
                                     {
-                                        placeBackgroundAt(tilemap, background, p);
+                                        LevelElements.LevelElements.placeBackgroundAt(tilemap, background, p);
                                         break;
                                     }
                                 default:
@@ -376,7 +251,7 @@ namespace SprintZero.Map
                                         if (tilesetIndex == pipeNum)
                                         {
                                             Vector2 marioPipePos = new Vector2(marioX, marioY);
-                                            placeTubeTopAt(tilemap, tubeTop, p, pipeLevel, marioPipePos);
+                                            LevelElements.LevelElements.placeTubeTopAt(tilemap, tubeTop, p, pipeLevel, marioPipePos);
                                         }
                                         break;
                                     }

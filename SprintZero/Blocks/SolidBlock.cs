@@ -10,7 +10,7 @@ public class SolidBlock : IBlock
     private TextureRegion sprite;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
-    private const float SCALE = 4f;
+    private const float SCALE = 4.001f;
   
     public SolidBlock(TextureRegion region, Vector2 pos)
     {

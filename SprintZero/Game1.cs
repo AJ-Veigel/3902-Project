@@ -82,7 +82,6 @@ public class Game1 : Core
         var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 960);
         camera = new OrthographicCamera(viewportAdapter);
 
-        // fireballCollision = new FireballCollision(enemies,currentEnemyCount,currentEnemy,blocks);
     }
     protected override void LoadContent()
     {
@@ -152,9 +151,6 @@ public class Game1 : Core
         currentMario = marios[0];
         currentMarioNum = 0;
 
-        map = maps[currentLevel];
-
-        unspawnedEnemies = levelEnemies[currentLevel];
         pauseTexture = Content.Load<Texture2D>("Images/Pause");
         winTexture = Content.Load<Texture2D>("Images/You-Win-4-21-2026");
         base.LoadContent();
@@ -181,6 +177,8 @@ public class Game1 : Core
         level.FromFile(finalLevel);
         maps.Add(finalLevel);
         Music.PlayBackground();
+        map = maps[currentLevel];
+        unspawnedEnemies = levelEnemies[currentLevel];
     }
     private void TriggerGameOver()
     {
@@ -209,7 +207,7 @@ public class Game1 : Core
             }
         }
 
-        if (!inAnimation)
+        if (!inAnimation || currentMario.inPipe)
         {
             foreach (IController controller in controllers)
             {
@@ -407,9 +405,11 @@ public class Game1 : Core
             (int)visibleArea.Height
         );
         Rectangle backRect = new Rectangle(0, 0, 64, 64);
+        Rectangle backRect2 = new Rectangle((int)visibleArea.Left, 128, (int)visibleArea.Width, (int)visibleArea.Height);
         map.DrawBackground(SpriteBatch, backRect, 64);
         currentMario.Draw(SpriteBatch);
         map.Draw(SpriteBatch, cameraRect, 64);
+        map.DrawBackground(SpriteBatch, backRect2, 64);
         foreach (ICollectable item in currentItems)
         {
             item.Draw(SpriteBatch);
@@ -463,7 +463,7 @@ public class Game1 : Core
     }
 
 
-    private void SpawnFireball()
+    public void SpawnFireball()
     {
         // 2 fireballs max
         if (projectiles.Count >= 2) return;
@@ -531,56 +531,6 @@ public class Game1 : Core
         cooldownTimer = 0f;
 
     }
-    public void MarioJump()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Jump();
-    }
-    public void MarioCrouch()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Crouching = true;
-        currentMario.Crouch();
-    }
-    public void MarioUncrouch()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Crouching = false;
-        currentMario.Crouch();
-    }
-    public void MarioFire()
-    {
-        if (currentMarioNum == 2)
-        {
-            if (IsPaused || currentMario.WinState) return;
-            currentMario.Fireball();
-            SpawnFireball();
-        }
-    }
-    public void MarioRight()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Direction = true;
-        currentMario.Move();
-    }
-    public void MarioLeft()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Direction = false;
-        currentMario.Move();
-    }
-    public void StopMarioRight()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Direction = true;
-        currentMario.StopMove();
-    }
-    public void StopMarioLeft()
-    {
-        if (IsPaused || currentMario.WinState) return;
-        currentMario.Direction = false;
-        currentMario.StopMove();
-    }
     public void Damage()
     {
         if (IsPaused || currentMario.WinState || IsGameOver)
@@ -591,7 +541,6 @@ public class Game1 : Core
 
         canTakeDamage = false;
         cooldownTimer = cooldownForDamage;
-
 
         if (currentMarioNum == 2)
         {
@@ -604,7 +553,6 @@ public class Game1 : Core
             SetMario(0);
             return;
         }
-
 
         else if (currentMarioNum == 0)
         {
@@ -620,26 +568,11 @@ public class Game1 : Core
                 ResetAfterDeath();
             }
 
-            ResetMarioPosition();
+            Vector2 spawn = maps[currentLevel].getSpawn();
+
+            currentMario = new SmallMario(smallMarioTexture, spawn, this);
+            currentMarioNum = 0;
         }
-    }
-
-    private void ResetMarioPosition()
-    {
-        Vector2 spawn = maps[currentLevel].getSpawn();
-
-        currentMario = new SmallMario(smallMarioTexture, spawn, this);
-        currentMarioNum = 0;
-    }
-    public void PauseGame()
-    {
-        IsPaused = true;
-        Music.PauseMusic();
-    }
-    public void UnpauseGame()
-    {
-        IsPaused = false;
-        Music.ResumeMusic();
     }
 
     public void toggleMap(int roomNumber)
@@ -658,19 +591,8 @@ public class Game1 : Core
         {
             currentLevel = 0;
         }
-        enemies.Clear();
-        currentItems.Clear();
-        projectiles.Clear();
-        maps.Clear();
+        ClearLists();
         LoadMaps();
-        unspawnedEnemies = levelEnemies[currentLevel];
-        map = maps[currentLevel];
-        // update function handles it from here.
-    }
-
-    public void spawnMarioAt(Vector2 pos)
-    {
-        currentMario.SetLocation(pos);
     }
 
     public void Reset()
@@ -690,7 +612,6 @@ public class Game1 : Core
 
         Console.WriteLine(currentMario.location);
 
-
         prevX = 0;
 
         camera.Position = new Vector2(0, camera.Position.Y);
@@ -701,18 +622,16 @@ public class Game1 : Core
         Music.StopMusic();
         Music.deathSound.Play();
 
+        ClearLists();
+        LoadMaps();
+    }
+
+    private void ClearLists()
+    {
         maps.Clear();
         enemies.Clear();
         levelEnemies.Clear();
         currentItems.Clear();
         projectiles.Clear();
-        LoadMaps();
-        unspawnedEnemies = levelEnemies[currentLevel];
-        map = maps[currentLevel];
     }
-    public void play()
-    {
-        Music.PlayBackground();
-    }
-
 }

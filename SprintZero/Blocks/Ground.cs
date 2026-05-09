@@ -10,7 +10,7 @@ public class Ground : IBlock
     private TextureRegion sprite;
     public Vector2 location { get; set; }
     public Rectangle Collider { get; set; }
-    private const float SCALE = 4f;
+    private const float SCALE = 4.01f;
   
     public Ground(TextureRegion region, Vector2 pos)
     {

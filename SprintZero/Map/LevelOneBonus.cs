@@ -41,71 +41,6 @@ namespace SprintZero.Map
         {
             return new List<IEnemy>(); // Return empty list, for now.
         }
-        private static void placeGroundAt(TileMap map, TextureRegion ground, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new Ground(ground, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeBrickAt(TileMap map, TextureRegion brick, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new Brick(brick, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeCoinAt(TileMap map, TextureAtlas coinTexture, Point tilePos, Game1 game)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-
-            AnimatedSprite coin = coinTexture.CreateAnimatedSprite("coins");
-
-            ICollectable item = new Coin(coin, location, true, game);
-            map.addItemAt(tilePos, item);
-        }
-
-        private static void placeSolidAt(TileMap map, TextureRegion solid, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new SolidBlock(solid, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeTubeTopAt(TileMap map, TextureRegion tube, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IPipe block = new TubeTop(tube, location);
-            map.addPipeAt(tilePos, block);
-        }
-
-        private static void placeTubeLeftAt(TileMap map, TextureRegion tube, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IPipe block = new TubeLeft(tube, location);
-            map.addPipeAt(tilePos, block);
-        }
-
-        private static void placeTubeLeftAt(TileMap map, TextureRegion tube, Point tilePos, string pipeLevel, Vector2 marioSpawnPos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IPipe block = new TubeLeft(tube, location, pipeLevel, marioSpawnPos, 1, 0);
-            map.addPipeAt(tilePos, block);
-        }
-
-        private static void placeTubeMidAt(TileMap map, TextureRegion tube, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeMid(tube, location);
-            map.addBlockAt(tilePos, block);
-        }
-
-        private static void placeTubeInterAt(TileMap map, TextureRegion tube, Point tilePos)
-        {
-            Vector2 location = new Vector2(tilePos.X * TileSize, tilePos.Y * TileSize);
-            IBlock block = new TubeIntersect(tube, location);
-            map.addBlockAt(tilePos, block);
-        }
 
         public void LoadContent()
         {
@@ -181,42 +116,42 @@ namespace SprintZero.Map
                             {
                                 case 1:
                                     {
-                                        placeGroundAt(tilemap, ground, p);
+                                        LevelElements.LevelElements.placeGroundAt(tilemap, ground, p);
                                         break;
                                     }
                                 case 2:
                                     {
-                                        placeBrickAt(tilemap, brick, p);
+                                        LevelElements.LevelElements.placeBrickAt(tilemap, brick, p);
                                         break;
                                     }
                                 case 3:
                                     {
-                                        placeSolidAt(tilemap, solid, p);
+                                        LevelElements.LevelElements.placeSolidAt(tilemap, solid, p);
                                         break;
                                     }
                                 case 4:
                                     {
-                                        placeCoinAt(tilemap, underBlockTextures, p, game);
+                                        LevelElements.LevelElements.placeCoinAt(tilemap, underBlockTextures, p, game);
                                         break;
                                     }
                                 case 5:
                                     {
-                                        placeTubeTopAt(tilemap, tubeTop, p);
+                                        LevelElements.LevelElements.placeTubeTopAt(tilemap, tubeTop, p);
                                         break;
                                     }
                                 case 6:
                                     {
-                                        placeTubeMidAt(tilemap, tubeMid, p);
+                                        LevelElements.LevelElements.placeTubeMidAt(tilemap, tubeMid, p);
                                         break;
                                     }
                                 case 7:
                                     {
-                                        placeTubeLeftAt(tilemap, tubeLeft, p);
+                                        LevelElements.LevelElements.placeTubeLeftAt(tilemap, tubeLeft, p);
                                         break;
                                     }
                                 case 8:
                                     {
-                                        placeTubeInterAt(tilemap, tubeInter, p);
+                                        LevelElements.LevelElements.placeTubeInterAt(tilemap, tubeInter, p);
                                         break;
                                     }
                                 default:
@@ -224,7 +159,7 @@ namespace SprintZero.Map
                                         if (tilesetIndex == pipeNum)
                                         {
                                             Vector2 marioPipePos = new Vector2(marioX, marioY);
-                                            placeTubeLeftAt(tilemap, tubeLeft, p, pipeLevel, marioPipePos);
+                                            LevelElements.LevelElements.placeTubeLeftAt(tilemap, tubeLeft, p, pipeLevel, marioPipePos);
                                         }
                                         break;
                                     }

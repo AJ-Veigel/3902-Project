@@ -9,7 +9,7 @@ public class LavaBody : IBackground
 
     private TextureRegion sprite;
     public Vector2 location { get; set; }
-    private const float SCALE = 4f;
+    private const float SCALE = 4.001f;
   
     public LavaBody(TextureRegion region, Vector2 pos)
     {

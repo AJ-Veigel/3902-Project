@@ -16,7 +16,6 @@ namespace SprintZero.PBCollision
         {
             if (mario.location.X < bounds.Left)
             {
-                int diff = (int)mario.location.X - bounds.Left;
                 mario.location = new Vector2(bounds.Left, mario.location.Y);
                 if (mario.xVelocity < 0)
                 {

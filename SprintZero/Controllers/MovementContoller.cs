@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework.Input;
 using SprintZero;
+using SprintZero.Marios;
 
 public class MovementController
 {
@@ -18,43 +19,56 @@ public class MovementController
         // Jump
         if ((currentState.IsKeyDown(Keys.W) && previousState.IsKeyUp(Keys.W)) || (currentState.IsKeyDown(Keys.Up) && previousState.IsKeyUp(Keys.Up)))
         {
-            game.MarioJump();
+            if (game.IsPaused || game.currentMario.WinState) return;
+            game.currentMario.Jump();
         }
 
         // Crouch
         if ((currentState.IsKeyDown(Keys.S) && previousState.IsKeyUp(Keys.S)) || (currentState.IsKeyDown(Keys.Down) && previousState.IsKeyUp(Keys.Down)))
         {
-            game.MarioCrouch();
+            if (game.IsPaused || game.currentMario.WinState) return;
+            game.currentMario.Crouching = true;
+            game.currentMario.Crouch();
         }
 
         // Stop Crouching
         if ((currentState.IsKeyUp(Keys.S) && previousState.IsKeyDown(Keys.S)) || (currentState.IsKeyUp(Keys.Down) && previousState.IsKeyDown(Keys.Down)))
         {
-            game.MarioUncrouch();
+            if (game.IsPaused || game.currentMario.WinState) return;
+            game.currentMario.Crouching = false;
+            game.currentMario.Crouch();
         }
 
         // Right
         if (currentState.IsKeyDown(Keys.D) || currentState.IsKeyDown(Keys.Right))
         {
-            game.MarioRight();
+            if (game.IsPaused || game.currentMario.WinState) return;
+            game.currentMario.Direction = true;
+            game.currentMario.Move();
         }
 
         // Stop Right
         if ((currentState.IsKeyUp(Keys.D) && previousState.IsKeyDown(Keys.D)) || (currentState.IsKeyUp(Keys.Right) && previousState.IsKeyDown(Keys.Right)))
         {
-            game.StopMarioRight();
+            if (game.IsPaused || game.currentMario.WinState) return;
+            game.currentMario.Direction = true;
+            game.currentMario.StopMove();
         }
 
         // Left
         if (currentState.IsKeyDown(Keys.A) || currentState.IsKeyDown(Keys.Left))
         {
-            game.MarioLeft();
+            if (game.IsPaused || game.currentMario.WinState) return;
+            game.currentMario.Direction = false;
+            game.currentMario.Move();
         }
 
         // Stop Left
         if ((currentState.IsKeyUp(Keys.A) && previousState.IsKeyDown(Keys.A)) || (currentState.IsKeyUp(Keys.Left) && previousState.IsKeyDown(Keys.Left)))
         {
-            game.StopMarioLeft();
+            if (game.IsPaused || game.currentMario.WinState) return;
+            game.currentMario.Direction = false;
+            game.currentMario.StopMove();
         }
     }
 }
