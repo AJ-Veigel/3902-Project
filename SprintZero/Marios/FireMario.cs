@@ -221,57 +221,7 @@ public class FireMario : IMario
             invincibleTint = false;
         }
         
-        MarioUpdateLogic.flagLogic(this, currentPlatformY, marioSprites);
-
-        MarioUpdateLogic.pipeLogic(this, pipeHeight, pipeStorage, marioSprites, game);
-
-        Vector2 newlocation = location;
-
-        // Handle jumping and falling
-        if (Jumping || Falling)
-        {
-            if (!Falling)
-            {
-                yVelocity += GRAVITY;
-                // Move up
-                newlocation.Y += yVelocity;
-
-                // Check if reached peak
-                if (yVelocity <= 0)
-                {
-                    Falling = true;
-                }
-            }
-            else
-            {
-                if (yVelocity <= -JUMP_POWER)
-                    yVelocity += GRAVITY;
-                // Move down
-                newlocation.Y += yVelocity;
-
-                // Stop falling when reaching the ground
-                if (isOnGround)
-                {
-                    yVelocity = 0f;
-                    newlocation.Y = currentPlatformY;
-                    Jumping = false;
-                    Falling = false;
-
-                    marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
-                }
-            }
-            UpdateAirSpriteForDirection();
-        }
-
-        if (isOnGround)
-        {
-            if (!Moving) StopMove();
-            Falling = false;
-            yVelocity = 0f;
-        }
-
-        location = newlocation;
-        marioSprites.SetLocation(location);
+        MarioUpdateLogic.marioUpdate(this, pipeHeight, pipeStorage, marioSprites, game);
 
         // Update throwing timer
         if (throwing)
@@ -285,13 +235,7 @@ public class FireMario : IMario
             }
         }
 
-        if ((Jumping || Falling) && !isOnGround)
-        {
-            if (Direction)
-                marioSprites.SetSprite("jumpRight");
-            else
-                marioSprites.SetSprite("jumpLeft");
-        }
+        marioSprites.SetLocation(location);
 
         MarioCollider = marioSprites.UpdateCollider();
 

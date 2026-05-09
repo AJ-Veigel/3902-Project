@@ -166,43 +166,7 @@ public class SmallMario : IMario
             invincibleTint = false;
         }
 
-        MarioUpdateLogic.flagLogic(this, currentPlatformY, marioSprites);
-
-        MarioUpdateLogic.pipeLogic(this, pipeHeight, pipeStorage, marioSprites, game);
-
-        if (Jumping)
-        {
-            yVelocity += GRAVITY;
-            location = new Vector2(location.X, location.Y + yVelocity);
-
-            if (yVelocity > 0)
-            {
-                Falling = true;
-                Jumping = false;
-            }
-        }
-
-        if (Falling)
-        {
-            if (yVelocity <= -JUMP_POWER)
-                yVelocity += GRAVITY;
-            location = new Vector2(location.X, location.Y + yVelocity);
-
-            if (isOnGround)
-            {
-                yVelocity = 0;
-                location = new Vector2(location.X, currentPlatformY);
-                Jumping = false;
-                Falling = false;
-
-                marioSprites.SetSprite(Direction ? "standRight" : "standLeft");
-            }
-        }
-
-        if ((Jumping || Falling) && !isOnGround)
-        {
-            marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-        }
+        MarioUpdateLogic.marioUpdate(this, pipeHeight, pipeStorage, marioSprites, game);
 
         marioSprites.SetLocation(location);
 

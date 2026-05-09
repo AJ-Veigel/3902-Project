@@ -4,12 +4,23 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGameLibrary.Graphics;
 using SprintZero.Sprites;
+using MonoGame.Extended.Serialization.Json;
 
 namespace SprintZero.MarioUpdate
 {
     public static class MarioUpdateLogic
     {
-        public static void pipeLogic(IMario mario, float pipeHeight, IPipe pipeStorage, MarioSprite marioSprites, Game1 game)
+        private const float GRAVITY = 0.2f;
+        private const float JUMP_POWER = -11f;
+
+        public static void marioUpdate(IMario mario, float pipeHeight, IPipe pipeStorage, MarioSprite marioSprites, Game1 game)
+        {
+            flagLogic(mario, marioSprites);
+            pipeLogic(mario, pipeHeight, pipeStorage, marioSprites, game);
+            movementLogic(mario, marioSprites);
+        }
+
+        private static void pipeLogic(IMario mario, float pipeHeight, IPipe pipeStorage, MarioSprite marioSprites, Game1 game)
         {
             if (mario.inPipe)
             {
@@ -39,16 +50,16 @@ namespace SprintZero.MarioUpdate
             }
         }
 
-        public static void flagLogic(IMario mario, float currentPlatformY, MarioSprite marioSprites)
+        private static void flagLogic(IMario mario, MarioSprite marioSprites)
         {
             if (mario.SlidingFlag)
             {
                 float slideSpeed = 2.5f;
 
                 Vector2 nextPosition = new Vector2(mario.location.X, mario.location.Y + slideSpeed);
-                if (nextPosition.Y >= currentPlatformY)
+                if (nextPosition.Y >= mario.currentPlatformY)
                 {
-                    nextPosition.Y = currentPlatformY;
+                    nextPosition.Y = mario.currentPlatformY;
                     mario.location = nextPosition;
                     marioSprites.SetLocation(mario.location);
 
@@ -63,7 +74,7 @@ namespace SprintZero.MarioUpdate
                 mario.MarioCollider = marioSprites.UpdateCollider();
                 return;
             }
-            
+
             if (mario.AutoWalking)
             {
                 float castleX = 100f;
@@ -83,6 +94,43 @@ namespace SprintZero.MarioUpdate
 
                 mario.MarioCollider = marioSprites.UpdateCollider();
                 return;
+            }
+        }
+
+        private static void movementLogic(IMario mario, MarioSprite marioSprites)
+        {
+            if (mario.Jumping)
+            {
+                mario.yVelocity += GRAVITY;
+                mario.location = new Vector2(mario.location.X, mario.location.Y + mario.yVelocity);
+
+                if (mario.yVelocity > 0)
+                {
+                    mario.Falling = true;
+                    mario.Jumping = false;
+                }
+            }
+
+            if (mario.Falling)
+            {
+                if (mario.yVelocity <= -JUMP_POWER)
+                    mario.yVelocity += GRAVITY;
+                mario.location = new Vector2(mario.location.X, mario.location.Y + mario.yVelocity);
+
+                if (mario.isOnGround)
+                {
+                    mario.yVelocity = 0;
+                    mario.location = new Vector2(mario.location.X, mario.currentPlatformY);
+                    mario.Jumping = false;
+                    mario.Falling = false;
+
+                    marioSprites.SetSprite(mario.Direction ? "standRight" : "standLeft");
+                }
+            }
+
+            if ((mario.Jumping || mario.Falling) && !mario.isOnGround)
+            {
+                marioSprites.SetSprite(mario.Direction ? "jumpRight" : "jumpLeft");
             }
         }
     }

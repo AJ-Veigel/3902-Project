@@ -10,6 +10,7 @@ using SprintZero;
 using SprintZero.Marios;
 using SprintZero.blocks;
 using SprintZero.MarioUpdate;
+using System.IO.Pipelines;
 
 public class BigMario : IMario
 {
@@ -168,56 +169,9 @@ public class BigMario : IMario
             invincibleTint = false;
         }
 
-        MarioUpdateLogic.flagLogic(this, currentPlatformY, marioSprites);
+        MarioUpdateLogic.marioUpdate(this, pipeHeight, pipeStorage, marioSprites, game);
 
-        MarioUpdateLogic.pipeLogic(this, pipeHeight, pipeStorage, marioSprites, game);
-
-        if (Jumping && !Falling)
-        {
-            yVelocity += GRAVITY;
-            location = new Vector2(location.X, location.Y + yVelocity);
-            marioSprites.SetLocation(location);
-
-            if (yVelocity <= 0)
-                Falling = true;
-        }
-
-        if (Falling)
-        {
-            if (yVelocity <= -JUMP_POWER)
-                yVelocity += GRAVITY;
-            location = new Vector2(location.X, location.Y + yVelocity);
-            marioSprites.SetLocation(location);
-
-
-            if (isOnGround)
-            {
-                yVelocity = 0;
-                location = new Vector2(location.X, currentPlatformY);
-                Jumping = false;
-                Falling = false;
-
-                if (Direction)
-                    marioSprites.SetSprite("standRight");
-                else
-                    marioSprites.SetSprite("standLeft");
-            }
-        }
-
-        if (isOnGround)
-        {
-            if (!Moving) StopMove();
-            Falling = false;
-            yVelocity = 0f;
-        }
-
-        if ((Jumping || Falling) && !isOnGround)
-        {
-            if (Direction)
-                marioSprites.SetSprite("jumpRight");
-            else
-                marioSprites.SetSprite("jumpLeft");
-        }
+        marioSprites.SetLocation(location);
 
         marioSprites.Update(gameTime);
 
