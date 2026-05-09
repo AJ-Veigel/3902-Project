@@ -106,14 +106,6 @@ public class FireMario : IMario
     {
         MarioMovementManager.LandOnBlock(this, marioSprites, blockTopY);
     }
-    public void UpdateAirSpriteForDirection()
-    {
-        if (throwing) return;
-        if (Jumping || Falling)
-        {
-            marioSprites.SetSprite(Direction ? "jumpRight" : "jumpLeft");
-        }
-    }
 
     public void Jump()
     {
@@ -164,15 +156,6 @@ public class FireMario : IMario
     public void EndFlagPole()
     {
         MarioMovementManager.EndFlagPole(this, marioSprites);
-    }
-    public Vector2 FireballSpawnlocation
-    {
-        get
-        {
-            float offsetX = Direction ? 40f : -10f;
-            float offsetY = 40f;
-            return new Vector2(location.X + offsetX, location.Y + offsetY);
-        }
     }
     public void BecomeInvincible()
     {
