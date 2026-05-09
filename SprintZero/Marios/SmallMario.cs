@@ -12,6 +12,7 @@ using SoundManager;
 using SprintZero;
 using SprintZero.Marios;
 using SprintZero.blocks;
+using SprintZero.MarioUpdate;
 
 
 public class SmallMario : IMario
@@ -41,7 +42,7 @@ public class SmallMario : IMario
     private const float SCALE = 4f;
     private const float GRAVITY = 0.2f;
     private float groundY;
-    private float pipeHeight = 64;
+    public float pipeHeight { get; set; } = 64;
     public float currentPlatformY { get; set; }
     private const float JUMP_POWER = -11f;
     public bool AutoWalking { get; set; } = false;
@@ -136,28 +137,7 @@ public class SmallMario : IMario
     }
     public void Update(GameTime gameTime)
     {
-        if (SlidingFlag)
-        {
-            float slideSpeed = 2.5f;
-
-            Vector2 nextPosition = new Vector2(location.X, location.Y + slideSpeed);
-            if (nextPosition.Y >= currentPlatformY)
-            {
-                nextPosition.Y = currentPlatformY;
-                location = nextPosition;
-                marioSprites.SetLocation(location);
-
-                EndFlagPole();
-            }
-            else
-            {
-                location = nextPosition;
-                marioSprites.SetLocation(location);
-            }
-
-            MarioCollider = marioSprites.UpdateCollider();
-            return;
-        }
+        
 
         invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -186,54 +166,9 @@ public class SmallMario : IMario
             invincibleTint = false;
         }
 
+        MarioUpdateLogic.flagLogic(this, currentPlatformY, marioSprites);
 
-        if (AutoWalking)
-        {
-            float castleX = 100f;
-
-            xVelocity = 2f;
-            location = new Vector2(location.X + xVelocity, location.Y);
-
-            marioSprites.SetAnimatedSprite("moveRight");
-            marioSprites.SetLocation(location);
-
-            if (location.X >= castleX)
-            {
-                AutoWalking = false;
-                xVelocity = 0;
-                marioSprites.SetSprite("standRight");
-            }
-
-            MarioCollider = marioSprites.UpdateCollider();
-            return;
-        }
-
-        if (inPipe)
-        {
-            if(pipeHeight > 0)
-            {
-                pipeHeight -= 4;
-                if(pipeStorage is TubeTop)
-                {
-                    location = new Vector2(location.X, location.Y + 4);
-                }
-                else
-                {
-                    location = new Vector2(location.X + 4, location.Y);
-                }
-                marioSprites.SetLocation(location);
-                MarioCollider = marioSprites.UpdateCollider();
-                return;
-            }
-            else
-            {
-                SetLocation(pipeStorage.marioSpawnPos);
-                game.toggleMap(pipeStorage.levelNum + pipeStorage.bonus - 1);
-                pipeStorage = null;
-                pipeHeight = 64;
-                inPipe = false;
-            }
-        }
+        MarioUpdateLogic.pipeLogic(this, pipeHeight, pipeStorage, marioSprites, game);
 
         if (Jumping)
         {

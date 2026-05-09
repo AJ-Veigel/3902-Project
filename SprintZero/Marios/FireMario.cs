@@ -10,6 +10,7 @@ using SoundManager;
 using SprintZero;
 using SprintZero.Marios;
 using SprintZero.blocks;
+using SprintZero.MarioUpdate;
 
 public class FireMario : IMario
 {
@@ -45,7 +46,7 @@ public class FireMario : IMario
     public bool isOnGround { get; set; } = true;
     public bool Invincible { get; set; } = true;
     private float invincibilityTimer = 0f;
-    private float pipeHeight = 128f;
+    public float pipeHeight { get; set; } = 128;
 
     // Throw Timer
     public bool throwing { get; set; } = false;
@@ -198,41 +199,6 @@ public class FireMario : IMario
         if (invincibilityTimer > 1)
         {
             Invincible = false;
-
-            if (IsStarPower)
-            {
-                IsStarPower = false;
-                Music.PlayBackground();
-            }
-        }
-        if (SlidingFlag)
-        {
-            float slideSpeed = 2.5f;
-
-            Vector2 nextPosition = new Vector2(location.X, location.Y + slideSpeed);
-            if (nextPosition.Y >= currentPlatformY)
-            {
-                nextPosition.Y = currentPlatformY;
-                location = nextPosition;
-                marioSprites.SetLocation(location);
-
-                EndFlagPole();
-            }
-            else
-            {
-                location = nextPosition;
-                marioSprites.SetLocation(location);
-            }
-
-            MarioCollider = marioSprites.UpdateCollider();
-            return;
-        }
-
-        invincibilityTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-        if (invincibilityTimer > 1)
-        {
-            Invincible = false;
             if (IsStarPower)
             {
                 IsStarPower = false;
@@ -255,53 +221,9 @@ public class FireMario : IMario
             invincibleTint = false;
         }
         
-        if (AutoWalking)
-        {
-            float castleX = 100f;
+        MarioUpdateLogic.flagLogic(this, currentPlatformY, marioSprites);
 
-            xVelocity = 2f;
-            location = new Vector2(location.X + xVelocity, location.Y);
-
-            marioSprites.SetAnimatedSprite("moveRight");
-            marioSprites.SetLocation(location);
-
-            if (location.X >= castleX)
-            {
-                AutoWalking = false;
-                xVelocity = 0;
-                marioSprites.SetSprite("standRight");
-            }
-
-            MarioCollider = marioSprites.UpdateCollider();
-            return;
-        }
-
-        if (inPipe)
-        {
-            if(pipeHeight > 0)
-            {
-                pipeHeight -= 4;
-                if(pipeStorage is TubeTop)
-                {
-                    location = new Vector2(location.X, location.Y + 4);
-                }
-                else
-                {
-                    location = new Vector2(location.X + 4, location.Y);
-                }
-                marioSprites.SetLocation(location);
-                MarioCollider = marioSprites.UpdateCollider();
-                return;
-            }
-            else
-            {
-                SetLocation(pipeStorage.marioSpawnPos);
-                game.toggleMap(pipeStorage.levelNum + pipeStorage.bonus - 1);
-                pipeStorage = null;
-                pipeHeight = 64;
-                inPipe = false;
-            }
-        }
+        MarioUpdateLogic.pipeLogic(this, pipeHeight, pipeStorage, marioSprites, game);
 
         Vector2 newlocation = location;
 
