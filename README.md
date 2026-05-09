@@ -39,7 +39,8 @@ Music reference links:
 
 This is currently a work in progress!
 Known issues: 
-   - 
+   - Lag can sometimes happen when collecting the coins in the 1-1 bonus level
+   - Flag animation is fully implemented
 
 Currently being worked on:
     -Collision between blocks, items, projectiles, and enemies.
